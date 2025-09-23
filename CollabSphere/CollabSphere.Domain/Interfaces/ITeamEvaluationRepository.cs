@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Domain.TeamEvaluationModule.Repos
+namespace CollabSphere.Domain.Intefaces
 {
     internal interface ITeamEvaluationRepository
     {

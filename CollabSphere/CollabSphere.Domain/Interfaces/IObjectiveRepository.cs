@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Domain.ObjectiveModule.Repos
+namespace CollabSphere.Domain.Intefaces
 {
     internal interface IObjectiveRepository
     {
