@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Domain.UserModule.Repos
+namespace CollabSphere.Domain.Intefaces
 {
     public interface IUserRepository
     {

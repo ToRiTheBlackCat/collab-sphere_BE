@@ -1,5 +1,5 @@
 ﻿using CollabSphere.Domain.Entities;
-using CollabSphere.Domain.UserModule.Repos;
+﻿using CollabSphere.Domain.Intefaces;
 using CollabSphere.Infrastructure.PostgreDbContext;
 using Microsoft.EntityFrameworkCore;
 using System;
