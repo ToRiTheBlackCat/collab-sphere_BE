@@ -29,7 +29,7 @@ namespace CollabSphere.Application.Common
         /// </summary>
         /// <param name="user">The found user after login</param>
         /// <returns> Object with two tokens </returns>
-        public object GenerateToken(User user)
+        public (string AccessToken, string RefreshToken) GenerateToken(User user)
         {
             //Clear existed cache that stored refresh token of that user
             RemoveRefreshTokenInCache(user.UId);
@@ -41,11 +41,7 @@ namespace CollabSphere.Application.Common
             //Store refresh token in cache
             StoreRefreshTokenInCache(user.UId, refreshToken);
 
-            return new
-            {
-                accessToken,
-                refreshToken
-            };
+            return (accessToken, refreshToken);
         }
 
         /// <summary>
