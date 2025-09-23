@@ -1,4 +1,4 @@
-﻿using CollabSphere.Domain.UserModule.Repos;
+﻿using CollabSphere.Domain.Intefaces;
 using CollabSphere.Infrastructure.PostgreDbContext;
 using System;
 using System.Collections.Generic;
