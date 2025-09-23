@@ -1,0 +1,21 @@
+2025-09-23 14:37:52.597 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-23 14:37:52.696 +07:00 [INF] Now listening on: https://localhost:7264
+2025-09-23 14:37:52.696 +07:00 [INF] Now listening on: http://localhost:5263
+2025-09-23 14:37:52.744 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-23 14:37:52.744 +07:00 [INF] Hosting environment: Development
+2025-09-23 14:37:52.744 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-23 14:37:53.103 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-09-23 14:37:53.199 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 97.2863ms
+2025-09-23 14:37:53.203 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-23 14:37:53.206 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 3.1676ms
+2025-09-23 14:37:53.312 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-09-23 14:37:53.336 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 23.9139ms
+2025-09-23 14:37:53.401 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-09-23 14:37:53.405 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 3.7282ms
+2025-09-23 14:37:56.668 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/WeatherForecast - null null
+2025-09-23 14:37:56.687 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.WeatherForecastController.Get (CollabSphere.API)'
+2025-09-23 14:37:56.702 +07:00 [INF] Route matched with {action = "Get", controller = "WeatherForecast"}. Executing controller action with signature System.Collections.Generic.IEnumerable`1[CollabSphere.API.WeatherForecast] Get() on controller CollabSphere.API.Controllers.WeatherForecastController (CollabSphere.API).
+2025-09-23 14:37:56.707 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.API.WeatherForecast[]'.
+2025-09-23 14:37:56.720 +07:00 [INF] Executed action CollabSphere.API.Controllers.WeatherForecastController.Get (CollabSphere.API) in 16.4446ms
+2025-09-23 14:37:56.720 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.WeatherForecastController.Get (CollabSphere.API)'
+2025-09-23 14:37:56.720 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/WeatherForecast - 200 null application/json; charset=utf-8 52.2239ms

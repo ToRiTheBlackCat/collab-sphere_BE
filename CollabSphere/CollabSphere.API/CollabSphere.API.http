@@ -1,0 +1,6 @@
+@CollabSphere.API_HostAddress = http://localhost:5263
+
+GET {{CollabSphere.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

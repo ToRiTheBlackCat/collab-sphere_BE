@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	
+
+	<ItemGroup>
+		<ProjectReference Include="..\CollabSphere.Application\CollabSphere.Application.csproj" />
+		<ProjectReference Include="..\CollabSphere.Domain\CollabSphere.Domain.csproj" />
+	</ItemGroup>
+
+	
+
+	<ItemGroup>
+	  <Folder Include="Loggings\" />
+	</ItemGroup>
+
+</Project>
