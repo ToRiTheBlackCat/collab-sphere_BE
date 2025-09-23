@@ -1,4 +1,5 @@
 using CollabSphere.Application;
+using CollabSphere.Application.Common;
 using CollabSphere.Domain;
 using CollabSphere.Infrastructure;
 using CollabSphere.Infrastructure.Base;
@@ -98,6 +99,7 @@ var logFolder = Path.Combine(solutionRoot, "CollabSphere.Infrastructure", "Loggi
 Directory.CreateDirectory(logFolder);
 
 Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
     .WriteTo.File(Path.Combine(logFolder, "log-.txt"), rollingInterval: RollingInterval.Day)
     .CreateLogger();
 
@@ -114,6 +116,7 @@ builder.Services
 
 #region Register Base
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<JWTAuthentication>();
 builder.Services.AddMemoryCache();
 #endregion
 
