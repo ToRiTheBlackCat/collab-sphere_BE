@@ -1,6 +1,6 @@
 ﻿using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
-using CollabSphere.Application.Features.Student;
+using CollabSphere.Application.Features.Student.Commands;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;

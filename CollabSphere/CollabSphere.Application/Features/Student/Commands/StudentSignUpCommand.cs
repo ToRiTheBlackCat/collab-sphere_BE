@@ -1,7 +1,7 @@
 ﻿using CollabSphere.Application.DTOs.Student;
 using MediatR;
 
-namespace CollabSphere.Application.Features.Student
+namespace CollabSphere.Application.Features.Student.Commands
 {
     public class StudentSignUpCommand : IRequest<(bool, string)>
     {

@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Student
+namespace CollabSphere.Application.Features.Student.Commands
 {
     public class StudentSignUpHandler : IRequestHandler<StudentSignUpCommand, (bool, string)>
     {
