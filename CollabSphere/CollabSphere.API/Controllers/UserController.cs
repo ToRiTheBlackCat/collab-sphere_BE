@@ -1,5 +1,7 @@
-﻿using CollabSphere.Application.DTOs.OTP;
+﻿using CollabSphere.Application.DTOs.Lecturer;
+using CollabSphere.Application.DTOs.OTP;
 using CollabSphere.Application.DTOs.Student;
+using CollabSphere.Application.Features.Lecturer.Commands;
 using CollabSphere.Application.Features.OTP;
 using CollabSphere.Application.Features.Student;
 using MediatR;
@@ -43,6 +45,21 @@ namespace CollabSphere.API.Controllers
             }
 
             var result = await _mediator.Send(new StudentSignUpCommand(request));
+
+            return result.Item1
+               ? Ok(new { result.Item1, result.Item2 })
+               : BadRequest(new { result.Item1, result.Item2 });
+        }
+
+        [HttpPost("lecturer/signup")]
+        public async Task<IActionResult> SignUpLecturerAccount([FromBody] LecturerSignUpRequestDto request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _mediator.Send(new LecturerSignUpCommand(request));
 
             return result.Item1
                ? Ok(new { result.Item1, result.Item2 })
