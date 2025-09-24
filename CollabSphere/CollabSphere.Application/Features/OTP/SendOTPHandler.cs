@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Common;
+using CollabSphere.Application.DTOs.Cache;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
@@ -50,7 +51,12 @@ namespace CollabSphere.Application.Features.OTP
                     return (false, FAIL);
                 }
                 //Save OTP code to cache
-                _cache.Set(request.Email, optCode, TimeSpan.FromMinutes(15));
+                var tempSignUpOTPCache = new TempSignUpOTPCache
+                {
+                    OtpCode = optCode,
+                    ExpireAt = DateTime.UtcNow.AddMinutes(15)
+                };
+                _cache.Set(request.Email, tempSignUpOTPCache, TimeSpan.FromMinutes(15));
 
                 return (true, SUCCESS);
             }
