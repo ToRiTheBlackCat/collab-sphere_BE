@@ -34,3 +34,46 @@ WHERE u_id = @p8;
 2025-09-24 10:30:16.251 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 5129.4032ms
 2025-09-24 10:30:16.256 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
 2025-09-24 10:30:16.268 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Auth/login - 200 null application/json; charset=utf-8 5157.8972ms
+2025-09-24 14:00:59.813 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-24 14:01:00.318 +07:00 [INF] Now listening on: https://localhost:7264
+2025-09-24 14:01:00.324 +07:00 [INF] Now listening on: http://localhost:5263
+2025-09-24 14:01:00.426 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-24 14:01:00.428 +07:00 [INF] Hosting environment: Development
+2025-09-24 14:01:00.430 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-24 14:01:01.139 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-09-24 14:01:01.503 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 361.9412ms
+2025-09-24 14:01:01.530 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-24 14:01:01.562 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 32.1785ms
+2025-09-24 14:01:01.723 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-09-24 14:01:01.942 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 219.3781ms
+2025-09-24 14:01:02.012 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-09-24 14:01:02.057 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 45.5422ms
+2025-09-24 14:01:38.527 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/User/signup/send-otp - application/json 15
+2025-09-24 14:01:38.751 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API)'
+2025-09-24 14:01:38.823 +07:00 [INF] Route matched with {action = "SendOTPToMail", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SendOTPToMail(CollabSphere.Application.DTOs.OTP.OTPRequest) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-09-24 14:01:38.840 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-24 14:01:38.956 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-09-24 14:01:39.036 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API) in 196.6359ms
+2025-09-24 14:01:39.044 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API)'
+2025-09-24 14:01:39.049 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/User/signup/send-otp - 400 null application/problem+json; charset=utf-8 522.422ms
+2025-09-24 14:01:44.720 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/User/signup/send-otp - application/json 24
+2025-09-24 14:01:44.741 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API)'
+2025-09-24 14:01:44.762 +07:00 [INF] Route matched with {action = "SendOTPToMail", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SendOTPToMail(CollabSphere.Application.DTOs.OTP.OTPRequest) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-09-24 14:01:44.772 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-09-24 14:01:44.777 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API) in 11.0474ms
+2025-09-24 14:01:44.783 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API)'
+2025-09-24 14:01:44.786 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/User/signup/send-otp - 400 null application/problem+json; charset=utf-8 66.1976ms
+2025-09-24 14:01:56.243 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/User/signup/send-otp - application/json 37
+2025-09-24 14:01:56.264 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API)'
+2025-09-24 14:01:56.268 +07:00 [INF] Route matched with {action = "SendOTPToMail", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SendOTPToMail(CollabSphere.Application.DTOs.OTP.OTPRequest) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-09-24 14:01:56.278 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-09-24 14:01:56.285 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API) in 10.3336ms
+2025-09-24 14:01:56.292 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API)'
+2025-09-24 14:01:56.296 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/User/signup/send-otp - 400 null application/problem+json; charset=utf-8 53.8074ms
+2025-09-24 14:02:05.777 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/User/signup/send-otp - application/json 38
+2025-09-24 14:02:05.787 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API)'
+2025-09-24 14:02:05.790 +07:00 [INF] Route matched with {action = "SendOTPToMail", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SendOTPToMail(CollabSphere.Application.DTOs.OTP.OTPRequest) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-09-24 14:02:44.498 +07:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType0`2[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-09-24 14:02:44.506 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API) in 38707.8417ms
+2025-09-24 14:02:44.509 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API)'
+2025-09-24 14:02:44.514 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/User/signup/send-otp - 200 null application/json; charset=utf-8 38738.3064ms
