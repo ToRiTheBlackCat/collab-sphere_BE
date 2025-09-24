@@ -1,5 +1,5 @@
-﻿using CollabSphere.Application.Auth.Commands;
-using CollabSphere.Application.DTOs.User;
+﻿using CollabSphere.Application.DTOs.User;
+using CollabSphere.Application.Features.Auth.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
