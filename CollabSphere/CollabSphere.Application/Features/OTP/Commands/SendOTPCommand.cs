@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.OTP
+namespace CollabSphere.Application.Features.OTP.Commands
 {
     public class SendOTPCommand : IRequest<(bool, string)>
     {
