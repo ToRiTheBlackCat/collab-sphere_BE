@@ -34,3 +34,34 @@ WHERE u_id = @p8;
 2025-09-24 10:30:16.251 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 5129.4032ms
 2025-09-24 10:30:16.256 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
 2025-09-24 10:30:16.268 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Auth/login - 200 null application/json; charset=utf-8 5157.8972ms
+2025-09-24 20:51:44.998 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-24 20:51:45.217 +07:00 [INF] Now listening on: https://localhost:7264
+2025-09-24 20:51:45.218 +07:00 [INF] Now listening on: http://localhost:5263
+2025-09-24 20:51:45.269 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-24 20:51:45.317 +07:00 [INF] Hosting environment: Development
+2025-09-24 20:51:45.340 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-24 20:51:45.652 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-09-24 20:51:45.773 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 122.2286ms
+2025-09-24 20:51:45.781 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-24 20:51:45.790 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 8.8701ms
+2025-09-24 20:51:45.893 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-09-24 20:51:45.917 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 23.5077ms
+2025-09-24 20:51:45.984 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-09-24 20:51:45.993 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 9.5463ms
+2025-09-24 20:52:03.081 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Auth/login - application/json 66
+2025-09-24 20:52:05.889 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-09-24 20:52:05.922 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-09-24 20:52:05.930 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-24 20:52:10.589 +07:00 [INF] Executed DbCommand (110ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.password = @__password_1 AND u.is_active
+LIMIT 1
+2025-09-24 20:52:11.036 +07:00 [INF] Executed DbCommand (67ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
+WHERE u_id = @p8;
+2025-09-24 20:52:11.168 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.DTOs.User.LoginResponseDTO'.
+2025-09-24 20:52:11.193 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 5263.017ms
+2025-09-24 20:52:11.195 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-09-24 20:52:11.203 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Auth/login - 200 null application/json; charset=utf-8 8121.5341ms
