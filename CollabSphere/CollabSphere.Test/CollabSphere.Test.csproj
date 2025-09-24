@@ -18,7 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CollabSphere.Application\CollabSphere.Application.csproj" />
     <ProjectReference Include="..\CollabSphere.Domain\CollabSphere.Domain.csproj" />
+    <ProjectReference Include="..\CollabSphere.Infrastructure\CollabSphere.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

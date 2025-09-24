@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollabSphere.Application", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollabSphere.API", "CollabSphere.API\CollabSphere.API.csproj", "{02261711-8747-4EDB-867E-0AA5C66969E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollabSphere.Test", "CollabSphere.Test\CollabSphere.Test.csproj", "{0335A87B-8836-467A-ABAB-77D985BA6E50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{02261711-8747-4EDB-867E-0AA5C66969E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02261711-8747-4EDB-867E-0AA5C66969E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02261711-8747-4EDB-867E-0AA5C66969E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0335A87B-8836-467A-ABAB-77D985BA6E50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0335A87B-8836-467A-ABAB-77D985BA6E50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0335A87B-8836-467A-ABAB-77D985BA6E50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0335A87B-8836-467A-ABAB-77D985BA6E50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
