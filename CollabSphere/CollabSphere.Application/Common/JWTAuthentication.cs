@@ -101,7 +101,7 @@ namespace CollabSphere.Application.Common
         /// </summary>
         /// <param name="refreshToken"></param>
         /// <returns></returns>
-        public object RefreshToken(User user, string refreshToken)
+        public (string, string) RefreshToken(User user, string refreshToken)
         {
             //Check valid of refresh token
             var cacheKey = $"RefreshToken:{user.UId}";
@@ -119,11 +119,7 @@ namespace CollabSphere.Application.Common
                     //Store refresh token again in cache with old expired date
                     StoreRefreshTokenInCache(user.UId, newRefreshToken, entry.Expiry);
 
-                    return new
-                    {
-                        accessToken = newAccessToken,
-                        refreshToken = newRefreshToken
-                    };
+                    return (newAccessToken, newRefreshToken);
                 }
             }
 
