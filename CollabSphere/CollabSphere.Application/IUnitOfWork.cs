@@ -10,8 +10,9 @@ namespace CollabSphere.Application
 {
     public interface IUnitOfWork : IDisposable
     {
-       
+
         IUserRepository UserRepo { get; }
+        IStudentRepository StudentRepo { get; }
         //More IRepo below
 
         Task BeginTransactionAsync();

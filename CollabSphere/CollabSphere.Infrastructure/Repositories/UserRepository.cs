@@ -1,5 +1,5 @@
 ﻿using CollabSphere.Domain.Entities;
-﻿using CollabSphere.Domain.Intefaces;
+using CollabSphere.Domain.Intefaces;
 using CollabSphere.Infrastructure.PostgreDbContext;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -24,6 +24,14 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(x => x.Role)
                 .FirstOrDefaultAsync(x => x.Email.Equals(email)
                     && x.Password == password
+                    && x.IsActive);
+        }
+
+        public async Task<User?> GetOneByEmail(string email)
+        {
+            return await _context.Users
+                .Include(x => x.Role)
+                .FirstOrDefaultAsync(x => x.Email.Equals(email)
                     && x.IsActive);
         }
 

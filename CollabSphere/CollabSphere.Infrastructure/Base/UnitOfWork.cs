@@ -18,7 +18,7 @@ namespace CollabSphere.Infrastructure.Base
 
         #region Register_Repo
         public IUserRepository UserRepo { get; }
-        
+        public IStudentRepository StudentRepo { get; }
 
 
         #endregion
@@ -29,7 +29,7 @@ namespace CollabSphere.Infrastructure.Base
 
             #region Register_Repo
             UserRepo = new UserRepository(_context);
-            
+            StudentRepo = new StudentRepository(_context);
 
             #endregion
         }

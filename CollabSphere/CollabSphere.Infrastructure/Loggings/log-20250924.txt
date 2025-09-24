@@ -77,3 +77,152 @@ WHERE u_id = @p8;
 2025-09-24 14:02:44.506 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API) in 38707.8417ms
 2025-09-24 14:02:44.509 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API)'
 2025-09-24 14:02:44.514 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/User/signup/send-otp - 200 null application/json; charset=utf-8 38738.3064ms
+2025-09-24 21:00:08.187 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-24 21:00:08.403 +07:00 [INF] Now listening on: https://localhost:7264
+2025-09-24 21:00:08.406 +07:00 [INF] Now listening on: http://localhost:5263
+2025-09-24 21:00:08.470 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-24 21:00:08.472 +07:00 [INF] Hosting environment: Development
+2025-09-24 21:00:08.473 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-24 21:00:08.634 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-09-24 21:00:08.797 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 170.721ms
+2025-09-24 21:00:08.801 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-24 21:00:08.813 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 11.5499ms
+2025-09-24 21:00:08.904 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-09-24 21:00:08.946 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 42.1957ms
+2025-09-24 21:00:08.988 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-09-24 21:00:09.002 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 14.2778ms
+2025-09-24 21:00:30.020 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/User/signup/send-otp - application/json 38
+2025-09-24 21:00:30.131 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API)'
+2025-09-24 21:00:30.183 +07:00 [INF] Route matched with {action = "SendOTPToMail", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SendOTPToMail(CollabSphere.Application.DTOs.OTP.OTPRequest) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-09-24 21:00:30.193 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-24 21:00:35.511 +07:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType0`2[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-09-24 21:00:35.536 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API) in 5341.9096ms
+2025-09-24 21:00:35.546 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API)'
+2025-09-24 21:00:35.552 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/User/signup/send-otp - 200 null application/json; charset=utf-8 5532.153ms
+2025-09-24 21:02:12.580 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/User/student/confirm-signup - application/json 304
+2025-09-24 21:02:12.599 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.ConfirmSignUpStudentAccount (CollabSphere.API)'
+2025-09-24 21:02:12.615 +07:00 [INF] Route matched with {action = "ConfirmSignUpStudentAccount", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ConfirmSignUpStudentAccount(CollabSphere.Application.DTOs.Student.StudentSignUpRequestDto) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-09-24 21:02:28.850 +07:00 [INF] Executed DbCommand (84ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-09-24 21:02:36.967 +07:00 [INF] Executed DbCommand (58ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?', @p3='?', @p4='?' (DbType = DateTime), @p5='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "user" (created_date, email, password, refresh_token, refresh_token_expiry_time, role_id)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING u_id, is_active, is_teacher;
+2025-09-24 21:02:39.238 +07:00 [ERR] Failed executing DbCommand (58ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?', @p5='?', @p6='?', @p7='?', @p8='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO student (student_id, address, avatar_img, fullname, major, phone_number, school, student_code, yob)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8);
+2025-09-24 21:02:39.397 +07:00 [ERR] An exception occurred in the database while saving changes for context type 'CollabSphere.Infrastructure.PostgreDbContext.collab_sphereContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 428C9: cannot insert a non-DEFAULT value into column "student_id"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 428C9
+    MessageText: cannot insert a non-DEFAULT value into column "student_id"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    Hint: Use OVERRIDING SYSTEM VALUE to override.
+    File: rewriteHandler.c
+    Line: 898
+    Routine: rewriteTargetListIU
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 428C9: cannot insert a non-DEFAULT value into column "student_id"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 428C9
+    MessageText: cannot insert a non-DEFAULT value into column "student_id"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    Hint: Use OVERRIDING SYSTEM VALUE to override.
+    File: rewriteHandler.c
+    Line: 898
+    Routine: rewriteTargetListIU
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2025-09-24 21:16:09.816 +07:00 [ERR] Have exception when create new student account with email: triminh0502@gmail.com
+2025-09-24 21:16:10.204 +07:00 [INF] Detail of exception: An error occurred while saving the entity changes. See the inner exception for details.
+2025-09-24 21:20:27.651 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-24 21:20:27.840 +07:00 [INF] Now listening on: https://localhost:7264
+2025-09-24 21:20:27.842 +07:00 [INF] Now listening on: http://localhost:5263
+2025-09-24 21:20:27.901 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-24 21:20:27.907 +07:00 [INF] Hosting environment: Development
+2025-09-24 21:20:27.914 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-24 21:20:28.431 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-09-24 21:20:28.603 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 183.7455ms
+2025-09-24 21:20:28.606 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-24 21:20:28.618 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 12.137ms
+2025-09-24 21:20:28.708 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-09-24 21:20:28.752 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 44.6592ms
+2025-09-24 21:20:28.791 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-09-24 21:20:28.806 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 15.1642ms
+2025-09-24 21:20:40.153 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/User/signup/send-otp - application/json 38
+2025-09-24 21:20:42.805 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API)'
+2025-09-24 21:20:42.844 +07:00 [INF] Route matched with {action = "SendOTPToMail", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SendOTPToMail(CollabSphere.Application.DTOs.OTP.OTPRequest) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-09-24 21:20:42.853 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-24 21:20:48.520 +07:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType0`2[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-09-24 21:20:48.545 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API) in 5689.9783ms
+2025-09-24 21:20:48.554 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.SendOTPToMail (CollabSphere.API)'
+2025-09-24 21:20:48.563 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/User/signup/send-otp - 200 null application/json; charset=utf-8 8410.4883ms
+2025-09-24 21:21:49.129 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/User/student/confirm-signup - application/json 306
+2025-09-24 21:21:49.148 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.ConfirmSignUpStudentAccount (CollabSphere.API)'
+2025-09-24 21:21:49.159 +07:00 [INF] Route matched with {action = "ConfirmSignUpStudentAccount", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ConfirmSignUpStudentAccount(CollabSphere.Application.DTOs.Student.StudentSignUpRequestDto) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-09-24 21:21:55.684 +07:00 [INF] Executed DbCommand (104ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-09-24 21:22:01.986 +07:00 [INF] Executed DbCommand (59ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?', @p3='?', @p4='?' (DbType = DateTime), @p5='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "user" (created_date, email, password, refresh_token, refresh_token_expiry_time, role_id)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING u_id, is_active, is_teacher;
+2025-09-24 21:22:04.308 +07:00 [INF] Executed DbCommand (51ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?', @p5='?', @p6='?', @p7='?', @p8='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO student (student_id, address, avatar_img, fullname, major, phone_number, school, student_code, yob)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8);
+2025-09-24 21:22:09.131 +07:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType0`2[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-09-24 21:22:09.181 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.ConfirmSignUpStudentAccount (CollabSphere.API) in 20018.5982ms
+2025-09-24 21:22:09.186 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.ConfirmSignUpStudentAccount (CollabSphere.API)'
+2025-09-24 21:22:10.929 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/User/student/confirm-signup - 200 null application/json; charset=utf-8 21800.6329ms
