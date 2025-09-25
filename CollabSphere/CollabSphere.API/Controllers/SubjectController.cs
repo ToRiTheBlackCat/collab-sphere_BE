@@ -21,7 +21,7 @@ namespace CollabSphere.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var result = await _mediator.Send(new GetAllSubjectQuery());
+            var result = await _mediator.Send(new GetAllSubjectsQuery());
 
             if (!result.IsValidInput)
             {

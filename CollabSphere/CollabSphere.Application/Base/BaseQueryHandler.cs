@@ -14,20 +14,31 @@ namespace CollabSphere.Application.Base
     {
         public async Task<TResult> Handle(TQuery request, CancellationToken cancellationToken)
         {
+            var result = new TResult()
+            {
+                IsSuccess = false,
+                IsValidInput = true,
+                Message = string.Empty,
+            };
             var errorList = new List<OperationError>();
-            await ValidateRequest(errorList, request);
+            try
+            {
+                await ValidateRequest(errorList, request);
+            }
+            catch (Exception ex)
+            {
+                result.Message = ex.Message;
+            }
 
             if (errorList.Any())
             {
-                return new TResult
-                {
-                    IsSuccess = false,
-                    IsValidInput = false,
-                    ErrorList = errorList
-                };
+                result.ErrorList = errorList;
+                return result;
             }
 
-            return await HandleCommand(request, cancellationToken);
+            result = await HandleCommand(request, cancellationToken);
+
+            return result;
         }
 
         protected abstract Task<TResult> HandleCommand(TQuery request, CancellationToken cancellationToken);
