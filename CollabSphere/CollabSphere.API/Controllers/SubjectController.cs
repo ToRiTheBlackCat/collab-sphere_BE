@@ -1,4 +1,5 @@
-﻿using CollabSphere.Application.Features.User.Queries.GetAllSubject;
+﻿using CollabSphere.Application.Features.Academic.Commands.CreateSubject;
+using CollabSphere.Application.Features.User.Queries.GetAllSubject;
 using CollabSphere.Application.Features.User.Queries.GetSubjectById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -55,6 +56,29 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result.Subject);
+        }
+
+        [HttpPost("/academic/subject")]
+        public async Task<IActionResult> Post([FromBody] CreateSubjectCommand command)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result);
         }
     }
 }

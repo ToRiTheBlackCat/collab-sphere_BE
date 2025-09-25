@@ -1,11 +1,7 @@
-﻿using CollabSphere.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CollabSphere.Application.DTOs.SubjectSyllabusModel;
+using CollabSphere.Domain.Entities;
 
-namespace CollabSphere.Application.DTOs.Model
+namespace CollabSphere.Application.DTOs.SubjectModels
 {
     public class SubjectVM
     {

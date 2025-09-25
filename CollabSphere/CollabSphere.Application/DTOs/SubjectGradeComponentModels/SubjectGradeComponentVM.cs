@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.DTOs.Model
+namespace CollabSphere.Application.DTOs.SubjectGradeComponentModels
 {
     public class SubjectGradeComponentVM
     {
@@ -32,3 +32,4 @@ namespace CollabSphere.Application.DTOs.Model
         }
     }
 }
+
