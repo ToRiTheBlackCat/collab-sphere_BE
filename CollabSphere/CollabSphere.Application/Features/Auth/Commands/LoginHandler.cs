@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace CollabSphere.Application.Auth.Commands
+namespace CollabSphere.Application.Features.Auth.Commands
 {
     public class LoginHandler : IRequestHandler<LoginCommand, LoginResponseDTO>
     {
