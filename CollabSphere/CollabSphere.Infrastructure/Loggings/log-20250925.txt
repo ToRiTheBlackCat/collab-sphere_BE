@@ -199,3 +199,35 @@ WHERE student_id = @p8;
 2025-09-25 16:09:47.163 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.GetAvatarUrl (CollabSphere.API) in 11119.641ms
 2025-09-25 16:09:47.167 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.GetAvatarUrl (CollabSphere.API)'
 2025-09-25 16:09:47.171 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/User/avatar-url?publicId=avatars%2Fexuv6fl2vowhswstkxlt - 200 null text/plain; charset=utf-8 13861.5841ms
+2025-09-25 16:48:59.518 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 16:49:00.074 +07:00 [INF] Now listening on: https://localhost:7264
+2025-09-25 16:49:00.078 +07:00 [INF] Now listening on: http://localhost:5263
+2025-09-25 16:49:00.184 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 16:49:00.187 +07:00 [INF] Hosting environment: Development
+2025-09-25 16:49:00.189 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 16:49:01.385 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-09-25 16:49:01.799 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 431.7713ms
+2025-09-25 16:49:01.804 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 16:49:01.840 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 36.9678ms
+2025-09-25 16:49:02.296 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-09-25 16:49:02.381 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 87.2662ms
+2025-09-25 16:49:02.550 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-09-25 16:49:02.597 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 47.9677ms
+2025-09-25 16:49:17.036 +07:00 [INF] Request starting HTTP/2 DELETE https://localhost:7264/api/User/remove-avatar - application/json 63
+2025-09-25 16:49:17.182 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.RemoveAvatarImage (CollabSphere.API)'
+2025-09-25 16:49:17.259 +07:00 [INF] Route matched with {action = "RemoveAvatarImage", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] RemoveAvatarImage(CollabSphere.Application.DTOs.Image.RemoveAvatarImageDto) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-09-25 16:49:17.277 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-25 16:49:27.919 +07:00 [INF] Executed DbCommand (190ms) [Parameters=[@__TId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+FROM "user" AS u
+LEFT JOIN student AS s ON u.u_id = s.student_id
+LEFT JOIN lecturer AS l ON u.u_id = l.lecturer_id
+WHERE u.u_id = @__TId_0
+LIMIT 1
+2025-09-25 16:49:46.501 +07:00 [INF] Executed DbCommand (32ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?', @p1='?', @p2='?', @p3='?', @p4='?', @p5='?', @p6='?', @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE student SET address = @p0, avatar_img = @p1, fullname = @p2, major = @p3, phone_number = @p4, school = @p5, student_code = @p6, yob = @p7
+WHERE student_id = @p8;
+2025-09-25 16:49:56.799 +07:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType0`2[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-09-25 16:49:56.818 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.RemoveAvatarImage (CollabSphere.API) in 39546.1506ms
+2025-09-25 16:49:56.824 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.RemoveAvatarImage (CollabSphere.API)'
+2025-09-25 16:49:56.837 +07:00 [INF] Request finished HTTP/2 DELETE https://localhost:7264/api/User/remove-avatar - 200 null application/json; charset=utf-8 39802.0923ms

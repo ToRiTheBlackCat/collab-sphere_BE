@@ -116,5 +116,20 @@ namespace CollabSphere.API.Controllers
 
             return Ok(imageUrl);
         }
+
+        [HttpDelete("remove-avatar")]
+        public async Task<IActionResult> RemoveAvatarImage([FromBody] RemoveAvatarImageDto request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _mediator.Send(new UserRemoveAvatarCommand(request));
+
+            return result.Item1
+              ? Ok(new { result.Item1, result.Item2 })
+              : BadRequest(new { result.Item1, result.Item2 });
+        }
     }
 }

@@ -57,6 +57,10 @@ namespace CollabSphere.Infrastructure.Repositories
             return await query.FirstOrDefaultAsync(entity => EF.Property<int>(entity, typeId) == TId);
         }
 
+        public async Task<User?> GetOneByUserIdAsync(int userId)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.UId == userId && x.IsActive);
+        }
 
         public async Task InsertUser(User user)
         {
@@ -67,5 +71,7 @@ namespace CollabSphere.Infrastructure.Repositories
         {
             _context.Users.Update(user);
         }
+
+
     }
 }
