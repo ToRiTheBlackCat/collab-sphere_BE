@@ -21,7 +21,6 @@ namespace CollabSphere.Application.Features.User.Queries.GetSubjectById
         {
             var result = new GetSubjectByIdResult()
             {
-                ErrorList = new(),
                 IsSuccess = false,
                 IsValidInput = true,
                 Message = string.Empty,
@@ -30,6 +29,7 @@ namespace CollabSphere.Application.Features.User.Queries.GetSubjectById
             try
             {
                 result.Subject = await _unitOfWork.SubjectRepo.GetById(request.SubjectId!.Value);
+
                 result.IsSuccess = true;
             }
             catch (Exception ex)

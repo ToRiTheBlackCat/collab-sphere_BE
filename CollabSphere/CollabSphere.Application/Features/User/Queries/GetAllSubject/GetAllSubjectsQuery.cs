@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.User.Queries.GetAllSubject
 {
-    public class GetAllSubjectQuery : IQuery<GetAllSubjectResult>
+    public class GetAllSubjectsQuery : IQuery<GetAllSubjectResult>
     {
     }
 }

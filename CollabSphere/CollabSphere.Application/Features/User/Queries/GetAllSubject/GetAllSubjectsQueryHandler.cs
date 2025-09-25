@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.User.Queries.GetAllSubject
 {
-    public class GetAllSubjectQueryHandler : BaseQueryHandler<GetAllSubjectQuery, GetAllSubjectResult>
+    public class GetAllSubjectsQueryHandler : BaseQueryHandler<GetAllSubjectsQuery, GetAllSubjectResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        public GetAllSubjectQueryHandler(IUnitOfWork unitOfWork)
+        public GetAllSubjectsQueryHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        protected override async Task<GetAllSubjectResult> HandleCommand(GetAllSubjectQuery request, CancellationToken cancellationToken)
+        protected override async Task<GetAllSubjectResult> HandleCommand(GetAllSubjectsQuery request, CancellationToken cancellationToken)
         {
             var result = new GetAllSubjectResult()
             {
@@ -44,7 +44,7 @@ namespace CollabSphere.Application.Features.User.Queries.GetAllSubject
             return result;
         }
 
-        protected override async Task ValidateRequest(List<OperationError> errors, GetAllSubjectQuery request)
+        protected override async Task ValidateRequest(List<OperationError> errors, GetAllSubjectsQuery request)
         {
         }
     }
