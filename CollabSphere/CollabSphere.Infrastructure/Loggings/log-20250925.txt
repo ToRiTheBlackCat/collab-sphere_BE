@@ -400,3 +400,413 @@ FROM subject AS s
 2025-09-25 13:04:44.754 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Get (CollabSphere.API) in 1846.4074ms
 2025-09-25 13:04:44.755 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Get (CollabSphere.API)'
 2025-09-25 13:04:44.760 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/api/Subject - 200 null application/json; charset=utf-8 1934.9472ms
+2025-09-25 15:49:48.700 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 15:49:48.951 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-25 15:49:48.953 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-25 15:49:49.019 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 15:49:49.020 +07:00 [INF] Hosting environment: Development
+2025-09-25 15:49:49.021 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 15:49:50.324 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 15:49:50.522 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 208.6689ms
+2025-09-25 15:49:50.530 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 15:49:50.530 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 15:49:50.545 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 15.3083ms
+2025-09-25 15:49:50.585 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 55.5596ms
+2025-09-25 15:49:50.616 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 15:49:50.630 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 14.9421ms
+2025-09-25 15:52:26.698 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 15:52:26.930 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-25 15:52:26.932 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-25 15:52:27.011 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 15:52:27.012 +07:00 [INF] Hosting environment: Development
+2025-09-25 15:52:27.013 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 15:52:27.612 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 15:52:27.765 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 158.526ms
+2025-09-25 15:52:27.768 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 15:52:27.768 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 15:52:27.785 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 17.2559ms
+2025-09-25 15:52:27.812 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 43.6811ms
+2025-09-25 15:52:27.841 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 15:52:27.857 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 15.8537ms
+2025-09-25 15:53:22.339 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 15:53:22.572 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-25 15:53:22.574 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-25 15:53:22.643 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 15:53:22.645 +07:00 [INF] Hosting environment: Development
+2025-09-25 15:53:22.646 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 15:53:23.345 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 15:53:23.527 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 192.8125ms
+2025-09-25 15:53:23.530 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 15:53:23.530 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 15:53:23.539 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 8.5968ms
+2025-09-25 15:53:23.581 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 50.4957ms
+2025-09-25 15:53:23.618 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 15:53:23.640 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 22.6948ms
+2025-09-25 15:53:37.438 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 409
+2025-09-25 15:53:38.374 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 15:53:38.403 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 15:53:38.410 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-25 15:53:39.991 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'CollabSphere.Application.Base.BaseCommandResult'.
+2025-09-25 15:53:40.003 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 1595.1187ms
+2025-09-25 15:53:40.005 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 15:53:40.010 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 400 null application/json; charset=utf-8 2572.2978ms
+2025-09-25 15:56:22.815 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 15:56:22.834 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 19.4261ms
+2025-09-25 15:56:22.836 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 15:56:22.836 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 15:56:22.842 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 6.4867ms
+2025-09-25 15:56:22.855 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 19.4828ms
+2025-09-25 15:56:23.028 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 15:56:23.037 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 9.0109ms
+2025-09-25 15:56:33.878 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 410
+2025-09-25 15:56:33.883 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 15:56:33.887 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 15:56:33.929 +07:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2025-09-25 15:56:33.931 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 42.4076ms
+2025-09-25 15:56:33.932 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 15:56:33.933 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 500 0 text/plain; charset=utf-8 55.6303ms
+2025-09-25 15:56:44.150 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 410
+2025-09-25 15:56:44.156 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 15:56:44.158 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 15:56:44.170 +07:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2025-09-25 15:56:44.172 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 12.8099ms
+2025-09-25 15:56:44.173 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 15:56:44.174 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 500 0 text/plain; charset=utf-8 25.0577ms
+2025-09-25 15:56:49.020 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 409
+2025-09-25 15:56:49.023 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 15:56:49.024 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 15:56:49.026 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'CollabSphere.Application.Base.BaseCommandResult'.
+2025-09-25 15:56:49.028 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 3.8013ms
+2025-09-25 15:56:49.030 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 15:56:49.031 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 400 null application/json; charset=utf-8 11.1477ms
+2025-09-25 16:01:29.053 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 410
+2025-09-25 16:01:29.058 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 16:01:29.059 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 16:01:29.062 +07:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2025-09-25 16:01:29.063 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 2.8956ms
+2025-09-25 16:01:29.064 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 16:01:29.065 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 500 0 text/plain; charset=utf-8 14.8708ms
+2025-09-25 16:03:09.425 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 410
+2025-09-25 16:03:09.434 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 16:03:09.435 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 16:03:26.895 +07:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2025-09-25 16:03:26.897 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 17460.5781ms
+2025-09-25 16:03:26.898 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 16:03:26.899 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 500 0 text/plain; charset=utf-8 17473.7697ms
+2025-09-25 16:29:25.150 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 16:29:25.375 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-25 16:29:25.377 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-25 16:29:25.443 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 16:29:25.444 +07:00 [INF] Hosting environment: Development
+2025-09-25 16:29:25.446 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 16:29:26.020 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 16:29:26.218 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 208.0461ms
+2025-09-25 16:29:26.223 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 16:29:26.223 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 16:29:26.230 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 7.9178ms
+2025-09-25 16:29:26.264 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 42.0074ms
+2025-09-25 16:29:26.379 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 16:29:26.397 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 18.2311ms
+2025-09-25 16:30:20.517 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 415
+2025-09-25 16:30:20.586 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 16:30:20.607 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 16:30:20.612 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-25 16:30:24.254 +07:00 [INF] Executed DbCommand (413ms) [Parameters=[@p0='?', @p1='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject (subject_code, subject_name)
+VALUES (@p0, @p1)
+RETURNING subject_id, is_active;
+2025-09-25 16:30:58.649 +07:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2025-09-25 16:30:58.654 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 38042.2566ms
+2025-09-25 16:30:58.656 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 16:30:58.662 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 500 null text/plain; charset=utf-8 38144.9731ms
+2025-09-25 16:31:50.176 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 16:31:50.200 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 24.519ms
+2025-09-25 16:31:50.203 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 16:31:50.203 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 16:31:50.210 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 7.4835ms
+2025-09-25 16:31:50.225 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 22.3557ms
+2025-09-25 16:31:50.315 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 16:31:50.323 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 9.1258ms
+2025-09-25 16:32:08.958 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 415
+2025-09-25 16:32:08.962 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 16:32:08.966 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 16:32:09.090 +07:00 [INF] Executed DbCommand (32ms) [Parameters=[@p0='?', @p1='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject (subject_code, subject_name)
+VALUES (@p0, @p1)
+RETURNING subject_id, is_active;
+2025-09-25 16:32:51.206 +07:00 [ERR] Failed executing DbCommand (7ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_syllabus (created_date, description, no_credit, subject_code, subject_id, syllabus_name)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING syllabus_id, is_active;
+2025-09-25 16:32:51.348 +07:00 [ERR] An exception occurred in the database while saving changes for context type 'CollabSphere.Infrastructure.PostgreDbContext.collab_sphereContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> System.ArgumentException: Cannot write DateTime with Kind=Local to PostgreSQL type 'timestamp with time zone', only UTC is supported. Note that it's not possible to mix DateTimes with different Kinds in an array, range, or multirange. (Parameter 'value')
+   at Npgsql.Internal.Converters.DateTimeConverterResolver`1.Get(DateTime value, Nullable`1 expectedPgTypeId, Boolean validateOnly)
+   at Npgsql.Internal.Converters.DateTimeConverterResolver.<>c.<CreateResolver>b__0_0(DateTimeConverterResolver`1 resolver, DateTime value, Nullable`1 expectedPgTypeId)
+   at Npgsql.Internal.Converters.DateTimeConverterResolver`1.Get(T value, Nullable`1 expectedPgTypeId)
+   at Npgsql.Internal.PgConverterResolver`1.GetAsObjectInternal(PgTypeInfo typeInfo, Object value, Nullable`1 expectedPgTypeId)
+   at Npgsql.Internal.PgResolverTypeInfo.GetResolutionAsObject(Object value, Nullable`1 expectedPgTypeId)
+   at Npgsql.Internal.PgTypeInfo.GetObjectResolution(Object value)
+   at Npgsql.NpgsqlParameter.ResolveConverter(PgTypeInfo typeInfo)
+   at Npgsql.NpgsqlParameter.ResolveTypeInfo(PgSerializerOptions options)
+   at Npgsql.NpgsqlParameterCollection.ProcessParameters(PgSerializerOptions options, Boolean validateValues, CommandType commandType)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> System.ArgumentException: Cannot write DateTime with Kind=Local to PostgreSQL type 'timestamp with time zone', only UTC is supported. Note that it's not possible to mix DateTimes with different Kinds in an array, range, or multirange. (Parameter 'value')
+   at Npgsql.Internal.Converters.DateTimeConverterResolver`1.Get(DateTime value, Nullable`1 expectedPgTypeId, Boolean validateOnly)
+   at Npgsql.Internal.Converters.DateTimeConverterResolver.<>c.<CreateResolver>b__0_0(DateTimeConverterResolver`1 resolver, DateTime value, Nullable`1 expectedPgTypeId)
+   at Npgsql.Internal.Converters.DateTimeConverterResolver`1.Get(T value, Nullable`1 expectedPgTypeId)
+   at Npgsql.Internal.PgConverterResolver`1.GetAsObjectInternal(PgTypeInfo typeInfo, Object value, Nullable`1 expectedPgTypeId)
+   at Npgsql.Internal.PgResolverTypeInfo.GetResolutionAsObject(Object value, Nullable`1 expectedPgTypeId)
+   at Npgsql.Internal.PgTypeInfo.GetObjectResolution(Object value)
+   at Npgsql.NpgsqlParameter.ResolveConverter(PgTypeInfo typeInfo)
+   at Npgsql.NpgsqlParameter.ResolveTypeInfo(PgSerializerOptions options)
+   at Npgsql.NpgsqlParameterCollection.ProcessParameters(PgSerializerOptions options, Boolean validateValues, CommandType commandType)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2025-09-25 16:33:26.776 +07:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2025-09-25 16:33:26.778 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 77810.1392ms
+2025-09-25 16:33:26.779 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 16:33:26.781 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 500 null text/plain; charset=utf-8 77823.054ms
+2025-09-25 16:33:43.489 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 16:33:43.498 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 9.0928ms
+2025-09-25 16:33:43.507 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 16:33:43.507 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 16:33:43.510 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 2.7879ms
+2025-09-25 16:33:43.521 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 14.0559ms
+2025-09-25 16:33:43.603 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 16:33:43.610 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 6.9272ms
+2025-09-25 16:33:52.821 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 415
+2025-09-25 16:33:52.826 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 16:33:52.830 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 16:33:52.950 +07:00 [INF] Executed DbCommand (58ms) [Parameters=[@p0='?', @p1='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject (subject_code, subject_name)
+VALUES (@p0, @p1)
+RETURNING subject_id, is_active;
+2025-09-25 16:34:37.055 +07:00 [INF] Executed DbCommand (43ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_syllabus (created_date, description, no_credit, subject_code, subject_id, syllabus_name)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING syllabus_id, is_active;
+2025-09-25 16:35:26.848 +07:00 [INF] Executed DbCommand (54ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_grade_component (component_name, reference_percentage, subject_id, syllabus_id)
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING subject_grade_component_id;
+2025-09-25 16:37:42.104 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 16:37:42.337 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-25 16:37:42.339 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-25 16:37:42.426 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 16:37:42.428 +07:00 [INF] Hosting environment: Development
+2025-09-25 16:37:42.429 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 16:37:42.979 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 16:37:43.141 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 169.9ms
+2025-09-25 16:37:43.146 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 16:37:43.146 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 16:37:43.152 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 6.5874ms
+2025-09-25 16:37:43.184 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 38.8945ms
+2025-09-25 16:37:43.220 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 16:37:43.235 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 14.7217ms
+2025-09-25 16:41:50.248 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 16:41:50.530 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-25 16:41:50.531 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-25 16:41:50.622 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 16:41:50.623 +07:00 [INF] Hosting environment: Development
+2025-09-25 16:41:50.624 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 16:41:51.185 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 16:41:51.354 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 177.7687ms
+2025-09-25 16:41:51.355 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 16:41:51.356 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 16:41:51.366 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 10.7186ms
+2025-09-25 16:41:51.400 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 44.986ms
+2025-09-25 16:41:51.432 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 16:41:51.448 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 16.6408ms
+2025-09-25 16:42:01.334 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 418
+2025-09-25 16:42:01.401 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 16:42:01.426 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 16:42:01.431 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-25 16:42:04.693 +07:00 [ERR] Failed executing DbCommand (77ms) [Parameters=[@p0='?', @p1='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject (subject_code, subject_name)
+VALUES (@p0, @p1)
+RETURNING subject_id, is_active;
+2025-09-25 16:42:04.816 +07:00 [ERR] An exception occurred in the database while saving changes for context type 'CollabSphere.Infrastructure.PostgreDbContext.collab_sphereContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "subject_pk"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "subject_pk"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: subject
+    ConstraintName: subject_pk
+    File: nbtinsert.c
+    Line: 666
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "subject_pk"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "subject_pk"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: subject
+    ConstraintName: subject_pk
+    File: nbtinsert.c
+    Line: 666
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2025-09-25 16:42:04.970 +07:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2025-09-25 16:42:04.976 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 3545.3707ms
+2025-09-25 16:42:04.979 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 16:42:04.986 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 500 null text/plain; charset=utf-8 3652.118ms
+2025-09-25 16:43:02.624 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 418
+2025-09-25 16:43:02.637 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 16:43:02.638 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 16:43:07.657 +07:00 [INF] Executed DbCommand (39ms) [Parameters=[@p0='?', @p1='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject (subject_code, subject_name)
+VALUES (@p0, @p1)
+RETURNING subject_id, is_active;
+2025-09-25 16:43:18.229 +07:00 [INF] Executed DbCommand (34ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_syllabus (created_date, description, no_credit, subject_code, subject_id, syllabus_name)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING syllabus_id, is_active;
+2025-09-25 16:43:21.814 +07:00 [INF] Executed DbCommand (36ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_grade_component (component_name, reference_percentage, subject_id, syllabus_id)
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING subject_grade_component_id;
+2025-09-25 16:43:28.562 +07:00 [INF] Executed DbCommand (100ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-25 16:44:05.117 +07:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2025-09-25 16:44:05.119 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 62479.6948ms
+2025-09-25 16:44:05.121 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 16:44:05.122 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 500 0 text/plain; charset=utf-8 62501.9476ms
+2025-09-25 16:46:05.028 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 16:46:05.325 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-25 16:46:05.327 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-25 16:46:05.405 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 16:46:05.406 +07:00 [INF] Hosting environment: Development
+2025-09-25 16:46:05.407 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 16:46:06.136 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 16:46:06.313 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 189.03ms
+2025-09-25 16:46:06.320 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 16:46:06.320 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 16:46:06.328 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 8.2974ms
+2025-09-25 16:46:06.360 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 40.6212ms
+2025-09-25 16:46:06.394 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 16:46:06.413 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 18.8967ms
+2025-09-25 16:46:12.155 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 418
+2025-09-25 16:46:12.234 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 16:46:12.270 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 16:46:12.278 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-25 16:46:14.627 +07:00 [INF] Executed DbCommand (89ms) [Parameters=[@p0='?', @p1='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject (subject_code, subject_name)
+VALUES (@p0, @p1)
+RETURNING subject_id, is_active;
+2025-09-25 16:46:14.923 +07:00 [INF] Executed DbCommand (65ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_syllabus (created_date, description, no_credit, subject_code, subject_id, syllabus_name)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING syllabus_id, is_active;
+2025-09-25 16:46:15.142 +07:00 [INF] Executed DbCommand (88ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_grade_component (component_name, reference_percentage, subject_id, syllabus_id)
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING subject_grade_component_id;
+2025-09-25 16:46:15.324 +07:00 [INF] Executed DbCommand (50ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-25 16:46:15.453 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.BaseCommandResult'.
+2025-09-25 16:46:15.465 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 3188.6467ms
+2025-09-25 16:46:15.466 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 16:46:15.473 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 200 null application/json; charset=utf-8 3318.5372ms
+2025-09-25 17:03:52.600 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 17:03:52.615 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 15.8326ms
+2025-09-25 17:03:52.626 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 17:03:52.626 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 17:03:52.628 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 3.2445ms
+2025-09-25 17:03:52.647 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 21.6362ms
+2025-09-25 17:03:52.790 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 17:03:52.802 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 11.9808ms
+2025-09-25 17:04:18.736 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 417
+2025-09-25 17:04:18.748 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 17:04:18.753 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 17:04:19.846 +07:00 [INF] Executed DbCommand (33ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s.subject_id, s.is_active, s.subject_code, s.subject_name
+FROM subject AS s
+2025-09-25 17:04:29.543 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'CollabSphere.Application.Base.BaseCommandResult'.
+2025-09-25 17:04:29.547 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 10792.9961ms
+2025-09-25 17:04:29.548 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 17:04:29.549 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 400 null application/json; charset=utf-8 10813.4188ms
