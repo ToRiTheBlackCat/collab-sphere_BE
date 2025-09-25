@@ -108,5 +108,13 @@ namespace CollabSphere.API.Controllers
               ? Ok(new { result.Item1, result.Item2 })
               : BadRequest(new { result.Item1, result.Item2 });
         }
+
+        [HttpGet("avatar-url")]
+        public async Task<IActionResult> GetAvatarUrl(string publicId)
+        {
+            var imageUrl = await _mediator.Send(new GetAvatarUrlQuery(publicId));
+
+            return Ok(imageUrl);
+        }
     }
 }

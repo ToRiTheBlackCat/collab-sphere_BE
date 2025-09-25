@@ -1,0 +1,201 @@
+2025-09-25 11:34:36.356 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 11:34:36.876 +07:00 [INF] Now listening on: https://localhost:7264
+2025-09-25 11:34:36.880 +07:00 [INF] Now listening on: http://localhost:5263
+2025-09-25 11:34:37.139 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 11:34:37.142 +07:00 [INF] Hosting environment: Development
+2025-09-25 11:34:37.145 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 11:34:41.165 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-09-25 11:34:41.467 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 312.9853ms
+2025-09-25 11:34:41.473 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 11:34:41.486 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 12.992ms
+2025-09-25 11:34:41.661 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-09-25 11:34:42.219 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 558.8742ms
+2025-09-25 11:34:42.283 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-09-25 11:34:42.303 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Failed to generate Operation for action - CollabSphere.API.Controllers.UserController.UploadAvatar (CollabSphere.API). See inner exception
+ ---> Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Error reading parameter(s) for action CollabSphere.API.Controllers.UserController.UploadAvatar (CollabSphere.API) as [FromForm] attribute used with IFormFile. Please refer to https://github.com/domaindrivendev/Swashbuckle.AspNetCore#handle-forms-and-file-uploads for more information
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateParameters(ApiDescription apiDescription, SchemaRepository schemaRespository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperation(ApiDescription apiDescription, SchemaRepository schemaRepository)
+   --- End of inner exception stack trace ---
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperation(ApiDescription apiDescription, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperations(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GeneratePaths(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerDocumentWithoutFilters(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerAsync(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-09-25 11:34:42.315 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 500 null text/plain; charset=utf-8 31.7695ms
+2025-09-25 11:35:18.152 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 11:35:18.786 +07:00 [INF] Now listening on: https://localhost:7264
+2025-09-25 11:35:18.790 +07:00 [INF] Now listening on: http://localhost:5263
+2025-09-25 11:35:18.925 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 11:35:18.932 +07:00 [INF] Hosting environment: Development
+2025-09-25 11:35:18.939 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 11:35:19.773 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-09-25 11:35:20.061 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 296.8656ms
+2025-09-25 11:35:20.065 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 11:35:20.086 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 21.9093ms
+2025-09-25 11:35:20.249 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-09-25 11:35:20.336 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 87.4263ms
+2025-09-25 11:35:20.417 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-09-25 11:35:20.438 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Failed to generate Operation for action - CollabSphere.API.Controllers.UserController.UploadAvatar (CollabSphere.API). See inner exception
+ ---> Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Error reading parameter(s) for action CollabSphere.API.Controllers.UserController.UploadAvatar (CollabSphere.API) as [FromForm] attribute used with IFormFile. Please refer to https://github.com/domaindrivendev/Swashbuckle.AspNetCore#handle-forms-and-file-uploads for more information
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateParameters(ApiDescription apiDescription, SchemaRepository schemaRespository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperation(ApiDescription apiDescription, SchemaRepository schemaRepository)
+   --- End of inner exception stack trace ---
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperation(ApiDescription apiDescription, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperations(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GeneratePaths(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerDocumentWithoutFilters(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerAsync(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-09-25 11:35:20.454 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 500 null text/plain; charset=utf-8 37.1514ms
+2025-09-25 11:37:02.351 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 11:37:02.742 +07:00 [INF] Now listening on: https://localhost:7264
+2025-09-25 11:37:02.748 +07:00 [INF] Now listening on: http://localhost:5263
+2025-09-25 11:37:02.867 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 11:37:02.879 +07:00 [INF] Hosting environment: Development
+2025-09-25 11:37:02.884 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 11:37:03.464 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-09-25 11:37:03.682 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 227.8435ms
+2025-09-25 11:37:03.688 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 11:37:03.710 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 22.3205ms
+2025-09-25 11:37:03.910 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-09-25 11:37:04.014 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 104.7326ms
+2025-09-25 11:37:04.085 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-09-25 11:37:04.103 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Failed to generate Operation for action - CollabSphere.API.Controllers.UserController.UploadAvatar (CollabSphere.API). See inner exception
+ ---> Swashbuckle.AspNetCore.SwaggerGen.SwaggerGeneratorException: Error reading parameter(s) for action CollabSphere.API.Controllers.UserController.UploadAvatar (CollabSphere.API) as [FromForm] attribute used with IFormFile. Please refer to https://github.com/domaindrivendev/Swashbuckle.AspNetCore#handle-forms-and-file-uploads for more information
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateParameters(ApiDescription apiDescription, SchemaRepository schemaRespository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperation(ApiDescription apiDescription, SchemaRepository schemaRepository)
+   --- End of inner exception stack trace ---
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperation(ApiDescription apiDescription, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GenerateOperations(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GeneratePaths(IEnumerable`1 apiDescriptions, SchemaRepository schemaRepository)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerDocumentWithoutFilters(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenerator.GetSwaggerAsync(String documentName, String host, String basePath)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-09-25 11:37:04.121 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 500 null text/plain; charset=utf-8 36.5289ms
+2025-09-25 11:42:31.036 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 11:42:31.439 +07:00 [INF] Now listening on: https://localhost:7264
+2025-09-25 11:42:31.446 +07:00 [INF] Now listening on: http://localhost:5263
+2025-09-25 11:42:31.607 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 11:42:31.610 +07:00 [INF] Hosting environment: Development
+2025-09-25 11:42:31.613 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 11:42:32.918 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-09-25 11:42:33.218 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 307.9347ms
+2025-09-25 11:42:33.487 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-09-25 11:42:33.487 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 11:42:33.518 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 31.4835ms
+2025-09-25 11:42:33.547 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 60.3202ms
+2025-09-25 11:42:33.606 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-09-25 11:42:33.635 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 29.25ms
+2025-09-25 11:58:38.151 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 11:58:38.592 +07:00 [INF] Now listening on: https://localhost:7264
+2025-09-25 11:58:38.599 +07:00 [INF] Now listening on: http://localhost:5263
+2025-09-25 11:58:38.707 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 11:58:38.711 +07:00 [INF] Hosting environment: Development
+2025-09-25 11:58:38.712 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 11:58:39.357 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-09-25 11:58:39.641 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 291.434ms
+2025-09-25 11:58:39.852 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 11:58:39.852 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-09-25 11:58:39.867 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 15.7777ms
+2025-09-25 11:58:39.934 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 82.955ms
+2025-09-25 11:58:39.986 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-09-25 11:58:40.009 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 23.3873ms
+2025-09-25 11:59:22.905 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Auth/login - application/json 61
+2025-09-25 11:59:25.353 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-09-25 11:59:25.441 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-09-25 11:59:25.461 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-25 11:59:33.195 +07:00 [INF] Executed DbCommand (205ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.password = @__password_1 AND u.is_active
+LIMIT 1
+2025-09-25 11:59:34.061 +07:00 [INF] Executed DbCommand (58ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
+WHERE u_id = @p8;
+2025-09-25 11:59:34.268 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.DTOs.User.LoginResponseDTO'.
+2025-09-25 11:59:34.320 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 8861.1104ms
+2025-09-25 11:59:34.327 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-09-25 11:59:34.346 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Auth/login - 200 null application/json; charset=utf-8 11443.5194ms
+2025-09-25 12:00:04.555 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/User/upload-avatar - multipart/form-data; boundary=----WebKitFormBoundaryi54Hi3DyDjGZ8g3X 152608
+2025-09-25 12:00:04.572 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.UploadAvatar (CollabSphere.API)'
+2025-09-25 12:00:04.599 +07:00 [INF] Route matched with {action = "UploadAvatar", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UploadAvatar(CollabSphere.Application.DTOs.Image.UploadAvatarRequestDTO) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-09-25 12:05:09.275 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 12:05:09.759 +07:00 [INF] Now listening on: https://localhost:7264
+2025-09-25 12:05:09.762 +07:00 [INF] Now listening on: http://localhost:5263
+2025-09-25 12:05:09.919 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 12:05:09.926 +07:00 [INF] Hosting environment: Development
+2025-09-25 12:05:09.932 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 12:05:14.218 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-09-25 12:05:14.482 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 12:05:14.485 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 279.393ms
+2025-09-25 12:05:14.495 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 13.1997ms
+2025-09-25 12:05:14.662 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-09-25 12:05:14.728 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 66.6437ms
+2025-09-25 12:05:14.874 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-09-25 12:05:14.908 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 35.0225ms
+2025-09-25 12:06:08.978 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/User/upload-avatar - multipart/form-data; boundary=----WebKitFormBoundaryfzrjoboBvrnRkfkL 152601
+2025-09-25 12:06:09.150 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.UploadAvatar (CollabSphere.API)'
+2025-09-25 12:06:09.224 +07:00 [INF] Route matched with {action = "UploadAvatar", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UploadAvatar(CollabSphere.Application.DTOs.Image.UploadAvatarRequestDTO) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-09-25 12:06:09.239 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-25 12:09:44.583 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 12:09:45.006 +07:00 [INF] Now listening on: https://localhost:7264
+2025-09-25 12:09:45.014 +07:00 [INF] Now listening on: http://localhost:5263
+2025-09-25 12:09:45.155 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 12:09:45.160 +07:00 [INF] Hosting environment: Development
+2025-09-25 12:09:45.166 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 12:09:46.406 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-09-25 12:09:46.632 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 234.8229ms
+2025-09-25 12:09:46.861 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 12:09:46.861 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-09-25 12:09:46.874 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 14.0294ms
+2025-09-25 12:09:46.919 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 58.5902ms
+2025-09-25 12:09:46.988 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-09-25 12:09:47.021 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 33.3395ms
+2025-09-25 12:09:55.242 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/User/upload-avatar - multipart/form-data; boundary=----WebKitFormBoundary9qTfoQ4Cb4U1AtZO 152601
+2025-09-25 12:09:55.421 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.UploadAvatar (CollabSphere.API)'
+2025-09-25 12:09:55.513 +07:00 [INF] Route matched with {action = "UploadAvatar", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UploadAvatar(CollabSphere.Application.DTOs.Image.UploadAvatarRequestDTO) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-09-25 12:09:55.536 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-25 12:10:01.868 +07:00 [INF] Executed DbCommand (114ms) [Parameters=[@__TId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+FROM "user" AS u
+LEFT JOIN student AS s ON u.u_id = s.student_id
+LEFT JOIN lecturer AS l ON u.u_id = l.lecturer_id
+WHERE u.u_id = @__TId_0
+LIMIT 1
+2025-09-25 12:10:23.987 +07:00 [INF] Executed DbCommand (47ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?', @p1='?', @p2='?', @p3='?', @p4='?', @p5='?', @p6='?', @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE student SET address = @p0, avatar_img = @p1, fullname = @p2, major = @p3, phone_number = @p4, school = @p5, student_code = @p6, yob = @p7
+WHERE student_id = @p8;
+2025-09-25 12:10:26.283 +07:00 [INF] Executing OkObjectResult, writing value of type '<>f__AnonymousType0`2[[System.Boolean, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.String, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]'.
+2025-09-25 12:10:26.305 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.UploadAvatar (CollabSphere.API) in 30775.2172ms
+2025-09-25 12:10:26.308 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.UploadAvatar (CollabSphere.API)'
+2025-09-25 12:10:26.318 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/User/upload-avatar - 200 null application/json; charset=utf-8 31076.3507ms
+2025-09-25 16:09:22.385 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 16:09:23.314 +07:00 [INF] Now listening on: https://localhost:7264
+2025-09-25 16:09:23.320 +07:00 [INF] Now listening on: http://localhost:5263
+2025-09-25 16:09:23.582 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 16:09:23.586 +07:00 [INF] Hosting environment: Development
+2025-09-25 16:09:23.590 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 16:09:24.392 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-09-25 16:09:25.020 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 661.9839ms
+2025-09-25 16:09:25.244 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 16:09:25.244 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-09-25 16:09:25.271 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 27.3526ms
+2025-09-25 16:09:25.399 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 155.0167ms
+2025-09-25 16:09:25.479 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-09-25 16:09:25.553 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 75.5721ms
+2025-09-25 16:09:33.310 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/User/avatar-url?publicId=avatars%2Fexuv6fl2vowhswstkxlt - null null
+2025-09-25 16:09:35.933 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.GetAvatarUrl (CollabSphere.API)'
+2025-09-25 16:09:36.028 +07:00 [INF] Route matched with {action = "GetAvatarUrl", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAvatarUrl(System.String) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-09-25 16:09:36.050 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-25 16:09:47.152 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2025-09-25 16:09:47.163 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.GetAvatarUrl (CollabSphere.API) in 11119.641ms
+2025-09-25 16:09:47.167 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.GetAvatarUrl (CollabSphere.API)'
+2025-09-25 16:09:47.171 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/User/avatar-url?publicId=avatars%2Fexuv6fl2vowhswstkxlt - 200 null text/plain; charset=utf-8 13861.5841ms
