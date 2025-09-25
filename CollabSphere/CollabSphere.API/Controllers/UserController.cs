@@ -102,7 +102,7 @@ namespace CollabSphere.API.Controllers
                 return BadRequest("File size cannot exceed 1 MB");
             }
 
-            var result = await _mediator.Send(new UserUploadAvatarCommand(request.File, request.UserId, request.IsTeacher, "avatars"));
+            var result = await _mediator.Send(new UserUploadAvatarCommand(request.File, request.UserId, "avatars"));
 
             return result.Item1
               ? Ok(new { result.Item1, result.Item2 })

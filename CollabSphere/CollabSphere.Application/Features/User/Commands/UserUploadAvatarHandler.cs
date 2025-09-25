@@ -21,9 +21,7 @@ namespace CollabSphere.Application.Features.User.Commands
         private static string SUCCESS = "Avatar uploaded successfully!";
         private static string FAIL = "Avatar uploaded fail!";
         private static string EXCEPTION = "Exception when upload avatar";
-        private static string NOTFOUND = "Not found any user with that userIdc";
-
-
+        private static string NOTFOUND = "Not found any user with that userId";
         public UserUploadAvatarHandler(IUnitOfWork unitOfWork,
                                        CloudinaryService cloudinaryService,
                                        ILogger<UserUploadAvatarHandler> logger)
@@ -35,7 +33,6 @@ namespace CollabSphere.Application.Features.User.Commands
 
         public async Task<(bool, string)> Handle(UserUploadAvatarCommand request, CancellationToken cancellationToken)
         {
-            var isTeacher = request.IsTeacher;
             try
             {
                 await _unitOfWork.BeginTransactionAsync();
@@ -59,7 +56,7 @@ namespace CollabSphere.Application.Features.User.Commands
 
                 /*Check if is lecturer or student
                  Then save the publicId into avatarImg field*/
-                if (isTeacher)
+                if (foundUser.IsTeacher)
                 {
                     var updateLecturer = foundUser.Lecturer;
                     updateLecturer.AvatarImg = publicId;

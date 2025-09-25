@@ -13,13 +13,11 @@ namespace CollabSphere.Application.Features.User.Commands
     {
         public IFormFile ImageFile { get; set; }
         public int UserId { get; set; }
-        public bool IsTeacher { get; set; }
         public string FolderName { get; set; }
-        public UserUploadAvatarCommand(IFormFile imageFile, int userId, bool isTeacher, string folderName)
+        public UserUploadAvatarCommand(IFormFile imageFile, int userId, string folderName)
         {
             ImageFile = imageFile;
             UserId = userId;
-            IsTeacher = isTeacher;
             FolderName = folderName;
         }
     }
