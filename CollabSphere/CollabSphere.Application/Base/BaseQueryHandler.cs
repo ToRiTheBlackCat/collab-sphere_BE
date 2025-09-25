@@ -33,6 +33,7 @@ namespace CollabSphere.Application.Base
             if (errorList.Any())
             {
                 result.ErrorList = errorList;
+                result.IsValidInput = false;
                 return result;
             }
 
