@@ -12,6 +12,11 @@ namespace CollabSphere.Application
     {
        
         IUserRepository UserRepo { get; }
+        IClassMemberRepository ClassMemberRepo { get; }
+        IClassRepository ClassRepo { get; }
+        ILecturerRepository LecturerRepo { get; }
+        IStudentRepository StudentRepo { get; }
+        ISubjectRepository SubjectRepo { get; }
         //More IRepo below
 
         Task BeginTransactionAsync();
