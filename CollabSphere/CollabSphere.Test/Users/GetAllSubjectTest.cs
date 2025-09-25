@@ -1,5 +1,5 @@
 ﻿using CollabSphere.Application;
-using CollabSphere.Application.DTOs.Model;
+using CollabSphere.Application.DTOs;
 using CollabSphere.Application.Features.User.Queries.GetAllSubject;
 using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
