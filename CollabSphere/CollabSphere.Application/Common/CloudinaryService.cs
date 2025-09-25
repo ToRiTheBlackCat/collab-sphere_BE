@@ -32,6 +32,13 @@ namespace CollabSphere.Application.Common
             ));
             _cloudinary.Api.Secure = true;
         }
+
+        /// <summary>
+        /// Upload image to CLoudinary
+        /// </summary>
+        /// <param name="file"></param>
+        /// <param name="folderName"></param>
+        /// <returns></returns>
         public async Task<string> UploadImageAsync(IFormFile file, string folderName)
         {
             if (file == null || file.Length == 0)
@@ -49,12 +56,21 @@ namespace CollabSphere.Application.Common
             return result.PublicId.ToString();
         }
 
-        public string GetImageUrl(string publicId)
+        /// <summary>
+        /// Get image from CLoudinary based on publicId
+        /// </summary>
+        /// <param name="publicId"></param>
+        /// <returns></returns>
+        public async Task<string> GetImageUrl(string publicId)
         {
             return _cloudinary.Api.UrlImgUp.BuildUrl(publicId);
         }
 
-
+        /// <summary>
+        /// Delete image from CLoudinary based on publicId
+        /// </summary>
+        /// <param name="publicId"></param>
+        /// <returns></returns>
         public async Task<bool> DeleteImageAsync(string publicId)
         {
             var deletionParams = new DeletionParams(publicId)

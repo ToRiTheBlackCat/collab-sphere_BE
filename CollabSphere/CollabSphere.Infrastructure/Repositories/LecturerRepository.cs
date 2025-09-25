@@ -21,5 +21,10 @@ namespace CollabSphere.Infrastructure.Repositories
         {
             await _context.Lecturers.AddAsync(lecturer);
         }
+
+        public void UpdateLecturer(Lecturer lecturer)
+        {
+            _context.Lecturers.Update(lecturer);
+        }
     }
 }

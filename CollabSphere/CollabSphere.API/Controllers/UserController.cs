@@ -1,4 +1,6 @@
-﻿using CollabSphere.Application.DTOs.Lecturer;
+﻿using CollabSphere.Application.Common;
+using CollabSphere.Application.DTOs.Image;
+using CollabSphere.Application.DTOs.Lecturer;
 using CollabSphere.Application.DTOs.OTP;
 using CollabSphere.Application.DTOs.Student;
 using CollabSphere.Application.DTOs.User;
@@ -8,6 +10,7 @@ using CollabSphere.Application.Features.OTP.Commands;
 using CollabSphere.Application.Features.Student;
 using CollabSphere.Application.Features.Student.Commands;
 using CollabSphere.Application.Features.User.Commands;
+using CollabSphere.Application.Features.User.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -69,6 +72,7 @@ namespace CollabSphere.API.Controllers
                ? Ok(new { result.Item1, result.Item2 })
                : BadRequest(new { result.Item1, result.Item2 });
         }
+
         [HttpPost("staff_academic/signup")]
         public async Task<IActionResult> SignUpStaff_AcademicAccount([FromBody] Staff_AcademicSignUpRequestDto request)
         {
@@ -82,6 +86,27 @@ namespace CollabSphere.API.Controllers
             return result.Item1
                ? Ok(new { result.Item1, result.Item2 })
                : BadRequest(new { result.Item1, result.Item2 });
+        }
+
+        [HttpPost("upload-avatar")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UploadAvatar([FromForm] UploadAvatarRequestDTO request)
+        {
+            if (request.File == null || request.File.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
+
+            if (request.File.Length > 1024 * 1024)
+            {
+                return BadRequest("File size cannot exceed 1 MB");
+            }
+
+            var result = await _mediator.Send(new UserUploadAvatarCommand(request.File, request.UserId, request.IsTeacher, "avatars"));
+
+            return result.Item1
+              ? Ok(new { result.Item1, result.Item2 })
+              : BadRequest(new { result.Item1, result.Item2 });
         }
     }
 }

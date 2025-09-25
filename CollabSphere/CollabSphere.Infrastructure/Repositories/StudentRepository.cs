@@ -21,5 +21,10 @@ namespace CollabSphere.Infrastructure.Repositories
         {
             await _context.Students.AddAsync(student);
         }
+
+        public void UpdateStudent(Student student)
+        {
+            _context.Students.Update(student);
+        }
     }
 }
