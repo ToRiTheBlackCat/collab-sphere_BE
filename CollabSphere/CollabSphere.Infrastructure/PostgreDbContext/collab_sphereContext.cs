@@ -446,8 +446,6 @@ public partial class collab_sphereContext : DbContext
             entity.ToTable("lecturer");
 
             entity.Property(e => e.LecturerId)
-                .ValueGeneratedOnAdd()
-                .UseIdentityAlwaysColumn()
                 .HasColumnName("lecturer_id");
             entity.Property(e => e.Address).HasColumnName("address");
             entity.Property(e => e.AvatarImg).HasColumnName("avatar_img");
@@ -779,8 +777,6 @@ public partial class collab_sphereContext : DbContext
             entity.ToTable("student");
 
             entity.Property(e => e.StudentId)
-                .ValueGeneratedOnAdd()
-                .UseIdentityAlwaysColumn()
                 .HasColumnName("student_id");
             entity.Property(e => e.Address).HasColumnName("address");
             entity.Property(e => e.AvatarImg).HasColumnName("avatar_img");

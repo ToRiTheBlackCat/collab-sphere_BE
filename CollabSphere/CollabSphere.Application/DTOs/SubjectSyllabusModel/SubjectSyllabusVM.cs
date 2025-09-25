@@ -1,11 +1,8 @@
-﻿using CollabSphere.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CollabSphere.Application.DTOs.SubjectGradeComponentModels;
+using CollabSphere.Application.DTOs.SubjectOutcomeModels;
+using CollabSphere.Domain.Entities;
 
-namespace CollabSphere.Application.DTOs.Model
+namespace CollabSphere.Application.DTOs.SubjectSyllabusModel
 {
     public class SubjectSyllabusVM
     {
