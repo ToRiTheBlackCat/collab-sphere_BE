@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Auth.Commands
+namespace CollabSphere.Application.Auth.Commands
 {
     public class LoginCommand : IRequest<LoginResponseDTO>
     {

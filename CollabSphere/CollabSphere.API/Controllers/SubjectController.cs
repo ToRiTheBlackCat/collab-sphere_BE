@@ -59,8 +59,13 @@ namespace CollabSphere.API.Controllers
         }
 
         [HttpPost("/academic/subject")]
-        public async Task<IActionResult> Post(CreateSubjectCommand command)
+        public async Task<IActionResult> Post([FromBody] CreateSubjectCommand command)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await _mediator.Send(command);
 
             if (!result.IsValidInput)

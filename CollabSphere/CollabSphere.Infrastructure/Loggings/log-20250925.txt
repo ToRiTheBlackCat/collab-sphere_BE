@@ -810,3 +810,357 @@ FROM subject AS s
 2025-09-25 17:04:29.547 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 10792.9961ms
 2025-09-25 17:04:29.548 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
 2025-09-25 17:04:29.549 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 400 null application/json; charset=utf-8 10813.4188ms
+2025-09-25 20:13:34.937 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 20:13:35.191 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-25 20:13:35.193 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-25 20:13:35.370 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 20:13:35.372 +07:00 [INF] Hosting environment: Development
+2025-09-25 20:13:35.373 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 20:13:36.176 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 20:13:36.379 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 214.657ms
+2025-09-25 20:13:36.403 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 20:13:36.403 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 20:13:36.416 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 13.6449ms
+2025-09-25 20:13:36.694 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 291.1756ms
+2025-09-25 20:13:36.730 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 20:13:36.748 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 18.7328ms
+2025-09-25 20:14:03.366 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 417
+2025-09-25 20:14:04.250 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 20:14:04.282 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 20:14:04.288 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-25 20:14:07.610 +07:00 [INF] Executed DbCommand (50ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s.subject_id, s.is_active, s.subject_code, s.subject_name
+FROM subject AS s
+2025-09-25 20:14:12.373 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'CollabSphere.Application.Base.BaseCommandResult'.
+2025-09-25 20:14:12.385 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 8097.8639ms
+2025-09-25 20:14:12.387 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 20:14:12.395 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 400 null application/json; charset=utf-8 9028.1689ms
+2025-09-25 20:14:20.129 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 418
+2025-09-25 20:14:20.133 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 20:14:20.135 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 20:14:20.223 +07:00 [INF] Executed DbCommand (44ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s.subject_id, s.is_active, s.subject_code, s.subject_name
+FROM subject AS s
+2025-09-25 20:14:20.428 +07:00 [INF] Executed DbCommand (51ms) [Parameters=[@p0='?', @p1='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject (subject_code, subject_name)
+VALUES (@p0, @p1)
+RETURNING subject_id, is_active;
+2025-09-25 20:14:20.597 +07:00 [INF] Executed DbCommand (39ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_syllabus (created_date, description, no_credit, subject_code, subject_id, syllabus_name)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING syllabus_id, is_active;
+2025-09-25 20:14:20.727 +07:00 [INF] Executed DbCommand (45ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_grade_component (component_name, reference_percentage, subject_id, syllabus_id)
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING subject_grade_component_id;
+2025-09-25 20:14:20.858 +07:00 [INF] Executed DbCommand (41ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-25 20:14:20.952 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.BaseCommandResult'.
+2025-09-25 20:14:20.954 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 817.7798ms
+2025-09-25 20:14:20.955 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 20:14:20.956 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 200 null application/json; charset=utf-8 827.7113ms
+2025-09-25 20:15:00.207 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 20:15:00.439 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-25 20:15:00.442 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-25 20:15:00.545 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 20:15:00.546 +07:00 [INF] Hosting environment: Development
+2025-09-25 20:15:00.547 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 20:15:01.596 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 20:15:01.749 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 160.4456ms
+2025-09-25 20:15:01.754 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 20:15:01.754 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 20:15:01.761 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 7.2963ms
+2025-09-25 20:15:01.795 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 40.8621ms
+2025-09-25 20:15:01.831 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 20:15:01.853 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 22.8298ms
+2025-09-25 20:15:24.242 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 418
+2025-09-25 20:15:24.298 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 20:15:24.318 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 20:15:24.324 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-25 20:15:26.468 +07:00 [INF] Executed DbCommand (66ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s.subject_id, s.is_active, s.subject_code, s.subject_name
+FROM subject AS s
+2025-09-25 20:15:26.761 +07:00 [INF] Executed DbCommand (40ms) [Parameters=[@p0='?', @p1='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject (subject_code, subject_name)
+VALUES (@p0, @p1)
+RETURNING subject_id, is_active;
+2025-09-25 20:15:26.932 +07:00 [INF] Executed DbCommand (42ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_syllabus (created_date, description, no_credit, subject_code, subject_id, syllabus_name)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING syllabus_id, is_active;
+2025-09-25 20:15:27.102 +07:00 [INF] Executed DbCommand (45ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_grade_component (component_name, reference_percentage, subject_id, syllabus_id)
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING subject_grade_component_id;
+2025-09-25 20:15:27.242 +07:00 [INF] Executed DbCommand (48ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-25 20:15:27.358 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.BaseCommandResult'.
+2025-09-25 20:15:27.368 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 3044.2644ms
+2025-09-25 20:15:27.371 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 20:15:27.377 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 200 null application/json; charset=utf-8 3135.315ms
+2025-09-25 20:15:56.632 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 20:15:56.827 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-25 20:15:56.829 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-25 20:15:56.936 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 20:15:56.938 +07:00 [INF] Hosting environment: Development
+2025-09-25 20:15:56.939 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 20:15:58.015 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 20:15:58.167 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 162.7775ms
+2025-09-25 20:15:58.172 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 20:15:58.172 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 20:15:58.180 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 8.3559ms
+2025-09-25 20:15:58.218 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 46.3244ms
+2025-09-25 20:15:58.253 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 20:15:58.270 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 17.7622ms
+2025-09-25 20:16:04.036 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 418
+2025-09-25 20:16:04.104 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 20:16:04.130 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 20:16:04.136 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-25 20:16:06.219 +07:00 [INF] Executed DbCommand (51ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s.subject_id, s.is_active, s.subject_code, s.subject_name
+FROM subject AS s
+2025-09-25 20:16:06.503 +07:00 [INF] Executed DbCommand (40ms) [Parameters=[@p0='?', @p1='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject (subject_code, subject_name)
+VALUES (@p0, @p1)
+RETURNING subject_id, is_active;
+2025-09-25 20:16:06.680 +07:00 [INF] Executed DbCommand (40ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_syllabus (created_date, description, no_credit, subject_code, subject_id, syllabus_name)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING syllabus_id, is_active;
+2025-09-25 20:16:06.816 +07:00 [INF] Executed DbCommand (39ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_grade_component (component_name, reference_percentage, subject_id, syllabus_id)
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING subject_grade_component_id;
+2025-09-25 20:16:06.931 +07:00 [INF] Executed DbCommand (36ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-25 20:16:07.020 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.BaseCommandResult'.
+2025-09-25 20:16:07.033 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 2897.0179ms
+2025-09-25 20:16:07.035 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 20:16:07.041 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 200 null application/json; charset=utf-8 3005.3522ms
+2025-09-25 20:16:59.419 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 20:16:59.618 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-25 20:16:59.620 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-25 20:16:59.695 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 20:16:59.696 +07:00 [INF] Hosting environment: Development
+2025-09-25 20:16:59.698 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 20:17:01.023 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 20:17:01.202 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 188.7326ms
+2025-09-25 20:17:01.205 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 20:17:01.205 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 20:17:01.212 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 8.3642ms
+2025-09-25 20:17:01.248 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 44.3361ms
+2025-09-25 20:17:01.283 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 20:17:01.302 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 19.6164ms
+2025-09-25 20:17:07.115 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 418
+2025-09-25 20:17:07.191 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 20:17:07.217 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 20:17:07.222 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-25 20:17:10.369 +07:00 [INF] Executed DbCommand (54ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s.subject_id, s.is_active, s.subject_code, s.subject_name
+FROM subject AS s
+2025-09-25 20:17:14.313 +07:00 [INF] Executed DbCommand (35ms) [Parameters=[@p0='?', @p1='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject (subject_code, subject_name)
+VALUES (@p0, @p1)
+RETURNING subject_id, is_active;
+2025-09-25 20:17:50.380 +07:00 [INF] Executed DbCommand (40ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_syllabus (created_date, description, no_credit, subject_code, subject_id, syllabus_name)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING syllabus_id, is_active;
+2025-09-25 20:17:50.516 +07:00 [INF] Executed DbCommand (41ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_grade_component (component_name, reference_percentage, subject_id, syllabus_id)
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING subject_grade_component_id;
+2025-09-25 20:17:50.644 +07:00 [INF] Executed DbCommand (38ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-25 20:17:50.725 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.BaseCommandResult'.
+2025-09-25 20:17:50.741 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 43513.015ms
+2025-09-25 20:17:50.742 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 20:17:50.746 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 200 null application/json; charset=utf-8 43631.651ms
+2025-09-25 20:18:36.966 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 20:18:37.176 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-25 20:18:37.177 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-25 20:18:37.254 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 20:18:37.255 +07:00 [INF] Hosting environment: Development
+2025-09-25 20:18:37.256 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 20:18:38.437 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 20:18:38.611 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 180.4115ms
+2025-09-25 20:18:38.616 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 20:18:38.616 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 20:18:38.633 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 17.124ms
+2025-09-25 20:18:38.661 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 45.847ms
+2025-09-25 20:18:38.696 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 20:18:38.719 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 23.961ms
+2025-09-25 20:23:20.265 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 20:23:20.498 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-25 20:23:20.500 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-25 20:23:20.595 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 20:23:20.596 +07:00 [INF] Hosting environment: Development
+2025-09-25 20:23:20.597 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 20:23:21.952 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 20:23:22.105 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 163.1898ms
+2025-09-25 20:23:22.110 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 20:23:22.110 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 20:23:22.132 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 22.0793ms
+2025-09-25 20:23:22.156 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 45.377ms
+2025-09-25 20:23:22.190 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 20:23:22.209 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 18.7619ms
+2025-09-25 20:23:35.285 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 360
+2025-09-25 20:23:35.351 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 20:23:35.371 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 20:23:35.376 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-25 20:23:35.447 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-09-25 20:23:35.469 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 93.2159ms
+2025-09-25 20:23:35.471 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 20:23:35.472 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 400 null application/problem+json; charset=utf-8 187.2815ms
+2025-09-25 20:24:09.694 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 1323
+2025-09-25 20:24:09.704 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 20:24:09.712 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 20:24:11.610 +07:00 [INF] Executed DbCommand (48ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s.subject_id, s.is_active, s.subject_code, s.subject_name
+FROM subject AS s
+2025-09-25 20:24:18.739 +07:00 [INF] Executed DbCommand (39ms) [Parameters=[@p0='?', @p1='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject (subject_code, subject_name)
+VALUES (@p0, @p1)
+RETURNING subject_id, is_active;
+2025-09-25 20:24:18.899 +07:00 [INF] Executed DbCommand (42ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_syllabus (created_date, description, no_credit, subject_code, subject_id, syllabus_name)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING syllabus_id, is_active;
+2025-09-25 20:24:19.019 +07:00 [INF] Executed DbCommand (35ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_grade_component (component_name, reference_percentage, subject_id, syllabus_id)
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING subject_grade_component_id;
+2025-09-25 20:24:19.142 +07:00 [INF] Executed DbCommand (54ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_grade_component (component_name, reference_percentage, subject_id, syllabus_id)
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING subject_grade_component_id;
+2025-09-25 20:24:19.257 +07:00 [INF] Executed DbCommand (33ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_grade_component (component_name, reference_percentage, subject_id, syllabus_id)
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING subject_grade_component_id;
+2025-09-25 20:24:19.354 +07:00 [INF] Executed DbCommand (32ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_grade_component (component_name, reference_percentage, subject_id, syllabus_id)
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING subject_grade_component_id;
+2025-09-25 20:24:19.472 +07:00 [INF] Executed DbCommand (36ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-25 20:24:19.572 +07:00 [INF] Executed DbCommand (32ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-25 20:24:19.672 +07:00 [INF] Executed DbCommand (32ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-25 20:24:19.798 +07:00 [INF] Executed DbCommand (32ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-25 20:24:19.897 +07:00 [INF] Executed DbCommand (32ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-25 20:24:19.982 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.BaseCommandResult'.
+2025-09-25 20:24:19.986 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 10271.7693ms
+2025-09-25 20:24:19.987 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 20:24:19.993 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 200 null application/json; charset=utf-8 10301.8367ms
+2025-09-25 20:33:23.292 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 20:33:23.495 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-25 20:33:23.496 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-25 20:33:23.564 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 20:33:23.565 +07:00 [INF] Hosting environment: Development
+2025-09-25 20:33:23.566 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 20:33:24.479 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 20:33:24.665 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 197.1838ms
+2025-09-25 20:33:24.670 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 20:33:24.670 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 20:33:24.690 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 19.8083ms
+2025-09-25 20:33:24.714 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 44.065ms
+2025-09-25 20:33:24.748 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 20:33:24.763 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 15.4129ms
+2025-09-25 20:33:40.234 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 1323
+2025-09-25 20:33:40.310 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 20:33:40.338 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 20:33:40.343 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-25 20:33:42.344 +07:00 [INF] Executed DbCommand (67ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s.subject_id, s.is_active, s.subject_code, s.subject_name
+FROM subject AS s
+2025-09-25 20:39:15.669 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-25 20:39:15.982 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-25 20:39:15.983 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-25 20:39:16.071 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-25 20:39:16.072 +07:00 [INF] Hosting environment: Development
+2025-09-25 20:39:16.073 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-25 20:39:17.087 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-25 20:39:17.259 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 180.8767ms
+2025-09-25 20:39:17.264 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-25 20:39:17.264 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-25 20:39:17.280 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 16.2443ms
+2025-09-25 20:39:17.324 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 60.2236ms
+2025-09-25 20:39:17.359 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-25 20:39:17.379 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 21.6718ms
+2025-09-25 20:39:37.623 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/academic/subject - application/json 1323
+2025-09-25 20:39:37.699 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 20:39:37.722 +07:00 [INF] Route matched with {action = "Post", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Post(CollabSphere.Application.Features.Academic.Commands.CreateSubject.CreateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-25 20:39:37.728 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-25 20:39:39.640 +07:00 [INF] Executed DbCommand (76ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s.subject_id, s.is_active, s.subject_code, s.subject_name
+FROM subject AS s
+2025-09-25 20:39:44.015 +07:00 [INF] Executed DbCommand (55ms) [Parameters=[@p0='?', @p1='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject (subject_code, subject_name)
+VALUES (@p0, @p1)
+RETURNING subject_id, is_active;
+2025-09-25 20:39:48.786 +07:00 [INF] Executed DbCommand (42ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Int32), @p3='?', @p4='?' (DbType = Int32), @p5='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_syllabus (created_date, description, no_credit, subject_code, subject_id, syllabus_name)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING syllabus_id, is_active;
+2025-09-25 20:40:01.553 +07:00 [INF] Executed DbCommand (45ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_grade_component (component_name, reference_percentage, subject_id, syllabus_id)
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING subject_grade_component_id;
+2025-09-25 20:40:20.295 +07:00 [INF] Executed DbCommand (36ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_grade_component (component_name, reference_percentage, subject_id, syllabus_id)
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING subject_grade_component_id;
+2025-09-25 20:40:23.246 +07:00 [INF] Executed DbCommand (101ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_grade_component (component_name, reference_percentage, subject_id, syllabus_id)
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING subject_grade_component_id;
+2025-09-25 20:40:26.486 +07:00 [INF] Executed DbCommand (36ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_grade_component (component_name, reference_percentage, subject_id, syllabus_id)
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING subject_grade_component_id;
+2025-09-25 20:40:37.367 +07:00 [INF] Executed DbCommand (51ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-25 20:40:55.925 +07:00 [INF] Executed DbCommand (36ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-25 20:40:56.049 +07:00 [INF] Executed DbCommand (39ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-25 20:40:56.168 +07:00 [INF] Executed DbCommand (36ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-25 20:40:56.285 +07:00 [INF] Executed DbCommand (36ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-25 20:40:56.426 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.BaseCommandResult'.
+2025-09-25 20:40:56.437 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API) in 78710.7138ms
+2025-09-25 20:40:56.439 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.Post (CollabSphere.API)'
+2025-09-25 20:40:56.445 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/academic/subject - 200 null application/json; charset=utf-8 78822.0606ms

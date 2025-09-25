@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Academic.Commands.CreateSubject
 {
-    internal class CreateSubjectHandler : BaseCommandHandler<CreateSubjectCommand>
+    public class CreateSubjectHandler : BaseCommandHandler<CreateSubjectCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         public CreateSubjectHandler(IUnitOfWork unitOfWork)
@@ -50,7 +50,8 @@ namespace CollabSphere.Application.Features.Academic.Commands.CreateSubject
                     IsActive = request.SubjectSyllabus.IsActive,
                     NoCredit = request.SubjectSyllabus.NoCredit,
                     SubjectCode = request.SubjectCode,
-                    SubjectId = subject.SubjectId,
+                    //SubjectId = subject.SubjectId,
+                    Subject = subject,
                 };
 
                 await _unitOfWork.SubjectSyllabusRepo.Create(syllabus);
@@ -61,10 +62,11 @@ namespace CollabSphere.Application.Features.Academic.Commands.CreateSubject
                 {
                     await _unitOfWork.SubjectGradeComponentRepo.Create(new SubjectGradeComponent()
                     {
-                        SyllabusId = syllabus.SyllabusId,
                         ComponentName = gradeComponentDto.ComponentName,
                         ReferencePercentage = gradeComponentDto.ReferencePercentage,
                         SubjectId = subject.SubjectId,
+                        //SyllabusId = syllabus.SyllabusId,
+                        Syllabus = syllabus
                     });
                     await _unitOfWork.SaveChangesAsync();
                 }
@@ -75,7 +77,8 @@ namespace CollabSphere.Application.Features.Academic.Commands.CreateSubject
                     await _unitOfWork.SubjectOutcomeRepo.Create(new SubjectOutcome()
                     {
                         OutcomeDetail = subjectOutcomeDto.OutcomeDetail,
-                        SyllabusId = syllabus.SyllabusId,
+                        //SyllabusId = syllabus.SyllabusId,
+                        Syllabus = syllabus,
                     });
                     await _unitOfWork.SaveChangesAsync();
                 }
