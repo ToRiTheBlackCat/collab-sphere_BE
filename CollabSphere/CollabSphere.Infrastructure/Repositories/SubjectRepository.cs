@@ -30,5 +30,21 @@ namespace CollabSphere.Infrastructure.Repositories
 
             return subject;
         }
+
+        public async Task<Subject?> GetBySubjectCode(string subjectCode)
+        {
+            var subject = await _context.Subjects
+                .Include(x => x.SubjectSyllabi)
+                    .ThenInclude(x => x.SubjectGradeComponents)
+                .Include(x => x.SubjectSyllabi)
+                    .ThenInclude(x => x.SubjectOutcomes)
+                .FirstOrDefaultAsync(x => x.SubjectCode.ToUpper() == subjectCode.Trim().ToUpper());
+            if (subject != null)
+            {
+                _context.Entry(subject).State = EntityState.Detached;
+            }
+
+            return subject;
+        }
     }
 }

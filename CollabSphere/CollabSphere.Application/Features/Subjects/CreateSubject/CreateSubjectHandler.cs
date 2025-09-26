@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Academic.Commands.CreateSubject
+namespace CollabSphere.Application.Features.Subjects.CreateSubject
 {
     public class CreateSubjectHandler : BaseCommandHandler<CreateSubjectCommand>
     {
@@ -100,8 +100,8 @@ namespace CollabSphere.Application.Features.Academic.Commands.CreateSubject
         protected override async Task ValidateRequest(List<OperationError> errors, CreateSubjectCommand request)
         {
             // Validate grade components
-            var componentTotal = request.SubjectSyllabus.SubjectGradeComponents.Sum(x => x.ReferencePercentage);
-            if (componentTotal != 100)
+            var componentSum = request.SubjectSyllabus.SubjectGradeComponents.Sum(x => x.ReferencePercentage);
+            if (componentSum != 100)
             {
                 errors.Add(new OperationError()
                 {
