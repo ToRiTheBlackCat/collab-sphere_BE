@@ -91,7 +91,7 @@ namespace CollabSphere.Application.Features.Subjects.UpdateSubject
                     await _unitOfWork.SaveChangesAsync();
                 }
 
-                //await _unitOfWork.CommitTransactionAsync();
+                await _unitOfWork.CommitTransactionAsync();
 
                 result.IsSuccess = true;
                 result.Message = "Updated subject successfully.";
