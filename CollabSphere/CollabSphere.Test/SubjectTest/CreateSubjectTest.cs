@@ -2,17 +2,10 @@
 using CollabSphere.Application.DTOs.SubjectGradeComponentModels;
 using CollabSphere.Application.DTOs.SubjectOutcomeModels;
 using CollabSphere.Application.DTOs.SubjectSyllabusModel;
-using CollabSphere.Application.DTOs.Validation;
-using CollabSphere.Application.Features.Academic.Commands.CreateSubject;
+using CollabSphere.Application.Features.Subjects.CreateSubject;
 using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollabSphere.Test.SubjectTest
 {

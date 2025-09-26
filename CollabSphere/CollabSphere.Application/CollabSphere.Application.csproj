@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Academic\**" />
+    <EmbeddedResource Remove="Features\Academic\**" />
+    <None Remove="Features\Academic\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="12.0.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
     <PackageReference Include="MediatR" Version="13.0.0" />
@@ -19,8 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Academic\Commands\" />
-    <Folder Include="Features\Academic\Queries\" />
     <Folder Include="Features\Staff\Queries\" />
   </ItemGroup>
 
