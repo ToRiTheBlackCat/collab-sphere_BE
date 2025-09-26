@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Academic\Commands\" />
     <Folder Include="Features\Academic\Queries\" />
     <Folder Include="Features\Staff\Queries\" />
   </ItemGroup>
