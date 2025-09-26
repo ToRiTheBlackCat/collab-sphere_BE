@@ -186,3 +186,197 @@ RETURNING subject_outcome_id;
 2025-09-26 12:06:33.200 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.AcademicUpdateSubject (CollabSphere.API) in 4617.891ms
 2025-09-26 12:06:33.203 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.AcademicUpdateSubject (CollabSphere.API)'
 2025-09-26 12:06:33.246 +07:00 [INF] Request finished HTTP/2 PUT https://localhost:7271/api/Subject/api/academic/subject - 200 null application/json; charset=utf-8 4748.5391ms
+2025-09-26 16:16:14.740 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-26 16:16:15.003 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-26 16:16:15.005 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-26 16:16:15.076 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-26 16:16:15.077 +07:00 [INF] Hosting environment: Development
+2025-09-26 16:16:15.078 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-26 16:16:18.373 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-26 16:16:18.560 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 199.7124ms
+2025-09-26 16:16:18.568 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-26 16:16:18.568 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_vs/browserLink - null null
+2025-09-26 16:16:18.576 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 9.1055ms
+2025-09-26 16:16:18.605 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_vs/browserLink - 200 null text/javascript; charset=UTF-8 37.8494ms
+2025-09-26 16:16:18.634 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-26 16:16:18.650 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 15.8405ms
+2025-09-26 16:16:23.809 +07:00 [INF] Request starting HTTP/2 PUT https://localhost:7271/api/Subject/api/academic/subject - application/json 428
+2025-09-26 16:16:24.680 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.AcademicUpdateSubject (CollabSphere.API)'
+2025-09-26 16:16:24.703 +07:00 [INF] Route matched with {action = "AcademicUpdateSubject", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AcademicUpdateSubject(CollabSphere.Application.Features.Subjects.UpdateSubject.UpdateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-26 16:16:24.710 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-26 16:16:26.555 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-09-26 16:16:28.511 +07:00 [INF] Executed DbCommand (88ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s3.subject_id, s3.is_active, s3.subject_code, s3.subject_name, s4.syllabus_id, s4.created_date, s4.description, s4.is_active, s4.no_credit, s4.subject_code, s4.subject_id, s4.syllabus_name, s4.subject_grade_component_id, s4.component_name, s4.reference_percentage, s4.subject_id0, s4.syllabus_id0, s4.subject_outcome_id, s4.outcome_detail, s4.syllabus_id1
+FROM (
+    SELECT s.subject_id, s.is_active, s.subject_code, s.subject_name
+    FROM subject AS s
+    WHERE s.subject_id = @__id_0
+    LIMIT 1
+) AS s3
+LEFT JOIN (
+    SELECT s0.syllabus_id, s0.created_date, s0.description, s0.is_active, s0.no_credit, s0.subject_code, s0.subject_id, s0.syllabus_name, s1.subject_grade_component_id, s1.component_name, s1.reference_percentage, s1.subject_id AS subject_id0, s1.syllabus_id AS syllabus_id0, s2.subject_outcome_id, s2.outcome_detail, s2.syllabus_id AS syllabus_id1
+    FROM subject_syllabus AS s0
+    LEFT JOIN subject_grade_component AS s1 ON s0.syllabus_id = s1.syllabus_id
+    LEFT JOIN subject_outcome AS s2 ON s0.syllabus_id = s2.syllabus_id
+) AS s4 ON s3.subject_id = s4.subject_id
+ORDER BY s3.subject_id, s4.syllabus_id, s4.subject_grade_component_id
+2025-09-26 16:16:28.556 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-09-26 16:16:28.614 +07:00 [INF] Executed DbCommand (36ms) [Parameters=[@__ToUpper_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT s3.subject_id, s3.is_active, s3.subject_code, s3.subject_name, s4.syllabus_id, s4.created_date, s4.description, s4.is_active, s4.no_credit, s4.subject_code, s4.subject_id, s4.syllabus_name, s4.subject_grade_component_id, s4.component_name, s4.reference_percentage, s4.subject_id0, s4.syllabus_id0, s4.subject_outcome_id, s4.outcome_detail, s4.syllabus_id1
+FROM (
+    SELECT s.subject_id, s.is_active, s.subject_code, s.subject_name
+    FROM subject AS s
+    WHERE upper(s.subject_code) = @__ToUpper_0
+    LIMIT 1
+) AS s3
+LEFT JOIN (
+    SELECT s0.syllabus_id, s0.created_date, s0.description, s0.is_active, s0.no_credit, s0.subject_code, s0.subject_id, s0.syllabus_name, s1.subject_grade_component_id, s1.component_name, s1.reference_percentage, s1.subject_id AS subject_id0, s1.syllabus_id AS syllabus_id0, s2.subject_outcome_id, s2.outcome_detail, s2.syllabus_id AS syllabus_id1
+    FROM subject_syllabus AS s0
+    LEFT JOIN subject_grade_component AS s1 ON s0.syllabus_id = s1.syllabus_id
+    LEFT JOIN subject_outcome AS s2 ON s0.syllabus_id = s2.syllabus_id
+) AS s4 ON s3.subject_id = s4.subject_id
+ORDER BY s3.subject_id, s4.syllabus_id, s4.subject_grade_component_id
+2025-09-26 16:16:28.625 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'CollabSphere.Application.Base.BaseCommandResult'.
+2025-09-26 16:16:28.638 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.AcademicUpdateSubject (CollabSphere.API) in 3928.5702ms
+2025-09-26 16:16:28.640 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.AcademicUpdateSubject (CollabSphere.API)'
+2025-09-26 16:16:28.645 +07:00 [INF] Request finished HTTP/2 PUT https://localhost:7271/api/Subject/api/academic/subject - 400 null application/json; charset=utf-8 4836.8345ms
+2025-09-26 16:16:44.548 +07:00 [INF] Request starting HTTP/2 PUT https://localhost:7271/api/Subject/api/academic/subject - application/json 427
+2025-09-26 16:16:44.555 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.AcademicUpdateSubject (CollabSphere.API)'
+2025-09-26 16:16:44.556 +07:00 [INF] Route matched with {action = "AcademicUpdateSubject", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AcademicUpdateSubject(CollabSphere.Application.Features.Subjects.UpdateSubject.UpdateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-26 16:16:44.634 +07:00 [INF] Executed DbCommand (34ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s3.subject_id, s3.is_active, s3.subject_code, s3.subject_name, s4.syllabus_id, s4.created_date, s4.description, s4.is_active, s4.no_credit, s4.subject_code, s4.subject_id, s4.syllabus_name, s4.subject_grade_component_id, s4.component_name, s4.reference_percentage, s4.subject_id0, s4.syllabus_id0, s4.subject_outcome_id, s4.outcome_detail, s4.syllabus_id1
+FROM (
+    SELECT s.subject_id, s.is_active, s.subject_code, s.subject_name
+    FROM subject AS s
+    WHERE s.subject_id = @__id_0
+    LIMIT 1
+) AS s3
+LEFT JOIN (
+    SELECT s0.syllabus_id, s0.created_date, s0.description, s0.is_active, s0.no_credit, s0.subject_code, s0.subject_id, s0.syllabus_name, s1.subject_grade_component_id, s1.component_name, s1.reference_percentage, s1.subject_id AS subject_id0, s1.syllabus_id AS syllabus_id0, s2.subject_outcome_id, s2.outcome_detail, s2.syllabus_id AS syllabus_id1
+    FROM subject_syllabus AS s0
+    LEFT JOIN subject_grade_component AS s1 ON s0.syllabus_id = s1.syllabus_id
+    LEFT JOIN subject_outcome AS s2 ON s0.syllabus_id = s2.syllabus_id
+) AS s4 ON s3.subject_id = s4.subject_id
+ORDER BY s3.subject_id, s4.syllabus_id, s4.subject_grade_component_id
+2025-09-26 16:16:44.672 +07:00 [INF] Executed DbCommand (35ms) [Parameters=[@__ToUpper_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT s3.subject_id, s3.is_active, s3.subject_code, s3.subject_name, s4.syllabus_id, s4.created_date, s4.description, s4.is_active, s4.no_credit, s4.subject_code, s4.subject_id, s4.syllabus_name, s4.subject_grade_component_id, s4.component_name, s4.reference_percentage, s4.subject_id0, s4.syllabus_id0, s4.subject_outcome_id, s4.outcome_detail, s4.syllabus_id1
+FROM (
+    SELECT s.subject_id, s.is_active, s.subject_code, s.subject_name
+    FROM subject AS s
+    WHERE upper(s.subject_code) = @__ToUpper_0
+    LIMIT 1
+) AS s3
+LEFT JOIN (
+    SELECT s0.syllabus_id, s0.created_date, s0.description, s0.is_active, s0.no_credit, s0.subject_code, s0.subject_id, s0.syllabus_name, s1.subject_grade_component_id, s1.component_name, s1.reference_percentage, s1.subject_id AS subject_id0, s1.syllabus_id AS syllabus_id0, s2.subject_outcome_id, s2.outcome_detail, s2.syllabus_id AS syllabus_id1
+    FROM subject_syllabus AS s0
+    LEFT JOIN subject_grade_component AS s1 ON s0.syllabus_id = s1.syllabus_id
+    LEFT JOIN subject_outcome AS s2 ON s0.syllabus_id = s2.syllabus_id
+) AS s4 ON s3.subject_id = s4.subject_id
+ORDER BY s3.subject_id, s4.syllabus_id, s4.subject_grade_component_id
+2025-09-26 16:16:44.675 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'CollabSphere.Application.Base.BaseCommandResult'.
+2025-09-26 16:16:44.677 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.AcademicUpdateSubject (CollabSphere.API) in 119.9533ms
+2025-09-26 16:16:44.678 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.AcademicUpdateSubject (CollabSphere.API)'
+2025-09-26 16:16:44.679 +07:00 [INF] Request finished HTTP/2 PUT https://localhost:7271/api/Subject/api/academic/subject - 400 null application/json; charset=utf-8 131.2575ms
+2025-09-26 16:19:03.113 +07:00 [INF] Request starting HTTP/2 PUT https://localhost:7271/api/Subject/api/academic/subject - application/json 945
+2025-09-26 16:19:03.122 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.SubjectController.AcademicUpdateSubject (CollabSphere.API)'
+2025-09-26 16:19:03.123 +07:00 [INF] Route matched with {action = "AcademicUpdateSubject", controller = "Subject"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AcademicUpdateSubject(CollabSphere.Application.Features.Subjects.UpdateSubject.UpdateSubjectCommand) on controller CollabSphere.API.Controllers.SubjectController (CollabSphere.API).
+2025-09-26 16:19:03.196 +07:00 [INF] Executed DbCommand (59ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s3.subject_id, s3.is_active, s3.subject_code, s3.subject_name, s4.syllabus_id, s4.created_date, s4.description, s4.is_active, s4.no_credit, s4.subject_code, s4.subject_id, s4.syllabus_name, s4.subject_grade_component_id, s4.component_name, s4.reference_percentage, s4.subject_id0, s4.syllabus_id0, s4.subject_outcome_id, s4.outcome_detail, s4.syllabus_id1
+FROM (
+    SELECT s.subject_id, s.is_active, s.subject_code, s.subject_name
+    FROM subject AS s
+    WHERE s.subject_id = @__id_0
+    LIMIT 1
+) AS s3
+LEFT JOIN (
+    SELECT s0.syllabus_id, s0.created_date, s0.description, s0.is_active, s0.no_credit, s0.subject_code, s0.subject_id, s0.syllabus_name, s1.subject_grade_component_id, s1.component_name, s1.reference_percentage, s1.subject_id AS subject_id0, s1.syllabus_id AS syllabus_id0, s2.subject_outcome_id, s2.outcome_detail, s2.syllabus_id AS syllabus_id1
+    FROM subject_syllabus AS s0
+    LEFT JOIN subject_grade_component AS s1 ON s0.syllabus_id = s1.syllabus_id
+    LEFT JOIN subject_outcome AS s2 ON s0.syllabus_id = s2.syllabus_id
+) AS s4 ON s3.subject_id = s4.subject_id
+ORDER BY s3.subject_id, s4.syllabus_id, s4.subject_grade_component_id
+2025-09-26 16:19:03.364 +07:00 [INF] Executed DbCommand (33ms) [Parameters=[@__ToUpper_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT s3.subject_id, s3.is_active, s3.subject_code, s3.subject_name, s4.syllabus_id, s4.created_date, s4.description, s4.is_active, s4.no_credit, s4.subject_code, s4.subject_id, s4.syllabus_name, s4.subject_grade_component_id, s4.component_name, s4.reference_percentage, s4.subject_id0, s4.syllabus_id0, s4.subject_outcome_id, s4.outcome_detail, s4.syllabus_id1
+FROM (
+    SELECT s.subject_id, s.is_active, s.subject_code, s.subject_name
+    FROM subject AS s
+    WHERE upper(s.subject_code) = @__ToUpper_0
+    LIMIT 1
+) AS s3
+LEFT JOIN (
+    SELECT s0.syllabus_id, s0.created_date, s0.description, s0.is_active, s0.no_credit, s0.subject_code, s0.subject_id, s0.syllabus_name, s1.subject_grade_component_id, s1.component_name, s1.reference_percentage, s1.subject_id AS subject_id0, s1.syllabus_id AS syllabus_id0, s2.subject_outcome_id, s2.outcome_detail, s2.syllabus_id AS syllabus_id1
+    FROM subject_syllabus AS s0
+    LEFT JOIN subject_grade_component AS s1 ON s0.syllabus_id = s1.syllabus_id
+    LEFT JOIN subject_outcome AS s2 ON s0.syllabus_id = s2.syllabus_id
+) AS s4 ON s3.subject_id = s4.subject_id
+ORDER BY s3.subject_id, s4.syllabus_id, s4.subject_grade_component_id
+2025-09-26 16:19:03.427 +07:00 [INF] Executed DbCommand (33ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s3.subject_id, s3.is_active, s3.subject_code, s3.subject_name, s4.syllabus_id, s4.created_date, s4.description, s4.is_active, s4.no_credit, s4.subject_code, s4.subject_id, s4.syllabus_name, s4.subject_grade_component_id, s4.component_name, s4.reference_percentage, s4.subject_id0, s4.syllabus_id0, s4.subject_outcome_id, s4.outcome_detail, s4.syllabus_id1
+FROM (
+    SELECT s.subject_id, s.is_active, s.subject_code, s.subject_name
+    FROM subject AS s
+    WHERE s.subject_id = @__id_0
+    LIMIT 1
+) AS s3
+LEFT JOIN (
+    SELECT s0.syllabus_id, s0.created_date, s0.description, s0.is_active, s0.no_credit, s0.subject_code, s0.subject_id, s0.syllabus_name, s1.subject_grade_component_id, s1.component_name, s1.reference_percentage, s1.subject_id AS subject_id0, s1.syllabus_id AS syllabus_id0, s2.subject_outcome_id, s2.outcome_detail, s2.syllabus_id AS syllabus_id1
+    FROM subject_syllabus AS s0
+    LEFT JOIN subject_grade_component AS s1 ON s0.syllabus_id = s1.syllabus_id
+    LEFT JOIN subject_outcome AS s2 ON s0.syllabus_id = s2.syllabus_id
+) AS s4 ON s3.subject_id = s4.subject_id
+ORDER BY s3.subject_id, s4.syllabus_id, s4.subject_grade_component_id
+2025-09-26 16:19:03.566 +07:00 [INF] Executed DbCommand (33ms) [Parameters=[@p3='?' (DbType = Int32), @p0='?' (DbType = Boolean), @p1='?', @p2='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE subject SET is_active = @p0, subject_code = @p1, subject_name = @p2
+WHERE subject_id = @p3;
+2025-09-26 16:19:03.686 +07:00 [INF] Executed DbCommand (33ms) [Parameters=[@p7='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Int32), @p4='?', @p5='?' (DbType = Int32), @p6='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE subject_syllabus SET created_date = @p0, description = @p1, is_active = @p2, no_credit = @p3, subject_code = @p4, subject_id = @p5, syllabus_name = @p6
+WHERE syllabus_id = @p7;
+2025-09-26 16:19:03.764 +07:00 [INF] Executed DbCommand (34ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s.subject_grade_component_id, s.component_name, s.reference_percentage, s.subject_id, s.syllabus_id
+FROM subject_grade_component AS s
+2025-09-26 16:19:03.837 +07:00 [INF] Executed DbCommand (32ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM subject_grade_component
+WHERE subject_grade_component_id = @p0;
+2025-09-26 16:19:03.940 +07:00 [INF] Executed DbCommand (31ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM subject_grade_component
+WHERE subject_grade_component_id = @p0;
+2025-09-26 16:19:04.039 +07:00 [INF] Executed DbCommand (31ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM subject_grade_component
+WHERE subject_grade_component_id = @p0;
+2025-09-26 16:19:04.162 +07:00 [INF] Executed DbCommand (37ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_grade_component (component_name, reference_percentage, subject_id, syllabus_id)
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING subject_grade_component_id;
+2025-09-26 16:19:04.280 +07:00 [INF] Executed DbCommand (37ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_grade_component (component_name, reference_percentage, subject_id, syllabus_id)
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING subject_grade_component_id;
+2025-09-26 16:19:04.380 +07:00 [INF] Executed DbCommand (33ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_grade_component (component_name, reference_percentage, subject_id, syllabus_id)
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING subject_grade_component_id;
+2025-09-26 16:19:04.463 +07:00 [INF] Executed DbCommand (34ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s.subject_outcome_id, s.outcome_detail, s.syllabus_id
+FROM subject_outcome AS s
+2025-09-26 16:19:04.529 +07:00 [INF] Executed DbCommand (31ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM subject_outcome
+WHERE subject_outcome_id = @p0;
+2025-09-26 16:19:04.628 +07:00 [INF] Executed DbCommand (33ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM subject_outcome
+WHERE subject_outcome_id = @p0;
+2025-09-26 16:19:04.731 +07:00 [INF] Executed DbCommand (35ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-26 16:19:04.832 +07:00 [INF] Executed DbCommand (34ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-26 16:19:04.939 +07:00 [INF] Executed DbCommand (42ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO subject_outcome (outcome_detail, syllabus_id)
+VALUES (@p0, @p1)
+RETURNING subject_outcome_id;
+2025-09-26 16:19:05.021 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.BaseCommandResult'.
+2025-09-26 16:19:05.024 +07:00 [INF] Executed action CollabSphere.API.Controllers.SubjectController.AcademicUpdateSubject (CollabSphere.API) in 1899.9548ms
+2025-09-26 16:19:05.026 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.SubjectController.AcademicUpdateSubject (CollabSphere.API)'
+2025-09-26 16:19:05.027 +07:00 [INF] Request finished HTTP/2 PUT https://localhost:7271/api/Subject/api/academic/subject - 200 null application/json; charset=utf-8 1916.5392ms

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Staff.Commands.CreateClass
+namespace CollabSphere.Application.Features.Classes.Commands.CreateClass
 {
     public class CreateClassCommand: ICommand<BaseCommandResult>
     {
@@ -25,7 +25,7 @@ namespace CollabSphere.Application.Features.Staff.Commands.CreateClass
         public string EnrolKey { get; init; }
 
         [MinLength(1)]
-        public List<int> StudentIdList { get; init; } = new();
+        public List<int> StudentIds { get; init; } = new();
 
         [Required]
         public bool IsActive { get; init; }
