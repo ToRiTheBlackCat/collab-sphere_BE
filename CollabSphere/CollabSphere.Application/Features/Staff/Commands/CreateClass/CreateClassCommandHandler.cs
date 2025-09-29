@@ -43,14 +43,14 @@ namespace CollabSphere.Application.Features.Staff.Commands.CreateClass
                     LecturerId = request.LecturerId,
                     LecturerName = lecturer!.Fullname,
                     SubjectId = request.SubjectId,
-                    MemberCount = request.StudentIdList.Count(),
+                    MemberCount = request.StudentIds.Count(),
                     TeamCount = 0
                 };
 
                 await _unitOfWork.ClassRepo.Create(addClass);
                 await _unitOfWork.SaveChangesAsync();
 
-                foreach (var studentId in request.StudentIdList)
+                foreach (var studentId in request.StudentIds)
                 {
                     var student = await _unitOfWork.StudentRepo.GetById(studentId);
                     var classMember = new ClassMember()
@@ -109,16 +109,16 @@ namespace CollabSphere.Application.Features.Staff.Commands.CreateClass
             }
 
             // Check students
-            for (int index = 0; index < request.StudentIdList.Count; index++)
+            for (int index = 0; index < request.StudentIds.Count; index++)
             {
-                var studentId = request.StudentIdList[index];
+                var studentId = request.StudentIds[index];
                 var student = await _unitOfWork.StudentRepo.GetById(studentId);
 
                 if (student == null)
                 {
                     var error = new OperationError()
                     {
-                        Field = $"{nameof(request.StudentIdList)}[{index}]",
+                        Field = $"{nameof(request.StudentIds)}[{index}]",
                         Message = $"No Student with ID: {studentId}"
                     };
                     errors.Add(error);
