@@ -35,6 +35,8 @@ namespace CollabSphere.Test.SubjectTest
             _unitOfWorkMock.Setup(u => u.SubjectOutcomeRepo).Returns(outcomeRepo.Object);
             _unitOfWorkMock.Setup(u => u.SubjectGradeComponentRepo).Returns(gradeRepo.Object);
 
+            subjectRepo.Setup(x => x.GetBySubjectCode("CS202")).ReturnsAsync((Subject?)null);
+    
             var command = new CreateSubjectCommand
             {
                 SubjectName = "Database Systems",
@@ -117,7 +119,7 @@ namespace CollabSphere.Test.SubjectTest
         }
 
         [Fact]
-        public async Task HandleCommand_ShouldFail_WhenDuplicateSubjectCode()
+            public async Task HandleCommand_ShouldFail_WhenDuplicateSubjectCode()
         {
             // Arrange
             var subjectRepo = new Mock<ISubjectRepository>();
@@ -130,11 +132,8 @@ namespace CollabSphere.Test.SubjectTest
             _unitOfWorkMock.Setup(u => u.SubjectOutcomeRepo).Returns(outcomeRepo.Object);
             _unitOfWorkMock.Setup(u => u.SubjectGradeComponentRepo).Returns(gradeRepo.Object);
 
-            var existing = new List<Subject>
-            {
-                new Subject { SubjectCode = "CS101", SubjectName = "Programming" }
-            };
-            subjectRepo.Setup(u => u.GetAll()).ReturnsAsync(existing);
+            var subject = new Subject { SubjectCode = "CS101", SubjectName = "Programming" };
+            subjectRepo.Setup(u => u.GetBySubjectCode("CS101")).ReturnsAsync(subject);
 
             var command = new CreateSubjectCommand
             {
