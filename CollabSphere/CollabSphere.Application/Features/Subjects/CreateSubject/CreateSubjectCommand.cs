@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CollabSphere.Application.Features.Subjects.CreateSubject
 {
-    public class CreateSubjectCommand : ICommand<BaseCommandResult>
+    public class CreateSubjectCommand : ICommand
     {
         [Required]
         public string SubjectName { get; set; }

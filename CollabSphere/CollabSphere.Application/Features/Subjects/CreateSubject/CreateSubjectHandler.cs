@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Subjects.CreateSubject
 {
-    public class CreateSubjectHandler : BaseCommandHandler<CreateSubjectCommand>
+    public class CreateSubjectHandler : CommandHandler<CreateSubjectCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         public CreateSubjectHandler(IUnitOfWork unitOfWork)
@@ -17,9 +17,9 @@ namespace CollabSphere.Application.Features.Subjects.CreateSubject
             _unitOfWork = unitOfWork;
         }
 
-        protected override async Task<BaseCommandResult> HandleCommand(CreateSubjectCommand request, CancellationToken cancellationToken)
+        protected override async Task<CommandResult> HandleCommand(CreateSubjectCommand request, CancellationToken cancellationToken)
         {
-            var result = new BaseCommandResult()
+            var result = new CommandResult()
             {
                 IsSuccess = false,
                 IsValidInput = true,
@@ -111,8 +111,7 @@ namespace CollabSphere.Application.Features.Subjects.CreateSubject
             }
 
             // Validate Subject Code
-            var existSubject = (await _unitOfWork.SubjectRepo.GetAll())
-                .FirstOrDefault(x => x.SubjectCode.ToUpper().Equals(request.SubjectCode.Trim().ToUpper()));
+            var existSubject = await _unitOfWork.SubjectRepo.GetBySubjectCode(request.SubjectCode);
             if (existSubject != null)
             {
                 errors.Add(new OperationError()

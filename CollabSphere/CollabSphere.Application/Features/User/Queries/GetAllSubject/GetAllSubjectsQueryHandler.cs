@@ -4,7 +4,7 @@ using CollabSphere.Application.DTOs.Validation;
 
 namespace CollabSphere.Application.Features.User.Queries.GetAllSubject
 {
-    public class GetAllSubjectsQueryHandler : BaseQueryHandler<GetAllSubjectsQuery, GetAllSubjectResult>
+    public class GetAllSubjectsQueryHandler : QueryHandler<GetAllSubjectsQuery, GetAllSubjectResult>
     {
         private readonly IUnitOfWork _unitOfWork;
         public GetAllSubjectsQueryHandler(IUnitOfWork unitOfWork)

@@ -10,24 +10,24 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Classes.Commands.CreateClass
 {
-    public class CreateClassCommand: ICommand<BaseCommandResult>
+    public class CreateClassCommand: ICommand
     {
         [Required]
-        public string ClassName { get; init; } = string.Empty;
+        public string ClassName { get; set; } = string.Empty;
 
         [Required]
-        public int SubjectId { get; init; }
+        public int SubjectId { get; set; }
 
         [Required]
-        public int LecturerId { get; init; }
+        public int LecturerId { get; set; }
 
         [Required]
-        public string EnrolKey { get; init; }
+        public string EnrolKey { get; set; }
 
         [MinLength(1)]
-        public List<int> StudentIds { get; init; } = new();
+        public List<int> StudentIds { get; set; } = new();
 
         [Required]
-        public bool IsActive { get; init; }
+        public bool IsActive { get; set; }
     }
 }
