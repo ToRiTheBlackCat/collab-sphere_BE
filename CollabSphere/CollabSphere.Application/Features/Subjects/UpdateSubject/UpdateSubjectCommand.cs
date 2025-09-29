@@ -1,16 +1,10 @@
 ﻿using CollabSphere.Application.Base;
 using CollabSphere.Application.DTOs.SubjectSyllabusModel;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace CollabSphere.Application.Features.Subjects.UpdateSubject
 {
-    public class UpdateSubjectCommand : ICommand<BaseCommandResult>
+    public class UpdateSubjectCommand : ICommand
     {
         [Required]
         public int SubjectId { get; set; }

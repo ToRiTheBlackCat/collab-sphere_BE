@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Subjects.UpdateSubject
 {
-    public class UpdateSubjectHandler : BaseCommandHandler<UpdateSubjectCommand>
+    public class UpdateSubjectHandler : CommandHandler<UpdateSubjectCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         public UpdateSubjectHandler(IUnitOfWork unitOfWork)
@@ -17,9 +17,9 @@ namespace CollabSphere.Application.Features.Subjects.UpdateSubject
             _unitOfWork = unitOfWork;
         }
 
-        protected override async Task<BaseCommandResult> HandleCommand(UpdateSubjectCommand request, CancellationToken cancellationToken)
+        protected override async Task<CommandResult> HandleCommand(UpdateSubjectCommand request, CancellationToken cancellationToken)
         {
-            var result = new BaseCommandResult()
+            var result = new CommandResult()
             {
                 IsSuccess = false,
                 IsValidInput = true,

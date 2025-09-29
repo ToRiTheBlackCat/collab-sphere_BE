@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Staff.Commands.CreateClass
 {
-    public class CreateClassCommandHandler : BaseCommandHandler<CreateClassCommand>
+    public class CreateClassCommandHandler : CommandHandler<CreateClassCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -19,9 +19,9 @@ namespace CollabSphere.Application.Features.Staff.Commands.CreateClass
             _unitOfWork = unitOfWork;
         }
 
-        protected override async Task<BaseCommandResult> HandleCommand(CreateClassCommand request, CancellationToken cancellationToken)
+        protected override async Task<CommandResult> HandleCommand(CreateClassCommand request, CancellationToken cancellationToken)
         {
-            var result = new BaseCommandResult()
+            var result = new CommandResult()
             {
                 IsSuccess = false,
                 IsValidInput = true,
