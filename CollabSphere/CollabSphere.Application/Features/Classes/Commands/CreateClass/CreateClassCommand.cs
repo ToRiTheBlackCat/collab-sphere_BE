@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Staff.Commands.CreateClass
+namespace CollabSphere.Application.Features.Classes.Commands.CreateClass
 {
     public class CreateClassCommand: ICommand
     {

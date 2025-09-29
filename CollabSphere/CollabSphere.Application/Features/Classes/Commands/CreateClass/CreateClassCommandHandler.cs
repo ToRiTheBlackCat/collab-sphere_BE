@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Staff.Commands.CreateClass
+namespace CollabSphere.Application.Features.Classes.Commands.CreateClass
 {
     public class CreateClassCommandHandler : CommandHandler<CreateClassCommand>
     {
@@ -25,15 +25,16 @@ namespace CollabSphere.Application.Features.Staff.Commands.CreateClass
             {
                 IsSuccess = false,
                 IsValidInput = true,
+                Message = string.Empty
             };
 
             // Start operation
-            await _unitOfWork.BeginTransactionAsync();
-
             try
             {
-                var lecturer = await _unitOfWork.LecturerRepo.GetById(request.LecturerId);
+                await _unitOfWork.BeginTransactionAsync();
 
+                // Insert Class
+                var lecturer = await _unitOfWork.LecturerRepo.GetById(request.LecturerId);
                 var addClass = new Class()
                 {
                     ClassName = request.ClassName,
@@ -44,23 +45,23 @@ namespace CollabSphere.Application.Features.Staff.Commands.CreateClass
                     LecturerName = lecturer!.Fullname,
                     SubjectId = request.SubjectId,
                     MemberCount = request.StudentIds.Count(),
-                    TeamCount = 0
+                    TeamCount = 0,
                 };
 
                 await _unitOfWork.ClassRepo.Create(addClass);
                 await _unitOfWork.SaveChangesAsync();
 
+                // Insert Class Members
                 foreach (var studentId in request.StudentIds)
                 {
                     var student = await _unitOfWork.StudentRepo.GetById(studentId);
                     var classMember = new ClassMember()
                     {
-                        ClassId = addClass.ClassId,
+                        Class = addClass,
                         Fullname = student!.Fullname,
                         StudentId = studentId,
                         IsGrouped = false,
                         Status = 1,
-
                     };
                     
                     await _unitOfWork.ClassMemberRepo.Create(classMember);
@@ -91,7 +92,7 @@ namespace CollabSphere.Application.Features.Staff.Commands.CreateClass
                 var error = new OperationError()
                 {
                     Field = nameof(request.SubjectId),
-                    Message = $"No subject with ID: {request.SubjectId}"
+                    Message = $"No subject with ID '{request.SubjectId}' exist."
                 };
                 errors.Add(error);
             }
@@ -103,12 +104,13 @@ namespace CollabSphere.Application.Features.Staff.Commands.CreateClass
                 var error = new OperationError()
                 {
                     Field = nameof(request.LecturerId),
-                    Message = $"No lecturer with ID: {request.LecturerId}"
+                    Message = $"No lecturer with ID '{request.LecturerId}' exist."
                 };
                 errors.Add(error);
             }
 
             // Check students
+            //var allStudents = await _unitOfWork.StudentRepo.GetAll();
             for (int index = 0; index < request.StudentIds.Count; index++)
             {
                 var studentId = request.StudentIds[index];
@@ -119,7 +121,7 @@ namespace CollabSphere.Application.Features.Staff.Commands.CreateClass
                     var error = new OperationError()
                     {
                         Field = $"{nameof(request.StudentIds)}[{index}]",
-                        Message = $"No Student with ID: {studentId}"
+                        Message = $"No Student with ID '{studentId}' exist."
                     };
                     errors.Add(error);
                 }

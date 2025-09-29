@@ -1,4 +1,4 @@
-﻿using CollabSphere.Application.Features.Staff.Commands.CreateClass;
+﻿using CollabSphere.Application.Features.Classes.Commands.CreateClass;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,8 +18,13 @@ namespace CollabSphere.API.Controllers
 
         // POST api/<ClassController>
         [HttpPost("/api/staff/class")]
-        public async Task<IActionResult> Post([FromBody] CreateClassCommand command, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> StaffCreateClass([FromBody] CreateClassCommand command, CancellationToken cancellationToken = default)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState.ErrorCount);
+            }
+
             var result = await _mediator.Send(command);
 
             if (!result.IsValidInput)
