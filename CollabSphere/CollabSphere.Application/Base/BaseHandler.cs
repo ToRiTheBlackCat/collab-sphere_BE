@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Base
 {
-    public abstract class BaseQueryHandler<TQuery, TResult> : IRequestHandler<TQuery, TResult>
-        where TQuery : IRequest<TResult>
-        where TResult : BaseQueryResult, new()
+    public abstract class BaseHandler<TRequest, TResult> : IRequestHandler<TRequest, TResult>
+        where TRequest : IRequest<TResult>
+        where TResult : BaseHandlerResult, new()
     {
-        public async Task<TResult> Handle(TQuery request, CancellationToken cancellationToken)
+        public async Task<TResult> Handle(TRequest request, CancellationToken cancellationToken)
         {
             var result = new TResult()
             {
@@ -28,6 +28,7 @@ namespace CollabSphere.Application.Base
             catch (Exception ex)
             {
                 result.Message = ex.Message;
+                return result;
             }
 
             if (errorList.Any())
@@ -42,7 +43,19 @@ namespace CollabSphere.Application.Base
             return result;
         }
 
-        protected abstract Task<TResult> HandleCommand(TQuery request, CancellationToken cancellationToken);
-        protected abstract Task ValidateRequest(List<OperationError> errors, TQuery request);
+        protected abstract Task<TResult> HandleCommand(TRequest request, CancellationToken cancellationToken);
+        protected abstract Task ValidateRequest(List<OperationError> errors, TRequest request);
+    }
+
+    public abstract class CommandHandler<TRequest> : BaseHandler<TRequest, CommandResult>
+        where TRequest : ICommand
+    {
+    }
+
+    public abstract class QueryHandler<TQuery, TResult> : BaseHandler<TQuery, TResult>
+        where TQuery : IQuery<TResult>
+        where TResult : QueryResult, new()
+    {
+
     }
 }

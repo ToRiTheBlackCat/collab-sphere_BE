@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Base
 {
-    public abstract class BaseQueryResult
+    public class BaseHandlerResult
     {
         public List<OperationError> ErrorList { get; set; } = new();
         public bool IsValidInput { get; set; } = true;
