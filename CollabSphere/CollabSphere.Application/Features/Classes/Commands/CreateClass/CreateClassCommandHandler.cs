@@ -92,7 +92,7 @@ namespace CollabSphere.Application.Features.Classes.Commands.CreateClass
                 var error = new OperationError()
                 {
                     Field = nameof(request.SubjectId),
-                    Message = $"No subject with ID: {request.SubjectId}"
+                    Message = $"No subject with ID '{request.SubjectId}' exist."
                 };
                 errors.Add(error);
             }
@@ -104,7 +104,7 @@ namespace CollabSphere.Application.Features.Classes.Commands.CreateClass
                 var error = new OperationError()
                 {
                     Field = nameof(request.LecturerId),
-                    Message = $"No lecturer with ID: {request.LecturerId}"
+                    Message = $"No lecturer with ID '{request.LecturerId}' exist."
                 };
                 errors.Add(error);
             }

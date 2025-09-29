@@ -20,7 +20,7 @@ namespace CollabSphere.API.Controllers
         [HttpPost("/api/staff/class")]
         public async Task<IActionResult> StaffCreateClass([FromBody] CreateClassCommand command, CancellationToken cancellationToken = default)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState.ErrorCount);
             }
