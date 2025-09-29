@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using CollabSphere.Application.DTOs.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Base
 {
-    public interface ICommand<TResult> : IRequest<TResult>
+    public class CommandResult : BaseHandlerResult
     {
     }
 }

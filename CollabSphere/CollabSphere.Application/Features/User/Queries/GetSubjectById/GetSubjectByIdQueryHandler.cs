@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.User.Queries.GetSubjectById
 {
-    public class GetSubjectByIdQueryHandler : BaseQueryHandler<GetSubjectByIdQuery, GetSubjectByIdResult>
+    public class GetSubjectByIdQueryHandler : QueryHandler<GetSubjectByIdQuery, GetSubjectByIdResult>
     {
         private readonly IUnitOfWork _unitOfWork;
 
