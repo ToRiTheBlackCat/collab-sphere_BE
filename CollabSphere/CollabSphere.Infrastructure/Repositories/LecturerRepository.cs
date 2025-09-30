@@ -1,6 +1,8 @@
-﻿using CollabSphere.Domain.Entities;
+using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
+using CollabSphere.Infrastructure.Base;
 using CollabSphere.Infrastructure.PostgreDbContext;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +11,11 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Infrastructure.Repositories
 {
-    public class LecturerRepository : ILecturerRepository
+    public class LecturerRepository : GenericRepository<Lecturer>, ILecturerRepository
     {
-        private readonly collab_sphereContext _context;
-        public LecturerRepository(collab_sphereContext context)
+        public LecturerRepository(collab_sphereContext context) : base(context) 
         {
-            _context = context;
+        
         }
 
         public async Task InsertLecturer(Lecturer lecturer)
