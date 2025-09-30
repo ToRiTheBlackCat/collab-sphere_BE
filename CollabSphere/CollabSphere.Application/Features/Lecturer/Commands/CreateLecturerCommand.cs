@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Lecturer.Commands
 {
-    public class LecturerSignUpCommand : IRequest<(bool, string)>
+    public class CreateLecturerCommand : IRequest<(bool, string)>
     {
-        public LecturerSignUpRequestDto Dto { get; set; }
-        public LecturerSignUpCommand(LecturerSignUpRequestDto dto)
+        public CreateLecturerRequestDto Dto { get; set; }
+        public CreateLecturerCommand(CreateLecturerRequestDto dto)
         {
             Dto = dto;
         }

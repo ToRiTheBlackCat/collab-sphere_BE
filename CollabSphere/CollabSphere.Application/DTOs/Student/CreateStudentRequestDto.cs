@@ -5,20 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.DTOs.Lecturer
+namespace CollabSphere.Application.DTOs.Student
 {
-    public class LecturerSignUpRequestDto
+    public class CreateStudentRequestDto
     {
-        [Required]
-        public string OtpCode { get; set; } = string.Empty;
         [Required]
         [EmailAddress]
         public string Email { get; set; } = string.Empty;
         [Required]
         public string Password { get; set; } = string.Empty;
-        [Required]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-        public string ConfirmPassword { get; set; } = string.Empty;
         [Required]
         public string FullName { get; set; } = string.Empty;
         [Required]
@@ -32,7 +27,7 @@ namespace CollabSphere.Application.DTOs.Lecturer
         [Required]
         public string School { get; set; } = string.Empty;
         [Required]
-        public string LecturerCode { get; set; } = string.Empty;
+        public string StudentCode { get; set; } = string.Empty;
         [Required]
         public string Major { get; set; } = string.Empty;
     }

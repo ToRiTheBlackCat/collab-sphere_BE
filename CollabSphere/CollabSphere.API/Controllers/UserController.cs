@@ -1,5 +1,4 @@
 ﻿using CollabSphere.Application.Common;
-using CollabSphere.Application.DTOs.HeadDepartment;
 using CollabSphere.Application.DTOs.Image;
 using CollabSphere.Application.DTOs.Lecturer;
 using CollabSphere.Application.DTOs.OTP;
@@ -59,20 +58,36 @@ namespace CollabSphere.API.Controllers
                : BadRequest(new { result.Item1, result.Item2 });
         }
         
-        [HttpPost("api/admin/user/head-department_staff")]
-        public async Task<IActionResult> CreateHeadDepartment_StaffAccount([FromBody] HeadDepart_StaffSignUpRequestDto request)
+        [HttpPost("/api/lecturer")]
+        public async Task<IActionResult> CreateLecturerAccount([FromBody] CreateLecturerRequestDto request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await _mediator.Send(new HeadDepart_StaffSignUpCommand(request));
+            var result = await _mediator.Send(new CreateLecturerCommand(request));
 
             return result.Item1
                ? Ok(new { result.Item1, result.Item2 })
                : BadRequest(new { result.Item1, result.Item2 });
         }
+
+        [HttpPost("/api/student")]
+        public async Task<IActionResult> CreateStudentAccount([FromBody] CreateStudentRequestDto request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _mediator.Send(new CreateStudentCommand(request));
+
+            return result.Item1
+               ? Ok(new { result.Item1, result.Item2 })
+               : BadRequest(new { result.Item1, result.Item2 });
+        }
+
 
         [HttpPost("upload-avatar")]
         [Consumes("multipart/form-data")]

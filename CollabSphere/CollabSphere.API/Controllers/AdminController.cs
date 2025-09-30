@@ -1,0 +1,35 @@
+﻿using CollabSphere.Application.DTOs.User;
+using CollabSphere.Application.Features.User.Commands;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace CollabSphere.API.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AdminController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+
+        public AdminController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        [HttpPost("/api/admin/user/head-department_staff")]
+        public async Task<IActionResult> CreateHeadDepartment_StaffAccount([FromBody] HeadDepart_StaffSignUpRequestDto request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _mediator.Send(new HeadDepart_StaffSignUpCommand(request));
+
+            return result.Item1
+               ? Ok(new { result.Item1, result.Item2 })
+               : BadRequest(new { result.Item1, result.Item2 });
+        }
+    }
+}

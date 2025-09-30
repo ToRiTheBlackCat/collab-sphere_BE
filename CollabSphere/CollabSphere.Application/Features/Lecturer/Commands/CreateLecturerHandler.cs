@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Lecturer.Commands
 {
-    public class LecturerSignUpHandler : IRequestHandler<LecturerSignUpCommand, (bool, string)>
+    public class CreateLecturerHandler : IRequestHandler<CreateLecturerCommand, (bool, string)>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configure;
@@ -21,9 +21,9 @@ namespace CollabSphere.Application.Features.Lecturer.Commands
 
         private static string SUCCESS = "Create new lecturer successfully";
         private static string EXCEPTION = "Exception when create new lecturer";
-        private static string EXISTED = "Already exist lecturer with that email. Try other email to sign up";
+        private static string EXISTED = "Already exist lecturer with that email. Try other email to create accounts";
 
-        public LecturerSignUpHandler(IUnitOfWork unitOfWork,
+        public CreateLecturerHandler(IUnitOfWork unitOfWork,
                                     IConfiguration configure,
                                     ILogger<StudentSignUpHandler> logger)
         {
@@ -32,7 +32,7 @@ namespace CollabSphere.Application.Features.Lecturer.Commands
             _logger = logger;
         }
 
-        public async Task<(bool, string)> Handle(LecturerSignUpCommand request, CancellationToken cancellationToken)
+        public async Task<(bool, string)> Handle(CreateLecturerCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -45,7 +45,7 @@ namespace CollabSphere.Application.Features.Lecturer.Commands
                 {
                     return (false, EXISTED);
                 }
-
+                //Hash password
                 var hashedPassword = SHA256Encoding.ComputeSHA256Hash(request.Dto.Password + _configure["SecretString"]);
 
                 //Create new user
@@ -69,7 +69,7 @@ namespace CollabSphere.Application.Features.Lecturer.Commands
                     Fullname = request.Dto.FullName,
                     Address = request.Dto.Address,
                     PhoneNumber = request.Dto.PhoneNumber,
-                    Yob = request.Dto.Yob,
+                    Yob = request.Dto.Yob ?? 2025,
                     AvatarImg = "",
                     School = request.Dto.School,
                     LecturerCode = request.Dto.LecturerCode,
