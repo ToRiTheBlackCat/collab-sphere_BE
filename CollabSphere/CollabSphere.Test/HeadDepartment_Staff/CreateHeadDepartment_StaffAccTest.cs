@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
-namespace CollabSphere.Test.Users
+namespace CollabSphere.Test.HeadDepartment_Staff
 {
     public class CreateHeadDepartment_StaffAccTest
     {
