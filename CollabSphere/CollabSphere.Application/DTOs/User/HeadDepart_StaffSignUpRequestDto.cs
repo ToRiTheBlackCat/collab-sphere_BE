@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.DTOs.User
 {
-    public class Staff_AcademicSignUpRequestDto
+    public class HeadDepart_StaffSignUpRequestDto
     {
         [Required]
         public bool isStaff { get; set; }

@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Common;
+using CollabSphere.Application.DTOs.HeadDepartment;
 using CollabSphere.Application.DTOs.Image;
 using CollabSphere.Application.DTOs.Lecturer;
 using CollabSphere.Application.DTOs.OTP;
@@ -57,31 +58,16 @@ namespace CollabSphere.API.Controllers
                ? Ok(new { result.Item1, result.Item2 })
                : BadRequest(new { result.Item1, result.Item2 });
         }
-
-        [HttpPost("lecturer/signup")]
-        public async Task<IActionResult> SignUpLecturerAccount([FromBody] LecturerSignUpRequestDto request)
+        
+        [HttpPost("api/admin/user/head-department_staff")]
+        public async Task<IActionResult> CreateHeadDepartment_StaffAccount([FromBody] HeadDepart_StaffSignUpRequestDto request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var result = await _mediator.Send(new LecturerSignUpCommand(request));
-
-            return result.Item1
-               ? Ok(new { result.Item1, result.Item2 })
-               : BadRequest(new { result.Item1, result.Item2 });
-        }
-
-        [HttpPost("staff_academic/signup")]
-        public async Task<IActionResult> SignUpStaff_AcademicAccount([FromBody] Staff_AcademicSignUpRequestDto request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var result = await _mediator.Send(new Staff_AcademicSignUpCommand(request));
+            var result = await _mediator.Send(new HeadDepart_StaffSignUpCommand(request));
 
             return result.Item1
                ? Ok(new { result.Item1, result.Item2 })

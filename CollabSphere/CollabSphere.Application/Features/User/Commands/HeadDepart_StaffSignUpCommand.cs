@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.User.Commands
 {
-    public class Staff_AcademicSignUpCommand : IRequest<(bool, string)>
+    public class HeadDepart_StaffSignUpCommand : IRequest<(bool, string)>
     {
-        public Staff_AcademicSignUpRequestDto Dto { get; set; }
-        public Staff_AcademicSignUpCommand(Staff_AcademicSignUpRequestDto dto)
+        public HeadDepart_StaffSignUpRequestDto Dto { get; set; }
+        public HeadDepart_StaffSignUpCommand(HeadDepart_StaffSignUpRequestDto dto)
         {
             Dto = dto;
         }

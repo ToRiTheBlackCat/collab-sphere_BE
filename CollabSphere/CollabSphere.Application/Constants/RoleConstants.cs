@@ -9,7 +9,7 @@ namespace CollabSphere.Application.Constants
     public static class RoleConstants
     {
         public const int ADMIN = 1;
-        public const int ACADEMIC = 2;
+        public const int HEAD_DEPARTMENT = 2;
         public const int STAFF = 3;
         public const int LECTURER = 4;
         public const int STUDENT = 5;

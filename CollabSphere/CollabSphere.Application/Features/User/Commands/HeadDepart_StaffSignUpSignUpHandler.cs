@@ -13,17 +13,17 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.User.Commands
 {
-    public class Staff_AcademicSignUpHandler : IRequestHandler<Staff_AcademicSignUpCommand, (bool, string)>
+    public class HeadDepart_StaffSignUpSignUpHandler : IRequestHandler<HeadDepart_StaffSignUpCommand, (bool, string)>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configure;
         private readonly ILogger<StudentSignUpHandler> _logger;
 
-        private static string SUCCESS = "Create new staff or academic successfully";
-        private static string EXCEPTION = "Exception when create new staff or academic";
-        private static string EXISTED = "Already exist staff or academic with that email. Try other email to sign up";
+        private static string SUCCESS = "Create new staff or head department successfully";
+        private static string EXCEPTION = "Exception when create new staff or head department";
+        private static string EXISTED = "Already exist staff or head department with that email. Try other email to create account";
 
-        public Staff_AcademicSignUpHandler(IUnitOfWork unitOfWork,
+        public HeadDepart_StaffSignUpSignUpHandler(IUnitOfWork unitOfWork,
                                     IConfiguration configure,
                                     ILogger<StudentSignUpHandler> logger)
         {
@@ -32,7 +32,7 @@ namespace CollabSphere.Application.Features.User.Commands
             _logger = logger;
         }
 
-        public async Task<(bool, string)> Handle(Staff_AcademicSignUpCommand request, CancellationToken cancellationToken)
+        public async Task<(bool, string)> Handle(HeadDepart_StaffSignUpCommand request, CancellationToken cancellationToken)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace CollabSphere.Application.Features.User.Commands
                 {
                     Email = request.Dto.Email,
                     Password = hashedPassword,
-                    RoleId = request.Dto.isStaff ? RoleConstants.STAFF : RoleConstants.ACADEMIC,
+                    RoleId = request.Dto.isStaff ? RoleConstants.STAFF : RoleConstants.HEAD_DEPARTMENT,
                     IsTeacher = false,
                     CreatedDate = DateTime.UtcNow,
                     IsActive = true
@@ -71,7 +71,6 @@ namespace CollabSphere.Application.Features.User.Commands
 
                 return (false, EXCEPTION);
             }
-
         }
     }
 }
