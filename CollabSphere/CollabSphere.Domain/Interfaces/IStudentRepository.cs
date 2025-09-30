@@ -10,5 +10,7 @@ namespace CollabSphere.Domain.Intefaces
 {
     public interface IStudentRepository : IGenericRepository<Student>
     {
+        Task InsertStudent(Student student);
+        void UpdateStudent(Student student);
     }
 }
