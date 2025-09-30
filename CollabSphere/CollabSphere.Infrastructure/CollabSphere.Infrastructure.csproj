@@ -9,14 +9,13 @@
 	
 
 	<ItemGroup>
-		<ProjectReference Include="..\CollabSphere.Application\CollabSphere.Application.csproj" />
-		<ProjectReference Include="..\CollabSphere.Domain\CollabSphere.Domain.csproj" />
+	  <Folder Include="Loggings\" />
 	</ItemGroup>
 
 	
 
 	<ItemGroup>
-	  <Folder Include="Loggings\" />
+	  <ProjectReference Include="..\CollabSphere.Application\CollabSphere.Application.csproj" />
 	</ItemGroup>
 
 </Project>
