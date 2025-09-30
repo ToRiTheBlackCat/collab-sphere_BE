@@ -1,0 +1,91 @@
+2025-09-30 10:31:34.635 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-30 10:31:34.946 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-30 10:31:34.947 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-30 10:31:35.053 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-30 10:31:35.054 +07:00 [INF] Hosting environment: Development
+2025-09-30 10:31:35.055 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-30 10:31:35.980 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-30 10:31:36.122 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 157.448ms
+2025-09-30 10:31:36.138 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-30 10:31:36.147 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 8.996ms
+2025-09-30 10:31:36.193 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-30 10:31:36.214 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 21.2358ms
+2025-09-30 10:31:42.684 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/api/staff/class/import - multipart/form-data; boundary=----WebKitFormBoundary1r02GbcPHUZG1pR5 135
+2025-09-30 10:31:43.566 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.ClassController.StaffImportExcel (CollabSphere.API)'
+2025-09-30 10:31:43.595 +07:00 [INF] Route matched with {action = "StaffImportExcel", controller = "Class"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] StaffImportExcel(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.ClassController (CollabSphere.API).
+2025-09-30 10:31:43.602 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-30 10:31:43.636 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-09-30 10:31:43.668 +07:00 [INF] Executed action CollabSphere.API.Controllers.ClassController.StaffImportExcel (CollabSphere.API) in 65.6154ms
+2025-09-30 10:31:43.672 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.ClassController.StaffImportExcel (CollabSphere.API)'
+2025-09-30 10:31:43.673 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/api/staff/class/import - 400 null application/problem+json; charset=utf-8 989.2771ms
+2025-09-30 10:34:15.852 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-30 10:34:16.071 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-30 10:34:16.073 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-30 10:34:16.151 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-30 10:34:16.153 +07:00 [INF] Hosting environment: Development
+2025-09-30 10:34:16.154 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-30 10:34:16.437 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-30 10:34:16.539 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 110.2632ms
+2025-09-30 10:34:16.543 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-30 10:34:16.553 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 9.6142ms
+2025-09-30 10:34:16.604 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-30 10:34:16.623 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 19.4888ms
+2025-09-30 10:34:21.740 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/api/staff/class/import - application/json 188
+2025-09-30 10:34:21.801 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.ClassController.StaffImportExcel (CollabSphere.API)'
+2025-09-30 10:34:21.822 +07:00 [INF] Route matched with {action = "StaffImportExcel", controller = "Class"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] StaffImportExcel(System.Collections.Generic.List`1[CollabSphere.Application.DTOs.Classes.ImportClassDto]) on controller CollabSphere.API.Controllers.ClassController (CollabSphere.API).
+2025-09-30 10:34:21.827 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-30 10:34:24.834 +07:00 [INF] Executed DbCommand (70ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+FROM lecturer AS l
+2025-09-30 10:34:24.912 +07:00 [INF] Executed DbCommand (45ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s.subject_id, s.is_active, s.subject_code, s.subject_name
+FROM subject AS s
+2025-09-30 10:34:25.064 +07:00 [INF] Executed DbCommand (44ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob
+FROM student AS s
+2025-09-30 10:34:25.101 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-09-30 10:34:25.111 +07:00 [INF] Executed action CollabSphere.API.Controllers.ClassController.StaffImportExcel (CollabSphere.API) in 3284.402ms
+2025-09-30 10:34:25.113 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.ClassController.StaffImportExcel (CollabSphere.API)'
+2025-09-30 10:34:25.120 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/api/staff/class/import - 400 null application/json; charset=utf-8 3379.8645ms
+2025-09-30 10:35:28.818 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-30 10:35:28.833 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-30 10:35:28.833 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 15.323ms
+2025-09-30 10:35:28.836 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 3.2492ms
+2025-09-30 10:35:28.898 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-30 10:35:28.908 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 9.8778ms
+2025-09-30 10:35:33.978 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/api/staff/class/import - application/json 188
+2025-09-30 10:35:33.982 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.ClassController.StaffImportExcel (CollabSphere.API)'
+2025-09-30 10:35:33.986 +07:00 [INF] Route matched with {action = "StaffImportExcel", controller = "Class"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] StaffImportExcel(System.Collections.Generic.List`1[CollabSphere.Application.DTOs.Classes.ImportClassDto]) on controller CollabSphere.API.Controllers.ClassController (CollabSphere.API).
+2025-09-30 10:35:34.071 +07:00 [INF] Executed DbCommand (42ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+FROM lecturer AS l
+2025-09-30 10:35:34.116 +07:00 [INF] Executed DbCommand (42ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s.subject_id, s.is_active, s.subject_code, s.subject_name
+FROM subject AS s
+2025-09-30 10:35:34.163 +07:00 [INF] Executed DbCommand (45ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob
+FROM student AS s
+2025-09-30 10:35:34.167 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-09-30 10:35:34.169 +07:00 [INF] Executed action CollabSphere.API.Controllers.ClassController.StaffImportExcel (CollabSphere.API) in 182.2646ms
+2025-09-30 10:35:34.172 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.ClassController.StaffImportExcel (CollabSphere.API)'
+2025-09-30 10:35:34.174 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/api/staff/class/import - 400 null application/json; charset=utf-8 196.2665ms
+2025-09-30 10:38:54.336 +07:00 [INF] User profile is available. Using 'C:\Users\Senti\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-30 10:38:54.527 +07:00 [INF] Now listening on: https://localhost:7271
+2025-09-30 10:38:54.529 +07:00 [INF] Now listening on: http://localhost:5226
+2025-09-30 10:38:54.598 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-30 10:38:54.599 +07:00 [INF] Hosting environment: Development
+2025-09-30 10:38:54.600 +07:00 [INF] Content root path: D:\ForkSources\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-09-30 10:38:55.033 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/index.html - null null
+2025-09-30 10:38:55.134 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/index.html - 200 null text/html;charset=utf-8 112.3986ms
+2025-09-30 10:38:55.139 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-30 10:38:55.150 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/_framework/aspnetcore-browser-refresh.js - 200 13768 application/javascript; charset=utf-8 11.0143ms
+2025-09-30 10:38:55.200 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - null null
+2025-09-30 10:38:55.220 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7271/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 20.0482ms
+2025-09-30 10:39:10.164 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7271/api/staff/class/import - multipart/form-data; boundary=----WebKitFormBoundaryycb2qphTuzbD26Ak 103890
+2025-09-30 10:39:10.227 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.ClassController.StaffImportExcel (CollabSphere.API)'
+2025-09-30 10:39:10.251 +07:00 [INF] Route matched with {action = "StaffImportExcel", controller = "Class"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] StaffImportExcel(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.ClassController (CollabSphere.API).
+2025-09-30 10:39:10.256 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-09-30 10:39:10.295 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'System.String'.
+2025-09-30 10:39:10.299 +07:00 [INF] Executed action CollabSphere.API.Controllers.ClassController.StaffImportExcel (CollabSphere.API) in 43.7905ms
+2025-09-30 10:39:10.301 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.ClassController.StaffImportExcel (CollabSphere.API)'
+2025-09-30 10:39:10.306 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7271/api/staff/class/import - 400 null text/plain; charset=utf-8 142.2042ms
