@@ -20,7 +20,7 @@ namespace CollabSphere.API.Controllers
         }
 
         // POST api/<ClassController>
-        [HttpPost("/api/staff/class")]
+        [HttpPost]
         public async Task<IActionResult> StaffCreateClass([FromBody] CreateClassCommand command, CancellationToken cancellationToken = default)
         {
             if (!ModelState.IsValid)
@@ -43,7 +43,7 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("/api/staff/class/import")]
+        [HttpPost("import")]
         public async Task<IActionResult> StaffImportExcel(IFormFile file)
         //public async Task<IActionResult> StaffImportExcel(List<ImportClassDto> file)
         {
@@ -52,13 +52,21 @@ namespace CollabSphere.API.Controllers
                 return BadRequest("Must be Excel file.");
             }
 
-            var parsedClasses = await FileParser.ParseClassFromExcel(file.OpenReadStream());
-            var request = new ImportClassCommand()
+            var command = new ImportClassCommand();
+            
+            // Parse Classes data from file
+            try
             {
-                Classes = parsedClasses,
-            };
-            var result = await _mediator.Send(request);
+                var parsedClasses = await FileParser.ParseClassFromExcel(file.OpenReadStream());
+                command.Classes = parsedClasses;
+            }
+            catch (Exception)
+            {
+                return BadRequest("Invalid data from file.");
+            }
 
+            // Send command
+            var result = await _mediator.Send(command);
             if (!result.IsValidInput)
             {
                 return BadRequest(result);
