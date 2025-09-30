@@ -1,4 +1,4 @@
-﻿using CollabSphere.Domain.Entities;
+using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,5 +10,7 @@ namespace CollabSphere.Domain.Intefaces
 {
     public interface IStudentRepository : IGenericRepository<Student>
     {
+        Task InsertStudent(Student student);
+        void UpdateStudent(Student student);
     }
 }

@@ -10,7 +10,7 @@ namespace CollabSphere.Application
 {
     public interface IUnitOfWork : IDisposable
     {
-       
+
         IUserRepository UserRepo { get; }
         IClassMemberRepository ClassMemberRepo { get; }
         IClassRepository ClassRepo { get; }
@@ -20,6 +20,7 @@ namespace CollabSphere.Application
         ISubjectOutcomeRepository SubjectOutcomeRepo { get; }
         ISubjectRepository SubjectRepo { get; }
         ISubjectSyllabusRepository SubjectSyllabusRepo { get; }
+
         //More IRepo below
 
         Task BeginTransactionAsync();
