@@ -1,4 +1,7 @@
-﻿using CollabSphere.Application.Features.Classes.Commands.CreateClass;
+﻿using CollabSphere.Application.Common;
+using CollabSphere.Application.DTOs.Classes;
+using CollabSphere.Application.Features.Classes.Commands.CreateClass;
+using CollabSphere.Application.Features.Classes.Commands.ImportClass;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,6 +29,35 @@ namespace CollabSphere.API.Controllers
             }
 
             var result = await _mediator.Send(command);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPost("/api/staff/class/import")]
+        public async Task<IActionResult> StaffImportExcel(IFormFile file)
+        //public async Task<IActionResult> StaffImportExcel(List<ImportClassDto> file)
+        {
+            if (!Path.GetExtension(file.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+            {
+                return BadRequest("Must be Excel file.");
+            }
+
+            var parsedClasses = await FileParser.ParseClassFromExcel(file.OpenReadStream());
+            var request = new ImportClassCommand()
+            {
+                Classes = parsedClasses,
+            };
+            var result = await _mediator.Send(request);
 
             if (!result.IsValidInput)
             {
