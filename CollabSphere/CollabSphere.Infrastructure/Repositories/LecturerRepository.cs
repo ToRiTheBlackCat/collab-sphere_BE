@@ -12,12 +12,11 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Infrastructure.Repositories
 {
-    public class LecturerRepository : ILecturerRepository
+    public class LecturerRepository : GenericRepository<Lecturer>, ILecturerRepository
     {
-        private readonly collab_sphereContext _context;
-        public LecturerRepository(collab_sphereContext context)
+        public LecturerRepository(collab_sphereContext context) : base(context)
         {
-            _context = context;
+
         }
 
         public async Task InsertLecturer(Lecturer lecturer)
@@ -28,11 +27,6 @@ namespace CollabSphere.Infrastructure.Repositories
         public void UpdateLecturer(Lecturer lecturer)
         {
             _context.Lecturers.Update(lecturer);
-        }
-    public class LecturerRepository : GenericRepository<Lecturer>, ILecturerRepository
-    {
-        public LecturerRepository(collab_sphereContext context) : base(context) 
-        {
         }
 
     }

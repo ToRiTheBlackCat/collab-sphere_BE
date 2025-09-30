@@ -1,7 +1,7 @@
 ﻿using CollabSphere.Application;
-using CollabSphere.Application.Auth.Commands;
 using CollabSphere.Application.Common;
 using CollabSphere.Application.DTOs.User;
+using CollabSphere.Application.Features.Auth.Commands;
 using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
 using Microsoft.Extensions.Caching.Memory;
