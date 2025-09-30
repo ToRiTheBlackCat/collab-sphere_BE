@@ -15,6 +15,18 @@ namespace CollabSphere.Infrastructure.Repositories
     {
         public SubjectRepository(collab_sphereContext context):base(context) { }
 
+        //public override async Task<List<Subject>> GetAll()
+        //{
+        //    var subjects = await _context.Subjects
+        //        .Include(x => x.SubjectSyllabi)
+        //            .ThenInclude(x => x.SubjectGradeComponents)
+        //        .Include(x => x.SubjectSyllabi)
+        //            .ThenInclude(x => x.SubjectOutcomes)
+        //        .ToListAsync();
+
+        //    return subjects;
+        //}
+
         public override async Task<Subject?> GetById(int id)
         {
             var subject = await _context.Subjects

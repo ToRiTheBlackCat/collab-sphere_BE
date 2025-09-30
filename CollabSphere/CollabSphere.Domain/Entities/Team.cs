@@ -17,6 +17,8 @@ public partial class Team
 
     public string Description { get; set; }
 
+    public string GitLink { get; set; }
+
     public int LeaderId { get; set; }
 
     public int ClassId { get; set; }

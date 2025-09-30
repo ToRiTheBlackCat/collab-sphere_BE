@@ -1,7 +1,7 @@
-﻿using CollabSphere.Application.Features.Subjects.CreateSubject;
-using CollabSphere.Application.Features.Subjects.UpdateSubject;
-using CollabSphere.Application.Features.User.Queries.GetAllSubject;
-using CollabSphere.Application.Features.User.Queries.GetSubjectById;
+﻿using CollabSphere.Application.Features.Subjects.Commands.CreateSubject;
+using CollabSphere.Application.Features.Subjects.Commands.UpdateSubject;
+using CollabSphere.Application.Features.Subjects.Queries.GetAllSubject;
+using CollabSphere.Application.Features.Subjects.Queries.GetSubjectById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +19,6 @@ namespace CollabSphere.API.Controllers
             _mediator = mediator;
         }
 
-        // GET: api/<SubjectController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -59,7 +58,7 @@ namespace CollabSphere.API.Controllers
             return Ok(result.Subject);
         }
 
-        [HttpPost("api/academic/subject")]
+        [HttpPost]
         public async Task<IActionResult> AcademicCreateSubject([FromBody] CreateSubjectCommand command)
         {
             if (!ModelState.IsValid)
@@ -82,7 +81,7 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut("api/academic/subject")]
+        [HttpPut]
         public async Task<IActionResult> AcademicUpdateSubject([FromBody] UpdateSubjectCommand command)
         {
             if (!ModelState.IsValid)
