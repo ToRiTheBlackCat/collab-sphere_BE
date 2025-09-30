@@ -10,7 +10,7 @@ namespace CollabSphere.Application
 {
     public interface IUnitOfWork : IDisposable
     {
-       
+
         IUserRepository UserRepo { get; }
         IClassMemberRepository ClassMemberRepo { get; }
         IClassRepository ClassRepo { get; }

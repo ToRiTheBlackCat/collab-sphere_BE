@@ -10,5 +10,7 @@ namespace CollabSphere.Domain.Intefaces
 {
     public interface ILecturerRepository : IGenericRepository<Lecturer>
     {
+        Task InsertLecturer(Lecturer lecturer);
+        void UpdateLecturer(Lecturer lecturer);
     }
 }

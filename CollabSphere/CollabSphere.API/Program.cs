@@ -1,9 +1,11 @@
+using CloudinaryDotNet;
 using CollabSphere.Application;
 using CollabSphere.Application.Common;
 using CollabSphere.Domain;
 using CollabSphere.Infrastructure;
 using CollabSphere.Infrastructure.Base;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -117,7 +119,19 @@ builder.Services
 #region Register Base
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<JWTAuthentication>();
+builder.Services.AddScoped<CloudinaryService>();
 builder.Services.AddMemoryCache();
+#endregion
+
+#region Configure Cloudinary
+builder.Services.Configure<CloudinarySettings>(
+    builder.Configuration.GetSection("CloudinarySettings"));
+
+builder.Services.AddSingleton(provider =>
+{
+    var settings = provider.GetRequiredService<IOptions<CloudinarySettings>>().Value;
+    return new Cloudinary(new Account(settings.CloudName, settings.ApiKey, settings.ApiSecret));
+});
 #endregion
 
 var app = builder.Build();
