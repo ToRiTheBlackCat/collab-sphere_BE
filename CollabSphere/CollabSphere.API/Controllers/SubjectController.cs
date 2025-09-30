@@ -19,7 +19,6 @@ namespace CollabSphere.API.Controllers
             _mediator = mediator;
         }
 
-        // GET: api/<SubjectController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -59,7 +58,7 @@ namespace CollabSphere.API.Controllers
             return Ok(result.Subject);
         }
 
-        [HttpPost("api/academic/subject")]
+        [HttpPost]
         public async Task<IActionResult> AcademicCreateSubject([FromBody] CreateSubjectCommand command)
         {
             if (!ModelState.IsValid)
@@ -82,7 +81,7 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut("api/academic/subject")]
+        [HttpPut]
         public async Task<IActionResult> AcademicUpdateSubject([FromBody] UpdateSubjectCommand command)
         {
             if (!ModelState.IsValid)
