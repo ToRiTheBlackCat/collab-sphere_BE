@@ -1,10 +1,10 @@
 ﻿using CollabSphere.Application;
-using CollabSphere.Application.Features.Subjects.GetSubjectById;
+using CollabSphere.Application.Features.Subjects.Queries.GetSubjectById;
 using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
 using Moq;
 
-namespace CollabSphere.Test.Users
+namespace CollabSphere.Test.SubjectTest
 {
     public class GetSubjectSubjectById
     {

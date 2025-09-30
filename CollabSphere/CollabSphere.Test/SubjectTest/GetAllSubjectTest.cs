@@ -1,10 +1,10 @@
 ﻿using CollabSphere.Application;
-using CollabSphere.Application.Features.Subjects.GetAllSubject;
+using CollabSphere.Application.Features.Subjects.Queries.GetAllSubject;
 using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
 using Moq;
 
-namespace CollabSphere.Test.Users
+namespace CollabSphere.Test.SubjectTest
 {
     public class GetAllSubjectTest
     {

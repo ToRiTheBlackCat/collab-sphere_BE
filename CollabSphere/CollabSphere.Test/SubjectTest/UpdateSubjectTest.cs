@@ -2,7 +2,7 @@
 using CollabSphere.Application.DTOs.SubjectGradeComponentModels;
 using CollabSphere.Application.DTOs.SubjectOutcomeModels;
 using CollabSphere.Application.DTOs.SubjectSyllabusModel;
-using CollabSphere.Application.Features.Subjects.UpdateSubject;
+using CollabSphere.Application.Features.Subjects.Commands.UpdateSubject;
 using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
 using Moq;
