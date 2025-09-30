@@ -170,3 +170,4 @@ RETURNING u_id, is_active, is_teacher;
 2025-09-30 15:32:44.098 +07:00 [INF] Executed action CollabSphere.API.Controllers.AdminController.CreateHeadDepartment_StaffAccount (CollabSphere.API) in 19797.5474ms
 2025-09-30 15:32:44.103 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AdminController.CreateHeadDepartment_StaffAccount (CollabSphere.API)'
 2025-09-30 15:32:44.117 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/admin/user/head-department_staff - 200 null application/json; charset=utf-8 20101.3965ms
+
