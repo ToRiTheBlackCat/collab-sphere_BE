@@ -17,7 +17,7 @@ namespace CollabSphere.Application.Features.User.Commands
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configure;
-        private readonly ILogger<StudentSignUpHandler> _logger;
+        private readonly ILogger<HeadDepart_StaffSignUpSignUpHandler> _logger;
 
         private static string SUCCESS = "Create new staff or head department successfully";
         private static string EXCEPTION = "Exception when create new staff or head department";
@@ -25,7 +25,7 @@ namespace CollabSphere.Application.Features.User.Commands
 
         public HeadDepart_StaffSignUpSignUpHandler(IUnitOfWork unitOfWork,
                                     IConfiguration configure,
-                                    ILogger<StudentSignUpHandler> logger)
+                                    ILogger<HeadDepart_StaffSignUpSignUpHandler> logger)
         {
             _unitOfWork = unitOfWork;
             _configure = configure;
