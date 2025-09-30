@@ -17,6 +17,8 @@ namespace CollabSphere.Application.Common
     {
         private readonly List<string> _expectedImportLecturerHeaders = new() { "Email", "Password", "FullName", "Address", "PhoneNumber", "Yob", "School", "LecturerCode", "Major" };
 
+        private readonly List<string> _expectedImportStudentHeaders = new() { "Email", "Password", "FullName", "Address", "PhoneNumber", "Yob", "School", "StudentCode", "Major" };
+
         public bool ValidateTableHeaderFormat(Stream fileStream, string type)
         {
             bool isValid = false;
@@ -38,6 +40,10 @@ namespace CollabSphere.Application.Common
             if (type.Equals("LECTURER"))
             {
                 isValid = !_expectedImportLecturerHeaders.Except(headers, StringComparer.OrdinalIgnoreCase).Any();
+            }
+            else if (type.Equals("STUDENT"))
+            {
+                isValid = !_expectedImportStudentHeaders.Except(headers, StringComparer.OrdinalIgnoreCase).Any();
             }
 
             return isValid;
