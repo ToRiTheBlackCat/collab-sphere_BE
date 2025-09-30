@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.User.Queries.GetSubjectById
+namespace CollabSphere.Application.Features.Subjects.GetSubjectById
 {
     public class GetSubjectByIdQueryHandler : QueryHandler<GetSubjectByIdQuery, GetSubjectByIdResult>
     {

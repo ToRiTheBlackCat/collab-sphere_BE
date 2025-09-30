@@ -1,7 +1,7 @@
 ﻿using CollabSphere.Application.Features.Subjects.CreateSubject;
+using CollabSphere.Application.Features.Subjects.GetAllSubject;
+using CollabSphere.Application.Features.Subjects.GetSubjectById;
 using CollabSphere.Application.Features.Subjects.UpdateSubject;
-using CollabSphere.Application.Features.User.Queries.GetAllSubject;
-using CollabSphere.Application.Features.User.Queries.GetSubjectById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
