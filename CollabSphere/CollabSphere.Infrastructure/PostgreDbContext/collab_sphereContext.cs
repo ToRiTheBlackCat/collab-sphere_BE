@@ -11,6 +11,7 @@ public partial class collab_sphereContext : DbContext
 {
     public collab_sphereContext()
     {
+
     }
 
     public collab_sphereContext(DbContextOptions<collab_sphereContext> options)
@@ -35,7 +36,7 @@ public partial class collab_sphereContext : DbContext
     public virtual DbSet<CheckpointSubmit> CheckpointSubmits { get; set; }
 
     public virtual DbSet<Class> Classes { get; set; }
-    
+
     public virtual DbSet<ClassFile> ClassFiles { get; set; }
 
     public virtual DbSet<ClassMember> ClassMembers { get; set; }
@@ -913,6 +914,7 @@ public partial class collab_sphereContext : DbContext
                 .IsRequired()
                 .HasMaxLength(20)
                 .HasColumnName("enrol_key");
+            entity.Property(e => e.GitLink).HasColumnName("git_link");
             entity.Property(e => e.LeaderId).HasColumnName("leader_id");
             entity.Property(e => e.LecturerId).HasColumnName("lecturer_id");
             entity.Property(e => e.LecturerName)

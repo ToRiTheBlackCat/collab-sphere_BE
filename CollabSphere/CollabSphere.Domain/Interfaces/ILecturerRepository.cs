@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Domain.Entities;
+using CollabSphere.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Domain.Intefaces
 {
-    public interface ILecturerRepository
+    public interface ILecturerRepository : IGenericRepository<Lecturer>
     {
         Task InsertLecturer(Lecturer lecturer);
         void UpdateLecturer(Lecturer lecturer);

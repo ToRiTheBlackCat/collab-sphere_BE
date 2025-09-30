@@ -7,12 +7,20 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
+ENV ASPNETCORE_HTTPS_PORTS=8081 \ 
+	#ASPNETCORE_HTTP_PORTS=8080 \
+	DOTNET_RUNNING_IN_CONTAINER=true \
+    #ASPNETCORE_ENVIRONMENT=Development \
+	ASPNETCORE_URLS=http://+:8080
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["CollabSphere.API/CollabSphere.API.csproj", "CollabSphere.API/"]
+COPY ["CollabSphere.Application/CollabSphere.Application.csproj", "CollabSphere.Application/"]
+COPY ["CollabSphere.Domain/CollabSphere.Domain.csproj", "CollabSphere.Domain/"]
+COPY ["CollabSphere.Infrastructure/CollabSphere.Infrastructure.csproj", "CollabSphere.Infrastructure/"]
 RUN dotnet restore "./CollabSphere.API/CollabSphere.API.csproj"
 COPY . .
 WORKDIR "/src/CollabSphere.API"
