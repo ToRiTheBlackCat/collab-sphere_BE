@@ -1,4 +1,4 @@
-﻿using CollabSphere.Domain.Entities;
+using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
 using CollabSphere.Infrastructure.Base;
 using CollabSphere.Infrastructure.PostgreDbContext;
@@ -15,7 +15,17 @@ namespace CollabSphere.Infrastructure.Repositories
     {
         public LecturerRepository(collab_sphereContext context) : base(context) 
         {
+        
         }
 
+        public async Task InsertLecturer(Lecturer lecturer)
+        {
+            await _context.Lecturers.AddAsync(lecturer);
+        }
+
+        public void UpdateLecturer(Lecturer lecturer)
+        {
+            _context.Lecturers.Update(lecturer);
+        }
     }
 }

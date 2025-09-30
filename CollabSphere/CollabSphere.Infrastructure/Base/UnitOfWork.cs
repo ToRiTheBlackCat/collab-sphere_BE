@@ -43,7 +43,6 @@ namespace CollabSphere.Infrastructure.Base
             SubjectOutcomeRepo = new SubjectOutcomeRepository(_context);
             SubjectRepo = new SubjectRepository(_context);
             SubjectSyllabusRepo = new SubjectSyllabusRepository(_context);
-
             #endregion
         }
 
