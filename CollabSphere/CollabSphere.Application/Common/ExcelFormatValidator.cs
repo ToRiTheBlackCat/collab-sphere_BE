@@ -38,7 +38,6 @@ namespace CollabSphere.Application.Common
             if (type.Equals("LECTURER"))
             {
                 isValid = !_expectedImportLecturerHeaders.Except(headers, StringComparer.OrdinalIgnoreCase).Any();
-
             }
 
             return isValid;
