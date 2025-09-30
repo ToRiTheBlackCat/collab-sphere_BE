@@ -18,8 +18,14 @@ namespace CollabSphere.Infrastructure.Base
 
         #region Register_Repo
         public IUserRepository UserRepo { get; }
-        
-
+        public IClassMemberRepository ClassMemberRepo { get; }
+        public IClassRepository ClassRepo { get; }
+        public ILecturerRepository LecturerRepo { get; }
+        public IStudentRepository StudentRepo { get; }
+        public ISubjectGradeComponentRepository SubjectGradeComponentRepo { get; }
+        public ISubjectOutcomeRepository SubjectOutcomeRepo { get; }
+        public ISubjectRepository SubjectRepo { get; }
+        public ISubjectSyllabusRepository SubjectSyllabusRepo { get; }
 
         #endregion
 
@@ -29,7 +35,14 @@ namespace CollabSphere.Infrastructure.Base
 
             #region Register_Repo
             UserRepo = new UserRepository(_context);
-            
+            ClassMemberRepo = new ClassMemberRepositiory(_context);
+            ClassRepo = new ClassRepository(_context);
+            LecturerRepo = new LecturerRepository(_context);
+            StudentRepo = new StudentRepository(_context);
+            SubjectGradeComponentRepo = new SubjectGradeComponentRepository(_context);
+            SubjectOutcomeRepo = new SubjectOutcomeRepository(_context);
+            SubjectRepo = new SubjectRepository(_context);
+            SubjectSyllabusRepo = new SubjectSyllabusRepository(_context);
 
             #endregion
         }

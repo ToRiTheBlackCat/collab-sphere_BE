@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CollabSphere.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,8 @@ namespace CollabSphere.Domain.Intefaces
 {
     public interface IUserRepository
     {
+        Task<User?> GetOneByEmailAndPassword(string email, string password);
+        Task InsertUser(User user);
+        void UpdateUser(User user);
     }
 }
