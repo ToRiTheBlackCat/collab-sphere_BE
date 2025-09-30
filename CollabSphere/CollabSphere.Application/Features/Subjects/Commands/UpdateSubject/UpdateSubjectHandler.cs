@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Subjects.UpdateSubject
+namespace CollabSphere.Application.Features.Subjects.Commands.UpdateSubject
 {
     public class UpdateSubjectHandler : CommandHandler<UpdateSubjectCommand>
     {

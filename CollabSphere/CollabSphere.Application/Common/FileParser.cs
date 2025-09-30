@@ -20,13 +20,13 @@ namespace CollabSphere.Application.Common
             var result = new List<ImportClassDto>();
             var rowCount = worksheet.Dimension.Rows;
 
-            for (int row = 2; row < rowCount; row++)
+            for (int row = 2; row <= rowCount; row++)
             {
-                var className = worksheet.Cells[row, 1].Text;
-                var enrolKey = worksheet.Cells[row, 2].Text;
-                var subjectCode = worksheet.Cells[row, 3].Text;
-                var lecturerCode = worksheet.Cells[row, 4].Text;
-                var studentCodes = worksheet.Cells[row, 5].Text;
+                var className = worksheet.Cells[row, 1].Text.Trim();
+                var enrolKey = worksheet.Cells[row, 2].Text.Trim();
+                var subjectCode = worksheet.Cells[row, 3].Text.Trim();
+                var lecturerCode = worksheet.Cells[row, 4].Text.Trim();
+                var studentCodes = worksheet.Cells[row, 5].Text.Trim();
                 var isActive = worksheet.Cells[row, 6].GetCellValue<bool>();
 
                 if (string.IsNullOrEmpty(className))

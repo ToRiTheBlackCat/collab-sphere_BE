@@ -77,10 +77,13 @@ namespace CollabSphere.Application.Features.Classes.Commands.ImportClass
                         {
                             ClassId = newClass.ClassId,
                             Class = newClass,
+                            StudentId = student.StudentId,
                             Fullname = student.Fullname,
-
+                            Student = student,
                         };
+                        await _unitOfWork.ClassMemberRepo.Create(classMember);
                     }
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 #endregion
 
