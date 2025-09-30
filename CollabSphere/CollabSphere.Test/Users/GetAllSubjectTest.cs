@@ -1,14 +1,8 @@
 ﻿using CollabSphere.Application;
-using CollabSphere.Application.DTOs;
-using CollabSphere.Application.Features.User.Queries.GetAllSubject;
+using CollabSphere.Application.Features.Subjects.GetAllSubject;
 using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollabSphere.Test.Users
 {
