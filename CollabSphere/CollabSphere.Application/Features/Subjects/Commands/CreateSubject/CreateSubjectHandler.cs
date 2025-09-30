@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Subjects.CreateSubject
+namespace CollabSphere.Application.Features.Subjects.Commands.CreateSubject
 {
     public class CreateSubjectHandler : CommandHandler<CreateSubjectCommand>
     {

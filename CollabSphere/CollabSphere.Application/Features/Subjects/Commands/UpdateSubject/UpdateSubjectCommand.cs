@@ -2,7 +2,7 @@
 using CollabSphere.Application.DTOs.SubjectSyllabusModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace CollabSphere.Application.Features.Subjects.UpdateSubject
+namespace CollabSphere.Application.Features.Subjects.Commands.UpdateSubject
 {
     public class UpdateSubjectCommand : ICommand
     {
