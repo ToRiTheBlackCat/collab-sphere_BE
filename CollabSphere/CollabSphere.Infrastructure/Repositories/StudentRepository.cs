@@ -11,10 +11,22 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Infrastructure.Repositories
 {
+        public StudentRepository(collab_sphereContext context)
+        {
+            _context = context;
+        }
+
+        public async Task InsertStudent(Student student)
+        {
+            await _context.Students.AddAsync(student);
+        }
+
+        public void UpdateStudent(Student student)
+        {
+            _context.Students.Update(student);
     public class StudentRepository: GenericRepository<Student>, IStudentRepository
     {
-        public StudentRepository(collab_sphereContext context) : base(context) 
-        {
+        private readonly collab_sphereContext _context;
         }
     }
 }
