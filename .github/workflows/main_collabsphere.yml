@@ -81,16 +81,18 @@ jobs:
           done
 
       - name: Import API into Azure API Management
+        shell: bash
         run: |
           az apim api import \
-            --path "${{ env.AZURE_APIM_RESOURCE_PATH }}" \
-            --resource-group "${{ env.AZURE_RESOURCE_GROUP }}" \
-            --service-name "${{ env.AZURE_APIM_SERVICE_NAME }}" \
-            --api-id "${{ env.AZURE_APIM_API_ID }}" \
-            --service-url "${{ env.AZURE_APIM_SERVICE_URL }}" \
-            --specification-url "${{ env.SWAGGER_URL }}" \
-            --specification-format OpenApi \
-            --subscription-required false
+          --path "${{ env.AZURE_APIM_RESOURCE_PATH }}" \
+          --resource-group "${{ env.AZURE_RESOURCE_GROUP }}" \
+          --service-name "${{ env.AZURE_APIM_SERVICE_NAME }}" \
+          --api-id "${{ env.AZURE_APIM_API_ID }}" \
+          --service-url "${{ env.AZURE_APIM_SERVICE_URL }}" \
+          --specification-url "${{ env.SWAGGER_URL }}" \
+          --specification-format OpenApi \
+          --subscription-required false
+
 
       - name: Logout from Azure
         run: az logout
