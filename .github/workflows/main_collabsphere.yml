@@ -89,6 +89,7 @@ jobs:
           done
 
       - name: Import API into Azure API Management
+        shell: bash
         run: |
           az apim api import \
             --path "${{ env.AZURE_APIM_RESOURCE_PATH }}" \
@@ -102,4 +103,5 @@ jobs:
 
       - name: logout
         run: az logout
+
 
