@@ -27,7 +27,7 @@ namespace CollabSphere.API.Controllers
                 return BadRequest("Must be Excel file.");
             }
 
-            var isValid = _excelValidate.ValidateTableHeaderFormat(file.OpenReadStream(), "LECTURER");
+            var isValid = _excelValidate.ValidateTableHeaderFormat(file.OpenReadStream(), "STUDENT");
             if (!isValid)
             {
                 return BadRequest("Invalid header row format. Please view sample format header to import data!");
