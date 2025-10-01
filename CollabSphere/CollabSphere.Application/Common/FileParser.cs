@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.DTOs.Classes;
+using CollabSphere.Application.DTOs.SubjectModels;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,40 @@ namespace CollabSphere.Application.Common
                         .Split(',', StringSplitOptions.RemoveEmptyEntries)
                         .Select(x => x.Trim())
                         .ToList(),
+                    IsActive = isActive,
+                });
+            }
+
+            return await Task.FromResult(result);
+        }
+
+        /// <summary>
+        /// Parse subjects from import Excel File
+        /// </summary>
+        public static async Task<List<ImportSubjectDto>> ParseSubjectFromExcel(Stream fileStream)
+        {
+            ExcelPackage.License.SetNonCommercialOrganization("Collab_sphere");
+            using var package = new ExcelPackage(fileStream);
+            var worksheet = package.Workbook.Worksheets[0];
+
+            var result = new List<ImportSubjectDto>();
+            var rowCount = worksheet.Dimension.Rows;
+
+            for (int row = 2; row <= rowCount; row++)
+            {
+                var subjectCode = worksheet.Cells[row, 1].Text.Trim();
+                var subjectName = worksheet.Cells[row, 2].Text.Trim();
+                var isActive = bool.Parse(worksheet.Cells[row, 3].Text);
+
+                if (string.IsNullOrEmpty(subjectName))
+                {
+                    continue;
+                }
+
+                result.Add(new ImportSubjectDto()
+                {
+                    SubjectName = subjectName,
+                    SubjectCode = subjectCode,
                     IsActive = isActive,
                 });
             }
