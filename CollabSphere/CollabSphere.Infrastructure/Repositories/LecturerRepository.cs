@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Infrastructure.Repositories
 {
-    public class LecturerRepository : GenericRepository<Lecturer>, ILecturerRepository
+     public class LecturerRepository : GenericRepository<Lecturer>, ILecturerRepository
     {
         public LecturerRepository(collab_sphereContext context) : base(context) 
         {
