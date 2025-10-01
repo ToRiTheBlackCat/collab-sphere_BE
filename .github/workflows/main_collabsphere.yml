@@ -1,4 +1,4 @@
-name: Build and deploy .NET Core application to Web App collabsphere with API Management Service CollabSphereAPIManagement-CollabSphereAPI
+name: Build and deploy .NET Core application to Azure Web App and API Management
 
 on:
   push:
@@ -7,83 +7,75 @@ on:
 
 env:
   AZURE_WEBAPP_NAME: collabsphere
-  AZURE_WEBAPP_PACKAGE_PATH: CollabSphere.API\publish
-  AZURE_APIM_RESOURCE_PATH: /
-  AZURE_APIM_RESOURCEGROUP: collab-sphere
-  AZURE_APIM_SERVICENAME: CollabSphereAPIManagement
+  AZURE_RESOURCE_GROUP: collab-sphere
+  AZURE_APIM_SERVICE_NAME: CollabSphereAPIManagement
   AZURE_APIM_API_ID: CollabSphereAPI
-  AZURE_APIM_APPSERVICEURL: https://collabsphere.azurewebsites.net
-  SWASHBUCLE_ASPNET_CORE_CLI_PACKAGE_VERSION: 5.6.3
-  SWASHBUCKLE_DOTNET_CORE_VERSION: 3.1.x
-  API_IMPORT_SPECIFICATION_PATH: CollabSphere.API\publish\swagger.json
-  API_IMPORT_DLL: CollabSphere.API\bin\Release\net8.0\CollabSphere.API.dll
-  API_IMPORT_VERSION: v1
+  AZURE_APIM_RESOURCE_PATH: /
+  AZURE_APIM_SERVICE_URL: https://collabsphere.azurewebsites.net
+  DOTNET_VERSION: 8.0.x
   CONFIGURATION: Release
-  DOTNET_CORE_VERSION: 8.0.x
-  WORKING_DIRECTORY: CollabSphere/CollabSphere.API
+  PROJECT_PATH: CollabSphere/CollabSphere.API
   PROJECT_FILE: CollabSphere/CollabSphere.API/CollabSphere.API.csproj
+  PUBLISH_DIR: CollabSphere/CollabSphere.API/publish
+  SWAGGER_URL: https://collabsphere.azurewebsites.net/swagger/v1/swagger.json
 
 jobs:
   build:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Setup SwashBuckle .NET Core
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.SWASHBUCKLE_DOTNET_CORE_VERSION }}
-
-      - name: Restore
+      - name: Restore dependencies
         run: dotnet restore ${{ env.PROJECT_FILE }}
 
-      - name: Build
+      - name: Build project
         run: dotnet build ${{ env.PROJECT_FILE }} --configuration ${{ env.CONFIGURATION }} --no-restore
 
-      - name: Test
+      - name: Run tests
         run: dotnet test ${{ env.PROJECT_FILE }} --no-build
 
-      - name: Publish
-        run: dotnet publish ${{ env.PROJECT_FILE }} --configuration ${{ env.CONFIGURATION }} --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      - name: Publish project
+        run: dotnet publish ${{ env.PROJECT_FILE }} --configuration ${{ env.CONFIGURATION }} --no-build --output ${{ env.PUBLISH_DIR }}
 
-      - name: Publish Artifacts
+      - name: Upload published artifacts
         uses: actions/upload-artifact@v4
         with:
           name: webapp
-          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          path: ${{ env.PUBLISH_DIR }}
 
   deploy:
     runs-on: windows-latest
     needs: build
     steps:
-      - name: Download artifact from build job
+      - name: Download published artifacts
         uses: actions/download-artifact@v4
         with:
           name: webapp
-          path: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          path: ./webapp
 
       - name: Azure Login
         uses: azure/login@v2
         with:
           creds: ${{ secrets.CollabSphereAPIManagement_SPN }}
 
-      - name: Deploy to Azure WebApp
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+          package: ./webapp
 
-      - name: Wait for WebApp to warm up
+      - name: Wait for Swagger to be ready
         shell: bash
         run: |
-          echo "Waiting for app to start..."
+          echo "Waiting for Swagger endpoint..."
           for i in {1..5}; do
-            curl -f https://collabsphere.azurewebsites.net/ && break
+            curl -f ${{ env.SWAGGER_URL }} && break
             echo "Swagger not ready yet, retrying in 15s..."
             sleep 15
           done
@@ -92,13 +84,13 @@ jobs:
         run: |
           az apim api import \
             --path "${{ env.AZURE_APIM_RESOURCE_PATH }}" \
-            --resource-group "${{ env.AZURE_APIM_RESOURCEGROUP }}" \
-            --service-name "${{ env.AZURE_APIM_SERVICENAME }}" \
+            --resource-group "${{ env.AZURE_RESOURCE_GROUP }}" \
+            --service-name "${{ env.AZURE_APIM_SERVICE_NAME }}" \
             --api-id "${{ env.AZURE_APIM_API_ID }}" \
-            --service-url "${{ env.AZURE_APIM_APPSERVICEURL }}" \
-            --specification-url "https://collabsphere.azurewebsites.net/" \
+            --service-url "${{ env.AZURE_APIM_SERVICE_URL }}" \
+            --specification-url "${{ env.SWAGGER_URL }}" \
             --specification-format OpenApi \
             --subscription-required false
 
-      - name: logout
+      - name: Logout from Azure
         run: az logout
