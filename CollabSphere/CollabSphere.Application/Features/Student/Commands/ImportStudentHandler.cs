@@ -3,6 +3,7 @@ using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Application.Features.Lecturer.Commands;
+using CollabSphere.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
@@ -39,6 +40,8 @@ namespace CollabSphere.Application.Features.Student.Commands
                 IsValidInput = true,
                 Message = string.Empty
             };
+            StringBuilder message = new StringBuilder();
+            int errCnt = 0;
 
             try
             {
@@ -51,6 +54,8 @@ namespace CollabSphere.Application.Features.Student.Commands
                     //If exist user with that email
                     if (foundUser != null)
                     {
+                        message.Append($"One Student already existed with email: {student.Email}, cannot create that student! ");
+                        errCnt++;
                         continue;
                     }
 
@@ -63,7 +68,7 @@ namespace CollabSphere.Application.Features.Student.Commands
                         Email = student.Email,
                         Password = hashedPassword,
                         RoleId = RoleConstants.STUDENT,
-                        IsTeacher = true,
+                        IsTeacher = false,
                         CreatedDate = DateTime.UtcNow,
                         IsActive = true,
                     };
@@ -88,7 +93,8 @@ namespace CollabSphere.Application.Features.Student.Commands
                     await _unitOfWork.CommitTransactionAsync();
 
                     result.IsSuccess = true;
-                    result.Message = $"Succesfully imported {request.StudentList.Count} studentts.";
+                    message.Append($"Succesfully imported {request.StudentList.Count - errCnt} students.");
+                    result.Message = message.ToString();
                 }
             }
             catch (Exception ex)

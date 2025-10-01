@@ -11,9 +11,9 @@ namespace CollabSphere.API.Controllers
     public class StudentController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly ValidateTableFormat _excelValidate;
+        private readonly IExcelFormatValidator _excelValidate;
 
-        public StudentController(IMediator mediator, ValidateTableFormat excelValidate)
+        public StudentController(IMediator mediator, IExcelFormatValidator excelValidate)
         {
             _mediator = mediator;
             _excelValidate = excelValidate;

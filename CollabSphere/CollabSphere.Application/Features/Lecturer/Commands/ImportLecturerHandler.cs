@@ -40,6 +40,8 @@ namespace CollabSphere.Application.Features.Lecturer.Commands
                 IsValidInput = true,
                 Message = string.Empty
             };
+            StringBuilder message = new StringBuilder();
+            int errCnt = 0;
 
             try
             {
@@ -52,6 +54,8 @@ namespace CollabSphere.Application.Features.Lecturer.Commands
                     //If exist user with that email
                     if (foundUser != null)
                     {
+                        message.Append($"One Lecturer already existed with email: {lecturer.Email}, cannot create that lecturer! ");
+                        errCnt++;
                         continue;
                     }
 
@@ -89,7 +93,8 @@ namespace CollabSphere.Application.Features.Lecturer.Commands
                     await _unitOfWork.CommitTransactionAsync();
 
                     result.IsSuccess = true;
-                    result.Message = $"Succesfully imported {request.LecturerList.Count} lecturers.";
+                    message.Append($"Succesfully imported {request.LecturerList.Count - errCnt} lecturers.");
+                    result.Message = message.ToString();
                 }
             }
             catch (Exception ex)
@@ -131,8 +136,7 @@ namespace CollabSphere.Application.Features.Lecturer.Commands
                 }
 
                 //Validate PhoneNumber
-                var phoneFormat = @"^\d{8,15}$";
-
+                var phoneFormat = @"^\+?[1-9]\d{7,14}$";
                 if (!Regex.IsMatch(request.LecturerList[i].PhoneNumber ?? "", phoneFormat))
                 {
                     errors.Add(new OperationError()

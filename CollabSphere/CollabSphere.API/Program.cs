@@ -134,6 +134,10 @@ builder.Services.AddSingleton(provider =>
 });
 #endregion
 
+#region Configure ExcelParser
+builder.Services.AddScoped<IExcelFormatValidator, ValidateTableFormat>();
+#endregion
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

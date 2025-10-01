@@ -70,15 +70,21 @@ namespace CollabSphere.Application.Common
                 var password = worksheet.Cells[row, 2].Text.Trim();
                 var fullName = worksheet.Cells[row, 3].Text.Trim();
                 var address = worksheet.Cells[row, 4].Text.Trim();
-                var phoneNumber = worksheet.Cells[row, 5].Text.Trim();
+                var phoneCell = worksheet.Cells[row, 5].Value;
+                string phoneNumber = phoneCell switch
+                {
+                    double d => d.ToString("0"),
+                    decimal m => m.ToString("0"),
+                    _ => phoneCell?.ToString().Trim()
+                };
                 var yob = worksheet.Cells[row, 6].Text.Trim();
                 var school = worksheet.Cells[row, 7].Text.Trim();
                 var lecturerCode = worksheet.Cells[row, 8].Text.Trim();
                 var major = worksheet.Cells[row, 9].Text.Trim();
 
-                if (string.IsNullOrEmpty(email) 
-                    || string.IsNullOrEmpty(password) 
-                    || string.IsNullOrEmpty(fullName) 
+                if (string.IsNullOrEmpty(email)
+                    || string.IsNullOrEmpty(password)
+                    || string.IsNullOrEmpty(fullName)
                     || string.IsNullOrEmpty(lecturerCode))
                 {
                     continue;
@@ -90,9 +96,9 @@ namespace CollabSphere.Application.Common
                     Password = password,
                     FullName = fullName,
                     Address = address,
-                    PhoneNumber = phoneNumber, 
+                    PhoneNumber = phoneNumber,
                     Yob = yob,
-                    School = school, 
+                    School = school,
                     LecturerCode = lecturerCode,
                     Major = major,
                 });
@@ -116,7 +122,13 @@ namespace CollabSphere.Application.Common
                 var password = worksheet.Cells[row, 2].Text.Trim();
                 var fullName = worksheet.Cells[row, 3].Text.Trim();
                 var address = worksheet.Cells[row, 4].Text.Trim();
-                var phoneNumber = worksheet.Cells[row, 5].Text.Trim();
+                var phoneCell = worksheet.Cells[row, 5].Value;
+                string phoneNumber = phoneCell switch
+                {
+                    double d => d.ToString("0"),        
+                    decimal m => m.ToString("0"),
+                    _ => phoneCell?.ToString().Trim()
+                };
                 var yob = worksheet.Cells[row, 6].Text.Trim();
                 var school = worksheet.Cells[row, 7].Text.Trim();
                 var studentCode = worksheet.Cells[row, 8].Text.Trim();
