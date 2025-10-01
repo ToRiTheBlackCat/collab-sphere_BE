@@ -83,13 +83,12 @@ jobs:
         run: |
           echo "Waiting for app to start..."
           for i in {1..5}; do
-            curl -f ${{ env.AZURE_APIM_APPSERVICEURL }}/swagger/v1/swagger.json && break
+            curl -f https://collabsphere.azurewebsites.net/ && break
             echo "Swagger not ready yet, retrying in 15s..."
             sleep 15
           done
 
       - name: Import API into Azure API Management
-        shell: bash
         run: |
           az apim api import \
             --path "${{ env.AZURE_APIM_RESOURCE_PATH }}" \
@@ -97,11 +96,9 @@ jobs:
             --service-name "${{ env.AZURE_APIM_SERVICENAME }}" \
             --api-id "${{ env.AZURE_APIM_API_ID }}" \
             --service-url "${{ env.AZURE_APIM_APPSERVICEURL }}" \
-            --specification-url "${{ env.AZURE_APIM_APPSERVICEURL }}/swagger/v1/swagger.json" \
+            --specification-url "https://collabsphere.azurewebsites.net/" \
             --specification-format OpenApi \
             --subscription-required false
 
       - name: logout
         run: az logout
-
-
