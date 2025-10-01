@@ -97,7 +97,7 @@ builder.Services.AddAuthentication(options =>
 
 #region Configure Serilog
 var solutionRoot = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\.."));
-var logFolder = Path.Combine(solutionRoot, "CollabSphere.Infrastructure", "Loggings");
+var logFolder = Path.Combine(Environment.CurrentDirectory, "Loggings");
 Directory.CreateDirectory(logFolder);
 
 Log.Logger = new LoggerConfiguration()
@@ -137,11 +137,14 @@ builder.Services.AddSingleton(provider =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Enable Swagger in all environments
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "COLLAB-SPHERE_API v1");
+    c.RoutePrefix = "swagger"; // so Swagger UI is at /swagger
+});
+
 
 app.UseHttpsRedirection();
 
