@@ -10,7 +10,7 @@ env:
   AZURE_RESOURCE_GROUP: collab-sphere
   AZURE_APIM_SERVICE_NAME: CollabSphereAPIManagement
   AZURE_APIM_API_ID: CollabSphereAPI
-  AZURE_APIM_RESOURCE_PATH: /
+  AZURE_APIM_RESOURCE_PATH: collabsphere
   AZURE_APIM_SERVICE_URL: https://collabsphere.azurewebsites.net
   DOTNET_VERSION: 8.0.x
   CONFIGURATION: Release
