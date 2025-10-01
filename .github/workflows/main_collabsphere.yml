@@ -79,6 +79,7 @@ jobs:
           package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
       - name: Wait for WebApp to warm up
+        shell: bash
         run: |
           echo "Waiting for app to start..."
           for i in {1..5}; do
@@ -101,3 +102,4 @@ jobs:
 
       - name: logout
         run: az logout
+
