@@ -1,0 +1,98 @@
+name: Build and deploy .NET Core application to Azure Web App and API Management
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AZURE_WEBAPP_NAME: collabsphere
+  AZURE_RESOURCE_GROUP: collab-sphere
+  AZURE_APIM_SERVICE_NAME: CollabSphereAPIManagement
+  AZURE_APIM_API_ID: CollabSphereAPI
+  AZURE_APIM_RESOURCE_PATH: collabsphere
+  AZURE_APIM_SERVICE_URL: https://collabsphere.azurewebsites.net
+  DOTNET_VERSION: 8.0.x
+  CONFIGURATION: Release
+  PROJECT_PATH: CollabSphere/CollabSphere.API
+  PROJECT_FILE: CollabSphere/CollabSphere.API/CollabSphere.API.csproj
+  PUBLISH_DIR: CollabSphere/CollabSphere.API/publish
+  SWAGGER_URL: https://collabsphere.azurewebsites.net/swagger/v1/swagger.json
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.PROJECT_FILE }}
+
+      - name: Build project
+        run: dotnet build ${{ env.PROJECT_FILE }} --configuration ${{ env.CONFIGURATION }} --no-restore
+
+      - name: Run tests
+        run: dotnet test ${{ env.PROJECT_FILE }} --no-build
+
+      - name: Publish project
+        run: dotnet publish ${{ env.PROJECT_FILE }} --configuration ${{ env.CONFIGURATION }} --no-build --output ${{ env.PUBLISH_DIR }}
+
+      - name: Upload published artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: webapp
+          path: ${{ env.PUBLISH_DIR }}
+
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - name: Download published artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: webapp
+          path: ./webapp
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.CollabSphereAPIManagement_SPN }}
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: ./webapp
+
+      - name: Wait for Swagger to be ready
+        shell: bash
+        run: |
+          echo "Waiting for Swagger endpoint..."
+          for i in {1..5}; do
+            curl -f ${{ env.SWAGGER_URL }} && break
+            echo "Swagger not ready yet, retrying in 15s..."
+            sleep 15
+          done
+
+      - name: Import API into Azure API Management
+        shell: bash
+        run: |
+          az apim api import \
+          --path "${{ env.AZURE_APIM_RESOURCE_PATH }}" \
+          --resource-group "${{ env.AZURE_RESOURCE_GROUP }}" \
+          --service-name "${{ env.AZURE_APIM_SERVICE_NAME }}" \
+          --api-id "${{ env.AZURE_APIM_API_ID }}" \
+          --service-url "${{ env.AZURE_APIM_SERVICE_URL }}" \
+          --specification-url "${{ env.SWAGGER_URL }}" \
+          --specification-format OpenApi \
+          --subscription-required false
+
+
+      - name: Logout from Azure
+        run: az logout

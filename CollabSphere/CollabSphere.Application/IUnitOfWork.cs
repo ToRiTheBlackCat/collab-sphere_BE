@@ -20,6 +20,7 @@ namespace CollabSphere.Application
         ISubjectOutcomeRepository SubjectOutcomeRepo { get; }
         ISubjectRepository SubjectRepo { get; }
         ISubjectSyllabusRepository SubjectSyllabusRepo { get; }
+
         //More IRepo below
 
         Task BeginTransactionAsync();

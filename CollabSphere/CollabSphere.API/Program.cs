@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using StackExchange.Redis;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -97,7 +98,7 @@ builder.Services.AddAuthentication(options =>
 
 #region Configure Serilog
 var solutionRoot = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\.."));
-var logFolder = Path.Combine(solutionRoot, "CollabSphere.Infrastructure", "Loggings");
+var logFolder = Path.Combine(Environment.CurrentDirectory, "Loggings");
 Directory.CreateDirectory(logFolder);
 
 Log.Logger = new LoggerConfiguration()
@@ -138,14 +139,38 @@ builder.Services.AddSingleton(provider =>
 builder.Services.AddScoped<IExcelFormatValidator, ValidateTableFormat>();
 #endregion
 
+#region Configure Redis (Upstash)
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
+    var redisSection = builder.Configuration.GetSection("Redis");
+    var redisUrl = redisSection["RedisUrl"] ?? "";
+
+    var options = ConfigurationOptions.Parse(redisUrl);
+    options.AbortOnConnectFail = false; 
+
+    return ConnectionMultiplexer.Connect(options);
+});
+
+// Optional: add a wrapper service for easy usage
+builder.Services.AddScoped<IDatabase>(sp =>
+{
+    var multiplexer = sp.GetRequiredService<IConnectionMultiplexer>();
+    return multiplexer.GetDatabase();
+});
+#endregion
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Enable Swagger in all environments
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "COLLAB-SPHERE_API v1");
+    c.RoutePrefix = "swagger"; // so Swagger UI is at /swagger
+});
+
 
 app.UseHttpsRedirection();
 

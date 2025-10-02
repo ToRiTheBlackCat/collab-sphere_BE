@@ -1,4 +1,4 @@
-﻿using CollabSphere.Domain.Entities;
+using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
 using CollabSphere.Infrastructure.Base;
 using CollabSphere.Infrastructure.PostgreDbContext;
@@ -27,9 +27,5 @@ namespace CollabSphere.Infrastructure.Repositories
         {
             _context.Lecturers.Update(lecturer);
         }
-
-   
-
-
     }
 }
