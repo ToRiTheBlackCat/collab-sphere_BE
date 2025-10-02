@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using StackExchange.Redis;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -119,6 +120,42 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<JWTAuthentication>();
 builder.Services.AddMemoryCache();
 #endregion
+
+#region Configure Cloudinary
+builder.Services.Configure<CloudinarySettings>(
+    builder.Configuration.GetSection("CloudinarySettings"));
+
+builder.Services.AddSingleton(provider =>
+{
+    var settings = provider.GetRequiredService<IOptions<CloudinarySettings>>().Value;
+    return new Cloudinary(new Account(settings.CloudName, settings.ApiKey, settings.ApiSecret));
+});
+#endregion
+
+#region Configure ExcelParser
+builder.Services.AddScoped<IExcelFormatValidator, ValidateTableFormat>();
+#endregion
+
+#region Configure Redis (Upstash)
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
+    var redisSection = builder.Configuration.GetSection("Redis");
+    var redisUrl = redisSection["RedisUrl"] ?? "";
+
+    var options = ConfigurationOptions.Parse(redisUrl);
+    options.AbortOnConnectFail = false; 
+
+    return ConnectionMultiplexer.Connect(options);
+});
+
+// Optional: add a wrapper service for easy usage
+builder.Services.AddScoped<IDatabase>(sp =>
+{
+    var multiplexer = sp.GetRequiredService<IConnectionMultiplexer>();
+    return multiplexer.GetDatabase();
+});
+#endregion
+
 
 var app = builder.Build();
 
