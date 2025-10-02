@@ -1,5 +1,6 @@
 ﻿using CollabSphere.Application.DTOs.Classes;
 using CollabSphere.Application.DTOs.SubjectModels;
+using CollabSphere.Application.DTOs.SubjectOutcomeModels;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -66,11 +67,17 @@ namespace CollabSphere.Application.Common
 
             for (int row = 2; row <= rowCount; row++)
             {
-                var subjectCode = worksheet.Cells[row, 1].Text.Trim();
-                var subjectName = worksheet.Cells[row, 2].Text.Trim();
-                var isActive = bool.Parse(worksheet.Cells[row, 3].Text);
+                int column = 1;
+                var subjectCode = worksheet.Cells[row, column++].Text.Trim();
+                var subjectName = worksheet.Cells[row, column++].Text.Trim();
+                var isActive = bool.Parse(worksheet.Cells[row, column++].Text);
+                var syllabusName = worksheet.Cells[row, column++].Text.Trim();
+                var description = worksheet.Cells[row, column++].Text.Trim();
+                var noCredit = int.Parse(worksheet.Cells[row, column++].Text);
+                var outcomesString = worksheet.Cells[row, column++].Text.Trim();
+                var gradeCompsString = worksheet.Cells[row, column++].Text.Trim();
 
-                if (string.IsNullOrEmpty(subjectName))
+                if (string.IsNullOrEmpty(subjectCode))
                 {
                     continue;
                 }
@@ -80,6 +87,33 @@ namespace CollabSphere.Application.Common
                     SubjectName = subjectName,
                     SubjectCode = subjectCode,
                     IsActive = isActive,
+                    SubjectSyllabus = new DTOs.SubjectSyllabusModel.ImportSubjectSyllabusDto()
+                    {
+                        SyllabusName = syllabusName,
+                        Description = description,
+                        NoCredit = noCredit,
+                        IsActive = isActive,
+                        SubjectCode = subjectCode,
+                        SubjectGradeComponents = gradeCompsString
+                            .Split("\n", StringSplitOptions.RemoveEmptyEntries)
+                            .Select(x =>
+                            {
+                                var split = x.Trim().Split(":", StringSplitOptions.RemoveEmptyEntries);
+                                return new DTOs.SubjectGradeComponentModels.ImportSubjectGradeComponentDto()
+                                {
+                                    ComponentName = split[0],
+                                    ReferencePercentage = decimal.Parse(split[1]),
+                                };
+                            })
+                            .ToList(),
+                        SubjectOutcomes = outcomesString
+                            .Split("\n", StringSplitOptions.RemoveEmptyEntries)
+                            .Select(x => new ImportSubjectOutcomeDto()
+                            {
+                                OutcomeDetail = x.Trim()
+                            })
+                            .ToList(),
+                    }
                 });
             }
 
