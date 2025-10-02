@@ -1,4 +1,6 @@
-﻿using CollabSphere.Application.Features.Subjects.Commands.CreateSubject;
+﻿using CollabSphere.Application.Common;
+using CollabSphere.Application.Features.Subjects.Commands.CreateSubject;
+using CollabSphere.Application.Features.Subjects.Commands.ImportSubject;
 using CollabSphere.Application.Features.Subjects.Commands.UpdateSubject;
 using CollabSphere.Application.Features.Subjects.Queries.GetAllSubject;
 using CollabSphere.Application.Features.Subjects.Queries.GetSubjectById;
@@ -56,6 +58,42 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result.Subject);
+        }
+
+        //[Authorize] staff Role
+        [HttpPost("import")]
+        public async Task<IActionResult> ImportSubject(IFormFile file)
+        {
+            if (!Path.GetExtension(file.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
+            {
+                return BadRequest("Must be Excel file.");
+            }
+
+            var command = new ImportSubjectCommand();
+            // Parse subjects file
+            try
+            {
+                var parsedSubjects = await FileParser.ParseSubjectFromExcel(file.OpenReadStream());
+                command.Subjects = parsedSubjects;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            // Send command
+            var result = await _mediator.Send(command);
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result);
         }
 
         [HttpPost]
