@@ -48,45 +48,48 @@ namespace CollabSphere.Application.Features.Subjects.Commands.ImportSubject
                     await _unitOfWork.SaveChangesAsync();
 
                     // Add subject syllabus
-                    var syllabusDto = subjectDto.SubjectSyllabus;
-                    var syllabus = new SubjectSyllabus()
+                    if (subjectDto.SubjectSyllabus != null)
                     {
-                        SyllabusName = syllabusDto.SyllabusName,
-                        Description = syllabusDto.Description,
-                        NoCredit = syllabusDto.NoCredit,
-                        IsActive = syllabusDto.IsActive,
-                        CreatedDate = DateTime.UtcNow,
-                        Subject = subject,
-                        SubjectCode = subjectDto.SubjectCode,
-                    };
-                    await _unitOfWork.SubjectSyllabusRepo.Create(syllabus);
-                    await _unitOfWork.SaveChangesAsync();
-
-                    // Add subject outcomes
-                    foreach (var outcomeDto in syllabusDto.SubjectOutcomes)
-                    {
-                        var outcome = new SubjectOutcome()
+                        var syllabusDto = subjectDto.SubjectSyllabus;
+                        var syllabus = new SubjectSyllabus()
                         {
-                            OutcomeDetail = outcomeDto.OutcomeDetail,
-                            Syllabus = syllabus,
+                            SyllabusName = syllabusDto.SyllabusName,
+                            Description = syllabusDto.Description,
+                            NoCredit = syllabusDto.NoCredit,
+                            IsActive = syllabusDto.IsActive,
+                            CreatedDate = DateTime.UtcNow,
+                            Subject = subject,
+                            SubjectCode = subjectDto.SubjectCode,
                         };
-                        await _unitOfWork.SubjectOutcomeRepo.Create(outcome);
-                    }
-                    await _unitOfWork.SaveChangesAsync();
+                        await _unitOfWork.SubjectSyllabusRepo.Create(syllabus);
+                        await _unitOfWork.SaveChangesAsync();
 
-                    // Add subject grade components
-                    foreach (var componentDto in syllabusDto.SubjectGradeComponents)
-                    {
-                        var component = new SubjectGradeComponent()
+                        // Add subject outcomes
+                        foreach (var outcomeDto in syllabusDto.SubjectOutcomes)
                         {
-                            ComponentName = componentDto.ComponentName,
-                            ReferencePercentage = componentDto.ReferencePercentage,
-                            SubjectId = subject.SubjectId,
-                            Syllabus = syllabus,
-                        };
-                        await _unitOfWork.SubjectGradeComponentRepo.Create(component);
+                            var outcome = new SubjectOutcome()
+                            {
+                                OutcomeDetail = outcomeDto.OutcomeDetail,
+                                Syllabus = syllabus,
+                            };
+                            await _unitOfWork.SubjectOutcomeRepo.Create(outcome);
+                        }
+                        await _unitOfWork.SaveChangesAsync();
+
+                        // Add subject grade components
+                        foreach (var componentDto in syllabusDto.SubjectGradeComponents)
+                        {
+                            var component = new SubjectGradeComponent()
+                            {
+                                ComponentName = componentDto.ComponentName,
+                                ReferencePercentage = componentDto.ReferencePercentage,
+                                SubjectId = subject.SubjectId,
+                                Syllabus = syllabus,
+                            };
+                            await _unitOfWork.SubjectGradeComponentRepo.Create(component);
+                        }
+                        await _unitOfWork.SaveChangesAsync();
                     }
-                    await _unitOfWork.SaveChangesAsync();
 
 
                     count++;
@@ -102,7 +105,7 @@ namespace CollabSphere.Application.Features.Subjects.Commands.ImportSubject
                 await _unitOfWork.RollbackTransactionAsync();
                 result.Message = ex.Message;
             }
-            
+
             return result;
         }
 
@@ -157,9 +160,23 @@ namespace CollabSphere.Application.Features.Subjects.Commands.ImportSubject
                     });
                 }
 
-                // Check for grade components sum
-                if (subjectDto.SubjectSyllabus.SubjectGradeComponents.Any())
+                if (subjectDto.SubjectSyllabus == null) // Skips over when subject doesn't include syllabus
                 {
+                    continue;
+                }
+
+                // Check empty Grade components
+                if (!subjectDto.SubjectSyllabus.SubjectGradeComponents.Any()) 
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = $"{nameof(request.Subjects)}[{index}].{nameof(subjectDto.SubjectSyllabus.SubjectGradeComponents)}",
+                        Message = $"Can't be an empty sequence."
+                    });
+                }
+                else
+                {
+                    // Check for grade components sum
                     var percentSum = subjectDto.SubjectSyllabus.SubjectGradeComponents.Sum(x => x.ReferencePercentage);
                     if (percentSum != 100)
                     {
@@ -169,6 +186,16 @@ namespace CollabSphere.Application.Features.Subjects.Commands.ImportSubject
                             Message = $"{nameof(subjectDto.SubjectSyllabus.SubjectGradeComponents)} don't sum up to 100%."
                         });
                     }
+                }
+
+                // Check empty outcomes
+                if (!subjectDto.SubjectSyllabus.SubjectOutcomes.Any())
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = $"{nameof(request.Subjects)}[{index}].{nameof(subjectDto.SubjectSyllabus.SubjectOutcomes)}",
+                        Message = $"Can't be an empty sequence."
+                    });
                 }
             }
         }
