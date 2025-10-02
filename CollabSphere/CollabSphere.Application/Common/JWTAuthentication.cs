@@ -2,26 +2,28 @@
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Common
 {
     public class JWTAuthentication
     {
         private readonly IConfiguration _configure;
-        private readonly IMemoryCache _cache;
+        private readonly IDatabase _redis;
 
-        int _accessTokenLifeTime = 180;
-        TimeSpan _refreshTokenLifetime = TimeSpan.FromDays(7);
+        private readonly int _accessTokenLifeTime = 180;
+        private readonly TimeSpan _refreshTokenLifetime = TimeSpan.FromDays(7);
 
-
-        public JWTAuthentication(IConfiguration configure, IMemoryCache cache)
+        public JWTAuthentication(IConfiguration configure, IDatabase redis)
         {
             _configure = configure;
-            _cache = cache;
+            _redis = redis;
         }
 
         /// <summary>
@@ -29,17 +31,17 @@ namespace CollabSphere.Application.Common
         /// </summary>
         /// <param name="user">The found user after login</param>
         /// <returns> Object with two tokens </returns>
-        public (string AccessToken, string RefreshToken) GenerateToken(User user)
+        public async Task<(string AccessToken, string RefreshToken)> GenerateToken(User user)
         {
             //Clear existed cache that stored refresh token of that user
-            RemoveRefreshTokenInCache(user.UId);
+            await RemoveRefreshTokenInCache(user.UId);
 
             //Create both token
             var accessToken = GenerateAccessToken(user);
             var refreshToken = GenerateRefreshToken();
 
             //Store refresh token in cache
-            StoreRefreshTokenInCache(user.UId, refreshToken);
+            await StoreRefreshTokenInCache(user.UId, refreshToken);
 
             return (accessToken, refreshToken);
         }
@@ -97,30 +99,38 @@ namespace CollabSphere.Application.Common
         }
 
         /// <summary>
-        /// 
+        /// Use for re-generating both tokens
         /// </summary>
         /// <param name="refreshToken"></param>
         /// <returns></returns>
-        public (string, string) RefreshToken(User user, string refreshToken)
+        public async Task<(string, string)> RefreshTokenAsync(User user, string refreshToken)
         {
             //Check valid of refresh token
             var cacheKey = $"RefreshToken:{user.UId}";
 
-            if (_cache.TryGetValue(cacheKey, out RefreshTokenCacheEntry? entry))
+            //Check in redis caching DB
+            var redisValue = await _redis.StringGetAsync(cacheKey);
+            if (!redisValue.HasValue)
             {
-                // Check refresh token is valid and not expired
-                if (entry?.RefreshToken == refreshToken && entry.Expiry > DateTime.UtcNow)
-                {
+                return new();
+            }
 
-                    //Create new tokens
-                    var newAccessToken = GenerateAccessToken(user);
-                    var newRefreshToken = GenerateRefreshToken();
+            //Deserialize data
+            var entry = JsonSerializer.Deserialize<RefreshTokenCacheEntry>(redisValue!);
+            if (entry == null)
+                return new();
 
-                    //Store refresh token again in cache with old expired date
-                    StoreRefreshTokenInCache(user.UId, newRefreshToken, entry.Expiry);
+            // Check refresh token is valid and not expired
+            if (entry?.RefreshToken == refreshToken && entry.Expiry > DateTime.UtcNow)
+            {
+                //Create new tokens
+                var newAccessToken = GenerateAccessToken(user);
+                var newRefreshToken = GenerateRefreshToken();
 
-                    return (newAccessToken, newRefreshToken);
-                }
+                //Store refresh token again in cache with old expired date
+                await StoreRefreshTokenInCache(user.UId, newRefreshToken, entry.Expiry);
+
+                return (newAccessToken, newRefreshToken);
             }
 
             return new();
@@ -129,7 +139,7 @@ namespace CollabSphere.Application.Common
         /// <summary>
         /// Support function using for storing refresh token in cache
         /// </summary>
-        public void StoreRefreshTokenInCache(int userId, string refreshToken, DateTime? expiry = null)
+        public async Task StoreRefreshTokenInCache(int userId, string refreshToken, DateTime? expiry = null)
         {
             var entry = new RefreshTokenCacheEntry
             {
@@ -138,18 +148,24 @@ namespace CollabSphere.Application.Common
             };
 
             var cacheKey = $"RefreshToken:{userId}";
+            var jsonEntry = JsonSerializer.Serialize(entry);
 
-            _cache.Set(cacheKey, entry, entry.Expiry);
+            var expiredTime = entry.Expiry - DateTime.UtcNow;
+            await _redis.StringSetAsync(cacheKey, jsonEntry, expiredTime);
         }
 
         /// <summary>
         /// Support function using for remove 
         /// </summary>
         /// <param name="userId"></param>
-        public void RemoveRefreshTokenInCache(int userId)
+        public async Task RemoveRefreshTokenInCache(int userId)
         {
             var cacheKey = $"RefreshToken:{userId}";
-            _cache.Remove(cacheKey);
+            var foundCache = await _redis.StringGetAsync(cacheKey);
+            if (foundCache.HasValue)
+            {
+                await _redis.KeyDeleteAsync(cacheKey);
+            }
         }
 
         /// <summary>
