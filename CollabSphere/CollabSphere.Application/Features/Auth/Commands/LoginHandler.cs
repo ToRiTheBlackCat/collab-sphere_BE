@@ -52,7 +52,7 @@ namespace CollabSphere.Application.Features.Auth.Commands
                 else
                 {
                     //Generate both access & refresh token
-                    var (accessToken, refreshToken) = _jwtAuth.GenerateToken(foundUser);
+                    var (accessToken, refreshToken) = await _jwtAuth.GenerateToken(foundUser);
 
                     //Save refresh token to DB
                     foundUser.RefreshToken = refreshToken;

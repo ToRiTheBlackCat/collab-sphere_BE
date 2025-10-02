@@ -9,6 +9,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using StackExchange.Redis;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -137,6 +138,27 @@ builder.Services.AddSingleton(provider =>
 #region Configure ExcelParser
 builder.Services.AddScoped<IExcelFormatValidator, ValidateTableFormat>();
 #endregion
+
+#region Configure Redis (Upstash)
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
+    var redisSection = builder.Configuration.GetSection("Redis");
+    var redisUrl = redisSection["RedisUrl"] ?? "";
+
+    var options = ConfigurationOptions.Parse(redisUrl);
+    options.AbortOnConnectFail = false; 
+
+    return ConnectionMultiplexer.Connect(options);
+});
+
+// Optional: add a wrapper service for easy usage
+builder.Services.AddScoped<IDatabase>(sp =>
+{
+    var multiplexer = sp.GetRequiredService<IConnectionMultiplexer>();
+    return multiplexer.GetDatabase();
+});
+#endregion
+
 
 var app = builder.Build();
 
