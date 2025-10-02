@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace CollabSphere.Infrastructure.Repositories
 {
 
-   public class StudentRepository: GenericRepository<Student>, IStudentRepository
+     public class StudentRepository: GenericRepository<Student>, IStudentRepository
     {
         public StudentRepository(collab_sphereContext context) : base(context) 
         {

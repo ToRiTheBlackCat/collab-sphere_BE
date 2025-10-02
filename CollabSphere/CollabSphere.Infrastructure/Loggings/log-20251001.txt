@@ -1,0 +1,670 @@
+2025-10-01 20:57:23.683 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 20:57:24.073 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 20:57:24.077 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 20:57:24.206 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 20:57:24.210 +07:00 [INF] Hosting environment: Development
+2025-10-01 20:57:24.214 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 20:57:24.854 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 20:57:25.165 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 319.3846ms
+2025-10-01 20:57:25.194 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 20:57:25.207 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 13.6422ms
+2025-10-01 20:57:25.361 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 20:57:25.472 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 111.1864ms
+2025-10-01 20:57:25.519 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 20:57:25.552 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 34.4281ms
+2025-10-01 21:01:18.051 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Student/import - multipart/form-data; boundary=----WebKitFormBoundarywWqlbBZ40UKJOfp9 3494140
+2025-10-01 21:01:18.264 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API)'
+2025-10-01 21:01:18.355 +07:00 [INF] Route matched with {action = "ImportFileToCreateStudents", controller = "Student"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateStudents(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.StudentController (CollabSphere.API).
+2025-10-01 21:01:18.371 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 21:01:18.390 +07:00 [INF] Executed action CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API) in 19.8517ms
+2025-10-01 21:01:18.396 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API)'
+2025-10-01 21:01:18.410 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'CollabSphere.Application.Common.ValidateTableFormat' while attempting to activate 'CollabSphere.API.Controllers.StudentController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method9(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-01 21:01:18.511 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Student/import - 500 null text/plain; charset=utf-8 462.9557ms
+2025-10-01 21:01:18.527 +07:00 [INF] Connection id "0HNG0U9PCERCA", Request id "0HNG0U9PCERCA:00000001": the application completed without reading the entire request body.
+2025-10-01 21:03:09.026 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 21:03:09.393 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 21:03:09.400 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 21:03:09.553 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 21:03:09.558 +07:00 [INF] Hosting environment: Development
+2025-10-01 21:03:09.562 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 21:03:09.926 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 21:03:10.197 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 280.5571ms
+2025-10-01 21:03:10.199 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 21:03:10.233 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 35.132ms
+2025-10-01 21:03:10.390 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 21:03:10.493 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 103.2569ms
+2025-10-01 21:03:10.573 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 21:03:10.599 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 26.7342ms
+2025-10-01 21:03:18.851 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundaryJtB0ct98Qb56JZvd 3494140
+2025-10-01 21:03:19.024 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:03:19.104 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 21:03:19.117 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 21:03:19.134 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API) in 16.0694ms
+2025-10-01 21:03:19.139 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:03:19.150 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'CollabSphere.Application.Common.ValidateTableFormat' while attempting to activate 'CollabSphere.API.Controllers.LecturerController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method9(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-01 21:03:19.225 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Lecturer/import - 500 null text/plain; charset=utf-8 374.0651ms
+2025-10-01 21:03:19.242 +07:00 [INF] Connection id "0HNG0UD0AD404", Request id "0HNG0UD0AD404:00000009": the application completed without reading the entire request body.
+2025-10-01 21:04:21.915 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 21:04:22.328 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 21:04:22.334 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 21:04:22.545 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 21:04:22.550 +07:00 [INF] Hosting environment: Development
+2025-10-01 21:04:22.552 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 21:04:22.933 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 21:04:23.180 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 257.5449ms
+2025-10-01 21:04:23.188 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 21:04:23.210 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 22.0234ms
+2025-10-01 21:04:23.368 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 21:04:23.432 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 64.0115ms
+2025-10-01 21:04:23.489 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 21:04:23.520 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 32.3339ms
+2025-10-01 21:04:30.668 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundaryg9Y4E12BtdO4YI6A 3494140
+2025-10-01 21:04:30.873 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:04:30.957 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 21:04:30.981 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 21:04:35.052 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'System.String'.
+2025-10-01 21:04:35.072 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API) in 4095.1928ms
+2025-10-01 21:04:35.080 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:04:35.096 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Lecturer/import - 400 null text/plain; charset=utf-8 4428.0091ms
+2025-10-01 21:04:49.296 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundaryMrvzsBo0idHIXptL 31369
+2025-10-01 21:04:49.325 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:04:49.329 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 21:05:18.355 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'System.String'.
+2025-10-01 21:05:18.359 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API) in 29022.1656ms
+2025-10-01 21:05:18.364 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:05:18.365 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Lecturer/import - 400 null text/plain; charset=utf-8 29069.9681ms
+2025-10-01 21:12:26.065 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 21:12:26.468 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 21:12:26.470 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 21:12:26.583 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 21:12:26.589 +07:00 [INF] Hosting environment: Development
+2025-10-01 21:12:26.595 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 21:12:27.316 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 21:12:27.605 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 298.5261ms
+2025-10-01 21:12:27.616 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 21:12:27.642 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 26.243ms
+2025-10-01 21:12:27.800 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 21:12:27.872 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 72.074ms
+2025-10-01 21:12:27.948 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 21:12:27.978 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 31.3662ms
+2025-10-01 21:12:50.405 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundaryF4byZEUs2AyRnosM 11173
+2025-10-01 21:12:50.591 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:12:50.662 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 21:12:50.685 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 21:13:18.409 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'System.String'.
+2025-10-01 21:13:18.417 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API) in 27739.1842ms
+2025-10-01 21:13:18.425 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:13:18.431 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Lecturer/import - 400 null text/plain; charset=utf-8 28025.7374ms
+2025-10-01 21:13:50.777 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundaryj2pcyE7Cv2upK1zx 11173
+2025-10-01 21:13:50.811 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:13:50.830 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 21:13:50.863 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'System.String'.
+2025-10-01 21:13:50.867 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API) in 24.3144ms
+2025-10-01 21:13:50.871 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:13:50.875 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Lecturer/import - 400 null text/plain; charset=utf-8 98.1792ms
+2025-10-01 21:14:42.600 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 21:14:42.987 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 21:14:42.995 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 21:14:43.153 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 21:14:43.162 +07:00 [INF] Hosting environment: Development
+2025-10-01 21:14:43.168 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 21:14:43.764 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 21:14:44.096 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 339.8353ms
+2025-10-01 21:14:44.356 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 21:14:44.356 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 21:14:44.372 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 16.3248ms
+2025-10-01 21:14:44.428 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 72.3916ms
+2025-10-01 21:14:44.476 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 21:14:44.507 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 31.8295ms
+2025-10-01 21:14:57.100 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundary3YR0hyGlcjgw948x 11178
+2025-10-01 21:14:57.296 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:14:57.379 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 21:14:57.396 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 21:16:32.249 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'System.String'.
+2025-10-01 21:16:32.258 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API) in 94869.1927ms
+2025-10-01 21:16:32.264 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:16:32.270 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Lecturer/import - 400 null text/plain; charset=utf-8 95170.221ms
+2025-10-01 21:17:24.663 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 21:17:25.262 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 21:17:25.268 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 21:17:25.459 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 21:17:25.466 +07:00 [INF] Hosting environment: Development
+2025-10-01 21:17:25.472 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 21:17:25.971 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 21:17:26.270 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 21:17:26.274 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 312.7743ms
+2025-10-01 21:17:26.297 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 26.7672ms
+2025-10-01 21:17:26.523 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 21:17:26.586 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 65.3413ms
+2025-10-01 21:17:26.654 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 21:17:26.688 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 34.5153ms
+2025-10-01 21:17:46.990 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundaryMw8XOqhDF8lI3gY3 11236
+2025-10-01 21:17:47.207 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:17:47.279 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 21:17:47.294 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 21:18:15.541 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-01 21:18:17.267 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API) in 29976.4879ms
+2025-10-01 21:18:17.270 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:18:17.291 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Lecturer/import - 400 null application/json; charset=utf-8 30300.9159ms
+2025-10-01 21:28:53.931 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 21:28:54.301 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 21:28:54.308 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 21:28:54.430 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 21:28:54.435 +07:00 [INF] Hosting environment: Development
+2025-10-01 21:28:54.437 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 21:28:54.944 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 21:28:55.161 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 228.5957ms
+2025-10-01 21:28:55.166 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 21:28:55.196 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 29.9794ms
+2025-10-01 21:28:55.340 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 21:28:55.437 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 97.8801ms
+2025-10-01 21:28:55.490 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 21:28:55.516 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 26.2208ms
+2025-10-01 21:29:05.036 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundarypGtjrbQUXJscA9xU 11236
+2025-10-01 21:29:05.236 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:29:05.318 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 21:29:05.337 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 21:29:35.099 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-01 21:29:35.121 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API) in 29787.9642ms
+2025-10-01 21:29:35.125 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:29:35.134 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Lecturer/import - 400 null application/json; charset=utf-8 30098.5031ms
+2025-10-01 21:31:37.432 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundarynUsQAEBaMGmvtYNE 141
+2025-10-01 21:31:37.462 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:31:37.468 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 21:31:37.489 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-10-01 21:31:37.553 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API) in 76.9294ms
+2025-10-01 21:31:37.560 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:31:37.565 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Lecturer/import - 400 null application/problem+json; charset=utf-8 133.3283ms
+2025-10-01 21:31:53.871 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 21:31:54.222 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 21:31:54.225 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 21:31:54.343 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 21:31:54.345 +07:00 [INF] Hosting environment: Development
+2025-10-01 21:31:54.348 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 21:31:54.760 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 21:31:54.996 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 244.2566ms
+2025-10-01 21:31:55.187 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 21:31:55.187 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 21:31:55.228 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 42.2463ms
+2025-10-01 21:31:55.259 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 73.0207ms
+2025-10-01 21:31:55.304 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 21:31:55.349 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 45.7845ms
+2025-10-01 21:32:01.524 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundaryVXpj6efLBJWjov7n 11909
+2025-10-01 21:32:01.740 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:32:01.826 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 21:32:01.856 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 21:32:58.433 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-01 21:32:58.466 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API) in 56619.7983ms
+2025-10-01 21:32:58.472 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:32:58.490 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Lecturer/import - 400 null application/json; charset=utf-8 56965.7667ms
+2025-10-01 21:34:51.884 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundaryndNyB7AITaLlABBA 141
+2025-10-01 21:34:51.919 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:34:51.924 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 21:34:51.940 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-10-01 21:34:51.971 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API) in 38.1242ms
+2025-10-01 21:34:51.979 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:34:51.987 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Lecturer/import - 400 null application/problem+json; charset=utf-8 103.8916ms
+2025-10-01 21:34:56.560 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundaryoq4Z0jMnAbNlrXgT 141
+2025-10-01 21:34:56.580 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:34:56.584 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 21:34:56.595 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-10-01 21:34:56.603 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API) in 8.9811ms
+2025-10-01 21:34:56.610 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:34:56.618 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Lecturer/import - 400 null application/problem+json; charset=utf-8 57.9115ms
+2025-10-01 21:35:04.596 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 21:35:05.146 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 21:35:05.154 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 21:35:05.284 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 21:35:05.291 +07:00 [INF] Hosting environment: Development
+2025-10-01 21:35:05.299 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 21:35:05.912 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 21:35:06.196 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 292.051ms
+2025-10-01 21:35:06.200 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 21:35:06.233 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 33.2093ms
+2025-10-01 21:35:06.381 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 21:35:06.472 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 90.7085ms
+2025-10-01 21:35:06.528 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 21:35:06.558 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 30.6016ms
+2025-10-01 21:35:15.130 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundarydSoO63IGpbZnA2Fe 11918
+2025-10-01 21:35:15.337 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:35:15.411 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 21:35:15.427 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 21:38:47.939 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 21:38:48.412 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 21:38:48.415 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 21:38:48.537 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 21:38:48.546 +07:00 [INF] Hosting environment: Development
+2025-10-01 21:38:48.554 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 21:38:49.270 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 21:38:49.543 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 277.068ms
+2025-10-01 21:38:49.548 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 21:38:49.583 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 34.8275ms
+2025-10-01 21:38:49.731 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 21:38:49.799 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 68.466ms
+2025-10-01 21:38:49.889 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 21:38:49.917 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 28.6243ms
+2025-10-01 21:38:58.199 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundaryEsD44ZLGnmxyYHot 11918
+2025-10-01 21:38:58.419 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:38:58.494 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 21:38:58.512 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 21:40:36.610 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 21:40:36.984 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 21:40:36.989 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 21:40:37.113 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 21:40:37.116 +07:00 [INF] Hosting environment: Development
+2025-10-01 21:40:37.119 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 21:40:37.415 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 21:40:37.706 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 21:40:37.710 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 302.9827ms
+2025-10-01 21:40:37.725 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 20.0849ms
+2025-10-01 21:40:37.876 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 21:40:37.965 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 89.6265ms
+2025-10-01 21:40:38.044 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 21:40:38.083 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 39.2248ms
+2025-10-01 21:40:50.020 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundarydTnGaSGdc6TQ7tC3 11912
+2025-10-01 21:40:50.218 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:40:50.296 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 21:40:50.321 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 21:41:15.441 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-01 21:41:15.477 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API) in 25162.4325ms
+2025-10-01 21:41:15.487 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:41:15.507 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Lecturer/import - 400 null application/json; charset=utf-8 25487.9731ms
+2025-10-01 21:53:10.458 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 21:53:10.884 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 21:53:10.893 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 21:53:11.044 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 21:53:11.049 +07:00 [INF] Hosting environment: Development
+2025-10-01 21:53:11.056 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 21:53:11.520 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 21:53:11.774 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 21:53:11.775 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 263.5107ms
+2025-10-01 21:53:11.794 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 20.1834ms
+2025-10-01 21:53:11.982 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 21:53:12.064 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 82.8433ms
+2025-10-01 21:53:12.120 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 21:53:12.153 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 33.4046ms
+2025-10-01 21:53:20.577 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundarydtrVYFrWF4vwuQwL 11912
+2025-10-01 21:53:20.808 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:53:20.876 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 21:53:20.889 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 21:54:45.781 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 21:54:46.149 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 21:54:46.154 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 21:54:46.269 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 21:54:46.274 +07:00 [INF] Hosting environment: Development
+2025-10-01 21:54:46.279 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 21:54:46.735 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 21:54:47.041 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 314.8365ms
+2025-10-01 21:54:47.320 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 21:54:47.321 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 21:54:47.358 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 38.486ms
+2025-10-01 21:54:47.407 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 88.0337ms
+2025-10-01 21:54:47.458 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 21:54:47.495 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 38.2886ms
+2025-10-01 21:55:01.940 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundarymwgyPAYD5BbZoIBe 11912
+2025-10-01 21:55:02.112 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:55:02.187 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 21:55:02.213 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 21:55:55.101 +07:00 [INF] Executed DbCommand (133ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-10-01 21:56:01.670 +07:00 [INF] Executed DbCommand (67ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?', @p4='?', @p5='?' (DbType = DateTime), @p6='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "user" (created_date, email, is_teacher, password, refresh_token, refresh_token_expiry_time, role_id)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING u_id, is_active;
+2025-10-01 21:56:03.948 +07:00 [INF] Executed DbCommand (53ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?', @p5='?', @p6='?', @p7='?', @p8='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO lecturer (lecturer_id, address, avatar_img, fullname, lecturer_code, major, phone_number, school, yob)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8);
+2025-10-01 21:56:07.693 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-01 21:56:07.723 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API) in 65514.0783ms
+2025-10-01 21:56:07.729 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 21:56:07.747 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Lecturer/import - 200 null application/json; charset=utf-8 65807.2902ms
+2025-10-01 22:10:28.894 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 22:10:29.326 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 22:10:29.334 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 22:10:29.462 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 22:10:29.466 +07:00 [INF] Hosting environment: Development
+2025-10-01 22:10:29.468 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 22:10:30.107 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 22:10:30.390 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 290.1294ms
+2025-10-01 22:10:30.405 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 22:10:30.416 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 10.9653ms
+2025-10-01 22:10:31.050 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 22:10:31.102 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 52.2032ms
+2025-10-01 22:10:31.357 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 22:10:31.401 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 44.3324ms
+2025-10-01 22:12:31.406 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Student/import - multipart/form-data; boundary=----WebKitFormBoundaryCXwR9bG2F3Avq3BB 11902
+2025-10-01 22:12:33.524 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API)'
+2025-10-01 22:12:33.546 +07:00 [INF] Route matched with {action = "ImportFileToCreateStudents", controller = "Student"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateStudents(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.StudentController (CollabSphere.API).
+2025-10-01 22:12:33.554 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 22:12:33.559 +07:00 [INF] Executed action CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API) in 6.4225ms
+2025-10-01 22:12:33.564 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API)'
+2025-10-01 22:12:33.569 +07:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'CollabSphere.Application.Common.ValidateTableFormat' while attempting to activate 'CollabSphere.API.Controllers.StudentController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method9(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|25_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-01 22:12:33.625 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Student/import - 500 null text/plain; charset=utf-8 2219.5532ms
+2025-10-01 22:13:24.832 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 22:13:25.078 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 22:13:25.082 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 22:13:25.142 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 22:13:25.169 +07:00 [INF] Hosting environment: Development
+2025-10-01 22:13:25.179 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 22:13:25.732 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 22:13:25.894 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 170.685ms
+2025-10-01 22:13:25.899 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 22:13:25.912 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 12.7596ms
+2025-10-01 22:13:26.006 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 22:13:26.046 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 40.225ms
+2025-10-01 22:13:26.089 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 22:13:26.109 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 20.3952ms
+2025-10-01 22:13:38.714 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Student/import - multipart/form-data; boundary=----WebKitFormBoundarydacJUNO3sWcxQuhW 11902
+2025-10-01 22:13:38.844 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API)'
+2025-10-01 22:13:38.882 +07:00 [INF] Route matched with {action = "ImportFileToCreateStudents", controller = "Student"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateStudents(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.StudentController (CollabSphere.API).
+2025-10-01 22:13:38.895 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 22:14:17.473 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'System.String'.
+2025-10-01 22:14:17.482 +07:00 [INF] Executed action CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API) in 38589.5565ms
+2025-10-01 22:14:17.485 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API)'
+2025-10-01 22:14:17.489 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Student/import - 400 null text/plain; charset=utf-8 38775.6339ms
+2025-10-01 22:14:40.979 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 22:14:41.189 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 22:14:41.190 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 22:14:41.253 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 22:14:41.254 +07:00 [INF] Hosting environment: Development
+2025-10-01 22:14:41.255 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 22:14:41.703 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 22:14:41.879 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 182.8634ms
+2025-10-01 22:14:41.879 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 22:14:41.895 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 15.971ms
+2025-10-01 22:14:41.996 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 22:14:42.046 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 50.2803ms
+2025-10-01 22:14:42.097 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 22:14:42.114 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 18.3705ms
+2025-10-01 22:15:55.183 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Student/import - multipart/form-data; boundary=----WebKitFormBoundaryuqkJBI0CLksCsGDE 11903
+2025-10-01 22:15:55.294 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API)'
+2025-10-01 22:15:55.338 +07:00 [INF] Route matched with {action = "ImportFileToCreateStudents", controller = "Student"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateStudents(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.StudentController (CollabSphere.API).
+2025-10-01 22:15:55.348 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 22:16:15.595 +07:00 [INF] Executed DbCommand (93ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-10-01 22:16:15.842 +07:00 [INF] Executed DbCommand (60ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?', @p4='?', @p5='?' (DbType = DateTime), @p6='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "user" (created_date, email, is_teacher, password, refresh_token, refresh_token_expiry_time, role_id)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING u_id, is_active;
+2025-10-01 22:16:16.054 +07:00 [INF] Executed DbCommand (53ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?', @p5='?', @p6='?', @p7='?', @p8='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO student (student_id, address, avatar_img, fullname, major, phone_number, school, student_code, yob)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8);
+2025-10-01 22:16:22.987 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-01 22:16:23.000 +07:00 [INF] Executed action CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API) in 27656.646ms
+2025-10-01 22:16:23.004 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API)'
+2025-10-01 22:16:23.010 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Student/import - 200 null application/json; charset=utf-8 27826.9943ms
+2025-10-01 22:19:02.822 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 22:19:02.993 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 22:19:03.005 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 22:19:03.065 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 22:19:03.071 +07:00 [INF] Hosting environment: Development
+2025-10-01 22:19:03.074 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 22:19:03.628 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 22:19:03.793 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 175.6934ms
+2025-10-01 22:19:03.795 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 22:19:03.809 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 14.0916ms
+2025-10-01 22:19:03.901 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 22:19:03.950 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 49.1498ms
+2025-10-01 22:19:03.991 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 22:19:04.012 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 21.1612ms
+2025-10-01 22:19:11.267 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundarybekceehPzA1esrPA 11912
+2025-10-01 22:19:11.386 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 22:19:11.424 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 22:19:11.434 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 22:19:36.648 +07:00 [INF] Executed DbCommand (85ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-10-01 22:19:42.691 +07:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2025-10-01 22:19:42.698 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API) in 31266.2871ms
+2025-10-01 22:19:42.701 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 22:19:42.778 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Lecturer/import - 500 0 text/plain; charset=utf-8 31511.318ms
+2025-10-01 22:22:15.212 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 22:22:15.395 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 22:22:15.450 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 22:22:15.521 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 22:22:15.522 +07:00 [INF] Hosting environment: Development
+2025-10-01 22:22:15.524 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 22:22:15.703 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 22:22:15.874 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 179.8587ms
+2025-10-01 22:22:15.882 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 22:22:15.896 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 14.9568ms
+2025-10-01 22:22:15.989 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 22:22:16.027 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 38.0882ms
+2025-10-01 22:22:16.074 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 22:22:16.092 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 18.4179ms
+2025-10-01 22:22:21.797 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundaryArdfjjLJP1BlpnF1 11912
+2025-10-01 22:22:21.852 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 22:22:21.872 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-01 22:22:21.880 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 22:22:30.460 +07:00 [INF] Executed DbCommand (74ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-10-01 22:22:46.069 +07:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2025-10-01 22:22:46.077 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API) in 24196.511ms
+2025-10-01 22:22:46.079 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-01 22:22:46.140 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Lecturer/import - 500 null text/plain; charset=utf-8 24343.6ms
+2025-10-01 22:23:33.517 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 22:23:33.707 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 22:23:33.710 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 22:23:33.772 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 22:23:33.777 +07:00 [INF] Hosting environment: Development
+2025-10-01 22:23:33.778 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 22:23:34.457 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 22:23:34.632 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 184.0391ms
+2025-10-01 22:23:34.637 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 22:23:34.650 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 13.3325ms
+2025-10-01 22:23:34.750 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 22:23:34.803 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 53.4736ms
+2025-10-01 22:23:34.848 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 22:23:34.872 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 24.9972ms
+2025-10-01 22:23:41.660 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Student/import - multipart/form-data; boundary=----WebKitFormBoundaryGbGo1RFLvoNmqDHf 11903
+2025-10-01 22:23:41.757 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API)'
+2025-10-01 22:23:41.788 +07:00 [INF] Route matched with {action = "ImportFileToCreateStudents", controller = "Student"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateStudents(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.StudentController (CollabSphere.API).
+2025-10-01 22:23:41.806 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 22:23:49.665 +07:00 [INF] Executed DbCommand (142ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-10-01 22:23:49.822 +07:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2025-10-01 22:23:49.831 +07:00 [INF] Executed action CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API) in 8026.8837ms
+2025-10-01 22:23:49.836 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API)'
+2025-10-01 22:23:49.910 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Student/import - 500 null text/plain; charset=utf-8 8249.9749ms
+2025-10-01 22:25:11.469 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 22:25:11.674 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 22:25:11.675 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 22:25:11.758 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 22:25:11.760 +07:00 [INF] Hosting environment: Development
+2025-10-01 22:25:11.761 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 22:25:12.144 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 22:25:12.308 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 175.0088ms
+2025-10-01 22:25:12.311 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 22:25:12.323 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 11.9266ms
+2025-10-01 22:25:12.425 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 22:25:12.465 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 40.6179ms
+2025-10-01 22:25:12.510 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 22:25:12.530 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 20.0986ms
+2025-10-01 22:25:18.759 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Student/import - multipart/form-data; boundary=----WebKitFormBoundaryA0OBEqrBgoQZLXDc 12058
+2025-10-01 22:25:18.870 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API)'
+2025-10-01 22:25:18.921 +07:00 [INF] Route matched with {action = "ImportFileToCreateStudents", controller = "Student"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateStudents(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.StudentController (CollabSphere.API).
+2025-10-01 22:25:18.934 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 22:25:23.554 +07:00 [INF] Executed DbCommand (153ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-10-01 22:25:23.829 +07:00 [INF] Executed DbCommand (52ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-10-01 22:25:24.122 +07:00 [INF] Executed DbCommand (54ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?', @p3='?', @p4='?' (DbType = DateTime), @p5='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "user" (created_date, email, password, refresh_token, refresh_token_expiry_time, role_id)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING u_id, is_active, is_teacher;
+2025-10-01 22:25:24.411 +07:00 [INF] Executed DbCommand (53ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?', @p5='?', @p6='?', @p7='?', @p8='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO student (student_id, address, avatar_img, fullname, major, phone_number, school, student_code, yob)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8);
+2025-10-01 22:25:24.563 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-01 22:25:24.589 +07:00 [INF] Executed action CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API) in 5656.1331ms
+2025-10-01 22:25:24.594 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API)'
+2025-10-01 22:25:24.604 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Student/import - 200 null application/json; charset=utf-8 5845.9071ms
+2025-10-01 22:29:13.094 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 22:29:13.283 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 22:29:13.285 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 22:29:13.344 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 22:29:13.350 +07:00 [INF] Hosting environment: Development
+2025-10-01 22:29:13.352 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 22:29:13.623 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 22:29:13.786 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 173.036ms
+2025-10-01 22:29:13.790 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 22:29:13.802 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 12.9866ms
+2025-10-01 22:29:13.896 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 22:29:13.938 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 42.3501ms
+2025-10-01 22:29:13.977 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 22:29:13.994 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 18.1259ms
+2025-10-01 22:29:23.558 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Student/import - multipart/form-data; boundary=----WebKitFormBoundaryfqegAvcLYSMpeqwN 12058
+2025-10-01 22:29:23.617 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API)'
+2025-10-01 22:29:23.636 +07:00 [INF] Route matched with {action = "ImportFileToCreateStudents", controller = "Student"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateStudents(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.StudentController (CollabSphere.API).
+2025-10-01 22:29:23.643 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 22:29:25.823 +07:00 [INF] Executed DbCommand (82ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-10-01 22:29:25.937 +07:00 [INF] Executed DbCommand (41ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-10-01 22:29:26.127 +07:00 [INF] Executed DbCommand (43ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?', @p3='?', @p4='?' (DbType = DateTime), @p5='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "user" (created_date, email, password, refresh_token, refresh_token_expiry_time, role_id)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING u_id, is_active, is_teacher;
+2025-10-01 22:29:26.307 +07:00 [INF] Executed DbCommand (44ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?', @p5='?', @p6='?', @p7='?', @p8='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO student (student_id, address, avatar_img, fullname, major, phone_number, school, student_code, yob)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8);
+2025-10-01 22:29:26.433 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-01 22:29:26.459 +07:00 [INF] Executed action CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API) in 2814.88ms
+2025-10-01 22:29:26.463 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API)'
+2025-10-01 22:29:26.470 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Student/import - 200 null application/json; charset=utf-8 2912.4455ms
+2025-10-01 22:31:01.325 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-01 22:31:01.539 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-01 22:31:01.542 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-01 22:31:01.635 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-01 22:31:01.636 +07:00 [INF] Hosting environment: Development
+2025-10-01 22:31:01.638 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-01 22:31:01.871 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-01 22:31:02.028 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 165.285ms
+2025-10-01 22:31:02.032 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-01 22:31:02.044 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 12.2291ms
+2025-10-01 22:31:02.145 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-01 22:31:02.199 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 53.9472ms
+2025-10-01 22:31:02.246 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-01 22:31:02.266 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 20.7053ms
+2025-10-01 22:31:08.585 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Student/import - multipart/form-data; boundary=----WebKitFormBoundaryE3fpyFcATThn5Bib 12058
+2025-10-01 22:31:08.691 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API)'
+2025-10-01 22:31:08.754 +07:00 [INF] Route matched with {action = "ImportFileToCreateStudents", controller = "Student"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateStudents(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.StudentController (CollabSphere.API).
+2025-10-01 22:31:08.765 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-01 22:31:12.637 +07:00 [INF] Executed DbCommand (150ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-10-01 22:31:12.875 +07:00 [INF] Executed DbCommand (42ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-10-01 22:31:13.196 +07:00 [INF] Executed DbCommand (48ms) [Parameters=[@p0='?' (DbType = DateTime), @p1='?', @p2='?', @p3='?', @p4='?' (DbType = DateTime), @p5='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "user" (created_date, email, password, refresh_token, refresh_token_expiry_time, role_id)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING u_id, is_active, is_teacher;
+2025-10-01 22:31:13.427 +07:00 [INF] Executed DbCommand (40ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?', @p5='?', @p6='?', @p7='?', @p8='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO student (student_id, address, avatar_img, fullname, major, phone_number, school, student_code, yob)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8);
+2025-10-01 22:31:13.565 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-01 22:31:13.593 +07:00 [INF] Executed action CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API) in 4831.019ms
+2025-10-01 22:31:13.597 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API)'
+2025-10-01 22:31:13.607 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Student/import - 200 null application/json; charset=utf-8 5022.0498ms
