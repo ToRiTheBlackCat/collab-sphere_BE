@@ -1,8 +1,11 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Domain.Entities;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,12 +45,52 @@ namespace CollabSphere.Application.Features.Subjects.Commands.ImportSubject
                         IsActive = subjectDto.IsActive,
                     };
                     await _unitOfWork.SubjectRepo.Create(subject);
-                    count++;
+                    await _unitOfWork.SaveChangesAsync();
 
-                    var testBefore = await _unitOfWork.SubjectRepo.GetAll();
+                    // Add subject syllabus
+                    var syllabusDto = subjectDto.SubjectSyllabus;
+                    var syllabus = new SubjectSyllabus()
+                    {
+                        SyllabusName = syllabusDto.SyllabusName,
+                        Description = syllabusDto.Description,
+                        NoCredit = syllabusDto.NoCredit,
+                        IsActive = syllabusDto.IsActive,
+                        CreatedDate = DateTime.UtcNow,
+                        Subject = subject,
+                        SubjectCode = subjectDto.SubjectCode,
+                    };
+                    await _unitOfWork.SubjectSyllabusRepo.Create(syllabus);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    // Add subject outcomes
+                    foreach (var outcomeDto in syllabusDto.SubjectOutcomes)
+                    {
+                        var outcome = new SubjectOutcome()
+                        {
+                            OutcomeDetail = outcomeDto.OutcomeDetail,
+                            Syllabus = syllabus,
+                        };
+                        await _unitOfWork.SubjectOutcomeRepo.Create(outcome);
+                    }
+                    await _unitOfWork.SaveChangesAsync();
+
+                    // Add subject grade components
+                    foreach (var componentDto in syllabusDto.SubjectGradeComponents)
+                    {
+                        var component = new SubjectGradeComponent()
+                        {
+                            ComponentName = componentDto.ComponentName,
+                            ReferencePercentage = componentDto.ReferencePercentage,
+                            SubjectId = subject.SubjectId,
+                            Syllabus = syllabus,
+                        };
+                        await _unitOfWork.SubjectGradeComponentRepo.Create(component);
+                    }
+                    await _unitOfWork.SaveChangesAsync();
+
+
+                    count++;
                 }
-                await _unitOfWork.SaveChangesAsync();
-                var testAfter = await _unitOfWork.SubjectRepo.GetAll();
                 #endregion
 
                 await _unitOfWork.CommitTransactionAsync();
@@ -112,6 +155,20 @@ namespace CollabSphere.Application.Features.Subjects.Commands.ImportSubject
                         Field = $"{nameof(request.Subjects)}[{index}]",
                         Message = $"Subject with SubjectCode '{subjectDto.SubjectCode}' already exist in DB."
                     });
+                }
+
+                // Check for grade components sum
+                if (subjectDto.SubjectSyllabus.SubjectGradeComponents.Any())
+                {
+                    var percentSum = subjectDto.SubjectSyllabus.SubjectGradeComponents.Sum(x => x.ReferencePercentage);
+                    if (percentSum != 100)
+                    {
+                        errors.Add(new OperationError()
+                        {
+                            Field = $"{nameof(request.Subjects)}[{index}].{nameof(subjectDto.SubjectSyllabus.SubjectGradeComponents)}",
+                            Message = $"{nameof(subjectDto.SubjectSyllabus.SubjectGradeComponents)} don't sum up to 100%."
+                        });
+                    }
                 }
             }
         }
