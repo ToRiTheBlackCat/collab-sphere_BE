@@ -30,6 +30,8 @@ namespace CollabSphere.Application.DTOs.Project
         public string SubjectName { get; set; }
 
         public string SubjectCode { get; set; } 
+
+        public int Status { get; set; } 
         #endregion
 
         public List<ObjectiveVM> Objectives { get; set; } = new List<ObjectiveVM>();
@@ -42,12 +44,13 @@ namespace CollabSphere.Application.DTOs.Project
                 ProjectName = project.ProjectName,
                 Description = project.Description,
                 LecturerId = project.LecturerId,
-                LecturerCode = project.Lecturer.LecturerCode,
-                LecturerName = project.Lecturer.Fullname,
+                LecturerCode = project.Lecturer?.LecturerCode ?? string.Empty,
+                LecturerName = project.Lecturer?.Fullname ?? string.Empty,
                 SubjectId = project.SubjectId,
                 SubjectCode = project.Subject?.SubjectCode ?? string.Empty,
                 SubjectName = project.Subject?.SubjectName ?? string.Empty,
                 Objectives = project.Objectives?.Select(x => (ObjectiveVM)x).ToList() ?? new List<ObjectiveVM>(),
+                Status = project.Status,
             };
         }
     }
