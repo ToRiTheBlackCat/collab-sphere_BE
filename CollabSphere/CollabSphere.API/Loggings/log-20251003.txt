@@ -1,0 +1,44 @@
+2025-10-03 10:16:12.892 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-03 10:16:13.166 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-03 10:16:13.168 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-03 10:16:13.327 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-03 10:16:13.352 +07:00 [INF] Hosting environment: Development
+2025-10-03 10:16:13.354 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-03 10:16:13.797 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-03 10:16:13.986 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 191.0561ms
+2025-10-03 10:16:13.993 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-03 10:16:14.001 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 7.2556ms
+2025-10-03 10:16:14.100 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-03 10:16:14.151 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 51.1567ms
+2025-10-03 10:16:14.182 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-03 10:16:14.207 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 24.9476ms
+2025-10-03 10:16:19.636 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/Admin/all-users - null null
+2025-10-03 10:16:22.351 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AdminController.AdminGetAllUsers (CollabSphere.API)'
+2025-10-03 10:16:22.380 +07:00 [INF] Route matched with {action = "AdminGetAllUsers", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AdminGetAllUsers() on controller CollabSphere.API.Controllers.AdminController (CollabSphere.API).
+2025-10-03 10:16:22.383 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-03 10:16:26.886 +07:00 [INF] Executed DbCommand (64ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.role_id = 2
+2025-10-03 10:16:27.116 +07:00 [INF] Executed DbCommand (38ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.role_id = 3
+2025-10-03 10:16:27.187 +07:00 [INF] Executed DbCommand (37ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+LEFT JOIN lecturer AS l ON u.u_id = l.lecturer_id
+WHERE u.role_id = 4
+2025-10-03 10:16:27.310 +07:00 [INF] Executed DbCommand (39ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+LEFT JOIN student AS s ON u.u_id = s.student_id
+WHERE u.role_id = 5
+2025-10-03 10:16:27.352 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.DTOs.User.AdminGetAllUsersResponseDto'.
+2025-10-03 10:16:27.393 +07:00 [INF] Executed action CollabSphere.API.Controllers.AdminController.AdminGetAllUsers (CollabSphere.API) in 5006.054ms
+2025-10-03 10:16:27.394 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AdminController.AdminGetAllUsers (CollabSphere.API)'
+2025-10-03 10:16:27.456 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/Admin/all-users - 200 null application/json; charset=utf-8 7819.3197ms

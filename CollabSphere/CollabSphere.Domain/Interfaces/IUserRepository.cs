@@ -10,6 +10,10 @@ namespace CollabSphere.Domain.Intefaces
 {
     public interface IUserRepository
     {
+        Task<List<User>?> GetAllHeadDepartAsync();
+        Task<List<User>?> GetAllStaffAsync();
+        Task<List<User>?> GetAllLecturerAsync();
+        Task<List<User>?> GetAllStudentAsync();
         Task<User?> GetOneByEmailAndPassword(string email, string password);
         Task<User?> GetOneByEmail(string email);
         Task<User?> GetOneByUserIdAsync(int userId);
