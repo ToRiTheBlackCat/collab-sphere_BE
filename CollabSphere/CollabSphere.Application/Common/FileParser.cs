@@ -1,6 +1,8 @@
 ﻿using CollabSphere.Application.DTOs.Classes;
 using CollabSphere.Application.DTOs.Lecturer;
 using CollabSphere.Application.DTOs.Student;
+using CollabSphere.Application.DTOs.SubjectModels;
+using CollabSphere.Application.DTOs.SubjectOutcomeModels;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using CollabSphere.Application.DTOs.SubjectModels;

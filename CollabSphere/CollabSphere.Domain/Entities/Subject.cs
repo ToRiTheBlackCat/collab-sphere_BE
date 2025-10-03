@@ -15,6 +15,8 @@ public partial class Subject
 
     public bool IsActive { get; set; }
 
+    public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
+
     public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
 
     public virtual ICollection<SubjectSyllabus> SubjectSyllabi { get; set; } = new List<SubjectSyllabus>();
