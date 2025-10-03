@@ -8,6 +8,9 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
+using StackExchange.Redis;
+using System.Threading.Tasks;
+using Role = CollabSphere.Domain.Entities.Role;
 
 namespace CollabSphere.Test.Auth
 {
@@ -18,6 +21,7 @@ namespace CollabSphere.Test.Auth
         private readonly Mock<IConfiguration> _mockConfig;
         private readonly Mock<ILogger<LoginHandler>> _mockLogger;
         private readonly JWTAuthentication _jwtAuth;
+        private readonly Mock<IDatabase> _mockRedis;
         private readonly LoginHandler _handler;
 
         public LoginTests()
@@ -26,8 +30,9 @@ namespace CollabSphere.Test.Auth
             _mockUserRepo = new Mock<IUserRepository>();
             _mockConfig = new Mock<IConfiguration>();
             _mockLogger = new Mock<ILogger<LoginHandler>>();
+            _mockRedis = new Mock<IDatabase>();
 
-            _jwtAuth = new JWTAuthentication(_mockConfig.Object, new MemoryCache(new MemoryCacheOptions()));
+            _jwtAuth = new JWTAuthentication(_mockConfig.Object, _mockRedis.Object);
             _handler = new LoginHandler(_mockUnitOfWork.Object, _mockConfig.Object, _jwtAuth, _mockLogger.Object);
 
             //Setup config
@@ -38,15 +43,39 @@ namespace CollabSphere.Test.Auth
             //Setup UnitOfWork to mock repo
             _mockUnitOfWork.Setup(c => c.UserRepo).Returns(_mockUserRepo.Object);
 
-            //Set up memory cache
-            var memoryCache = new MemoryCache(new MemoryCacheOptions());
+            //Set up Redis cache
 
-            //Setup JWTAuthentication
-            _jwtAuth = new JWTAuthentication(_mockConfig.Object, memoryCache);
+            // Fake Redis cache storage (in-memory dictionary)
+            var redisStorage = new Dictionary<string, string>();
+
+            // Setup StringSetAsync
+            _mockRedis.Setup(r => r.StringSetAsync(It.IsAny<RedisKey>(), It.IsAny<RedisValue>(), It.IsAny<TimeSpan?>(),
+                                                  It.IsAny<bool>(), It.IsAny<When>(), It.IsAny<CommandFlags>()))
+                     .Callback<RedisKey, RedisValue, TimeSpan?, bool, When, CommandFlags>((key, value, expiry, keepTtl, when, flags) =>
+                     {
+                         redisStorage[key] = value;
+                     })
+                     .ReturnsAsync(true);
+
+            // Setup StringGetAsync
+            _mockRedis.Setup(r => r.StringGetAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
+                     .ReturnsAsync((RedisKey key, CommandFlags flags) =>
+                     {
+                         return redisStorage.ContainsKey(key) ? redisStorage[key] : RedisValue.Null;
+                     });
+
+            // Setup KeyDeleteAsync
+            _mockRedis.Setup(r => r.KeyDeleteAsync(It.IsAny<RedisKey>(), It.IsAny<CommandFlags>()))
+                     .Callback<RedisKey, CommandFlags>((key, flags) =>
+                     {
+                         if (redisStorage.ContainsKey(key)) redisStorage.Remove(key);
+                     })
+                     .ReturnsAsync(true);
+
         }
 
         [Fact]
-        public void JWTAuthentication_ShouldReturnTokens_WhenFoundUser()
+        public async Task JWTAuthentication_ShouldReturnTokens_WhenFoundUser()
         {
             //Arrange
             var user = new User
@@ -57,7 +86,7 @@ namespace CollabSphere.Test.Auth
             };
 
             //Act
-            var (accessToken, refreshToken) = _jwtAuth.GenerateToken(user);
+            var (accessToken, refreshToken) = await _jwtAuth.GenerateToken(user);
 
             //Assert
             Assert.False(string.IsNullOrEmpty(accessToken));
@@ -65,7 +94,7 @@ namespace CollabSphere.Test.Auth
         }
 
         [Fact]
-        public void JWTAuthentication_ShouldReturnBothToken_WhenValidRefreshToken()
+        public async Task JWTAuthentication_ShouldReturnBothToken_WhenValidRefreshToken()
         {
             // Arrange
             var user = new User
@@ -74,10 +103,10 @@ namespace CollabSphere.Test.Auth
                 RoleId = 1
             };
 
-            var (accessToken, refreshToken) = _jwtAuth.GenerateToken(user);
+            var (accessToken, refreshToken) = await _jwtAuth.GenerateToken(user);
 
             // Act
-            var (newAccessToken, newRefreshToken) = _jwtAuth.RefreshToken(user, refreshToken);
+            var (newAccessToken, newRefreshToken) = await _jwtAuth.RefreshTokenAsync(user, refreshToken);
 
             // Assert
             Assert.NotNull(newAccessToken);
@@ -85,7 +114,7 @@ namespace CollabSphere.Test.Auth
         }
 
         [Fact]
-        public void JWTAuthentication_ShouldReturnEmpty_WhenRefreshTokenExpired()
+        public async Task JWTAuthentication_ShouldReturnEmpty_WhenRefreshTokenExpired()
         {
             // Arrange
             var user = new User
@@ -96,10 +125,10 @@ namespace CollabSphere.Test.Auth
             var refreshToken = _jwtAuth.GenerateRefreshToken();
 
             // Refresh Token expired in cache
-            _jwtAuth.StoreRefreshTokenInCache(user.UId, refreshToken, DateTime.UtcNow.AddMinutes(-1));
+            await _jwtAuth.StoreRefreshTokenInCache(user.UId, refreshToken, DateTime.UtcNow.AddMinutes(-1));
 
             // Act
-            var result = _jwtAuth.RefreshToken(user, refreshToken);
+            var result = await _jwtAuth.RefreshTokenAsync(user, refreshToken);
 
             // Assert
             Assert.Empty(result.GetType().GetProperties());
