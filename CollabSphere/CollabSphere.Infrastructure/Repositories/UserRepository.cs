@@ -1,4 +1,5 @@
-﻿using CollabSphere.Domain.Entities;
+﻿using CollabSphere.Application.Constants;
+using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
 using CollabSphere.Infrastructure.PostgreDbContext;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,40 @@ namespace CollabSphere.Infrastructure.Repositories
         public UserRepository(collab_sphereContext context)
         {
             _context = context;
+        }
+
+        public async Task<List<User>?> GetAllHeadDepartAsync()
+        {
+            return await _context.Users
+                .Include(x => x.Role)
+                .Where(x => x.RoleId == RoleConstants.HEAD_DEPARTMENT)
+                .ToListAsync();
+        }
+
+        public async Task<List<User>?> GetAllStaffAsync()
+        {
+            return await _context.Users
+                .Include(x => x.Role)
+                .Where(x => x.RoleId == RoleConstants.STAFF)
+                .ToListAsync();
+        }
+
+        public async Task<List<User>?> GetAllLecturerAsync()
+        {
+            return await _context.Users
+                .Include(x => x.Role)
+                .Include(x => x.Lecturer)
+                .Where(x => x.RoleId == RoleConstants.LECTURER)
+                .ToListAsync();
+        }
+
+        public async Task<List<User>?> GetAllStudentAsync()
+        {
+            return await _context.Users
+                .Include(x => x.Role)
+                .Include(x => x.Student)
+                .Where(x => x.RoleId == RoleConstants.STUDENT)
+                .ToListAsync();
         }
 
         public async Task<User?> GetOneByEmailAndPassword(string email, string password)

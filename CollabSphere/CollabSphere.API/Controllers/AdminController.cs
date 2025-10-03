@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.DTOs.User;
+using CollabSphere.Application.Features.Admin.Queries;
 using CollabSphere.Application.Features.User.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -17,7 +18,7 @@ namespace CollabSphere.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("/api/admin/user/head-department_staff")]
+        [HttpPost("user/head-department_staff")]
         public async Task<IActionResult> CreateHeadDepartment_StaffAccount([FromBody] HeadDepart_StaffSignUpRequestDto request)
         {
             if (!ModelState.IsValid)
@@ -30,6 +31,14 @@ namespace CollabSphere.API.Controllers
             return result.Item1
                ? Ok(new { result.Item1, result.Item2 })
                : BadRequest(new { result.Item1, result.Item2 });
+        }
+
+        [HttpGet("all-users")]
+        public async Task<IActionResult> AdminGetAllUsers()
+        {
+            var result = await _mediator.Send(new AdminGetAllUsersQuery());
+
+            return Ok(result);
         }
     }
 }
