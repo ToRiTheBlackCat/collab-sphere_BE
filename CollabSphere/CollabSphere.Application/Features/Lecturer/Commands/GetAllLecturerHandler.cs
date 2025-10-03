@@ -44,7 +44,7 @@ namespace CollabSphere.Application.Features.Lecturer.Commands
                          request.Dto.PageSize,
                          request.Dto.IsDesc
                     );
-                var mappedList = lecturerList.ListUser_To_ListGetAllLecturerResponseDtoo();
+                var mappedList = lecturerList.ListUser_To_ListGetAllLecturerResponseDto();
                 await _unitOfWork.CommitTransactionAsync();
 
                 return mappedList;

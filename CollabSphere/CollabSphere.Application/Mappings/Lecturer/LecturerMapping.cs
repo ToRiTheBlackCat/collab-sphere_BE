@@ -10,7 +10,7 @@ namespace CollabSphere.Application.Mappings.Lecturer
 {
     public static class LecturerMapping
     {
-        public static List<GetAllLecturerResponseDto> ListUser_To_ListGetAllLecturerResponseDtoo(this List<Domain.Entities.User>? userList)
+        public static List<GetAllLecturerResponseDto> ListUser_To_ListGetAllLecturerResponseDto(this List<Domain.Entities.User>? userList)
         {
             var dtoList = new List<GetAllLecturerResponseDto>();
             if (userList == null)
