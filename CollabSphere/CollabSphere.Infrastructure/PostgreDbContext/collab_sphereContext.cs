@@ -723,6 +723,10 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.SubjectId).HasColumnName("subject_id");
 
+            entity.HasOne(d => d.Subject).WithMany(p => p.Projects)
+                .HasForeignKey(d => d.SubjectId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("project_subject_fk");
             entity.HasOne(d => d.Lecturer).WithMany(p => p.Projects)
                 .HasForeignKey(d => d.LecturerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
