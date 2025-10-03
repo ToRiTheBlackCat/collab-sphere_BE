@@ -44,11 +44,11 @@ namespace CollabSphere.Application.Features.Project.Queries.GetAllProjects
                 if (keyWords.Any())
                 {
                     projects = projects
-                        .Select(x => new
+                        .Select(p => new
                         {
-                            Project = x,
-                            Score = 4 * keyWords.Count(k => ContainsWholeWord(x.ProjectName.ToLower(), k)) +
-                                keyWords.Count(k => ContainsWholeWord(x.Description.ToLower(), k))
+                            Project = p,
+                            Score = 4 * keyWords.Count(k => p.ProjectName.ToLower().Contains(k)) +
+                                keyWords.Count(k => p.Description.ToLower().Contains(k))
                         })
                         .Where(x => x.Score > 0)
                         .OrderByDescending(x => x.Score)
