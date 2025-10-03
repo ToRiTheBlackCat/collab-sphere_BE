@@ -21,6 +21,7 @@ namespace CollabSphere.Infrastructure.Base
         public IClassMemberRepository ClassMemberRepo { get; }
         public IClassRepository ClassRepo { get; }
         public ILecturerRepository LecturerRepo { get; }
+        public IProjectRepository ProjectRepo { get; }
         public IStudentRepository StudentRepo { get; }
         public ISubjectGradeComponentRepository SubjectGradeComponentRepo { get; }
         public ISubjectOutcomeRepository SubjectOutcomeRepo { get; }
@@ -38,6 +39,7 @@ namespace CollabSphere.Infrastructure.Base
             ClassMemberRepo = new ClassMemberRepositiory(_context);
             ClassRepo = new ClassRepository(_context);
             LecturerRepo = new LecturerRepository(_context);
+            ProjectRepo = new ProjectRepository(_context);
             StudentRepo = new StudentRepository(_context);
             SubjectGradeComponentRepo = new SubjectGradeComponentRepository(_context);
             SubjectOutcomeRepo = new SubjectOutcomeRepository(_context);
