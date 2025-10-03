@@ -1,0 +1,285 @@
+2025-10-02 10:19:56.210 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-02 10:19:56.483 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-02 10:19:56.485 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-02 10:19:56.561 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-02 10:19:56.563 +07:00 [INF] Hosting environment: Development
+2025-10-02 10:19:56.564 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-02 10:19:57.546 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-02 10:19:57.743 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 202.8494ms
+2025-10-02 10:19:57.753 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-02 10:19:57.764 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 10.4485ms
+2025-10-02 10:19:57.934 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-02 10:19:58.024 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 90.3308ms
+2025-10-02 10:19:58.117 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-02 10:19:58.140 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 24.0197ms
+2025-10-02 10:21:15.019 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Auth/refresh-token - application/json 45
+2025-10-02 10:21:15.171 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.RefreshToken (CollabSphere.API)'
+2025-10-02 10:21:15.209 +07:00 [INF] Route matched with {action = "RefreshToken", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] RefreshToken(CollabSphere.Application.DTOs.Token.RefreshTokenRequestDto) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-02 10:21:15.220 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-02 10:21:33.109 +07:00 [INF] Executed DbCommand (96ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id
+FROM "user" AS u
+WHERE u.u_id = @__userId_0 AND u.is_active
+LIMIT 1
+2025-10-02 10:21:37.993 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'CollabSphere.Application.DTOs.Token.RefreshTokenResponseDto'.
+2025-10-02 10:21:38.000 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.RefreshToken (CollabSphere.API) in 22780.6337ms
+2025-10-02 10:21:38.002 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.RefreshToken (CollabSphere.API)'
+2025-10-02 10:21:38.070 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Auth/refresh-token - 400 null application/json; charset=utf-8 23052.0645ms
+2025-10-02 10:25:34.285 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-02 10:25:34.467 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-02 10:25:34.468 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-02 10:25:34.532 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-02 10:25:34.533 +07:00 [INF] Hosting environment: Development
+2025-10-02 10:25:34.534 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-02 10:25:34.927 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-02 10:25:35.077 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-02 10:25:35.077 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 155.5189ms
+2025-10-02 10:25:35.085 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 8.3499ms
+2025-10-02 10:25:35.177 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-02 10:25:35.215 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 37.9494ms
+2025-10-02 10:25:35.252 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-02 10:25:35.266 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 13.593ms
+2025-10-02 10:25:48.508 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Auth/refresh-token - application/json 83
+2025-10-02 10:25:48.567 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.RefreshToken (CollabSphere.API)'
+2025-10-02 10:25:48.586 +07:00 [INF] Route matched with {action = "RefreshToken", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] RefreshToken(CollabSphere.Application.DTOs.Token.RefreshTokenRequestDto) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-02 10:25:48.595 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-02 10:26:00.042 +07:00 [INF] Executed DbCommand (75ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id
+FROM "user" AS u
+WHERE u.u_id = @__userId_0 AND u.is_active
+LIMIT 1
+2025-10-02 10:26:34.504 +07:00 [INF] Executed DbCommand (43ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
+WHERE u_id = @p8;
+2025-10-02 10:26:34.631 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.DTOs.Token.RefreshTokenResponseDto'.
+2025-10-02 10:26:34.642 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.RefreshToken (CollabSphere.API) in 46046.2554ms
+2025-10-02 10:26:34.643 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.RefreshToken (CollabSphere.API)'
+2025-10-02 10:26:34.648 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Auth/refresh-token - 200 null application/json; charset=utf-8 46140.6662ms
+2025-10-02 10:27:04.154 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Auth/login - application/json 61
+2025-10-02 10:27:04.162 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-02 10:27:04.167 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-02 10:27:04.349 +07:00 [INF] Executed DbCommand (63ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.password = @__password_1 AND u.is_active
+LIMIT 1
+2025-10-02 10:27:04.503 +07:00 [INF] Executed DbCommand (41ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
+WHERE u_id = @p8;
+2025-10-02 10:27:04.586 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.DTOs.User.LoginResponseDTO'.
+2025-10-02 10:27:04.599 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 429.336ms
+2025-10-02 10:27:04.600 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-02 10:27:04.602 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Auth/login - 200 null application/json; charset=utf-8 447.5929ms
+2025-10-02 10:27:19.148 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Auth/refresh-token - application/json 83
+2025-10-02 10:27:19.162 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.RefreshToken (CollabSphere.API)'
+2025-10-02 10:27:19.164 +07:00 [INF] Route matched with {action = "RefreshToken", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] RefreshToken(CollabSphere.Application.DTOs.Token.RefreshTokenRequestDto) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-02 10:27:23.423 +07:00 [INF] Executed DbCommand (36ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id
+FROM "user" AS u
+WHERE u.u_id = @__userId_0 AND u.is_active
+LIMIT 1
+2025-10-02 10:27:59.995 +07:00 [INF] Executed DbCommand (37ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
+WHERE u_id = @p8;
+2025-10-02 10:28:08.752 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.DTOs.Token.RefreshTokenResponseDto'.
+2025-10-02 10:28:16.515 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.RefreshToken (CollabSphere.API) in 57348.9866ms
+2025-10-02 10:28:16.518 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.RefreshToken (CollabSphere.API)'
+2025-10-02 10:28:16.519 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Auth/refresh-token - 200 null application/json; charset=utf-8 57371.0922ms
+2025-10-02 10:33:04.771 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-02 10:33:04.867 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-02 10:33:04.869 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-02 10:33:04.924 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-02 10:33:04.932 +07:00 [INF] Hosting environment: Development
+2025-10-02 10:33:04.938 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-02 10:33:05.359 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-02 10:33:05.517 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 160.0433ms
+2025-10-02 10:33:05.521 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-02 10:33:05.534 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 13.1662ms
+2025-10-02 10:33:05.625 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-02 10:33:05.653 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 28.5288ms
+2025-10-02 10:33:05.698 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-02 10:33:05.725 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 26.9703ms
+2025-10-02 10:33:45.497 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Auth/refresh-token - application/json 83
+2025-10-02 10:33:48.249 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.RefreshToken (CollabSphere.API)'
+2025-10-02 10:33:48.272 +07:00 [INF] Route matched with {action = "RefreshToken", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] RefreshToken(CollabSphere.Application.DTOs.Token.RefreshTokenRequestDto) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-02 10:33:48.279 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-02 10:33:52.269 +07:00 [INF] Executed DbCommand (72ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id
+FROM "user" AS u
+WHERE u.u_id = @__userId_0 AND u.is_active
+LIMIT 1
+2025-10-02 10:33:52.486 +07:00 [INF] Executed DbCommand (64ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
+WHERE u_id = @p8;
+2025-10-02 10:33:52.658 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.DTOs.Token.RefreshTokenResponseDto'.
+2025-10-02 10:33:52.666 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.RefreshToken (CollabSphere.API) in 4388.4435ms
+2025-10-02 10:33:52.672 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.RefreshToken (CollabSphere.API)'
+2025-10-02 10:33:52.676 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Auth/refresh-token - 200 null application/json; charset=utf-8 7179.4619ms
+2025-10-02 10:35:05.467 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Auth/login - application/json 61
+2025-10-02 10:35:05.474 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-02 10:35:05.479 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-02 10:35:05.637 +07:00 [INF] Executed DbCommand (42ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.password = @__password_1 AND u.is_active
+LIMIT 1
+2025-10-02 10:35:05.785 +07:00 [INF] Executed DbCommand (44ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
+WHERE u_id = @p8;
+2025-10-02 10:35:05.877 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.DTOs.User.LoginResponseDTO'.
+2025-10-02 10:35:05.887 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 405.3968ms
+2025-10-02 10:35:05.888 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-02 10:35:05.889 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Auth/login - 200 null application/json; charset=utf-8 422.3052ms
+2025-10-02 10:35:17.098 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Auth/refresh-token - application/json 83
+2025-10-02 10:35:17.106 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.RefreshToken (CollabSphere.API)'
+2025-10-02 10:35:17.107 +07:00 [INF] Route matched with {action = "RefreshToken", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] RefreshToken(CollabSphere.Application.DTOs.Token.RefreshTokenRequestDto) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-02 10:35:17.180 +07:00 [INF] Executed DbCommand (51ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id
+FROM "user" AS u
+WHERE u.u_id = @__userId_0 AND u.is_active
+LIMIT 1
+2025-10-02 10:35:17.275 +07:00 [INF] Executed DbCommand (40ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
+WHERE u_id = @p8;
+2025-10-02 10:35:17.364 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.DTOs.Token.RefreshTokenResponseDto'.
+2025-10-02 10:35:17.366 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.RefreshToken (CollabSphere.API) in 256.7921ms
+2025-10-02 10:35:17.367 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.RefreshToken (CollabSphere.API)'
+2025-10-02 10:35:17.369 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Auth/refresh-token - 200 null application/json; charset=utf-8 270.8376ms
+2025-10-02 11:25:14.332 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-02 11:25:14.568 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-02 11:25:14.570 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-02 11:25:14.650 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-02 11:25:14.658 +07:00 [INF] Hosting environment: Development
+2025-10-02 11:25:14.660 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-02 11:25:15.209 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-02 11:25:15.362 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 161.1089ms
+2025-10-02 11:25:15.488 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-02 11:25:15.488 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-02 11:25:15.505 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 18.1976ms
+2025-10-02 11:25:15.525 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 37.0239ms
+2025-10-02 11:25:15.551 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-02 11:25:15.568 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 17.9643ms
+2025-10-02 11:25:31.567 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Auth/login - application/json 61
+2025-10-02 11:25:31.650 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-02 11:25:31.671 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-02 11:25:31.679 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-02 11:25:40.333 +07:00 [INF] Executed DbCommand (103ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.password = @__password_1 AND u.is_active
+LIMIT 1
+2025-10-02 11:25:45.859 +07:00 [ERR] Have exception when update refresh token and expiry time to DB
+2025-10-02 11:25:45.866 +07:00 [INF] Detail of exception: The message timed out in the backlog attempting to send because no connection became available (5000ms) - Last Connection Exception: UnableToConnect on redis://default:AUKzAAIncDIxOTFiNGM4MWRiZTA0YzUyOTE5ZGVlNGRjMzFkYWMyYXAyMTcwNzU@native-bream-17075.upstash.io:6379:6379/Interactive, Initializing/NotStarted, last: NONE, origin: BeginConnectAsync, outstanding: 0, last-read: 0s ago, last-write: 0s ago, keep-alive: 60s, state: Connecting, mgr: 10 of 10 available, last-heartbeat: never, global: 0s ago, v: 2.9.25.3041, command=DEL, timeout: 5000, inst: 0, qu: 0, qs: 0, aw: False, bw: CheckingForTimeout, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 1, serverEndpoint: redis://default:AUKzAAIncDIxOTFiNGM4MWRiZTA0YzUyOTE5ZGVlNGRjMzFkYWMyYXAyMTcwNzU@native-bream-17075.upstash.io:6379:6379, conn-sec: n/a, aoc: 0, mc: 1/1/0, mgr: 10 of 10 available, clientName: LAPTOP-576LRQ41(SE.Redis-v2.9.25.3041), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=0,Free=32767,Min=16,Max=32767), POOL: (Threads=10,QueuedItems=0,CompletedItems=278,Timers=7), v: 2.9.25.3041 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+2025-10-02 11:25:45.947 +07:00 [INF] Executing NotFoundObjectResult, writing value of type 'CollabSphere.Application.DTOs.User.LoginResponseDTO'.
+2025-10-02 11:25:45.961 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 14281.9297ms
+2025-10-02 11:25:45.964 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-02 11:25:45.971 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Auth/login - 404 null application/json; charset=utf-8 14404.0579ms
+2025-10-02 11:26:06.016 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Auth/login - application/json 61
+2025-10-02 11:26:06.024 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-02 11:26:06.026 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-02 11:26:09.479 +07:00 [INF] Executed DbCommand (57ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.password = @__password_1 AND u.is_active
+LIMIT 1
+2025-10-02 11:26:21.312 +07:00 [ERR] Have exception when update refresh token and expiry time to DB
+2025-10-02 11:26:21.313 +07:00 [INF] Detail of exception: The message timed out in the backlog attempting to send because no connection became available (5000ms) - Last Connection Exception: UnableToConnect on redis://default:AUKzAAIncDIxOTFiNGM4MWRiZTA0YzUyOTE5ZGVlNGRjMzFkYWMyYXAyMTcwNzU@native-bream-17075.upstash.io:6379:6379/Interactive, Initializing/NotStarted, last: NONE, origin: BeginConnectAsync, outstanding: 0, last-read: 0s ago, last-write: 0s ago, keep-alive: 60s, state: Connecting, mgr: 10 of 10 available, last-heartbeat: never, global: 0s ago, v: 2.9.25.3041, command=DEL, timeout: 5000, inst: 0, qu: 0, qs: 0, aw: False, bw: CheckingForTimeout, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 2, serverEndpoint: redis://default:AUKzAAIncDIxOTFiNGM4MWRiZTA0YzUyOTE5ZGVlNGRjMzFkYWMyYXAyMTcwNzU@native-bream-17075.upstash.io:6379:6379, conn-sec: n/a, aoc: 0, mc: 1/1/0, mgr: 10 of 10 available, clientName: LAPTOP-576LRQ41(SE.Redis-v2.9.25.3041), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=0,Free=32767,Min=16,Max=32767), POOL: (Threads=8,QueuedItems=0,CompletedItems=430,Timers=5), v: 2.9.25.3041 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+2025-10-02 11:26:24.764 +07:00 [INF] Executing NotFoundObjectResult, writing value of type 'CollabSphere.Application.DTOs.User.LoginResponseDTO'.
+2025-10-02 11:26:24.769 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 18741.0395ms
+2025-10-02 11:26:24.770 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-02 11:26:24.771 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Auth/login - 404 null application/json; charset=utf-8 18755.6866ms
+2025-10-02 11:26:29.205 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Auth/login - application/json 61
+2025-10-02 11:26:29.211 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-02 11:26:29.213 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-02 11:26:30.872 +07:00 [INF] Executed DbCommand (54ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.password = @__password_1 AND u.is_active
+LIMIT 1
+2025-10-02 11:26:59.254 +07:00 [ERR] Have exception when update refresh token and expiry time to DB
+2025-10-02 11:26:59.257 +07:00 [INF] Detail of exception: The message timed out in the backlog attempting to send because no connection became available (5000ms) - Last Connection Exception: UnableToConnect on redis://default:AUKzAAIncDIxOTFiNGM4MWRiZTA0YzUyOTE5ZGVlNGRjMzFkYWMyYXAyMTcwNzU@native-bream-17075.upstash.io:6379:6379/Interactive, Initializing/NotStarted, last: NONE, origin: BeginConnectAsync, outstanding: 0, last-read: 0s ago, last-write: 0s ago, keep-alive: 60s, state: Connecting, mgr: 10 of 10 available, last-heartbeat: never, global: 0s ago, v: 2.9.25.3041, command=DEL, timeout: 5000, inst: 0, qu: 0, qs: 0, aw: False, bw: CheckingForTimeout, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 3, serverEndpoint: redis://default:AUKzAAIncDIxOTFiNGM4MWRiZTA0YzUyOTE5ZGVlNGRjMzFkYWMyYXAyMTcwNzU@native-bream-17075.upstash.io:6379:6379, conn-sec: n/a, aoc: 0, mc: 1/1/0, mgr: 10 of 10 available, clientName: LAPTOP-576LRQ41(SE.Redis-v2.9.25.3041), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=3,Free=32764,Min=16,Max=32767), POOL: (Threads=7,QueuedItems=0,CompletedItems=513,Timers=4), v: 2.9.25.3041 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+2025-10-02 11:27:02.895 +07:00 [INF] Executing NotFoundObjectResult, writing value of type 'CollabSphere.Application.DTOs.User.LoginResponseDTO'.
+2025-10-02 11:27:02.900 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 33684.3095ms
+2025-10-02 11:27:02.901 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-02 11:27:02.903 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Auth/login - 404 null application/json; charset=utf-8 33698.0278ms
+2025-10-02 11:30:09.458 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-02 11:30:09.718 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-02 11:30:09.720 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-02 11:30:09.781 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-02 11:30:09.782 +07:00 [INF] Hosting environment: Development
+2025-10-02 11:30:09.784 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-02 11:30:10.129 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-02 11:30:10.268 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 147.0165ms
+2025-10-02 11:30:10.283 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-02 11:30:10.291 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 8.0857ms
+2025-10-02 11:30:10.784 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-02 11:30:10.817 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 34.4828ms
+2025-10-02 11:30:11.026 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-02 11:30:11.047 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 21.1759ms
+2025-10-02 11:30:38.029 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Auth/login - application/json 61
+2025-10-02 11:30:38.204 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-02 11:30:38.263 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-02 11:30:38.281 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-02 11:30:50.724 +07:00 [INF] Executed DbCommand (145ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.password = @__password_1 AND u.is_active
+LIMIT 1
+2025-10-02 11:31:04.051 +07:00 [ERR] Have exception when update refresh token and expiry time to DB
+2025-10-02 11:31:04.052 +07:00 [INF] Detail of exception: The message timed out in the backlog attempting to send because no connection became available (5000ms) - Last Connection Exception: UnableToConnect on redis://default:AUKzAAIncDIxOTFiNGM4MWRiZTA0YzUyOTE5ZGVlNGRjMzFkYWMyYXAyMTcwNzU@native-bream-17075.upstash.io:6379:6379/Interactive, Initializing/NotStarted, last: NONE, origin: BeginConnectAsync, outstanding: 0, last-read: 0s ago, last-write: 0s ago, keep-alive: 60s, state: Connecting, mgr: 10 of 10 available, last-heartbeat: never, global: 0s ago, v: 2.9.25.3041, command=GET, timeout: 5000, inst: 0, qu: 0, qs: 0, aw: False, bw: CheckingForTimeout, last-in: 0, cur-in: 0, sync-ops: 0, async-ops: 1, serverEndpoint: redis://default:AUKzAAIncDIxOTFiNGM4MWRiZTA0YzUyOTE5ZGVlNGRjMzFkYWMyYXAyMTcwNzU@native-bream-17075.upstash.io:6379:6379, conn-sec: n/a, aoc: 0, mc: 1/1/0, mgr: 10 of 10 available, clientName: LAPTOP-576LRQ41(SE.Redis-v2.9.25.3041), IOCP: (Busy=0,Free=1000,Min=1,Max=1000), WORKER: (Busy=0,Free=32767,Min=16,Max=32767), POOL: (Threads=9,QueuedItems=0,CompletedItems=328,Timers=6), v: 2.9.25.3041 (Please take a look at this article for some common client-side issues that can cause timeouts: https://stackexchange.github.io/StackExchange.Redis/Timeouts)
+2025-10-02 11:31:07.442 +07:00 [INF] Executing NotFoundObjectResult, writing value of type 'CollabSphere.Application.DTOs.User.LoginResponseDTO'.
+2025-10-02 11:31:07.453 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 29181.3024ms
+2025-10-02 11:31:07.456 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-02 11:31:07.463 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Auth/login - 404 null application/json; charset=utf-8 29433.7205ms
+2025-10-02 11:35:14.452 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-02 11:35:14.645 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-02 11:35:14.647 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-02 11:35:14.753 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-02 11:35:14.755 +07:00 [INF] Hosting environment: Development
+2025-10-02 11:35:14.756 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-02 11:35:15.330 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-02 11:35:15.486 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 163.431ms
+2025-10-02 11:35:15.488 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-02 11:35:15.500 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 12.1328ms
+2025-10-02 11:35:15.592 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-02 11:35:15.630 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 38.799ms
+2025-10-02 11:35:15.670 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-02 11:35:15.690 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 20.1376ms
+2025-10-02 11:35:32.646 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Auth/login - application/json 61
+2025-10-02 11:35:32.707 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-02 11:35:32.726 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-02 11:35:32.734 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-02 11:35:51.102 +07:00 [INF] Executed DbCommand (73ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.password = @__password_1 AND u.is_active
+LIMIT 1
+2025-10-02 11:36:38.364 +07:00 [INF] Executed DbCommand (41ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
+WHERE u_id = @p8;
+2025-10-02 11:36:38.487 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.DTOs.User.LoginResponseDTO'.
+2025-10-02 11:36:38.500 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 65767.7059ms
+2025-10-02 11:36:38.505 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-02 11:36:38.516 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Auth/login - 200 null application/json; charset=utf-8 65870.2698ms
+2025-10-02 11:37:12.329 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Auth/refresh-token - application/json 83
+2025-10-02 11:37:12.345 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.RefreshToken (CollabSphere.API)'
+2025-10-02 11:37:12.351 +07:00 [INF] Route matched with {action = "RefreshToken", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] RefreshToken(CollabSphere.Application.DTOs.Token.RefreshTokenRequestDto) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-02 11:37:12.483 +07:00 [INF] Executed DbCommand (54ms) [Parameters=[@__userId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id
+FROM "user" AS u
+WHERE u.u_id = @__userId_0 AND u.is_active
+LIMIT 1
+2025-10-02 11:37:42.811 +07:00 [INF] Executed DbCommand (34ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
+WHERE u_id = @p8;
+2025-10-02 11:37:42.888 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.DTOs.Token.RefreshTokenResponseDto'.
+2025-10-02 11:37:42.921 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.RefreshToken (CollabSphere.API) in 30567.7519ms
+2025-10-02 11:37:42.928 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.RefreshToken (CollabSphere.API)'
+2025-10-02 11:37:42.932 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Auth/refresh-token - 200 null application/json; charset=utf-8 30604.0646ms

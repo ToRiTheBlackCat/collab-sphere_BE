@@ -1,4 +1,4 @@
-﻿using CollabSphere.Domain.Entities;
+using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
 using CollabSphere.Infrastructure.PostgreDbContext;
 using CollabSphere.Infrastructure.Base;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Infrastructure.Repositories
 {
-    public class LecturerRepository : GenericRepository<Lecturer>, ILecturerRepository
+     public class LecturerRepository : GenericRepository<Lecturer>, ILecturerRepository
     {
         public LecturerRepository(collab_sphereContext context) : base(context)
         {
@@ -28,6 +28,5 @@ namespace CollabSphere.Infrastructure.Repositories
         {
             _context.Lecturers.Update(lecturer);
         }
-
     }
 }
