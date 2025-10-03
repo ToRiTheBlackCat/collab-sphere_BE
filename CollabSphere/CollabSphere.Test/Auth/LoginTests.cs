@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Moq;
 using StackExchange.Redis;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Role = CollabSphere.Domain.Entities.Role;
 
@@ -42,9 +43,6 @@ namespace CollabSphere.Test.Auth
 
             //Setup UnitOfWork to mock repo
             _mockUnitOfWork.Setup(c => c.UserRepo).Returns(_mockUserRepo.Object);
-
-            //Set up Redis cache
-
             // Fake Redis cache storage (in-memory dictionary)
             var redisStorage = new Dictionary<string, string>();
 
@@ -71,7 +69,6 @@ namespace CollabSphere.Test.Auth
                          if (redisStorage.ContainsKey(key)) redisStorage.Remove(key);
                      })
                      .ReturnsAsync(true);
-
         }
 
         [Fact]
@@ -103,14 +100,24 @@ namespace CollabSphere.Test.Auth
                 RoleId = 1
             };
 
-            var (accessToken, refreshToken) = await _jwtAuth.GenerateToken(user);
+            var entry = new JWTAuthentication.RefreshTokenCacheEntry
+            {
+                RefreshToken = "valid-refresh",
+                Expiry = DateTime.UtcNow.AddMinutes(10)
+            };
+
+            var jsonEntry = JsonSerializer.Serialize(entry);
+
+            _mockRedis
+                .Setup(r => r.StringGetAsync("RefreshToken:1", It.IsAny<CommandFlags>()))
+                .ReturnsAsync(jsonEntry);
 
             // Act
-            var (newAccessToken, newRefreshToken) = await _jwtAuth.RefreshTokenAsync(user, refreshToken);
+            var (newAccess, newRefresh) = await _jwtAuth.RefreshTokenAsync(user, "valid-refresh");
 
             // Assert
-            Assert.NotNull(newAccessToken);
-            Assert.NotNull(newRefreshToken);
+            Assert.NotNull(newAccess);
+            Assert.NotNull(newRefresh);
         }
 
         [Fact]
