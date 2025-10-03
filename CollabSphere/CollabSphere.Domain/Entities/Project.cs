@@ -19,6 +19,8 @@ public partial class Project
 
     public int Status { get; set; }
 
+    public virtual Subject Subject { get; set; }
+
     public virtual Lecturer Lecturer { get; set; }
 
     public virtual ICollection<Objective> Objectives { get; set; } = new List<Objective>();
