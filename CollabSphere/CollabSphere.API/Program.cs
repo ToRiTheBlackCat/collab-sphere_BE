@@ -173,7 +173,7 @@ app.UseSwaggerUI(c =>
 
 
 app.UseHttpsRedirection();
-
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
