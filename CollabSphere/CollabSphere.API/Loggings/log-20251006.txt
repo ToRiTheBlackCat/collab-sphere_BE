@@ -37,3 +37,42 @@ ORDER BY s.u_id
 2025-10-06 21:40:08.946 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.GetAllLecturer (CollabSphere.API) in 5275.4744ms
 2025-10-06 21:40:08.952 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.GetAllLecturer (CollabSphere.API)'
 2025-10-06 21:40:08.962 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/Lecturer?Email=aaaa&FullName=aaaa - 200 null application/json; charset=utf-8 8059.7814ms
+2025-10-06 22:00:11.597 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-06 22:00:11.698 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-06 22:00:11.699 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-06 22:00:11.821 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-06 22:00:11.822 +07:00 [INF] Hosting environment: Development
+2025-10-06 22:00:11.823 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-06 22:00:12.031 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-06 22:00:12.134 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 103.6259ms
+2025-10-06 22:00:12.137 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-06 22:00:12.146 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 8.5616ms
+2025-10-06 22:00:12.245 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-06 22:00:12.269 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 23.9498ms
+2025-10-06 22:00:12.333 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-06 22:00:12.345 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 12.6361ms
+2025-10-06 22:00:20.524 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/Student?FullName=adfasdfasdfdas - null null
+2025-10-06 22:00:20.547 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.StudentController.GetAllStudent (CollabSphere.API)'
+2025-10-06 22:00:20.573 +07:00 [INF] Route matched with {action = "GetAllStudent", controller = "Student"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllStudent(CollabSphere.Application.DTOs.Student.GetAllStudentRequestDto) on controller CollabSphere.API.Controllers.StudentController (CollabSphere.API).
+2025-10-06 22:00:20.580 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-06 22:00:22.904 +07:00 [INF] Executed DbCommand (121ms) [Parameters=[@__fullName_0_contains='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "user" AS u
+LEFT JOIN student AS s ON u.u_id = s.student_id
+WHERE u.role_id = 5 AND s.fullname LIKE @__fullName_0_contains
+2025-10-06 22:00:23.021 +07:00 [INF] Executed DbCommand (58ms) [Parameters=[@__fullName_0_contains='?', @__p_2='?' (DbType = Int32), @__p_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s0.u_id, s0.created_date, s0.email, s0.is_active, s0.is_teacher, s0.password, s0.refresh_token, s0.refresh_token_expiry_time, s0.role_id, r.role_id, r.role_name, s0.student_id, s0.address, s0.avatar_img, s0.fullname, s0.major, s0.phone_number, s0.school, s0.student_code, s0.yob
+FROM (
+    SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob
+    FROM "user" AS u
+    LEFT JOIN student AS s ON u.u_id = s.student_id
+    WHERE u.role_id = 5 AND s.fullname LIKE @__fullName_0_contains
+    ORDER BY u.u_id
+    LIMIT @__p_2 OFFSET @__p_1
+) AS s0
+INNER JOIN role AS r ON s0.role_id = r.role_id
+ORDER BY s0.u_id
+2025-10-06 22:00:23.108 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[CollabSphere.Application.DTOs.Student.GetAllStudentResponseDto, CollabSphere.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-06 22:00:23.123 +07:00 [INF] Executed action CollabSphere.API.Controllers.StudentController.GetAllStudent (CollabSphere.API) in 2544.1535ms
+2025-10-06 22:00:23.125 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.StudentController.GetAllStudent (CollabSphere.API)'
+2025-10-06 22:00:23.132 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/Student?FullName=adfasdfasdfdas - 200 null application/json; charset=utf-8 2607.8237ms
