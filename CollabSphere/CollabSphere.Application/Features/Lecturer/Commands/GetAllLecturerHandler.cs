@@ -15,15 +15,12 @@ namespace CollabSphere.Application.Features.Lecturer.Commands
     public class GetAllLecturerHandler : IRequestHandler<GetAllLecturerCommand, List<GetAllLecturerResponseDto>?>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IConfiguration _configure;
         private readonly ILogger<GetAllLecturerHandler> _logger;
 
         public GetAllLecturerHandler(IUnitOfWork unitOfWork,
-                                    IConfiguration configure,
                                     ILogger<GetAllLecturerHandler> logger)
         {
             _unitOfWork = unitOfWork;
-            _configure = configure;
             _logger = logger;
         }
 
