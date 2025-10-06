@@ -8,10 +8,13 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Project.Queries.GetTeacherProjects
 {
-    public class GetLecturerProjectsQuery : IQuery<GetLecturerProjectResult>
+    public class GetLecturerProjectsQuery : IQuery<GetLecturerProjectsResult>
     {
         [FromRoute(Name = "lecturerId")]
         public int LecturerId { get; set; }
+
+        [FromQuery]
+        public string Descriptors { get; set; } = string.Empty;
 
         [FromQuery]
         public HashSet<int> Statuses { get; set; } = new HashSet<int>();
