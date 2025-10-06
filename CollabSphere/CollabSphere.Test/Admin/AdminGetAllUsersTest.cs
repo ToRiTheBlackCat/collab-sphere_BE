@@ -20,8 +20,6 @@ namespace CollabSphere.Test.Admin
     {
         private readonly Mock<IUnitOfWork> _mockUnitOfWork;
         private readonly Mock<IUserRepository> _mockUserRepo;
-        private readonly Mock<IConfiguration> _mockConfig;
-        private readonly Mock<IDatabase> _mockRedis;
         private readonly Mock<ILogger<AdminGetAllUsersHandler>> _mockLogger;
 
         private readonly AdminGetAllUsersHandler _handler;
@@ -30,9 +28,7 @@ namespace CollabSphere.Test.Admin
         {
             _mockUnitOfWork = new Mock<IUnitOfWork>();
             _mockUserRepo = new Mock<IUserRepository>();
-            _mockConfig = new Mock<IConfiguration>();
             _mockLogger = new Mock<ILogger<AdminGetAllUsersHandler>>();
-            _mockRedis = new Mock<IDatabase>();
             _handler = new AdminGetAllUsersHandler(_mockUnitOfWork.Object, _mockLogger.Object);
             //Set up configure UnitOfWork and Repo
             _mockUnitOfWork.Setup(c => c.UserRepo).Returns(_mockUserRepo.Object);
@@ -61,7 +57,5 @@ namespace CollabSphere.Test.Admin
             Assert.Equal(1, result.LecturerCount);
             Assert.Equal(1, result.StudentCount);
         }
-
-
     }
 }
