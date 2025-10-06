@@ -1,0 +1,39 @@
+2025-10-06 21:39:49.627 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-06 21:39:49.776 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-06 21:39:49.779 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-06 21:39:49.833 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-06 21:39:49.851 +07:00 [INF] Hosting environment: Development
+2025-10-06 21:39:49.855 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-06 21:39:50.755 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-06 21:39:50.909 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 154.5112ms
+2025-10-06 21:39:50.915 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-06 21:39:50.927 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 12.5152ms
+2025-10-06 21:39:51.024 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-06 21:39:51.078 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 53.6722ms
+2025-10-06 21:39:51.113 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-06 21:39:51.127 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 13.5932ms
+2025-10-06 21:40:00.902 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/Lecturer?Email=aaaa&FullName=aaaa - null null
+2025-10-06 21:40:03.613 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.GetAllLecturer (CollabSphere.API)'
+2025-10-06 21:40:03.663 +07:00 [INF] Route matched with {action = "GetAllLecturer", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllLecturer(CollabSphere.Application.DTOs.Lecturer.GetAllLecturerRequestDto) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-06 21:40:03.672 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-06 21:40:08.615 +07:00 [INF] Executed DbCommand (123ms) [Parameters=[@__email_0_contains='?', @__fullName_1_contains='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "user" AS u
+LEFT JOIN lecturer AS l ON u.u_id = l.lecturer_id
+WHERE u.role_id = 4 AND u.email LIKE @__email_0_contains AND l.fullname LIKE @__fullName_1_contains
+2025-10-06 21:40:08.821 +07:00 [INF] Executed DbCommand (52ms) [Parameters=[@__email_0_contains='?', @__fullName_1_contains='?', @__p_3='?' (DbType = Int32), @__p_2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s.u_id, s.created_date, s.email, s.is_active, s.is_teacher, s.password, s.refresh_token, s.refresh_token_expiry_time, s.role_id, r.role_id, r.role_name, s.lecturer_id, s.address, s.avatar_img, s.fullname, s.lecturer_code, s.major, s.phone_number, s.school, s.yob
+FROM (
+    SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+    FROM "user" AS u
+    LEFT JOIN lecturer AS l ON u.u_id = l.lecturer_id
+    WHERE u.role_id = 4 AND u.email LIKE @__email_0_contains AND l.fullname LIKE @__fullName_1_contains
+    ORDER BY u.u_id
+    LIMIT @__p_3 OFFSET @__p_2
+) AS s
+INNER JOIN role AS r ON s.role_id = r.role_id
+ORDER BY s.u_id
+2025-10-06 21:40:08.920 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[CollabSphere.Application.DTOs.Lecturer.GetAllLecturerResponseDto, CollabSphere.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-06 21:40:08.946 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.GetAllLecturer (CollabSphere.API) in 5275.4744ms
+2025-10-06 21:40:08.952 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.GetAllLecturer (CollabSphere.API)'
+2025-10-06 21:40:08.962 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/Lecturer?Email=aaaa&FullName=aaaa - 200 null application/json; charset=utf-8 8059.7814ms
