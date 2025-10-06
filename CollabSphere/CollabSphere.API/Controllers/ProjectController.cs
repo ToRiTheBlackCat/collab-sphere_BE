@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Features.Project.Queries.GetAllProjects;
+using CollabSphere.Application.Features.Project.Queries.GetTeacherProjects;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,19 @@ namespace CollabSphere.API.Controllers
         public async Task<IActionResult> GetAllProjects(GetAllProjectsQuery query)
         {
             var result = await _mediator.Send(query);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result.Projects);
+        }
+
+        [HttpGet("lecturer/{lecturerId}")]
+        public async Task<IActionResult> GetTeacherProjects(GetLecturerProjectsQuery query, CancellationToken cancellationToken = default!)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
 
             if (!result.IsSuccess)
             {
