@@ -60,5 +60,12 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllLecturer([FromQuery] GetAllLecturerRequestDto dto)
+        {
+
+            var result = await _mediator.Send(new GetAllLecturerCommand(dto));
+            return Ok(result);
+        }
     }
 }
