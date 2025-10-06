@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Project.Queries.GetTeacherProjects
 {
-    public class GetLecturerProjectResult : QueryResult
+    public class GetLecturerProjectsResult : QueryResult
     {
         public List<ProjectVM> Projects { get; set; } = new List<ProjectVM>();
     }
