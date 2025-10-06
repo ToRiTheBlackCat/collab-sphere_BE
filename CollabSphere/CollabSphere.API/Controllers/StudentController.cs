@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Common;
+using CollabSphere.Application.DTOs.Student;
 using CollabSphere.Application.Features.Student.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -58,6 +59,13 @@ namespace CollabSphere.API.Controllers
 
             return Ok(result);
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllStudent([FromQuery] GetAllStudentRequestDto dto)
+        {
+            var result = await _mediator.Send(new GetAllStudentCommand(dto));
+            return Ok(result);
         }
     }
 }
