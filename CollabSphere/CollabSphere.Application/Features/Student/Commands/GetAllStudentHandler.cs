@@ -14,7 +14,6 @@ namespace CollabSphere.Application.Features.Student.Commands
     public class GetAllStudentHandler : IRequestHandler<GetAllStudentCommand, List<GetAllStudentResponseDto>?>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IConfiguration _configure;
         private readonly ILogger<GetAllStudentHandler> _logger;
 
         public GetAllStudentHandler(IUnitOfWork unitOfWork,
@@ -22,7 +21,6 @@ namespace CollabSphere.Application.Features.Student.Commands
                                     ILogger<GetAllStudentHandler> logger)
         {
             _unitOfWork = unitOfWork;
-            _configure = configure;
             _logger = logger;
         }
 
