@@ -29,5 +29,18 @@ namespace CollabSphere.Infrastructure.Repositories
 
             return projects;
         }
+
+        public override async Task<Project?> GetById(int id)
+        {
+            var project = await _context.Projects
+                .Include(x => x.Lecturer)
+                .Include(x => x.Subject)
+                .Include(x => x.Objectives)
+                    .ThenInclude(x => x.ObjectiveMilestones)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.ProjectId == id);
+
+            return project;
+        }
     }
 }
