@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Constants
 {
-    public class ProjectStatus
+    public class ProjectStatuses
     {
         public const int PENDING = 0;
         public const int APPROVED = 1;
