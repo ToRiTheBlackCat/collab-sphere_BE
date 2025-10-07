@@ -1,43 +1,39 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.DTOs.Project;
 using CollabSphere.Application.DTOs.Validation;
-using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Project.Queries.GetTeacherProjects
+namespace CollabSphere.Application.Features.Project.Queries.GetProjectsOfClass
 {
-    public class GetLecturerProjectsHandler : QueryHandler<GetLecturerProjectsQuery, GetLecturerProjectsResult>
+    public class GetProjectsOfClassHandler : QueryHandler<GetProjectsOfClassQuery, GetProjectsOfClassResult>
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public GetLecturerProjectsHandler(IUnitOfWork unitOfWork)
+        public GetProjectsOfClassHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        protected override async Task<GetLecturerProjectsResult> HandleCommand(GetLecturerProjectsQuery request, CancellationToken cancellationToken)
+        protected override async Task<GetProjectsOfClassResult> HandleCommand(GetProjectsOfClassQuery request, CancellationToken cancellationToken)
         {
-            var result = new GetLecturerProjectsResult()
+            var result = new GetProjectsOfClassResult()
             {
                 IsSuccess = false,
                 IsValidInput = true,
-                Message = string.Empty,
+                Message = string.Empty
             };
 
             try
             {
                 var keywords = new HashSet<string>(request.Descriptors.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries));
 
-                var projects = (await _unitOfWork.ProjectRepo.GetAll())
-                    // Filter projects
-                    .Where(x =>
-                        x.LecturerId == request.LecturerId &&
-                        (!request.Statuses.Any() || request.Statuses.Contains(x.Status)))
-                    .ToList();
+                var projectAssignments = await _unitOfWork.ProjectAssignmentRepo.GetProjectAssignmentsByClassAsync(request.ClassId);
+                var projects = projectAssignments.Select(x => x.Project);
 
                 if (keywords.Any())
                 {
@@ -66,15 +62,18 @@ namespace CollabSphere.Application.Features.Project.Queries.GetTeacherProjects
                     })
                     .Where(x => x.Weight > 0)
                     .OrderByDescending(x => x.Weight)
-                    .Select(x => x.Project)
-                    .ToList();
+                    .Select(x => x.Project);
                 }
 
-                result.PagedProjects = new Common.PagedList<ProjectVM>(
-                    list: projects.Select(x => (ProjectVM)x).ToList(),
+                // View all
+
+                var pagedList = new PagedList<ProjectVM>(
+                    list: projects.Select(x => (ProjectVM)x),
                     pageNum: request.PageNum,
                     pageSize: request.PageSize,
                     viewAll: request.ViewAll);
+                result.PagedProjects = pagedList;
+
                 result.IsSuccess = true;
             }
             catch (Exception ex)
@@ -85,7 +84,7 @@ namespace CollabSphere.Application.Features.Project.Queries.GetTeacherProjects
             return result;
         }
 
-        protected override async Task ValidateRequest(List<OperationError> errors, GetLecturerProjectsQuery request)
+        protected override async Task ValidateRequest(List<OperationError> errors, GetProjectsOfClassQuery request)
         {
             return;
         }

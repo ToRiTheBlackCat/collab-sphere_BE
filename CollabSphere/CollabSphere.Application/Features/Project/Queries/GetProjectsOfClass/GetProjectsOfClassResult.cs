@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Project.Queries.GetAllProjects
+namespace CollabSphere.Application.Features.Project.Queries.GetProjectsOfClass
 {
-    public class GetAllProjectsResult : QueryResult
+    public class GetProjectsOfClassResult : QueryResult
     {
         public PagedList<ProjectVM>? PagedProjects { get; set; }
     }
