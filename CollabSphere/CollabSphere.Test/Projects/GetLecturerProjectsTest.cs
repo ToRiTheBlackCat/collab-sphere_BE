@@ -71,7 +71,8 @@ namespace CollabSphere.Test.Projects
             var result = await _handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.Equal(3, result.Projects.Count);
+            Assert.NotNull(result.PagedProjects);
+            Assert.Equal(3, result.PagedProjects.ItemCount);
         }
 
         [Fact]
@@ -118,9 +119,10 @@ namespace CollabSphere.Test.Projects
             var result = await _handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.NotEmpty(result.Projects);
-            Assert.Equal(2, result.Projects.Count);
-            Assert.DoesNotContain(result.Projects, x => {
+            Assert.NotNull(result.PagedProjects);
+            Assert.NotEmpty(result.PagedProjects.List);
+            Assert.Equal(2, result.PagedProjects.ItemCount);
+            Assert.DoesNotContain(result.PagedProjects.List, x => {
                 var hasName = x.ProjectName.Contains("platform") || x.ProjectName.Contains("app");
                 var hasDescription = x.Description.Contains("platform") || x.Description.Contains("app");
 
@@ -176,8 +178,9 @@ namespace CollabSphere.Test.Projects
             var result = await _handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.NotEmpty(result.Projects);
-            Assert.Equal(2, result.Projects.Count);
+            Assert.NotNull(result.PagedProjects);
+            Assert.NotEmpty(result.PagedProjects.List);
+            Assert.Equal(2, result.PagedProjects.ItemCount);
         }
 
         [Fact]
@@ -227,7 +230,8 @@ namespace CollabSphere.Test.Projects
             var result = await _handler.Handle(query, CancellationToken.None);
 
             // Assert
-            Assert.Empty(result.Projects);
+            Assert.NotNull(result.PagedProjects);
+            Assert.Empty(result.PagedProjects.List);
         }
 
         [Fact]

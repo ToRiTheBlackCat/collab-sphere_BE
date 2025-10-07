@@ -73,7 +73,8 @@ namespace CollabSphere.Test.Projects
             // Assert
             Assert.True(result.IsSuccess);
             Assert.True(result.IsValidInput);
-            Assert.Equal(2, result.Projects.Count());
+            Assert.NotNull(result.PagedProjects);
+            Assert.Equal(2, result.PagedProjects.ItemCount);
         }
 
         [Fact]
@@ -117,8 +118,9 @@ namespace CollabSphere.Test.Projects
             // Assert
             Assert.True(result.IsSuccess);
             Assert.True(result.IsValidInput);
-            Assert.Single(result.Projects);
-            Assert.Equal("Terminal Calculator", result.Projects[0].ProjectName);
+            Assert.NotNull(result.PagedProjects);
+            Assert.Single(result.PagedProjects.List);
+            Assert.Equal("Terminal Calculator", result.PagedProjects.List.First().ProjectName);
         }
 
         [Fact]
@@ -162,8 +164,9 @@ namespace CollabSphere.Test.Projects
             // Assert
             Assert.True(result.IsSuccess);
             Assert.True(result.IsValidInput);
-            Assert.NotEmpty(result.Projects);
-            Assert.Equal(2, result.Projects.Count());
+            Assert.NotNull(result.PagedProjects);
+            Assert.NotEmpty(result.PagedProjects.List);
+            Assert.Equal(2, result.PagedProjects.ItemCount);
         }
 
         [Fact]
@@ -174,7 +177,8 @@ namespace CollabSphere.Test.Projects
             {
                 Descriptors = "terminal",
                 LecturerIds = new List<int>(),
-                SubjectIds = new List<int>()
+                SubjectIds = new List<int>(),
+                ViewAll = true
             };
 
             var projects = new List<Project>()
@@ -207,8 +211,9 @@ namespace CollabSphere.Test.Projects
             // Assert
             Assert.True(result.IsSuccess);
             Assert.True(result.IsValidInput);
-            Assert.Single(result.Projects);
-            Assert.Equal("Terminal Calculator", result.Projects[0].ProjectName);
+            Assert.NotNull(result.PagedProjects);
+            Assert.Single(result.PagedProjects.List);
+            Assert.Equal("Terminal Calculator", result.PagedProjects.List.First().ProjectName);
         }
 
         [Fact]
@@ -219,7 +224,8 @@ namespace CollabSphere.Test.Projects
             {
                 Descriptors = "",
                 LecturerIds = new List<int>() { 2 },
-                SubjectIds = new List<int>()
+                SubjectIds = new List<int>(),
+                ViewAll = true
             };
 
             var projects = new List<Project>()
@@ -252,7 +258,8 @@ namespace CollabSphere.Test.Projects
             // Assert
             Assert.True(result.IsSuccess);
             Assert.True(result.IsValidInput);
-            Assert.Empty(result.Projects);
+            Assert.NotNull(result.PagedProjects);
+            Assert.Empty(result.PagedProjects.List);
         }
 
         [Fact]
