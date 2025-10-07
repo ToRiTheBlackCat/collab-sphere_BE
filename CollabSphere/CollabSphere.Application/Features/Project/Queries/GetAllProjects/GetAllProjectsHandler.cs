@@ -36,7 +36,7 @@ namespace CollabSphere.Application.Features.Project.Queries.GetAllProjects
                 // Filter projects
                 var projects = (await _unitOfWork.ProjectRepo.GetAll())
                     .Where(x =>
-                        x.Status == ProjectStatus.APPROVED &&
+                        x.Status == ProjectStatuses.APPROVED &&
                         (!request.SubjectIds.Any() || request.SubjectIds.Contains(x.SubjectId)) &&
                         (!request.LecturerIds.Any() || request.LecturerIds.Contains(x.LecturerId)));
 
