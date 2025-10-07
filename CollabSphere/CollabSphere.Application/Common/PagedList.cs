@@ -20,10 +20,11 @@ namespace CollabSphere.Application.Common
 
         public int PageCount => (int)Math.Ceiling(_originList.Count() * 1.0 / PageSize);
 
-        public PagedList(IEnumerable<T> list, int pageNum = 1, int pageSize = 0)
+        public PagedList(IEnumerable<T> list, int pageNum = 1, int pageSize = 0, bool viewAll = false)
         {
             _originList = list;
             ItemCount = list.Count();
+            pageSize = viewAll ? ItemCount : pageSize; // Display all items if View all entries
             PageSize = pageSize > 0 ? pageSize : PageSize;
 
             SetPage(pageNum);

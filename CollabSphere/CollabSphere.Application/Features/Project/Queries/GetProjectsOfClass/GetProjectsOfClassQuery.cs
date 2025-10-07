@@ -8,15 +8,11 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Project.Queries.GetProjectsOfClass
 {
-    public class GetProjectsOfClassQuery : IQuery<GetProjectsOfClassResult>
+    public class GetProjectsOfClassQuery : PaginationQuery, IQuery<GetProjectsOfClassResult>
     {
         [FromRoute(Name = "ClassId")]
         public int ClassId { get; set; }
 
         public string Descriptors { get; set; } = string.Empty;
-
-        public int PageNum { get; set; } = 1;
-
-        public int PageSize { get; set; } = 10;
     }
 }
