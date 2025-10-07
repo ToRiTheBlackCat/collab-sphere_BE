@@ -70,7 +70,11 @@ namespace CollabSphere.Application.Features.Project.Queries.GetTeacherProjects
                     .ToList();
                 }
 
-                result.Projects = projects.Select(x => (ProjectVM)x).ToList();
+                result.PagedProjects = new Common.PagedList<ProjectVM>(
+                    list: projects.Select(x => (ProjectVM)x).ToList(),
+                    pageNum: request.PageNum,
+                    pageSize: request.PageSize,
+                    viewAll: request.ViewAll);
                 result.IsSuccess = true;
             }
             catch (Exception ex)

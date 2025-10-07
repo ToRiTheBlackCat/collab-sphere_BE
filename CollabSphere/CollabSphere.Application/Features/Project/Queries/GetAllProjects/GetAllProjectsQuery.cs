@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Project.Queries.GetAllProjects
 {
-    public class GetAllProjectsQuery : IQuery<GetAllProjectsResult>
+    public class GetAllProjectsQuery : PaginationQuery, IQuery<GetAllProjectsResult>
     {
         [FromQuery]
         public List<int> LecturerIds { get; set; } = new List<int>();

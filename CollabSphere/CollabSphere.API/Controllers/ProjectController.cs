@@ -33,7 +33,7 @@ namespace CollabSphere.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, result);
             }
 
-            return Ok(result.Projects);
+            return Ok(result.PagedProjects);
         }
 
         [HttpGet("lecturer/{lecturerId}")]
@@ -46,7 +46,7 @@ namespace CollabSphere.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, result);
             }
 
-            return Ok(result.Projects);
+            return Ok(result.PagedProjects);
         }
 
         [Authorize]
