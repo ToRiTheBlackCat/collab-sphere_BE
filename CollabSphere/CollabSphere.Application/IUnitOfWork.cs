@@ -15,6 +15,7 @@ namespace CollabSphere.Application
         IClassMemberRepository ClassMemberRepo { get; }
         IClassRepository ClassRepo { get; }
         ILecturerRepository LecturerRepo { get; }
+        IProjectAssignmentRepository ProjectAssignmentRepo { get; }
         IProjectRepository ProjectRepo { get; }
         IStudentRepository StudentRepo { get; }
         ISubjectGradeComponentRepository SubjectGradeComponentRepo { get; }
