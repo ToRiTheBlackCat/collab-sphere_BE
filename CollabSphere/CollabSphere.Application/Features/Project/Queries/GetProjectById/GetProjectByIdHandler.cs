@@ -36,18 +36,28 @@ namespace CollabSphere.Application.Features.Project.Queries.GetProjectById
                 {
                     result.Project = (ProjectVM)project;
 
+                    // Roles that bypass viewing privileges
+                    var bypassRoles = new int[] { RoleConstants.HEAD_DEPARTMENT, RoleConstants.ADMIN, RoleConstants.STAFF };
+
                     // Check viewing privileges if Project is NOT APPROVED & User is NOT HEAD_DEPARTMENT
-                    if (project.Status != ProjectStatuses.APPROVED && request.UserRole != RoleConstants.HEAD_DEPARTMENT)
+                    if (project.Status != ProjectStatuses.APPROVED && !bypassRoles.Contains(request.UserRole))
                     {
-                        var lecturer = await _unitOfWork.LecturerRepo.GetById(request.UserId);
-                        if (lecturer == null || project.LecturerId != lecturer.LecturerId) // Is not owner
+                        if (request.UserRole != RoleConstants.STUDENT)
+                        {
+                            var lecturer = await _unitOfWork.LecturerRepo.GetById(request.UserId);
+                            if (lecturer == null || project.LecturerId != lecturer.LecturerId) // Is not owner
+                            {
+                                result.IsAuthorized = false;
+                            }
+                        }
+                        else
                         {
                             result.IsAuthorized = false;
-                            result.Message = "You are not authorized to view this Project.";
                         }
                     }
                 }
 
+                result.Message = !result.IsAuthorized ? "You are not authorized to view this Project." : string.Empty;
                 result.IsSuccess = true;
             }
             catch (Exception ex)
