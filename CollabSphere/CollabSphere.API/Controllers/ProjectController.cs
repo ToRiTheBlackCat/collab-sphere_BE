@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Features.Project.Queries.GetAllProjects;
+using CollabSphere.Application.Features.Project.Queries.GetProjectsOfClass;
 using CollabSphere.Application.Features.Project.Queries.GetTeacherProjects;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -41,6 +42,19 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result.Projects);
+        }
+
+        [HttpGet("class/{ClassId}")]
+        public async Task<IActionResult> GetTeacherProjects(GetProjectsOfClassQuery query, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result.PagedProjects);
         }
     }
 }
