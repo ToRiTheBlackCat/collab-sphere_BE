@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Project.Queries.GetTeacherProjects
 {
-    public class GetLecturerProjectsQuery : IQuery<GetLecturerProjectsResult>
+    public class GetLecturerProjectsQuery : PaginationQuery, IQuery<GetLecturerProjectsResult>
     {
         [FromRoute(Name = "lecturerId")]
         public int LecturerId { get; set; }

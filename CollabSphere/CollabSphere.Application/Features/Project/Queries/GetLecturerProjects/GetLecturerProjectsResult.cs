@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.DTOs.Project;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,6 @@ namespace CollabSphere.Application.Features.Project.Queries.GetTeacherProjects
 {
     public class GetLecturerProjectsResult : QueryResult
     {
-        public List<ProjectVM> Projects { get; set; } = new List<ProjectVM>();
+        public PagedList<ProjectVM>? PagedProjects { get; set; }
     }
 }
