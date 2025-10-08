@@ -65,10 +65,13 @@ namespace CollabSphere.Application.Features.Project.Queries.GetProjectsOfClass
                     .Select(x => x.Project);
                 }
 
+                // View all
+
                 var pagedList = new PagedList<ProjectVM>(
                     list: projects.Select(x => (ProjectVM)x),
                     pageNum: request.PageNum,
-                    pageSize: request.PageSize);
+                    pageSize: request.PageSize,
+                    viewAll: request.ViewAll);
                 result.PagedProjects = pagedList;
 
                 result.IsSuccess = true;

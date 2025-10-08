@@ -43,20 +43,41 @@ namespace CollabSphere.Application.Features.Project.Queries.GetAllProjects
                 var keyWords = request.Descriptors.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
                 if (keyWords.Any())
                 {
-                    projects = projects
-                        .Select(p => new
+                    // Weigh projects by name/description keyword match
+                    projects = projects.Select(x =>
+                    {
+                        var name = x.ProjectName.ToLower();
+                        var description = x.Description.ToLower();
+                        var weight = 0.0;
+                        var wordOrderMultipler = 1.0; // Later words has less weight
+
+                        foreach (var kw in keyWords)
                         {
-                            Project = p,
-                            Score = 4 * keyWords.Count(k => p.ProjectName.ToLower().Contains(k)) +
-                                keyWords.Count(k => p.Description.ToLower().Contains(k))
-                        })
-                        .Where(x => x.Score > 0)
-                        .OrderByDescending(x => x.Score)
-                            .ThenBy(x => x.Project.ProjectName)
-                        .Select(x => x.Project);
+                            if (name.Contains(kw))
+                                weight += 4 * wordOrderMultipler;
+                            else if (description.Contains(kw))
+                                weight += 1 * wordOrderMultipler;
+                            wordOrderMultipler = Math.Max(0.001, wordOrderMultipler - 0.001);
+                        }
+
+                        return new
+                        {
+                            Project = x,
+                            Weight = weight
+                        };
+                    })
+                    .Where(x => x.Weight > 0)
+                    .OrderByDescending(x => x.Weight)
+                    .Select(x => x.Project)
+                    .ToList();
                 }
 
-                result.Projects = projects.Select(x => (ProjectVM)x).ToList();
+                result.PagedProjects = new Common.PagedList<ProjectVM>(
+                    list: projects.Select(x => (ProjectVM)x).ToList(),
+                    pageNum: request.PageNum,
+                    pageSize: request.PageSize,
+                    viewAll: request.ViewAll);
+
                 result.IsSuccess = true;
             }
             catch (Exception ex)
