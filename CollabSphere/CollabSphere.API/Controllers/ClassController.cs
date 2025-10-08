@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CollabSphere.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/class")]
     [ApiController]
     public class ClassController : ControllerBase
     {
