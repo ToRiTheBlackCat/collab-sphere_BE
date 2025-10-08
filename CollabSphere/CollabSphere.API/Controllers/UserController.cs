@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CollabSphere.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user")]
     [ApiController]
     public class UserController : ControllerBase
     {

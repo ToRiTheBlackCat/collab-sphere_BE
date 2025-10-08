@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CollabSphere.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/admin")]
     [ApiController]
     public class AdminController : ControllerBase
     {
@@ -18,7 +18,7 @@ namespace CollabSphere.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("user/head-department_staff")]
+        [HttpPost("user/head-department-staff")]
         public async Task<IActionResult> CreateHeadDepartment_StaffAccount([FromBody] HeadDepart_StaffSignUpRequestDto request)
         {
             if (!ModelState.IsValid)
