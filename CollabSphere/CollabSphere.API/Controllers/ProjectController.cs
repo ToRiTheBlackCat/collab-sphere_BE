@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Constants;
+using CollabSphere.Application.Features.Project.Commands.ApproveProject;
 using CollabSphere.Application.Features.Project.Queries.GetAllProjects;
 using CollabSphere.Application.Features.Project.Queries.GetPendingProjects;
 using CollabSphere.Application.Features.Project.Queries.GetProjectById;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Threading;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace CollabSphere.API.Controllers
@@ -106,6 +108,24 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result.PagedProjects);
+        }
+
+        [HttpPatch("{ProjectId}/approve")]
+        public async Task<IActionResult> HeadDepartmentAppoveProject(ApproveProjectCommand command, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result.Message);
         }
     }
 }
