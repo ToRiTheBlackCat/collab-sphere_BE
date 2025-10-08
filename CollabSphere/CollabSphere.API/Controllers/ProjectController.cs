@@ -1,5 +1,6 @@
 ﻿using CollabSphere.Application.Constants;
 using CollabSphere.Application.Features.Project.Commands.ApproveProject;
+using CollabSphere.Application.Features.Project.Commands.DenyProject;
 using CollabSphere.Application.Features.Project.Queries.GetAllProjects;
 using CollabSphere.Application.Features.Project.Queries.GetPendingProjects;
 using CollabSphere.Application.Features.Project.Queries.GetProjectById;
@@ -110,6 +111,7 @@ namespace CollabSphere.API.Controllers
             return Ok(result.PagedProjects);
         }
 
+        // Head Department Role
         [HttpPatch("{ProjectId}/approve")]
         public async Task<IActionResult> HeadDepartmentAppoveProject(ApproveProjectCommand command, CancellationToken cancellationToken = default)
         {
@@ -126,6 +128,25 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result.Message);
+        }
+
+        // Head Department Role
+        [HttpPatch("{ProjectId}/deny")]
+        public async Task<IActionResult> HeadDepartmentDenyProject(DenyProjectCommand command, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result);
         }
     }
 }
