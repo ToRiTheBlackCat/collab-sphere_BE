@@ -1,6 +1,8 @@
 ﻿using CollabSphere.Application.Constants;
+using CollabSphere.Application.Features.Project.Commands.ApproveProject;
 using CollabSphere.Application.Features.Project.Commands.DenyProject;
 using CollabSphere.Application.Features.Project.Queries.GetAllProjects;
+using CollabSphere.Application.Features.Project.Queries.GetPendingProjects;
 using CollabSphere.Application.Features.Project.Queries.GetProjectById;
 using CollabSphere.Application.Features.Project.Queries.GetProjectsOfClass;
 using CollabSphere.Application.Features.Project.Queries.GetTeacherProjects;
@@ -9,11 +11,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Threading;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace CollabSphere.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/project")]
     [ApiController]
     public class ProjectController : ControllerBase
     {
@@ -92,6 +95,39 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result.PagedProjects);
+        }
+
+        // Head department only
+        [HttpGet("pending")]
+        public async Task<IActionResult> GetPendingProjects(GetPendingProjectsQuery query, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result.PagedProjects);
+        }
+
+        // Head Department Role
+        [HttpPatch("{ProjectId}/approve")]
+        public async Task<IActionResult> HeadDepartmentAppoveProject(ApproveProjectCommand command, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result.Message);
         }
 
         // Head Department Role
