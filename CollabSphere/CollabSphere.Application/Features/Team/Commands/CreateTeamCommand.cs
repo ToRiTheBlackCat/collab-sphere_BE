@@ -1,5 +1,4 @@
 ﻿using CollabSphere.Application.Base;
-using CollabSphere.Application.DTOs.Team;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Team.Commands
 {
-    public class CreateTeamCommand : ICommand
+    public class CreateTeamCommand : ICommand, IValidatableObject
     {
         [Required]
         [Length(3, 100)]
@@ -35,5 +34,16 @@ namespace CollabSphere.Application.Features.Team.Commands
         public DateOnly? EndDate { get; set; }
 
         public int Status { get; set; } = 1; // Default to active
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (EndDate.HasValue && EndDate.Value <= CreatedDate)
+            {
+                yield return new ValidationResult(
+                    "EndDate must be after to CreatedDate.",
+                    new[] { nameof(EndDate) }
+                );
+            }
+        }
     }
 }

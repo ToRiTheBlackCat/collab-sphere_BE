@@ -1,5 +1,4 @@
 ﻿using CollabSphere.Application.DTOs.Lecturer;
-using CollabSphere.Application.DTOs.Team;
 using CollabSphere.Application.Features.Lecturer.Commands;
 using CollabSphere.Application.Features.Team.Commands;
 using MediatR;
