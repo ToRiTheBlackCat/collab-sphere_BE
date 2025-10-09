@@ -28,6 +28,7 @@ namespace CollabSphere.Infrastructure.Base
         public ISubjectOutcomeRepository SubjectOutcomeRepo { get; }
         public ISubjectRepository SubjectRepo { get; }
         public ISubjectSyllabusRepository SubjectSyllabusRepo { get; }
+        public ITeamRepository TeamRepo { get; }
 
         #endregion
 
@@ -47,6 +48,7 @@ namespace CollabSphere.Infrastructure.Base
             SubjectOutcomeRepo = new SubjectOutcomeRepository(_context);
             SubjectRepo = new SubjectRepository(_context);
             SubjectSyllabusRepo = new SubjectSyllabusRepository(_context);
+            TeamRepo = new TeamRepository(_context);
             #endregion
         }
 
