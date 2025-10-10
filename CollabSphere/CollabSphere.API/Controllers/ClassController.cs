@@ -1,9 +1,12 @@
 ﻿using CollabSphere.Application.Common;
 using CollabSphere.Application.DTOs.Classes;
+using CollabSphere.Application.Features.Classes.Commands.AddStudent;
 using CollabSphere.Application.Features.Classes.Commands.CreateClass;
 using CollabSphere.Application.Features.Classes.Commands.ImportClass;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -53,7 +56,7 @@ namespace CollabSphere.API.Controllers
             }
 
             var command = new ImportClassCommand();
-            
+
             // Parse Classes data from file
             try
             {
@@ -67,6 +70,41 @@ namespace CollabSphere.API.Controllers
 
             // Send command
             var result = await _mediator.Send(command);
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpPost("{classId}/add-student")]
+        public async Task<IActionResult> AddStudentToClass(int classId, [FromBody] AddStudentToClassCommand command)
+        {
+            if (classId != command.ClassId)
+            {
+                return BadRequest("ClassId in url route and body do not match.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            command.UserId = int.Parse(UIdClaim.Value);
+            command.UserRole = int.Parse(roleClaim.Value);
+
+            var result = await _mediator.Send(command);
+
             if (!result.IsValidInput)
             {
                 return BadRequest(result);
