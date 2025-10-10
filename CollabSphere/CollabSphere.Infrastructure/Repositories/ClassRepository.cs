@@ -110,7 +110,7 @@ namespace CollabSphere.Infrastructure.Repositories
             return classes;
         }
 
-        private List<Class> FilterClasses(IEnumerable<Class> classes, string className = "", string orderby = "", bool descending = false)
+        public List<Class> FilterClasses(IEnumerable<Class> classes, string className = "", string orderby = "", bool descending = false)
         {
             if (!string.IsNullOrWhiteSpace(className))
             {
