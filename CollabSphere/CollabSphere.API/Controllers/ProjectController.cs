@@ -97,19 +97,6 @@ namespace CollabSphere.API.Controllers
             return Ok(result.Project);
         }
 
-        [HttpGet("class/{ClassId}")]
-        public async Task<IActionResult> GetTeacherProjects(GetProjectsOfClassQuery query, CancellationToken cancellationToken = default)
-        {
-            var result = await _mediator.Send(query, cancellationToken);
-
-            if (!result.IsSuccess)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, result);
-            }
-
-            return Ok(result.PagedProjects);
-        }
-
         // Head department only
         [HttpGet("pending")]
         public async Task<IActionResult> GetPendingProjects(GetPendingProjectsQuery query, CancellationToken cancellationToken = default)
