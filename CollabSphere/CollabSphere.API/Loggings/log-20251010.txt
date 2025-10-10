@@ -174,3 +174,99 @@ WHERE team_id = @p14;
 2025-10-10 00:40:20.792 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.UpdateTeam (CollabSphere.API) in 525.9071ms
 2025-10-10 00:40:20.793 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.UpdateTeam (CollabSphere.API)'
 2025-10-10 00:40:20.794 +07:00 [INF] Request finished HTTP/2 PUT https://localhost:7264/api/Team/2 - 200 null application/json; charset=utf-8 544.3339ms
+2025-10-10 11:18:31.023 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-10 11:18:31.120 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-10 11:18:31.122 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-10 11:18:31.174 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-10 11:18:31.176 +07:00 [INF] Hosting environment: Development
+2025-10-10 11:18:31.178 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-10 11:18:31.751 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-10 11:18:31.857 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 106.7268ms
+2025-10-10 11:18:31.860 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-10 11:18:31.869 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 8.7595ms
+2025-10-10 11:18:31.978 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-10 11:18:32.003 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 25.708ms
+2025-10-10 11:18:32.067 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-10 11:18:32.082 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 14.9244ms
+2025-10-10 11:25:34.971 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-10 11:25:35.070 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-10 11:25:35.071 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-10 11:25:35.134 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-10 11:25:35.138 +07:00 [INF] Hosting environment: Development
+2025-10-10 11:25:35.140 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-10 11:25:35.275 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-10 11:25:35.377 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 102.9924ms
+2025-10-10 11:25:35.381 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-10 11:25:35.395 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 13.1981ms
+2025-10-10 11:25:35.496 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-10 11:25:35.519 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 22.9212ms
+2025-10-10 11:25:35.583 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-10 11:25:35.599 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 15.5384ms
+2025-10-10 11:28:40.253 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-10 11:28:40.365 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-10 11:28:40.368 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-10 11:28:40.433 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-10 11:28:40.436 +07:00 [INF] Hosting environment: Development
+2025-10-10 11:28:40.439 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-10 11:28:40.463 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-10 11:28:40.570 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 107.7055ms
+2025-10-10 11:28:40.771 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-10 11:28:40.771 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-10 11:28:40.778 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 7.4327ms
+2025-10-10 11:28:40.796 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 25.2607ms
+2025-10-10 11:28:40.826 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-10 11:28:40.850 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 24.2094ms
+2025-10-10 11:29:02.237 +07:00 [INF] Request starting HTTP/2 PUT https://localhost:7264/api/Team/1 - application/json 186
+2025-10-10 11:29:02.258 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-10 11:29:02.274 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.UpdateTeam (CollabSphere.API)'
+2025-10-10 11:29:02.292 +07:00 [INF] Route matched with {action = "UpdateTeam", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UpdateTeam(CollabSphere.Application.Features.Team.Commands.UpdateTeamCommand) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-10 11:29:02.300 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-10 11:29:04.545 +07:00 [INF] Executed DbCommand (119ms) [Parameters=[@__classId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s1.class_id, s1.class_name, s1.created_date, s1.enrol_key, s1.is_active, s1.lecturer_id, s1.lecturer_name, s1.member_count, s1.subject_id, s1.team_count, s1.subject_id0, s1.is_active0, s1.subject_code, s1.subject_name, s1.lecturer_id0, s1.address, s1.avatar_img, s1.fullname, s1.lecturer_code, s1.major, s1.phone_number, s1.school, s1.yob, s2.class_member_id, s2.class_id, s2.fullname, s2.is_grouped, s2.status, s2.student_id, s2.team_id, s2.team_role, s2.student_id0, s2.address, s2.avatar_img, s2.fullname0, s2.major, s2.phone_number, s2.school, s2.student_code, s2.yob
+FROM (
+    SELECT c.class_id, c.class_name, c.created_date, c.enrol_key, c.is_active, c.lecturer_id, c.lecturer_name, c.member_count, c.subject_id, c.team_count, s.subject_id AS subject_id0, s.is_active AS is_active0, s.subject_code, s.subject_name, l.lecturer_id AS lecturer_id0, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+    FROM class AS c
+    INNER JOIN subject AS s ON c.subject_id = s.subject_id
+    LEFT JOIN lecturer AS l ON c.lecturer_id = l.lecturer_id
+    WHERE c.class_id = @__classId_0
+    LIMIT 1
+) AS s1
+LEFT JOIN (
+    SELECT c0.class_member_id, c0.class_id, c0.fullname, c0.is_grouped, c0.status, c0.student_id, c0.team_id, c0.team_role, s0.student_id AS student_id0, s0.address, s0.avatar_img, s0.fullname AS fullname0, s0.major, s0.phone_number, s0.school, s0.student_code, s0.yob
+    FROM class_member AS c0
+    INNER JOIN student AS s0 ON c0.student_id = s0.student_id
+) AS s2 ON s1.class_id = s2.class_id
+ORDER BY s1.class_id, s1.subject_id0, s1.lecturer_id0, s2.class_member_id
+2025-10-10 11:29:04.638 +07:00 [INF] Executed DbCommand (53ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p.project_assignment_id, p.assigned_date, p.class_id, p.project_id, p.status
+FROM project_assignment AS p
+WHERE p.project_assignment_id = @__p_0
+LIMIT 1
+2025-10-10 11:29:04.687 +07:00 [INF] Executed DbCommand (35ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-10 11:29:04.741 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-10 11:29:04.764 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.UpdateTeam (CollabSphere.API) in 2463.9818ms
+2025-10-10 11:29:04.769 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.UpdateTeam (CollabSphere.API)'
+2025-10-10 11:29:04.772 +07:00 [INF] Request finished HTTP/2 PUT https://localhost:7264/api/Team/1 - 499 null application/json; charset=utf-8 2535.5523ms
+2025-10-10 11:29:28.533 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-10 11:29:28.784 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-10 11:29:28.786 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-10 11:29:28.878 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-10 11:29:28.880 +07:00 [INF] Hosting environment: Development
+2025-10-10 11:29:28.882 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-10 11:29:29.071 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-10 11:29:29.238 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 172.6229ms
+2025-10-10 11:29:29.241 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-10 11:29:29.251 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 10.5725ms
+2025-10-10 11:29:29.360 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-10 11:29:29.396 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 36.304ms
+2025-10-10 11:29:29.496 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-10 11:29:29.514 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 18.862ms
+2025-10-10 11:29:38.278 +07:00 [INF] Request starting HTTP/2 PUT https://localhost:7264/api/Team/2 - application/json 186
+2025-10-10 11:29:38.294 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-10 11:29:38.368 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.UpdateTeam (CollabSphere.API)'
+2025-10-10 11:29:38.391 +07:00 [INF] Route matched with {action = "UpdateTeam", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UpdateTeam(CollabSphere.Application.Features.Team.Commands.UpdateTeamCommand) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-10 11:29:38.400 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.

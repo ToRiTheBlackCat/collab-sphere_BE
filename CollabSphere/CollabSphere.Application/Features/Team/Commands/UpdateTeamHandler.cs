@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
 using Microsoft.Extensions.Logging;
 using System;
@@ -83,6 +84,72 @@ namespace CollabSphere.Application.Features.Team.Commands
 
         protected override async Task ValidateRequest(List<OperationError> errors, UpdateTeamCommand request)
         {
+            var bypassRoles = new int[] { RoleConstants.LECTURER, RoleConstants.STUDENT };
+
+            //Check team exists
+            var foundTeam = await _unitOfWork.TeamRepo.GetById(request.TeamId);
+            if (foundTeam == null)
+            {
+                errors.Add(new OperationError
+                {
+                    Field = nameof(request.TeamId),
+                    Message = $"Not found any team with that Id: {request.TeamId}"
+                });
+                return;
+            }
+
+            //Check if role is valid to delete team
+            if (bypassRoles.Contains(request.UserRole))
+            {
+                //If Lecturer
+                if (request.UserRole == RoleConstants.LECTURER)
+                {
+                    //Check if lecturer exists
+                    var foundLecturer = await _unitOfWork.LecturerRepo.GetById(request.UserId);
+                    if (foundLecturer == null)
+                    {
+                        errors.Add(new OperationError()
+                        {
+                            Field = "UserId",
+                            Message = $"Lecturer with the given ID: {request.UserId} does not exist."
+                        });
+                    }
+
+                    //Check if lecturer is the owner of the team
+                    if (request.UserRole == foundTeam.LecturerId)
+                        errors.Add(new OperationError()
+                        {
+                            Field = "UserRole",
+                            Message = $"This lecturer with ID: {request.UserId} not has permission to update this team."
+                        });
+                    return;
+                }
+
+                //IF Student
+                if (request.UserRole == RoleConstants.STUDENT)
+                {
+                    //Check if student exists
+                    var foundStudent = await _unitOfWork.StudentRepo.GetById(request.UserId);
+                    if (foundStudent == null)
+                    {
+                        errors.Add(new OperationError()
+                        {
+                            Field = "UserId",
+                            Message = $"Student with the given ID: {request.UserId} does not exist."
+                        });
+                    }
+
+                    //Check if student is the leader of the team
+                    if (request.UserRole == foundTeam.LeaderId)
+                        errors.Add(new OperationError()
+                        {
+                            Field = "UserRole",
+                            Message = $"This student with ID: {request.UserId} is not the leader - not has permission to update this team."
+                        });
+                    return;
+                }
+            }
+
             //Validate class
             var foundClass = await _unitOfWork.ClassRepo.GetById(request.ClassId);
             if (foundClass == null)
@@ -117,17 +184,6 @@ namespace CollabSphere.Application.Features.Team.Commands
             }
 
             //Check end date is after start date
-            var foundTeam = await _unitOfWork.TeamRepo.GetById(request.TeamId);
-            if (foundTeam == null)
-            {
-                errors.Add(new OperationError
-                {
-                    Field = nameof(request.TeamId),
-                    Message = $"Not found any team with that Id: {request.TeamId}"
-                });
-            }
-
-            //Check end date is after start date
             if (request.EndDate.HasValue && foundTeam != null && request.EndDate <= foundTeam.CreatedDate)
             {
                 errors.Add(new OperationError
@@ -136,7 +192,6 @@ namespace CollabSphere.Application.Features.Team.Commands
                     Message = "End date must be after created date."
                 });
             }
-
         }
     }
 }
