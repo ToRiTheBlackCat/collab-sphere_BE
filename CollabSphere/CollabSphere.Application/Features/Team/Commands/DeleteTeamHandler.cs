@@ -96,7 +96,6 @@ namespace CollabSphere.Application.Features.Team.Commands
                             Field = "UserId",
                             Message = $"Lecturer with the given ID: {request.UserId} does not exist."
                         });
-                        return;
                     }
 
                     //Check if lecturer is the owner of the team
@@ -106,6 +105,7 @@ namespace CollabSphere.Application.Features.Team.Commands
                             Field = "UserRole",
                             Message = $"This lecturer with ID: {request.UserId} not has permission to delete this team."
                         });
+                    return;
                 }
 
                 //IF Student
@@ -120,7 +120,6 @@ namespace CollabSphere.Application.Features.Team.Commands
                             Field = "UserId",
                             Message = $"Student with the given ID: {request.UserId} does not exist."
                         });
-                        return;
                     }
 
                     //Check if student is the leader of the team
@@ -130,6 +129,7 @@ namespace CollabSphere.Application.Features.Team.Commands
                             Field = "UserRole",
                             Message = $"This student with ID: {request.UserId} is not the leader - not has permission to delete this team."
                         });
+                    return;
                 }
             }
         }
