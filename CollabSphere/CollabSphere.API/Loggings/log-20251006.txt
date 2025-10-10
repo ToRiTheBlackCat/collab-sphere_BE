@@ -1,3 +1,112 @@
+2025-10-06 16:45:55.197 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-06 16:45:55.701 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-06 16:45:55.703 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-06 16:45:55.820 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-06 16:45:55.823 +07:00 [INF] Hosting environment: Development
+2025-10-06 16:45:55.827 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-06 16:45:56.706 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-06 16:45:57.062 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-06 16:45:57.064 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 364.6116ms
+2025-10-06 16:45:57.090 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 28.2456ms
+2025-10-06 16:45:57.245 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-06 16:45:57.342 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 96.5445ms
+2025-10-06 16:45:57.460 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-06 16:45:57.495 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 36.3791ms
+2025-10-06 16:46:05.191 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundarykRm1r8oXQ7G1ClCr 11912
+2025-10-06 16:46:05.233 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-06 16:46:08.437 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-06 16:46:08.532 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-06 16:46:08.556 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-06 16:47:16.282 +07:00 [INF] Executed DbCommand (104ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-10-06 16:47:36.968 +07:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2025-10-06 16:47:36.981 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API) in 88433.5485ms
+2025-10-06 16:47:36.986 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-06 16:47:37.047 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Lecturer/import - 500 0 text/plain; charset=utf-8 91856.2378ms
+2025-10-06 16:47:39.671 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundary78Ys1UGb0evByeDV 11912
+2025-10-06 16:47:39.688 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-06 16:47:39.696 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-06 16:47:39.702 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-06 16:48:21.725 +07:00 [INF] Executed DbCommand (35ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-10-06 16:48:38.937 +07:00 [INF] Executed DbCommand (89ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-10-06 16:50:02.464 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-06 16:50:02.932 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-06 16:50:02.935 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-06 16:50:03.082 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-06 16:50:03.088 +07:00 [INF] Hosting environment: Development
+2025-10-06 16:50:03.094 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-06 16:50:03.913 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-06 16:50:04.156 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 252.0816ms
+2025-10-06 16:50:04.169 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-06 16:50:04.195 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 26.4124ms
+2025-10-06 16:50:04.345 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-06 16:50:04.419 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 74.6213ms
+2025-10-06 16:50:04.565 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-06 16:50:04.599 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 34.0786ms
+2025-10-06 16:50:10.165 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Lecturer/import - multipart/form-data; boundary=----WebKitFormBoundarywnHWnaae37cPBctd 11912
+2025-10-06 16:50:10.214 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-06 16:50:10.491 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-06 16:50:10.573 +07:00 [INF] Route matched with {action = "ImportFileToCreateLecturers", controller = "Lecturer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateLecturers(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.LecturerController (CollabSphere.API).
+2025-10-06 16:50:10.594 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-06 16:50:21.625 +07:00 [INF] Executed DbCommand (110ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-10-06 16:50:29.624 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-06 16:50:29.649 +07:00 [INF] Executed action CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API) in 19065.7215ms
+2025-10-06 16:50:29.658 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.LecturerController.ImportFileToCreateLecturers (CollabSphere.API)'
+2025-10-06 16:50:29.713 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Lecturer/import - 200 null application/json; charset=utf-8 19548.9703ms
+2025-10-06 16:51:15.849 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-06 16:51:16.088 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-06 16:51:16.093 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-06 16:51:16.220 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-06 16:51:16.225 +07:00 [INF] Hosting environment: Development
+2025-10-06 16:51:16.232 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-06 16:51:16.705 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-06 16:51:16.890 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 187.1005ms
+2025-10-06 16:51:16.896 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-06 16:51:16.911 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 15.1762ms
+2025-10-06 16:51:17.103 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-06 16:51:17.149 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 45.6722ms
+2025-10-06 16:51:17.258 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-06 16:51:17.282 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 23.1699ms
+2025-10-06 16:51:23.837 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/Student/import - multipart/form-data; boundary=----WebKitFormBoundaryNomseK87EsrMCehJ 12058
+2025-10-06 16:51:23.854 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-06 16:51:23.906 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API)'
+2025-10-06 16:51:23.966 +07:00 [INF] Route matched with {action = "ImportFileToCreateStudents", controller = "Student"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ImportFileToCreateStudents(Microsoft.AspNetCore.Http.IFormFile) on controller CollabSphere.API.Controllers.StudentController (CollabSphere.API).
+2025-10-06 16:51:23.981 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-06 16:51:28.852 +07:00 [INF] Executed DbCommand (147ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-10-06 16:51:29.150 +07:00 [INF] Executed DbCommand (45ms) [Parameters=[@__email_0='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.is_active
+LIMIT 1
+2025-10-06 16:51:29.180 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-06 16:51:29.215 +07:00 [INF] Executed action CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API) in 5234.9457ms
+2025-10-06 16:51:29.225 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.StudentController.ImportFileToCreateStudents (CollabSphere.API)'
+2025-10-06 16:51:29.362 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/Student/import - 200 null application/json; charset=utf-8 5524.7761ms
 2025-10-06 21:39:49.627 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
 2025-10-06 21:39:49.776 +07:00 [INF] Now listening on: https://localhost:7264
 2025-10-06 21:39:49.779 +07:00 [INF] Now listening on: http://localhost:5263

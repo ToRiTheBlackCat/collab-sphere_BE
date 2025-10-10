@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CollabSphere.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/subject")]
     [ApiController]
     public class SubjectController : ControllerBase
     {
