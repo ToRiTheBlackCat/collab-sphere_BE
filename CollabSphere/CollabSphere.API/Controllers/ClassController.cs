@@ -124,6 +124,11 @@ namespace CollabSphere.API.Controllers
                 return Unauthorized(result.Message);
             }
 
+            if (result.Class == null)
+            {
+                return NotFound();
+            }
+
             return Ok(result.Class);
         }
 
