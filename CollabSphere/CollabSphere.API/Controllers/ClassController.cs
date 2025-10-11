@@ -1,6 +1,7 @@
 ﻿using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Classes;
+using CollabSphere.Application.Features.Classes.Commands.AssignLec;
 using CollabSphere.Application.Features.Classes.Commands.AddStudent;
 using CollabSphere.Application.Features.Classes.Commands.CreateClass;
 using CollabSphere.Application.Features.Classes.Commands.ImportClass;
@@ -11,6 +12,7 @@ using CollabSphere.Application.Features.Classes.Queries.GetStudentClasses;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 using System.Security.Claims;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
