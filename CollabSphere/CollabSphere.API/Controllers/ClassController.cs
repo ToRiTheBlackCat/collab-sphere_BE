@@ -1,6 +1,7 @@
 ﻿using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Classes;
+using CollabSphere.Application.Features.Classes.Commands.AddStudent;
 using CollabSphere.Application.Features.Classes.Commands.CreateClass;
 using CollabSphere.Application.Features.Classes.Commands.ImportClass;
 using CollabSphere.Application.Features.Classes.Queries.GetAllClasses;
@@ -16,7 +17,7 @@ using System.Security.Claims;
 
 namespace CollabSphere.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/class")]
     [ApiController]
     public class ClassController : ControllerBase
     {

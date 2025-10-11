@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CollabSphere.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/lecturer")]
     [ApiController]
     public class LecturerController : ControllerBase
     {
@@ -63,7 +63,6 @@ namespace CollabSphere.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllLecturer([FromQuery] GetAllLecturerRequestDto dto)
         {
-
             var result = await _mediator.Send(new GetAllLecturerCommand(dto));
             return Ok(result);
         }

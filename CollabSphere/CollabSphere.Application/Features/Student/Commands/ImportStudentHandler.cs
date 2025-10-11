@@ -92,10 +92,10 @@ namespace CollabSphere.Application.Features.Student.Commands
                     await _unitOfWork.SaveChangesAsync();
                     await _unitOfWork.CommitTransactionAsync();
 
-                    result.IsSuccess = true;
-                    message.Append($"Succesfully imported {request.StudentList.Count - errCnt} students.");
-                    result.Message = message.ToString();
                 }
+                result.IsSuccess = true;
+                message.Append($"Succesfully imported {request.StudentList.Count - errCnt} students.");
+                result.Message = message.ToString();
             }
             catch (Exception ex)
             {
