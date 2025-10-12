@@ -10,5 +10,6 @@ namespace CollabSphere.Domain.Intefaces
 {
     public interface IClassMemberRepository : IGenericRepository<ClassMember>
     {
+        Task<List<ClassMember>> GetClassMemberAsyncByClassId(int classId);
     }
 }

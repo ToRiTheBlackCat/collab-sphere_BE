@@ -24,5 +24,13 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(x => x.Student)
                 .ToListAsync();
         }
+
+        public async Task<List<ClassMember>> GetClassMemberAsyncByClassId(int classId)
+        {
+            return await _context.ClassMembers
+                .AsNoTracking()
+                .Where(x => x.ClassId == classId)
+                .ToListAsync();
+        }
     }
 }
