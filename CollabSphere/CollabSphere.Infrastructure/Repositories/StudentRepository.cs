@@ -15,9 +15,15 @@ namespace CollabSphere.Infrastructure.Repositories
 
     public class StudentRepository : GenericRepository<Student>, IStudentRepository
     {
-        public StudentRepository(collab_sphereContext context) : base(context) 
+        public StudentRepository(collab_sphereContext context) : base(context)
         {
 
+        }
+        public async Task<User?> GetStudentById(int studentId)
+        {
+            return await _context.Users
+                .Include(x => x.Student)
+                .FirstOrDefaultAsync(x => x.UId == studentId && x.IsActive);
         }
 
         public async Task InsertStudent(Student student)
