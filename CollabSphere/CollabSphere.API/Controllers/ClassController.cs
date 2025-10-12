@@ -1,6 +1,7 @@
 ﻿using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Classes;
+using CollabSphere.Application.Features.Classes.Commands.AddStudent;
 using CollabSphere.Application.Features.Classes.Commands.AssignLec;
 using CollabSphere.Application.Features.Classes.Commands.CreateClass;
 using CollabSphere.Application.Features.Classes.Commands.ImportClass;
@@ -181,7 +182,7 @@ namespace CollabSphere.API.Controllers
 
             var result = await _mediator.Send(command);
 
-            if (!result.IsSuccess)
+           if (!result.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, result);
             }
@@ -193,5 +194,40 @@ namespace CollabSphere.API.Controllers
             
             return Ok(result);
         }
+        
+                [Authorize]
+        [HttpPost("{classId}/add-student")]
+        public async Task<IActionResult> AddStudentToClass(int classId, [FromBody] AddStudentToClassCommand command)
+        {
+            if (classId != command.ClassId)
+            {
+                return BadRequest("ClassId in url route and body do not match.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            command.UserId = int.Parse(UIdClaim.Value);
+            command.UserRole = int.Parse(roleClaim.Value);
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result);
+         }
     }
 }
