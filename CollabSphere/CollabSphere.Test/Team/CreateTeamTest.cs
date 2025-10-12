@@ -242,5 +242,63 @@ namespace CollabSphere.Test.Team
             _teamRepoMock.Verify(r => r.Create(It.IsAny<Domain.Entities.Team>()), Times.Never);
         }
 
+        [Fact]
+        public async Task CreateTeamHandler_Should_Fail_When_Lecturer_NotFound()
+        {
+            // Arrange
+            var command = new CreateTeamCommand
+            {
+                TeamName = "Team4",
+                LeaderId = 11,
+                ClassId = 22,
+                LecturerId = 33
+            };
+
+            // Student exists
+            _studentRepoMock
+                .Setup(s => s.GetStudentById(command.LeaderId))
+                .ReturnsAsync(new User { UId = command.LeaderId });
+
+            // Class exists
+            _classRepoMock
+                .Setup(c => c.GetById(command.ClassId))
+                .ReturnsAsync(new Class { ClassId = command.ClassId, LecturerId = command.LecturerId });
+
+            // Lecturer not found
+            _lecturerRepoMock
+                .Setup(l => l.GetById(command.LecturerId))
+                .ReturnsAsync((Lecturer?)null);
+
+            // Act
+            var result = await _handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            Assert.False(result.IsSuccess);
+            _teamRepoMock.Verify(r => r.Create(It.IsAny<Domain.Entities.Team>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task CreateTeamHandler_Should_Fail_When_EndDate_Before_CreatedDate()
+        {
+            // Arrange
+            var command = new CreateTeamCommand
+            {
+                TeamName = "Team5",
+                LeaderId = 11,
+                ClassId = 22,
+                LecturerId = 33,
+                CreatedDate = new DateOnly(2025, 10, 10),
+                EndDate = new DateOnly(2025, 10, 5) // Invalid
+            };
+
+            // Act
+            var validationResults = command.Validate(new System.ComponentModel.DataAnnotations.ValidationContext(command)).ToList();
+
+            // Assert
+            Assert.Single(validationResults);
+            Assert.Contains("EndDate must be after to CreatedDate", validationResults[0].ErrorMessage);
+        }
+
+
     }
 }
