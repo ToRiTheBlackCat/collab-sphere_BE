@@ -46,6 +46,32 @@
 2025-10-10 15:59:32.154 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
 2025-10-10 15:59:32.165 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
 2025-10-10 15:59:39.177 +07:00 [INF] Executed DbCommand (138ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
+2025-10-10 11:01:13.934 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-10 11:01:14.228 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-10 11:01:14.230 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-10 11:01:14.306 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-10 11:01:14.308 +07:00 [INF] Hosting environment: Development
+2025-10-10 11:01:14.309 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-10 11:01:14.701 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-10 11:01:14.895 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 201.6736ms
+2025-10-10 11:01:14.902 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-10 11:01:14.915 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 13.292ms
+2025-10-10 11:01:15.035 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-10 11:01:15.099 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 63.9136ms
+2025-10-10 11:01:15.132 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-10 11:01:15.152 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 20.1565ms
+2025-10-10 11:01:29.981 +07:00 [INF] Request starting HTTP/2 DELETE https://localhost:7264/api/Team/1 - null null
+2025-10-10 11:01:29.991 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-10 11:01:30.054 +07:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2025-10-10 11:01:30.061 +07:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-10-10 11:01:30.063 +07:00 [INF] Request finished HTTP/2 DELETE https://localhost:7264/api/Team/1 - 401 0 null 82.3602ms
+2025-10-10 11:01:45.677 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/auth/login - application/json 61
+2025-10-10 11:01:45.685 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-10 11:01:45.690 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-10 11:01:45.730 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-10 11:01:45.740 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-10 11:01:48.498 +07:00 [INF] Executed DbCommand (107ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
 2025-10-10 00:38:00.263 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
 2025-10-10 00:38:00.579 +07:00 [INF] Now listening on: https://localhost:7264
 2025-10-10 00:38:00.582 +07:00 [INF] Now listening on: http://localhost:5263
@@ -322,6 +348,18 @@ DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
 2025-10-10 16:01:53.775 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.ClassController.AssignLecturerToClass (CollabSphere.API)'
 2025-10-10 16:01:53.792 +07:00 [INF] Route matched with {action = "AssignLecturerToClass", controller = "Class"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AssignLecturerToClass(CollabSphere.Application.Features.Classes.Commands.AssignLec.AssignLecturerToClassCommand) on controller CollabSphere.API.Controllers.ClassController (CollabSphere.API).
 2025-10-10 16:02:14.045 +07:00 [INF] Executed DbCommand (38ms) [Parameters=[@__classId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2025-10-10 11:01:49.065 +07:00 [INF] Executed DbCommand (54ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
+WHERE u_id = @p8;
+2025-10-10 11:01:49.207 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.DTOs.User.LoginResponseDTO'.
+2025-10-10 11:01:49.223 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 3484.3383ms
+2025-10-10 11:01:49.226 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-10 11:01:49.233 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/auth/login - 200 null application/json; charset=utf-8 3555.9587ms
+2025-10-10 11:02:02.014 +07:00 [INF] Request starting HTTP/2 DELETE https://localhost:7264/api/Team/1 - null null
+2025-10-10 11:02:02.021 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-10 11:02:02.064 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API)'
+2025-10-10 11:02:02.076 +07:00 [INF] Route matched with {action = "DeleteTeam", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteTeam(CollabSphere.Application.Features.Team.Commands.DeleteTeamCommand, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-10 11:02:44.451 +07:00 [INF] Executed DbCommand (52ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 2025-10-10 23:43:04.979 +07:00 [INF] Executed DbCommand (52ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
 WHERE u_id = @p8;
@@ -391,6 +429,15 @@ SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol
 FROM team AS t
 WHERE t.team_id = @__p_0
 LIMIT 1
+2025-10-10 11:02:56.654 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-10 11:02:56.661 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API) in 54578.3435ms
+2025-10-10 11:02:56.664 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API)'
+2025-10-10 11:02:56.669 +07:00 [INF] Request finished HTTP/2 DELETE https://localhost:7264/api/Team/1 - 500 null application/json; charset=utf-8 54655.1644ms
+2025-10-10 11:03:05.052 +07:00 [INF] Request starting HTTP/2 DELETE https://localhost:7264/api/Team/2 - null null
+2025-10-10 11:03:05.058 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-10 11:03:05.068 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API)'
+2025-10-10 11:03:05.071 +07:00 [INF] Route matched with {action = "DeleteTeam", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteTeam(CollabSphere.Application.Features.Team.Commands.DeleteTeamCommand, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-10 11:03:17.660 +07:00 [INF] Executed DbCommand (52ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 2025-10-10 00:39:09.162 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
 2025-10-10 00:39:09.173 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.UpdateTeam (CollabSphere.API) in 7448.8008ms
 2025-10-10 00:39:09.177 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.UpdateTeam (CollabSphere.API)'
@@ -558,6 +605,7 @@ SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol
 FROM team AS t
 WHERE t.team_id = @__p_0
 LIMIT 1
+2025-10-10 11:03:25.141 +07:00 [INF] Executed DbCommand (52ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 2025-10-10 00:39:56.306 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
 2025-10-10 00:39:56.308 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.UpdateTeam (CollabSphere.API) in 429.0192ms
 2025-10-10 00:39:56.310 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.UpdateTeam (CollabSphere.API)'
@@ -600,6 +648,30 @@ SELECT s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_numbe
 FROM student AS s
 WHERE s.student_id = @__p_0
 LIMIT 1
+2025-10-10 11:04:04.096 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-10 11:04:04.099 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API) in 59024.6355ms
+2025-10-10 11:04:04.103 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API)'
+2025-10-10 11:04:04.189 +07:00 [INF] Request finished HTTP/2 DELETE https://localhost:7264/api/Team/2 - 500 null application/json; charset=utf-8 59136.9229ms
+2025-10-10 11:07:11.127 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-10 11:07:11.329 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-10 11:07:11.332 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-10 11:07:11.406 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-10 11:07:11.408 +07:00 [INF] Hosting environment: Development
+2025-10-10 11:07:11.409 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-10 11:07:11.880 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-10 11:07:12.024 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 154.6869ms
+2025-10-10 11:07:12.045 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-10 11:07:12.059 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 13.9158ms
+2025-10-10 11:07:12.568 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-10 11:07:12.602 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 33.9227ms
+2025-10-10 11:07:12.884 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-10 11:07:12.903 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 19.2912ms
+2025-10-10 11:07:38.520 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/auth/login - application/json 54
+2025-10-10 11:07:38.534 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-10 11:07:38.642 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-10 11:07:38.692 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-10 11:07:38.704 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-10 11:07:43.132 +07:00 [INF] Executed DbCommand (139ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
 2025-10-10 23:50:01.156 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
 2025-10-10 23:50:01.165 +07:00 [INF] Executed action CollabSphere.API.Controllers.ClassController.AddStudentToClass (CollabSphere.API) in 7837.8155ms
 2025-10-10 23:50:01.171 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.ClassController.AddStudentToClass (CollabSphere.API)'
@@ -736,6 +808,23 @@ FROM "user" AS u
 INNER JOIN role AS r ON u.role_id = r.role_id
 WHERE u.email = @__email_0 AND u.password = @__password_1 AND u.is_active
 LIMIT 1
+2025-10-10 11:07:43.817 +07:00 [INF] Executed DbCommand (54ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
+WHERE u_id = @p8;
+2025-10-10 11:07:44.009 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.DTOs.User.LoginResponseDTO'.
+2025-10-10 11:07:44.040 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 5336.1254ms
+2025-10-10 11:07:44.047 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-10 11:07:44.059 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/auth/login - 200 null application/json; charset=utf-8 5541.0329ms
+2025-10-10 11:07:59.905 +07:00 [INF] Request starting HTTP/2 DELETE https://localhost:7264/api/Team/2 - null null
+2025-10-10 11:07:59.921 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-10 11:08:00.033 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API)'
+2025-10-10 11:08:00.049 +07:00 [INF] Route matched with {action = "DeleteTeam", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteTeam(CollabSphere.Application.Features.Team.Commands.DeleteTeamCommand, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-10 11:08:05.021 +07:00 [INF] Executed DbCommand (55ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-10 11:08:08.965 +07:00 [INF] Executed DbCommand (78ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 2025-10-10 16:01:13.439 +07:00 [INF] Executed DbCommand (36ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
 WHERE u_id = @p8;
@@ -848,6 +937,21 @@ SELECT l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.ma
 FROM lecturer AS l
 WHERE l.lecturer_id = @__p_0
 LIMIT 1
+2025-10-10 11:08:27.656 +07:00 [INF] Executed DbCommand (51ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-10 11:08:40.063 +07:00 [ERR] An error occurred while deleting the team with ID: 2 by User with ID: 8
+2025-10-10 11:08:41.580 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-10 11:08:41.585 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API) in 41528.1288ms
+2025-10-10 11:08:41.587 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API)'
+2025-10-10 11:08:41.589 +07:00 [INF] Request finished HTTP/2 DELETE https://localhost:7264/api/Team/2 - 500 null application/json; charset=utf-8 41683.8053ms
+2025-10-10 11:08:48.125 +07:00 [INF] Request starting HTTP/2 DELETE https://localhost:7264/api/Team/2 - null null
+2025-10-10 11:08:48.147 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-10 11:08:48.154 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API)'
+2025-10-10 11:08:48.157 +07:00 [INF] Route matched with {action = "DeleteTeam", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteTeam(CollabSphere.Application.Features.Team.Commands.DeleteTeamCommand, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-10 11:08:49.471 +07:00 [INF] Executed DbCommand (49ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 2025-10-10 16:02:43.312 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
 2025-10-10 16:02:43.318 +07:00 [INF] Executed action CollabSphere.API.Controllers.ClassController.AssignLecturerToClass (CollabSphere.API) in 16669.3615ms
 2025-10-10 16:02:43.320 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.ClassController.AssignLecturerToClass (CollabSphere.API)'
@@ -951,6 +1055,7 @@ SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol
 FROM team AS t
 WHERE t.team_id = @__p_0
 LIMIT 1
+2025-10-10 11:08:49.525 +07:00 [INF] Executed DbCommand (50ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 2025-10-10 00:40:13.289 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
 2025-10-10 00:40:13.292 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.UpdateTeam (CollabSphere.API) in 256.4899ms
 2025-10-10 00:40:13.301 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.UpdateTeam (CollabSphere.API)'
@@ -998,6 +1103,29 @@ SELECT l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.ma
 FROM lecturer AS l
 WHERE l.lecturer_id = @__p_0
 LIMIT 1
+2025-10-10 11:08:50.034 +07:00 [INF] Executed DbCommand (98ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-10 11:08:50.147 +07:00 [INF] Executed DbCommand (49ms) [Parameters=[@p14='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Date), @p2='?', @p3='?' (DbType = Date), @p4='?', @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?', @p9='?' (DbType = Single), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?', @p13='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE team SET class_id = @p0, created_date = @p1, description = @p2, end_date = @p3, enrol_key = @p4, git_link = @p5, leader_id = @p6, lecturer_id = @p7, lecturer_name = @p8, progress = @p9, project_assignment_id = @p10, status = @p11, team_image = @p12, team_name = @p13
+WHERE team_id = @p14;
+2025-10-10 11:08:50.252 +07:00 [INF] Team with ID: 2 has been deleted by User with ID: 8
+2025-10-10 11:08:50.262 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-10 11:08:50.266 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API) in 2106.4643ms
+2025-10-10 11:08:50.271 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API)'
+2025-10-10 11:08:50.272 +07:00 [INF] Request finished HTTP/2 DELETE https://localhost:7264/api/Team/2 - 500 null application/json; charset=utf-8 2147.3915ms
+2025-10-10 11:08:58.865 +07:00 [INF] Request starting HTTP/2 DELETE https://localhost:7264/api/Team/2 - null null
+2025-10-10 11:08:58.871 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-10 11:08:58.873 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API)'
+2025-10-10 11:08:58.875 +07:00 [INF] Route matched with {action = "DeleteTeam", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteTeam(CollabSphere.Application.Features.Team.Commands.DeleteTeamCommand, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-10 11:09:02.467 +07:00 [INF] Executed DbCommand (47ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-10 11:09:02.529 +07:00 [INF] Executed DbCommand (49ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 2025-10-10 16:04:14.435 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
 2025-10-10 16:04:14.452 +07:00 [INF] Executed action CollabSphere.API.Controllers.ClassController.AssignLecturerToClass (CollabSphere.API) in 5530.6888ms
 2025-10-10 16:04:14.458 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.ClassController.AssignLecturerToClass (CollabSphere.API)'
@@ -1043,6 +1171,7 @@ SELECT l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.ma
 FROM lecturer AS l
 WHERE l.lecturer_id = @__p_0
 LIMIT 1
+2025-10-10 11:09:06.312 +07:00 [INF] Executed DbCommand (48ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 2025-10-10 16:07:17.342 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
 2025-10-10 16:07:17.344 +07:00 [INF] Executed action CollabSphere.API.Controllers.ClassController.AssignLecturerToClass (CollabSphere.API) in 1722.5402ms
 2025-10-10 16:07:17.348 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.ClassController.AssignLecturerToClass (CollabSphere.API)'
@@ -1077,11 +1206,105 @@ SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol
 FROM team AS t
 WHERE t.team_id = @__p_0
 LIMIT 1
+2025-10-10 11:09:10.177 +07:00 [INF] Executed DbCommand (50ms) [Parameters=[@p14='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Date), @p2='?', @p3='?' (DbType = Date), @p4='?', @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?', @p9='?' (DbType = Single), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?', @p13='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE team SET class_id = @p0, created_date = @p1, description = @p2, end_date = @p3, enrol_key = @p4, git_link = @p5, leader_id = @p6, lecturer_id = @p7, lecturer_name = @p8, progress = @p9, project_assignment_id = @p10, status = @p11, team_image = @p12, team_name = @p13
+WHERE team_id = @p14;
+2025-10-10 11:09:12.779 +07:00 [INF] Team with ID: 2 has been deleted by User with ID: 8
+2025-10-10 11:09:22.814 +07:00 [ERR] An error occurred while deleting the team with ID: 2 by User with ID: 8
+2025-10-10 11:09:23.322 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-10 11:09:23.326 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API) in 24448.8362ms
+2025-10-10 11:09:23.328 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API)'
+2025-10-10 11:09:23.330 +07:00 [INF] Request finished HTTP/2 DELETE https://localhost:7264/api/Team/2 - 500 null application/json; charset=utf-8 24465.1071ms
+2025-10-10 11:11:49.266 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-10 11:11:49.498 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-10 11:11:49.500 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-10 11:11:49.591 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-10 11:11:49.592 +07:00 [INF] Hosting environment: Development
+2025-10-10 11:11:49.594 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-10 11:11:49.826 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-10 11:11:49.989 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 172.9197ms
+2025-10-10 11:11:49.992 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-10 11:11:50.004 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 11.1355ms
+2025-10-10 11:11:50.106 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-10 11:11:50.162 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 56.9651ms
+2025-10-10 11:11:50.214 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-10 11:11:50.233 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 19.0985ms
+2025-10-10 11:12:00.773 +07:00 [INF] Request starting HTTP/2 DELETE https://localhost:7264/api/Team/2 - null null
+2025-10-10 11:12:00.782 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-10 11:12:00.858 +07:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenException: IDX10612: Decryption failed. Header.Enc is null or empty, it must be specified.
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.DecryptToken(JsonWebToken jwtToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWEAsync(JsonWebToken jwtToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-10-10 11:12:00.902 +07:00 [INF] Bearer was not authenticated. Failure message: IDX10612: Decryption failed. Header.Enc is null or empty, it must be specified.
+2025-10-10 11:12:00.908 +07:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2025-10-10 11:12:00.914 +07:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-10-10 11:12:00.915 +07:00 [INF] Request finished HTTP/2 DELETE https://localhost:7264/api/Team/2 - 401 0 null 142.4174ms
+2025-10-10 11:12:09.048 +07:00 [INF] Request starting HTTP/2 DELETE https://localhost:7264/api/Team/2 - null null
+2025-10-10 11:12:09.061 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-10 11:12:09.119 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API)'
+2025-10-10 11:12:09.147 +07:00 [INF] Route matched with {action = "DeleteTeam", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteTeam(CollabSphere.Application.Features.Team.Commands.DeleteTeamCommand, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-10 11:12:09.155 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-10 11:12:14.370 +07:00 [INF] Executed DbCommand (77ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 2025-10-10 00:40:20.468 +07:00 [INF] Executed DbCommand (38ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
 FROM team AS t
 WHERE t.team_id = @__p_0
 LIMIT 1
+2025-10-10 11:12:17.752 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-10 11:12:17.762 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API) in 8607.6192ms
+2025-10-10 11:12:17.765 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API)'
+2025-10-10 11:12:17.770 +07:00 [INF] Request finished HTTP/2 DELETE https://localhost:7264/api/Team/2 - 500 null application/json; charset=utf-8 8722.7729ms
+2025-10-10 11:12:47.176 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-10 11:12:47.278 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-10 11:12:47.280 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-10 11:12:47.338 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-10 11:12:47.341 +07:00 [INF] Hosting environment: Development
+2025-10-10 11:12:47.356 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-10 11:12:47.850 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-10 11:12:47.954 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 104.1791ms
+2025-10-10 11:12:47.958 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-10 11:12:47.970 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 12.4466ms
+2025-10-10 11:12:48.067 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-10 11:12:48.095 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 28.0646ms
+2025-10-10 11:12:48.153 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-10 11:12:48.166 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 13.3372ms
+2025-10-10 11:13:02.015 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/auth/login - application/json 61
+2025-10-10 11:13:02.023 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-10 11:13:02.040 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-10 11:13:02.063 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-10 11:13:02.071 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-10 11:13:03.987 +07:00 [INF] Executed DbCommand (65ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.password = @__password_1 AND u.is_active
+LIMIT 1
+2025-10-10 11:13:04.362 +07:00 [INF] Executed DbCommand (41ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
+WHERE u_id = @p8;
+2025-10-10 11:13:04.478 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.DTOs.User.LoginResponseDTO'.
+2025-10-10 11:13:04.493 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 2422.7605ms
+2025-10-10 11:13:04.497 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-10 11:13:04.504 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/auth/login - 200 null application/json; charset=utf-8 2489.3004ms
+2025-10-10 11:13:18.906 +07:00 [INF] Request starting HTTP/2 DELETE https://localhost:7264/api/Team/2 - null null
+2025-10-10 11:13:18.913 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-10 11:13:18.947 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API)'
+2025-10-10 11:13:18.955 +07:00 [INF] Route matched with {action = "DeleteTeam", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteTeam(CollabSphere.Application.Features.Team.Commands.DeleteTeamCommand, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-10 11:13:19.053 +07:00 [INF] Executed DbCommand (39ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-10 11:13:19.109 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-10 11:13:19.115 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API) in 155.6386ms
+2025-10-10 11:13:19.117 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API)'
+2025-10-10 11:13:19.118 +07:00 [INF] Request finished HTTP/2 DELETE https://localhost:7264/api/Team/2 - 500 null application/json; charset=utf-8 211.9335ms
+2025-10-10 11:13:28.332 +07:00 [INF] Request starting HTTP/2 DELETE https://localhost:7264/api/Team/2 - null null
+2025-10-10 11:13:28.338 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-10 11:13:28.344 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API)'
+2025-10-10 11:13:28.346 +07:00 [INF] Route matched with {action = "DeleteTeam", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeleteTeam(CollabSphere.Application.Features.Team.Commands.DeleteTeamCommand, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-10 11:13:28.421 +07:00 [INF] Executed DbCommand (41ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 2025-10-10 00:40:20.667 +07:00 [INF] Executed DbCommand (41ms) [Parameters=[@p14='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Date), @p2='?', @p3='?' (DbType = Date), @p4='?', @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?', @p9='?' (DbType = Single), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?', @p13='?'], CommandType='"Text"', CommandTimeout='30']
 UPDATE team SET class_id = @p0, created_date = @p1, description = @p2, end_date = @p3, enrol_key = @p4, git_link = @p5, leader_id = @p6, lecturer_id = @p7, lecturer_name = @p8, progress = @p9, project_assignment_id = @p10, status = @p11, team_image = @p12, team_name = @p13
 WHERE team_id = @p14;
@@ -1374,6 +1597,7 @@ SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol
 FROM team AS t
 WHERE t.team_id = @__p_0
 LIMIT 1
+2025-10-10 11:13:28.485 +07:00 [INF] Executed DbCommand (43ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 2025-10-10 11:29:04.741 +07:00 [INF] Executing BadRequestObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
 2025-10-10 11:29:04.764 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.UpdateTeam (CollabSphere.API) in 2463.9818ms
 2025-10-10 11:29:04.769 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.UpdateTeam (CollabSphere.API)'
@@ -1406,6 +1630,19 @@ SELECT s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_numbe
 FROM student AS s
 WHERE s.student_id = @__p_0
 LIMIT 1
+2025-10-10 11:13:28.550 +07:00 [INF] Executed DbCommand (37ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-10 11:13:28.651 +07:00 [INF] Executed DbCommand (41ms) [Parameters=[@p14='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Date), @p2='?', @p3='?' (DbType = Date), @p4='?', @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?', @p9='?' (DbType = Single), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?', @p13='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE team SET class_id = @p0, created_date = @p1, description = @p2, end_date = @p3, enrol_key = @p4, git_link = @p5, leader_id = @p6, lecturer_id = @p7, lecturer_name = @p8, progress = @p9, project_assignment_id = @p10, status = @p11, team_image = @p12, team_name = @p13
+WHERE team_id = @p14;
+2025-10-10 11:13:28.737 +07:00 [INF] Team with ID: 2 has been deleted by User with ID: 3
+2025-10-10 11:13:28.740 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-10 11:13:28.742 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API) in 393.7973ms
+2025-10-10 11:13:28.744 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.DeleteTeam (CollabSphere.API)'
+2025-10-10 11:13:28.746 +07:00 [INF] Request finished HTTP/2 DELETE https://localhost:7264/api/Team/2 - 200 null application/json; charset=utf-8 414.1351ms
 2025-10-10 23:58:30.469 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
 2025-10-10 23:58:30.478 +07:00 [INF] Executed action CollabSphere.API.Controllers.ClassController.AddStudentToClass (CollabSphere.API) in 3433.9374ms
 2025-10-10 23:58:30.480 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.ClassController.AddStudentToClass (CollabSphere.API)'
