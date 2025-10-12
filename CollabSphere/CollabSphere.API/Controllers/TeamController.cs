@@ -6,6 +6,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+﻿using CollabSphere.Application.DTOs.Lecturer;
+using CollabSphere.Application.Features.Lecturer.Commands;
+using CollabSphere.Application.Features.Team.Commands;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CollabSphere.API.Controllers
 {
@@ -18,6 +24,30 @@ namespace CollabSphere.API.Controllers
         public TeamController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateTeam ([FromBody] CreateTeamCommand command)
+        {
+            if(!ModelState.IsValid)
+
+            {
+                return BadRequest(ModelState);
+            }
+            
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result);
         }
 
         [Authorize]

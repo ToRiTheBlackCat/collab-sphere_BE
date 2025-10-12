@@ -16,6 +16,7 @@ namespace CollabSphere.Domain.Intefaces
         Task<List<User>?> GetAllStudentAsync();
         Task<User?> GetOneByEmailAndPassword(string email, string password);
         Task<User?> GetOneByEmail(string email);
+        Task<User?> GetOneByUIdWithInclude(int uid);
         Task<User?> GetOneByUserIdAsync(int userId);
         Task<User?> GetOneByIdWithIncludeAsync(int TId, string typeId, params Expression<Func<User, dynamic>>[] includeProperties);
         Task InsertUser(User user);

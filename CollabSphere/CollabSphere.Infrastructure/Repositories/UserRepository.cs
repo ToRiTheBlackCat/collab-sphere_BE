@@ -71,7 +71,7 @@ namespace CollabSphere.Infrastructure.Repositories
                     && x.IsActive);
         }
 
-        public async Task<User?> GetOneByUId(int uid)
+        public async Task<User?> GetOneByUIdWithInclude(int uid)
         {
             return await _context.Users
                 .Include(x => x.Role)
