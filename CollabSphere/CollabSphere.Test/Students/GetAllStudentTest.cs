@@ -78,9 +78,9 @@ namespace CollabSphere.Test.Students
 
             //Assert
             Assert.NotNull(result);
-            Assert.Equal(1, result?.Count);
-            Assert.Equal("Student1", result[0].Fullname);
-            Assert.Equal("STUDENT", result[0].RoleName);
+            Assert.Equal(1, result.ItemCount);
+            Assert.Equal("Student1", result.StudentList[0].Fullname);
+            Assert.Equal("STUDENT", result.StudentList[0].RoleName);
         }
 
         [Fact]
@@ -100,8 +100,8 @@ namespace CollabSphere.Test.Students
             var result = await _handler.Handle(request, CancellationToken.None);
 
             //Assert
-            Assert.Equal([], result);
-            Assert.Equal(0, result?.Count);
+            Assert.Empty(result.StudentList);
+            Assert.Equal(0, result.ItemCount);
         }
 
         [Fact]

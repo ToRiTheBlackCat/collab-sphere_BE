@@ -77,9 +77,9 @@ namespace CollabSphere.Test.Lecturers
 
             //Assert
             Assert.NotNull(result);
-            Assert.Equal(1, result?.Count);
-            Assert.Equal("Lecturer1", result[0].Fullname);
-            Assert.Equal("LECTURER", result[0].RoleName);
+            Assert.Equal(1, result.ItemCount);
+            Assert.Equal("Lecturer1", result.LecturerList[0].Fullname);
+            Assert.Equal("LECTURER", result.LecturerList[0].RoleName);
         }
 
         [Fact]
@@ -99,8 +99,9 @@ namespace CollabSphere.Test.Lecturers
             var result = await _handler.Handle(request, CancellationToken.None);
 
             //Assert
-            Assert.Equal([], result);
-            Assert.Equal(0, result?.Count);
+            Assert.NotNull(result);
+            Assert.Empty(result.LecturerList);
+            Assert.Equal(0, result.ItemCount);
         }
 
         [Fact]
@@ -120,7 +121,6 @@ namespace CollabSphere.Test.Lecturers
             var result = await _handler.Handle(request, CancellationToken.None);
 
             // Assert
-            Assert.Equal(null, result);
             _mockUnitOfWork.Verify(u => u.RollbackTransactionAsync(), Times.Once);
         }
     }
