@@ -1,24 +1,10 @@
-﻿using CollabSphere.Application.Features.Team.Commands;
+﻿using CollabSphere.Application.DTOs.Image;
+using CollabSphere.Application.Features.Team.Commands;
+using CollabSphere.Application.Features.User.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-﻿using CollabSphere.Application.Features.Project.Commands.DenyProject;
-using CollabSphere.Application.Features.Team.Commands;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-﻿using CollabSphere.Application.DTOs.Lecturer;
-using CollabSphere.Application.Features.Lecturer.Commands;
-using CollabSphere.Application.Features.Team.Commands;
-using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CollabSphere.API.Controllers
 {
@@ -32,16 +18,16 @@ namespace CollabSphere.API.Controllers
         {
             _mediator = mediator;
         }
-        
+
         [HttpPost]
-        public async Task<IActionResult> CreateTeam ([FromBody] CreateTeamCommand command)
+        public async Task<IActionResult> CreateTeam([FromBody] CreateTeamCommand command)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
 
             {
                 return BadRequest(ModelState);
             }
-            
+
             var result = await _mediator.Send(command);
 
             if (!result.IsValidInput)
@@ -91,7 +77,7 @@ namespace CollabSphere.API.Controllers
 
             return Ok(result);
         }
-        
+
         [Authorize]
         [HttpDelete("{teamId}")]
         public async Task<IActionResult> DeleteTeam(DeleteTeamCommand command, CancellationToken cancellationToken = default!)
@@ -103,6 +89,42 @@ namespace CollabSphere.API.Controllers
             command.UserRole = int.Parse(roleClaim.Value);
 
             var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPost("upload-avatar")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UploadAvatar(TeamUploadAvatarCommand command)
+        {
+            if (command.ImageFile == null || command.ImageFile.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
+
+            if (command.ImageFile.Length > 1024 * 1024)
+            {
+                return BadRequest("File size cannot exceed 1 MB");
+            }
+
+
+            var result = await _mediator.Send(command);
+
 
             if (!result.IsSuccess)
             {
