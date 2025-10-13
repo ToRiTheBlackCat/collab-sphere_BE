@@ -107,7 +107,7 @@ namespace CollabSphere.API.Controllers
 
             if (!result.IsSuccess)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
             }
 
             if (!result.Authorized)

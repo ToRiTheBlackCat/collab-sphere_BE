@@ -253,3 +253,265 @@ WHERE u_id = @p8;
 2025-10-13 11:14:19.179 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API) in 175.5307ms
 2025-10-13 11:14:19.186 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
 2025-10-13 11:14:19.192 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/user/profile/3 - 500 null text/plain; charset=utf-8 328.4413ms
+2025-10-13 13:57:04.914 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-13 13:57:05.014 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-13 13:57:05.015 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-13 13:57:05.068 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-13 13:57:05.070 +07:00 [INF] Hosting environment: Development
+2025-10-13 13:57:05.071 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-13 13:57:05.590 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-13 13:57:05.707 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 118.1303ms
+2025-10-13 13:57:05.836 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-13 13:57:05.836 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 13:57:05.847 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 11.49ms
+2025-10-13 13:57:05.860 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 24.7675ms
+2025-10-13 13:57:05.900 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-13 13:57:05.917 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 16.5359ms
+2025-10-13 13:57:23.439 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/user/profile/3 - null null
+2025-10-13 13:57:23.557 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 13:57:23.597 +07:00 [INF] Route matched with {action = "GetUserProfile", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserProfile(CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-10-13 13:57:23.606 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-13 13:57:27.733 +07:00 [INF] Executed DbCommand (105ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+LEFT JOIN student AS s ON u.u_id = s.student_id
+LEFT JOIN lecturer AS l ON u.u_id = l.lecturer_id
+WHERE u.u_id = @__uid_0 AND u.is_active
+LIMIT 1
+2025-10-13 13:57:27.944 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdResult'.
+2025-10-13 13:57:27.965 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API) in 4359.4655ms
+2025-10-13 13:57:27.968 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 13:57:27.973 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/user/profile/3 - 200 null application/json; charset=utf-8 4534.6488ms
+2025-10-13 13:57:34.693 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/user/profile/111 - null null
+2025-10-13 13:57:34.708 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 13:57:34.713 +07:00 [INF] Route matched with {action = "GetUserProfile", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserProfile(CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-10-13 13:57:34.851 +07:00 [INF] Executed DbCommand (42ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+LEFT JOIN student AS s ON u.u_id = s.student_id
+LEFT JOIN lecturer AS l ON u.u_id = l.lecturer_id
+WHERE u.u_id = @__uid_0 AND u.is_active
+LIMIT 1
+2025-10-13 13:57:34.857 +07:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2025-10-13 13:57:34.859 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API) in 141.1847ms
+2025-10-13 13:57:34.861 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 13:57:34.862 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/user/profile/111 - 500 null text/plain; charset=utf-8 169.982ms
+2025-10-13 13:59:41.969 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-13 13:59:42.072 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-13 13:59:42.088 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-13 13:59:42.143 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-13 13:59:42.146 +07:00 [INF] Hosting environment: Development
+2025-10-13 13:59:42.149 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-13 13:59:42.707 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-13 13:59:42.811 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 104.2308ms
+2025-10-13 13:59:42.814 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 13:59:42.828 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 13.7502ms
+2025-10-13 13:59:42.923 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-13 13:59:42.953 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 30.0035ms
+2025-10-13 13:59:42.998 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-13 13:59:43.013 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 15.3838ms
+2025-10-13 13:59:57.080 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/user/profile/123123 - null null
+2025-10-13 13:59:57.189 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 13:59:57.228 +07:00 [INF] Route matched with {action = "GetUserProfile", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserProfile(CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-10-13 13:59:57.236 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-13 14:00:01.212 +07:00 [INF] Executed DbCommand (122ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+LEFT JOIN student AS s ON u.u_id = s.student_id
+LEFT JOIN lecturer AS l ON u.u_id = l.lecturer_id
+WHERE u.u_id = @__uid_0 AND u.is_active
+LIMIT 1
+2025-10-13 14:00:01.244 +07:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2025-10-13 14:00:01.252 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API) in 4014.6438ms
+2025-10-13 14:00:01.255 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 14:00:01.264 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/user/profile/123123 - 500 0 text/plain; charset=utf-8 4184.4877ms
+2025-10-13 14:00:35.530 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-13 14:00:35.631 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-13 14:00:35.633 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-13 14:00:35.686 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-13 14:00:35.687 +07:00 [INF] Hosting environment: Development
+2025-10-13 14:00:35.687 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-13 14:00:36.308 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-13 14:00:36.409 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 101.6585ms
+2025-10-13 14:00:36.414 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 14:00:36.424 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 10.0455ms
+2025-10-13 14:00:36.524 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-13 14:00:36.554 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 30.1317ms
+2025-10-13 14:00:36.602 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-13 14:00:36.620 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 17.3202ms
+2025-10-13 14:00:51.123 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/user/profile/312 - null null
+2025-10-13 14:00:51.178 +07:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenMalformedException: IDX14100: JWT is not well formed, there are no dots (.).
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken.ReadToken(ReadOnlyMemory`1 encodedTokenMemory)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken..ctor(String jwtEncodedString)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ReadToken(String token, TokenValidationParameters validationParameters)
+2025-10-13 14:00:51.224 +07:00 [INF] Bearer was not authenticated. Failure message: IDX14100: JWT is not well formed, there are no dots (.).
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+2025-10-13 14:00:51.239 +07:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2025-10-13 14:00:51.253 +07:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-10-13 14:00:51.259 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/user/profile/312 - 401 0 null 136.2355ms
+2025-10-13 14:01:02.016 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/user/profile/312 - null null
+2025-10-13 14:01:02.088 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 14:01:02.122 +07:00 [INF] Route matched with {action = "GetUserProfile", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserProfile(CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-10-13 14:01:02.130 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-13 14:01:05.071 +07:00 [INF] Executed DbCommand (91ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+LEFT JOIN student AS s ON u.u_id = s.student_id
+LEFT JOIN lecturer AS l ON u.u_id = l.lecturer_id
+WHERE u.u_id = @__uid_0 AND u.is_active
+LIMIT 1
+2025-10-13 14:01:05.113 +07:00 [INF] Executing ObjectResult, writing value of type 'System.String'.
+2025-10-13 14:01:05.120 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API) in 2990.7782ms
+2025-10-13 14:01:05.123 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 14:01:05.130 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/user/profile/312 - 500 0 text/plain; charset=utf-8 3114.6469ms
+2025-10-13 14:03:27.845 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-13 14:03:28.057 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-13 14:03:28.059 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-13 14:03:28.145 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-13 14:03:28.147 +07:00 [INF] Hosting environment: Development
+2025-10-13 14:03:28.148 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-13 14:03:28.566 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-13 14:03:28.723 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 166.185ms
+2025-10-13 14:03:28.727 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 14:03:28.737 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 11.3375ms
+2025-10-13 14:03:28.834 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-13 14:03:28.874 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 39.9976ms
+2025-10-13 14:03:28.913 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-13 14:03:28.930 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 17.568ms
+2025-10-13 14:03:45.777 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/user/profile/333 - null null
+2025-10-13 14:03:45.955 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 14:03:45.996 +07:00 [INF] Route matched with {action = "GetUserProfile", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserProfile(CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-10-13 14:03:46.002 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-13 14:03:54.609 +07:00 [INF] Executed DbCommand (96ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+LEFT JOIN student AS s ON u.u_id = s.student_id
+LEFT JOIN lecturer AS l ON u.u_id = l.lecturer_id
+WHERE u.u_id = @__uid_0 AND u.is_active
+LIMIT 1
+2025-10-13 14:05:05.510 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdResult'.
+2025-10-13 14:05:05.529 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API) in 79523.8407ms
+2025-10-13 14:05:05.531 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 14:05:05.537 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/user/profile/333 - 500 null application/json; charset=utf-8 79760.272ms
+2025-10-13 14:05:28.373 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-13 14:05:28.472 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-13 14:05:28.474 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-13 14:05:28.528 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-13 14:05:28.556 +07:00 [INF] Hosting environment: Development
+2025-10-13 14:05:28.559 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-13 14:05:29.172 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-13 14:05:29.282 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 111.435ms
+2025-10-13 14:05:29.286 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 14:05:29.297 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 10.4833ms
+2025-10-13 14:05:29.400 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-13 14:05:29.425 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 25.0477ms
+2025-10-13 14:05:29.478 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-13 14:05:29.502 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 23.4155ms
+2025-10-13 14:05:39.763 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/user/profile/3 - null null
+2025-10-13 14:05:39.879 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 14:05:39.916 +07:00 [INF] Route matched with {action = "GetUserProfile", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserProfile(CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-10-13 14:05:39.924 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-13 14:05:43.362 +07:00 [INF] Executed DbCommand (169ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+LEFT JOIN student AS s ON u.u_id = s.student_id
+LEFT JOIN lecturer AS l ON u.u_id = l.lecturer_id
+WHERE u.u_id = @__uid_0 AND u.is_active
+LIMIT 1
+2025-10-13 14:05:43.604 +07:00 [INF] Executed DbCommand (38ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+LEFT JOIN student AS s ON u.u_id = s.student_id
+LEFT JOIN lecturer AS l ON u.u_id = l.lecturer_id
+WHERE u.u_id = @__uid_0 AND u.is_active
+LIMIT 1
+2025-10-13 14:05:43.619 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdResult'.
+2025-10-13 14:05:43.646 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API) in 3722.5981ms
+2025-10-13 14:05:43.649 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 14:05:43.657 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/user/profile/3 - 200 null application/json; charset=utf-8 3893.6343ms
+2025-10-13 14:06:01.556 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/user/profile/3333 - null null
+2025-10-13 14:06:01.570 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 14:06:01.574 +07:00 [INF] Route matched with {action = "GetUserProfile", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserProfile(CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-10-13 14:06:01.703 +07:00 [INF] Executed DbCommand (38ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+LEFT JOIN student AS s ON u.u_id = s.student_id
+LEFT JOIN lecturer AS l ON u.u_id = l.lecturer_id
+WHERE u.u_id = @__uid_0 AND u.is_active
+LIMIT 1
+2025-10-13 14:06:01.708 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdResult'.
+2025-10-13 14:06:01.712 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API) in 135.5127ms
+2025-10-13 14:06:01.715 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 14:06:01.716 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/user/profile/3333 - 500 null application/json; charset=utf-8 160.6633ms
+2025-10-13 14:08:17.392 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/user/profile/3 - null null
+2025-10-13 14:08:17.401 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 14:08:17.403 +07:00 [INF] Route matched with {action = "GetUserProfile", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserProfile(CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-10-13 14:08:17.470 +07:00 [INF] Executed DbCommand (34ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+LEFT JOIN student AS s ON u.u_id = s.student_id
+LEFT JOIN lecturer AS l ON u.u_id = l.lecturer_id
+WHERE u.u_id = @__uid_0 AND u.is_active
+LIMIT 1
+2025-10-13 14:08:17.516 +07:00 [INF] Executed DbCommand (36ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+LEFT JOIN student AS s ON u.u_id = s.student_id
+LEFT JOIN lecturer AS l ON u.u_id = l.lecturer_id
+WHERE u.u_id = @__uid_0 AND u.is_active
+LIMIT 1
+2025-10-13 14:08:17.525 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdResult'.
+2025-10-13 14:08:17.529 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API) in 122.6733ms
+2025-10-13 14:08:17.533 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 14:08:17.536 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/user/profile/3 - 200 null application/json; charset=utf-8 143.9364ms
+2025-10-13 14:08:23.949 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/user/profile/3123 - null null
+2025-10-13 14:08:23.956 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 14:08:23.959 +07:00 [INF] Route matched with {action = "GetUserProfile", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserProfile(CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-10-13 14:08:24.002 +07:00 [INF] Executed DbCommand (37ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+LEFT JOIN student AS s ON u.u_id = s.student_id
+LEFT JOIN lecturer AS l ON u.u_id = l.lecturer_id
+WHERE u.u_id = @__uid_0 AND u.is_active
+LIMIT 1
+2025-10-13 14:08:24.012 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdResult'.
+2025-10-13 14:08:24.015 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API) in 52.6081ms
+2025-10-13 14:08:24.020 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 14:08:24.023 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/user/profile/3123 - 500 null application/json; charset=utf-8 74.1766ms
+2025-10-13 14:08:26.966 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/user/profile/3 - null null
+2025-10-13 14:08:26.971 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 14:08:26.973 +07:00 [INF] Route matched with {action = "GetUserProfile", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserProfile(CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-10-13 14:08:27.014 +07:00 [INF] Executed DbCommand (36ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+LEFT JOIN student AS s ON u.u_id = s.student_id
+LEFT JOIN lecturer AS l ON u.u_id = l.lecturer_id
+WHERE u.u_id = @__uid_0 AND u.is_active
+LIMIT 1
+2025-10-13 14:08:27.058 +07:00 [INF] Executed DbCommand (37ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+LEFT JOIN student AS s ON u.u_id = s.student_id
+LEFT JOIN lecturer AS l ON u.u_id = l.lecturer_id
+WHERE u.u_id = @__uid_0 AND u.is_active
+LIMIT 1
+2025-10-13 14:08:27.067 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdResult'.
+2025-10-13 14:08:27.076 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API) in 99.4192ms
+2025-10-13 14:08:27.082 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
+2025-10-13 14:08:27.085 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/user/profile/3 - 200 null application/json; charset=utf-8 117.9107ms

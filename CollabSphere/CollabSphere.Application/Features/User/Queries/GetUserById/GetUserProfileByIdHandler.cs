@@ -67,7 +67,17 @@ namespace CollabSphere.Application.Features.User.Queries.GetUserById
 
         protected override async Task ValidateRequest(List<OperationError> errors, GetUserProfileByIdQuery request)
         {
-            return;
+            //Check existed user
+            var foundUser = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(request.UserId);
+            if (foundUser == null)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = " UserId",
+                    Message = $"Cannot find any User with that id: {request.UserId}"
+                });
+                return;
+            }
         }
     }
 }
