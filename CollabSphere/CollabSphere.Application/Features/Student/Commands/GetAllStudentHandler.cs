@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Student.Commands
 {
-    public class GetAllStudentHandler : IRequestHandler<GetAllStudentCommand, List<GetAllStudentResponseDto>?>
+    public class GetAllStudentHandler : IRequestHandler<GetAllStudentCommand, GetAllLecturerResponseDto>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<GetAllStudentHandler> _logger;
@@ -23,10 +23,17 @@ namespace CollabSphere.Application.Features.Student.Commands
             _logger = logger;
         }
 
-        public async Task<List<GetAllStudentResponseDto>?> Handle(GetAllStudentCommand request, CancellationToken cancellationToken)
+        public async Task<GetAllLecturerResponseDto> Handle(GetAllStudentCommand request, CancellationToken cancellationToken)
         {
             try
             {
+                var result = new GetAllLecturerResponseDto
+                {
+                    ItemCount = 0,
+                    PageNum = request.Dto.PageNumber,
+                    PageSize = request.Dto.PageSize
+                };
+
                 await _unitOfWork.BeginTransactionAsync();
 
                 var studentList = await _unitOfWork.StudentRepo
@@ -40,10 +47,13 @@ namespace CollabSphere.Application.Features.Student.Commands
                          request.Dto.PageSize,
                          request.Dto.IsDesc
                     );
-                var mappedList = studentList.ListUser_To_ListGetAllStudentResponseDto();
+                var mappedList = studentList.ListUser_To_StudentResponseDto();
                 await _unitOfWork.CommitTransactionAsync();
 
-                return mappedList;
+                result.ItemCount = mappedList.Count;
+                result.StudentList = mappedList;
+
+                return result;
             }
             catch (Exception ex)
             {

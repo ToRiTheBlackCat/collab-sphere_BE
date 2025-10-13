@@ -10,9 +10,9 @@ namespace CollabSphere.Application.Mappings.Lecturer
 {
     public static class LecturerMapping
     {
-        public static List<GetAllLecturerResponseDto> ListUser_To_ListGetAllLecturerResponseDto(this List<Domain.Entities.User>? userList)
+        public static List<LecturerResponseDto> ListUser_To_LecturerResponseDto(this List<Domain.Entities.User>? userList)
         {
-            var dtoList = new List<GetAllLecturerResponseDto>();
+            var dtoList = new List<LecturerResponseDto>();
             if (userList == null)
             {
                 return dtoList;
@@ -20,7 +20,7 @@ namespace CollabSphere.Application.Mappings.Lecturer
 
             foreach (var user in userList)
             {
-                var mappedDto = new GetAllLecturerResponseDto
+                var mappedDto = new LecturerResponseDto
                 {
                     UId = user.UId,
                     Email = user.Email,
