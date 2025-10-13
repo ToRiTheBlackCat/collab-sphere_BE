@@ -85,7 +85,7 @@ namespace CollabSphere.Application.Common
                     ? property.Name
                     : $"{prefix}.{property.Name}";
 
-                errors.AddRange(Validate(value, nestedPrefix));
+                errors.AddRange(ValidateObjectRecursive(value, nestedPrefix));
             }
 
             return errors;
