@@ -4,6 +4,7 @@ using CollabSphere.Application.DTOs.Lecturer;
 using CollabSphere.Application.DTOs.OTP;
 using CollabSphere.Application.DTOs.Student;
 using CollabSphere.Application.DTOs.User;
+using CollabSphere.Application.Features.Admin.Queries;
 using CollabSphere.Application.Features.Lecturer.Commands;
 using CollabSphere.Application.Features.OTP;
 using CollabSphere.Application.Features.OTP.Commands;
@@ -11,9 +12,12 @@ using CollabSphere.Application.Features.Student;
 using CollabSphere.Application.Features.Student.Commands;
 using CollabSphere.Application.Features.User.Commands;
 using CollabSphere.Application.Features.User.Queries;
+using CollabSphere.Application.Features.User.Queries.GetUserById;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CollabSphere.API.Controllers
 {
@@ -57,7 +61,7 @@ namespace CollabSphere.API.Controllers
                ? Ok(new { result.Item1, result.Item2 })
                : BadRequest(new { result.Item1, result.Item2 });
         }
-        
+
         [HttpPost("/api/lecturer")]
         public async Task<IActionResult> CreateLecturerAccount([FromBody] CreateLecturerRequestDto request)
         {
@@ -86,6 +90,37 @@ namespace CollabSphere.API.Controllers
             return result.Item1
                ? Ok(new { result.Item1, result.Item2 })
                : BadRequest(new { result.Item1, result.Item2 });
+        }
+
+        [Authorize]
+        [HttpGet("profile/{userId}")]
+        public async Task<IActionResult> GetUserProfile(GetUserProfileByIdQuery query, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            query.ViewerUId = int.Parse(UIdClaim.Value);
+            query.ViewerRole = int.Parse(roleClaim.Value);
+
+
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            if (!result.Authorized)
+            {
+                return Unauthorized(result.Message);
+            }
+
+            if (result.User == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(result);
         }
 
 
