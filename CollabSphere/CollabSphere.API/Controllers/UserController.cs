@@ -123,6 +123,41 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
+        [Authorize]
+        [HttpPut("profile/{userId}")]
+        public async Task<IActionResult> UpdateUserProfile(int userId, [FromBody] UpdateUserProfileCommand command)
+        {
+            if (userId != command.UserId)
+            {
+                return BadRequest("UserId in URL does not match UserId in body.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            command.RequesterId = int.Parse(UIdClaim.Value);
+            command.RequesterRole = int.Parse(roleClaim.Value);
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result);
+        }
+
 
         [HttpPost("upload-avatar")]
         [Consumes("multipart/form-data")]

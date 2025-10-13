@@ -1,4 +1,5 @@
-﻿using CollabSphere.Application.DTOs.Lecturer;
+﻿using CollabSphere.Application.Common;
+using CollabSphere.Application.DTOs.Lecturer;
 using CollabSphere.Application.Features.Student.Commands;
 using CollabSphere.Application.Mappings.Lecturer;
 using MediatR;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Lecturer.Commands
 {
-    public class GetAllLecturerHandler : IRequestHandler<GetAllLecturerCommand, List<GetAllLecturerResponseDto>?>
+    public class GetAllLecturerHandler : IRequestHandler<GetAllLecturerCommand, GetAllLecturerResponseDto>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<GetAllLecturerHandler> _logger;
@@ -24,10 +25,17 @@ namespace CollabSphere.Application.Features.Lecturer.Commands
             _logger = logger;
         }
 
-        public async Task<List<GetAllLecturerResponseDto>?> Handle(GetAllLecturerCommand request, CancellationToken cancellationToken)
+        public async Task<GetAllLecturerResponseDto> Handle(GetAllLecturerCommand request, CancellationToken cancellationToken)
         {
             try
             {
+                var result = new GetAllLecturerResponseDto
+                {
+                    ItemCount = 0,
+                    PageNum = request.Dto.PageNumber,
+                    PageSize = request.Dto.PageSize
+                };
+
                 await _unitOfWork.BeginTransactionAsync();
 
                 var lecturerList = await _unitOfWork.LecturerRepo
@@ -41,10 +49,13 @@ namespace CollabSphere.Application.Features.Lecturer.Commands
                          request.Dto.PageSize,
                          request.Dto.IsDesc
                     );
-                var mappedList = lecturerList.ListUser_To_ListGetAllLecturerResponseDto();
+                var mappedList = lecturerList.ListUser_To_LecturerResponseDto();
                 await _unitOfWork.CommitTransactionAsync();
 
-                return mappedList;
+                result.ItemCount = mappedList.Count;
+                result.LecturerList = mappedList;
+
+                return result;
             }
             catch (Exception ex)
             {
