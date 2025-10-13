@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Student.Commands
 {
-    public class GetAllStudentCommand : IRequest<List<GetAllStudentResponseDto>?>
+    public class GetAllStudentCommand : IRequest<GetAllLecturerResponseDto>
     {
         public GetAllStudentRequestDto Dto { get; set; }
         public GetAllStudentCommand(GetAllStudentRequestDto dto)

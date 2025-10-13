@@ -23,6 +23,40 @@ RolesAuthorizationRequirement:User.IsInRole must be true for one of the followin
 2025-10-13 10:48:34.867 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
 2025-10-13 10:48:34.883 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
 2025-10-13 10:48:44.804 +07:00 [INF] Executed DbCommand (215ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
+2025-10-13 12:17:39.505 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-13 12:17:39.605 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-13 12:17:39.606 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-13 12:17:39.661 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-13 12:17:39.662 +07:00 [INF] Hosting environment: Development
+2025-10-13 12:17:39.663 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-13 12:17:39.962 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-13 12:17:40.063 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 102.237ms
+2025-10-13 12:17:40.077 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-13 12:17:40.077 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 12:17:40.084 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 7.4449ms
+2025-10-13 12:17:40.098 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 21.0281ms
+2025-10-13 12:17:41.127 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-13 12:17:41.149 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 21.6693ms
+2025-10-13 13:10:59.017 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-13 13:10:59.244 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-13 13:10:59.247 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-13 13:10:59.306 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-13 13:10:59.307 +07:00 [INF] Hosting environment: Development
+2025-10-13 13:10:59.308 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-13 13:10:59.972 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-13 13:11:00.143 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 13:11:00.143 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 178.2508ms
+2025-10-13 13:11:00.153 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 10.8048ms
+2025-10-13 13:11:00.249 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-13 13:11:00.293 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 43.567ms
+2025-10-13 13:11:00.379 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-13 13:11:00.402 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 23.8457ms
+2025-10-13 13:11:52.931 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/auth/login - application/json 61
+2025-10-13 13:11:52.954 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-13 13:11:53.087 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-13 13:11:53.125 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-13 13:11:53.136 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-13 13:11:57.387 +07:00 [INF] Executed DbCommand (129ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
 SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
 FROM "user" AS u
 INNER JOIN role AS r ON u.role_id = r.role_id
@@ -105,6 +139,36 @@ LIMIT 1
 2025-10-13 10:51:45.063 +07:00 [INF] Route matched with {action = "GetUserProfile", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserProfile(CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
 2025-10-13 10:51:45.078 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
 2025-10-13 10:51:52.441 +07:00 [INF] Executed DbCommand (106ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2025-10-13 13:11:58.019 +07:00 [INF] Executed DbCommand (41ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
+WHERE u_id = @p8;
+2025-10-13 13:11:58.165 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.DTOs.User.LoginResponseDTO'.
+2025-10-13 13:11:58.190 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 5056.2909ms
+2025-10-13 13:11:58.193 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-13 13:11:58.203 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/auth/login - 200 null application/json; charset=utf-8 5272.4013ms
+2025-10-13 13:12:25.603 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/team/upload-avatar - multipart/form-data; boundary=----WebKitFormBoundaryTfMuD6ASDX8c53Nf 13620
+2025-10-13 13:12:25.621 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-13 13:12:25.707 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API)'
+2025-10-13 13:12:25.721 +07:00 [INF] Route matched with {action = "UploadAvatar", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UploadAvatar(CollabSphere.Application.Features.Team.Commands.TeamUploadAvatarCommand) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-13 13:12:25.942 +07:00 [INF] Executed DbCommand (41ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-13 13:12:25.955 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-13 13:12:25.973 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API) in 246.6282ms
+2025-10-13 13:12:25.980 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API)'
+2025-10-13 13:12:25.986 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/team/upload-avatar - 500 null application/json; charset=utf-8 381.7256ms
+2025-10-13 13:12:34.439 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/team/upload-avatar - multipart/form-data; boundary=----WebKitFormBoundarywkQ5rnejFh6Y5lWg 13617
+2025-10-13 13:12:34.444 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-13 13:12:34.449 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API)'
+2025-10-13 13:12:34.451 +07:00 [INF] Route matched with {action = "UploadAvatar", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UploadAvatar(CollabSphere.Application.Features.Team.Commands.TeamUploadAvatarCommand) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-13 13:12:34.525 +07:00 [INF] Executed DbCommand (40ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-13 13:12:34.754 +07:00 [INF] Executed DbCommand (54ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
 FROM "user" AS u
 INNER JOIN role AS r ON u.role_id = r.role_id
@@ -158,6 +222,35 @@ LIMIT 1
 2025-10-13 10:53:53.997 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
 2025-10-13 10:53:54.000 +07:00 [INF] Route matched with {action = "GetUserProfile", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserProfile(CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
 2025-10-13 10:53:56.050 +07:00 [INF] Executed DbCommand (56ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2025-10-13 13:12:53.107 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-13 13:12:53.109 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API) in 18654.5297ms
+2025-10-13 13:12:53.111 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API)'
+2025-10-13 13:12:53.112 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/team/upload-avatar - 500 null application/json; charset=utf-8 18673.3332ms
+2025-10-13 13:13:14.650 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-13 13:13:14.871 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-13 13:13:14.873 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-13 13:13:14.950 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-13 13:13:14.952 +07:00 [INF] Hosting environment: Development
+2025-10-13 13:13:14.955 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-13 13:13:15.390 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-13 13:13:15.556 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 13:13:15.557 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 177.2009ms
+2025-10-13 13:13:15.569 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 12.6184ms
+2025-10-13 13:13:15.669 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-13 13:13:15.710 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 40.8798ms
+2025-10-13 13:13:15.752 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-13 13:13:15.770 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 18.0179ms
+2025-10-13 13:13:30.442 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/team/upload-avatar - multipart/form-data; boundary=----WebKitFormBoundaryHjj1CZFrfAzQrjcB 13617
+2025-10-13 13:13:30.455 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-13 13:13:30.603 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API)'
+2025-10-13 13:13:30.642 +07:00 [INF] Route matched with {action = "UploadAvatar", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UploadAvatar(CollabSphere.Application.Features.Team.Commands.TeamUploadAvatarCommand) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-13 13:13:30.651 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-13 13:13:35.194 +07:00 [INF] Executed DbCommand (134ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-13 13:13:35.552 +07:00 [INF] Executed DbCommand (52ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
 FROM "user" AS u
 INNER JOIN role AS r ON u.role_id = r.role_id
@@ -203,6 +296,20 @@ LIMIT 1
 2025-10-13 10:59:52.974 +07:00 [INF] Route matched with {action = "GetUserProfile", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserProfile(CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
 2025-10-13 10:59:52.989 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
 2025-10-13 10:59:57.748 +07:00 [INF] Executed DbCommand (186ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2025-10-13 13:13:35.578 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-13 13:13:35.606 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API) in 4955.7125ms
+2025-10-13 13:13:35.611 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API)'
+2025-10-13 13:13:35.622 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/team/upload-avatar - 500 null application/json; charset=utf-8 5180.3435ms
+2025-10-13 13:13:43.450 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/team/upload-avatar - multipart/form-data; boundary=----WebKitFormBoundarytHpIqRbBEA7cVzvX 13614
+2025-10-13 13:13:43.460 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-13 13:13:43.464 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API)'
+2025-10-13 13:13:43.467 +07:00 [INF] Route matched with {action = "UploadAvatar", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UploadAvatar(CollabSphere.Application.Features.Team.Commands.TeamUploadAvatarCommand) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-13 13:13:43.642 +07:00 [INF] Executed DbCommand (53ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-13 13:13:43.710 +07:00 [INF] Executed DbCommand (53ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
 FROM "user" AS u
 INNER JOIN role AS r ON u.role_id = r.role_id
@@ -317,6 +424,20 @@ LIMIT 1
 2025-10-13 13:59:57.228 +07:00 [INF] Route matched with {action = "GetUserProfile", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserProfile(CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
 2025-10-13 13:59:57.236 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
 2025-10-13 14:00:01.212 +07:00 [INF] Executed DbCommand (122ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2025-10-13 13:13:43.808 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-13 13:13:43.811 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API) in 339.4257ms
+2025-10-13 13:13:43.812 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API)'
+2025-10-13 13:13:43.814 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/team/upload-avatar - 500 null application/json; charset=utf-8 364.4017ms
+2025-10-13 13:13:52.013 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/team/upload-avatar - multipart/form-data; boundary=----WebKitFormBoundaryfBo6CWjsT0Ae8LOj 13614
+2025-10-13 13:13:52.018 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-13 13:13:52.021 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API)'
+2025-10-13 13:13:52.026 +07:00 [INF] Route matched with {action = "UploadAvatar", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UploadAvatar(CollabSphere.Application.Features.Team.Commands.TeamUploadAvatarCommand) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-13 13:13:52.119 +07:00 [INF] Executed DbCommand (55ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-13 13:13:52.180 +07:00 [INF] Executed DbCommand (51ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
 FROM "user" AS u
 INNER JOIN role AS r ON u.role_id = r.role_id
@@ -420,6 +541,86 @@ LIMIT 1
 2025-10-13 14:05:39.916 +07:00 [INF] Route matched with {action = "GetUserProfile", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserProfile(CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
 2025-10-13 14:05:39.924 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
 2025-10-13 14:05:43.362 +07:00 [INF] Executed DbCommand (169ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2025-10-13 13:14:20.323 +07:00 [INF] Executed DbCommand (56ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-13 13:14:29.356 +07:00 [INF] Executed DbCommand (53ms) [Parameters=[@p14='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Date), @p2='?', @p3='?' (DbType = Date), @p4='?', @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?', @p9='?' (DbType = Single), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?', @p13='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE team SET class_id = @p0, created_date = @p1, description = @p2, end_date = @p3, enrol_key = @p4, git_link = @p5, leader_id = @p6, lecturer_id = @p7, lecturer_name = @p8, progress = @p9, project_assignment_id = @p10, status = @p11, team_image = @p12, team_name = @p13
+WHERE team_id = @p14;
+2025-10-13 13:14:31.475 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-13 13:14:31.478 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API) in 39450.2534ms
+2025-10-13 13:14:31.482 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API)'
+2025-10-13 13:14:31.484 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/team/upload-avatar - 500 null application/json; charset=utf-8 39471.3462ms
+2025-10-13 13:15:46.075 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/user/avatar-url?publicId=team-avatars%2Fuv7sd9acaahgoqzbyqaf - null null
+2025-10-13 13:15:46.087 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.GetAvatarUrl (CollabSphere.API)'
+2025-10-13 13:15:46.098 +07:00 [INF] Route matched with {action = "GetAvatarUrl", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAvatarUrl(System.String) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
+2025-10-13 13:15:46.117 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2025-10-13 13:15:46.123 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.GetAvatarUrl (CollabSphere.API) in 20.6012ms
+2025-10-13 13:15:46.132 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.GetAvatarUrl (CollabSphere.API)'
+2025-10-13 13:15:46.138 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/user/avatar-url?publicId=team-avatars%2Fuv7sd9acaahgoqzbyqaf - 200 null text/plain; charset=utf-8 62.0311ms
+2025-10-13 13:18:39.822 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-13 13:18:39.925 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-13 13:18:39.929 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-13 13:18:39.992 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-13 13:18:39.994 +07:00 [INF] Hosting environment: Development
+2025-10-13 13:18:39.996 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-13 13:18:40.488 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-13 13:18:40.591 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 103.6614ms
+2025-10-13 13:18:40.595 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 13:18:40.607 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 11.8078ms
+2025-10-13 13:18:40.699 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-13 13:18:40.734 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 35.1523ms
+2025-10-13 13:18:40.774 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-13 13:18:40.790 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 16.2213ms
+2025-10-13 13:18:51.906 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/avatar/avatar-url?publicId=team-avatars%2Fuv7sd9acaahgoqzbyqaf - null null
+2025-10-13 13:18:51.930 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AvatarController.GetAvatarUrl (CollabSphere.API)'
+2025-10-13 13:18:51.949 +07:00 [INF] Route matched with {action = "GetAvatarUrl", controller = "Avatar"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAvatarUrl(System.String) on controller CollabSphere.API.Controllers.AvatarController (CollabSphere.API).
+2025-10-13 13:18:51.955 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-13 13:18:51.977 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2025-10-13 13:18:51.985 +07:00 [INF] Executed action CollabSphere.API.Controllers.AvatarController.GetAvatarUrl (CollabSphere.API) in 30.1536ms
+2025-10-13 13:18:51.987 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AvatarController.GetAvatarUrl (CollabSphere.API)'
+2025-10-13 13:18:51.988 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/avatar/avatar-url?publicId=team-avatars%2Fuv7sd9acaahgoqzbyqaf - 200 null text/plain; charset=utf-8 81.7617ms
+2025-10-13 13:29:24.222 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-13 13:29:24.435 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-13 13:29:24.437 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-13 13:29:24.513 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-13 13:29:24.515 +07:00 [INF] Hosting environment: Development
+2025-10-13 13:29:24.517 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-13 13:29:24.802 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-13 13:29:24.944 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 148.5397ms
+2025-10-13 13:29:24.947 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 13:29:24.958 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 11.6514ms
+2025-10-13 13:29:25.057 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-13 13:29:25.096 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 39.4151ms
+2025-10-13 13:29:25.134 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-13 13:29:25.153 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 19.1513ms
+2025-10-13 13:29:34.116 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-13 13:29:34.327 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-13 13:29:34.329 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-13 13:29:34.431 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-13 13:29:34.433 +07:00 [INF] Hosting environment: Development
+2025-10-13 13:29:34.434 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-13 13:29:34.664 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-13 13:29:34.836 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 176.9084ms
+2025-10-13 13:29:34.837 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 13:29:34.848 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 11.4498ms
+2025-10-13 13:29:34.947 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-13 13:29:34.982 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 36.5383ms
+2025-10-13 13:29:35.034 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-13 13:29:35.054 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 20.5969ms
+2025-10-13 13:30:09.794 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/team/upload-avatar - multipart/form-data; boundary=----WebKitFormBoundaryciFGUmqiSxHO6ELw 13614
+2025-10-13 13:30:09.808 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-13 13:30:09.901 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API)'
+2025-10-13 13:30:09.920 +07:00 [INF] Route matched with {action = "UploadAvatar", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UploadAvatar(CollabSphere.Application.Features.Team.Commands.TeamUploadAvatarCommand) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-13 13:30:09.926 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-13 13:30:12.273 +07:00 [INF] Executed DbCommand (121ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-13 13:30:12.457 +07:00 [INF] Executed DbCommand (43ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
 FROM "user" AS u
 INNER JOIN role AS r ON u.role_id = r.role_id
@@ -458,6 +659,43 @@ LIMIT 1
 2025-10-13 14:08:17.401 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
 2025-10-13 14:08:17.403 +07:00 [INF] Route matched with {action = "GetUserProfile", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserProfile(CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
 2025-10-13 14:08:17.470 +07:00 [INF] Executed DbCommand (34ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2025-10-13 13:30:12.586 +07:00 [INF] Executed DbCommand (71ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-13 13:30:30.752 +07:00 [INF] Executed DbCommand (40ms) [Parameters=[@p14='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Date), @p2='?', @p3='?' (DbType = Date), @p4='?', @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?', @p9='?' (DbType = Single), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?', @p13='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE team SET class_id = @p0, created_date = @p1, description = @p2, end_date = @p3, enrol_key = @p4, git_link = @p5, leader_id = @p6, lecturer_id = @p7, lecturer_name = @p8, progress = @p9, project_assignment_id = @p10, status = @p11, team_image = @p12, team_name = @p13
+WHERE team_id = @p14;
+2025-10-13 13:30:37.058 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-13 13:30:37.070 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API) in 27144.1284ms
+2025-10-13 13:30:37.077 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API)'
+2025-10-13 13:30:37.102 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/team/upload-avatar - 500 null application/json; charset=utf-8 27307.3373ms
+2025-10-13 13:31:13.910 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-13 13:31:14.016 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-13 13:31:14.020 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-13 13:31:14.076 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-13 13:31:14.079 +07:00 [INF] Hosting environment: Development
+2025-10-13 13:31:14.080 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-13 13:31:14.613 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-13 13:31:14.719 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 107.2869ms
+2025-10-13 13:31:14.845 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 13:31:14.845 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-13 13:31:14.854 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 8.2556ms
+2025-10-13 13:31:14.870 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 24.4586ms
+2025-10-13 13:31:14.903 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-13 13:31:14.919 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 16.2506ms
+2025-10-13 13:31:31.401 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/team/upload-avatar - multipart/form-data; boundary=----WebKitFormBoundaryZHLmSqEoRimC2hL6 13614
+2025-10-13 13:31:31.410 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-13 13:31:31.456 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API)'
+2025-10-13 13:31:31.473 +07:00 [INF] Route matched with {action = "UploadAvatar", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UploadAvatar(CollabSphere.Application.Features.Team.Commands.TeamUploadAvatarCommand) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-13 13:31:31.479 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-13 13:31:34.286 +07:00 [INF] Executed DbCommand (92ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-13 13:31:34.481 +07:00 [INF] Executed DbCommand (56ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
 FROM "user" AS u
 INNER JOIN role AS r ON u.role_id = r.role_id
@@ -496,6 +734,36 @@ LIMIT 1
 2025-10-13 14:08:26.971 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
 2025-10-13 14:08:26.973 +07:00 [INF] Route matched with {action = "GetUserProfile", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetUserProfile(CollabSphere.Application.Features.User.Queries.GetUserById.GetUserProfileByIdQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.UserController (CollabSphere.API).
 2025-10-13 14:08:27.014 +07:00 [INF] Executed DbCommand (36ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+2025-10-13 13:31:34.593 +07:00 [INF] Executed DbCommand (47ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-13 13:31:37.058 +07:00 [INF] Executed DbCommand (54ms) [Parameters=[@p14='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Date), @p2='?', @p3='?' (DbType = Date), @p4='?', @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?', @p9='?' (DbType = Single), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?', @p13='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE team SET class_id = @p0, created_date = @p1, description = @p2, end_date = @p3, enrol_key = @p4, git_link = @p5, leader_id = @p6, lecturer_id = @p7, lecturer_name = @p8, progress = @p9, project_assignment_id = @p10, status = @p11, team_image = @p12, team_name = @p13
+WHERE team_id = @p14;
+2025-10-13 13:31:37.634 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-13 13:31:37.645 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API) in 6166.742ms
+2025-10-13 13:31:37.647 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API)'
+2025-10-13 13:31:37.653 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/team/upload-avatar - 200 null application/json; charset=utf-8 6251.7656ms
+2025-10-13 13:32:25.952 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-13 13:32:25.962 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 10.1353ms
+2025-10-13 13:32:25.972 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 13:32:25.977 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 5.7951ms
+2025-10-13 13:32:26.090 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-13 13:32:26.103 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 13.6132ms
+2025-10-13 13:32:26.169 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-13 13:32:26.183 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 14.7756ms
+2025-10-13 13:32:42.748 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/team/upload-avatar - multipart/form-data; boundary=----WebKitFormBoundarykzDWBHyrHZKU1Fik 13614
+2025-10-13 13:32:42.764 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-13 13:32:42.767 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API)'
+2025-10-13 13:32:42.769 +07:00 [INF] Route matched with {action = "UploadAvatar", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UploadAvatar(CollabSphere.Application.Features.Team.Commands.TeamUploadAvatarCommand) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-13 13:32:42.883 +07:00 [INF] Executed DbCommand (53ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-13 13:32:42.947 +07:00 [INF] Executed DbCommand (59ms) [Parameters=[@__uid_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
 SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name, s.student_id, s.address, s.avatar_img, s.fullname, s.major, s.phone_number, s.school, s.student_code, s.yob, l.lecturer_id, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
 FROM "user" AS u
 INNER JOIN role AS r ON u.role_id = r.role_id
@@ -515,3 +783,22 @@ LIMIT 1
 2025-10-13 14:08:27.076 +07:00 [INF] Executed action CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API) in 99.4192ms
 2025-10-13 14:08:27.082 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.UserController.GetUserProfile (CollabSphere.API)'
 2025-10-13 14:08:27.085 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/user/profile/3 - 200 null application/json; charset=utf-8 117.9107ms
+2025-10-13 13:32:43.027 +07:00 [INF] Executed DbCommand (74ms) [Parameters=[@__p_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name
+FROM team AS t
+WHERE t.team_id = @__p_0
+LIMIT 1
+2025-10-13 13:32:45.218 +07:00 [INF] Executed DbCommand (46ms) [Parameters=[@p14='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Date), @p2='?', @p3='?' (DbType = Date), @p4='?', @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?', @p9='?' (DbType = Single), @p10='?' (DbType = Int32), @p11='?' (DbType = Int32), @p12='?', @p13='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE team SET class_id = @p0, created_date = @p1, description = @p2, end_date = @p3, enrol_key = @p4, git_link = @p5, leader_id = @p6, lecturer_id = @p7, lecturer_name = @p8, progress = @p9, project_assignment_id = @p10, status = @p11, team_image = @p12, team_name = @p13
+WHERE team_id = @p14;
+2025-10-13 13:32:45.743 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Base.CommandResult'.
+2025-10-13 13:32:45.750 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API) in 2978.4276ms
+2025-10-13 13:32:45.753 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.UploadAvatar (CollabSphere.API)'
+2025-10-13 13:32:45.754 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/team/upload-avatar - 200 null application/json; charset=utf-8 3006.6455ms
+2025-10-13 13:34:08.860 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/avatar/avatar-url?publicId=avatars%2Fobpgbuicvfkqt27hm1dp - null null
+2025-10-13 13:34:08.867 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AvatarController.GetAvatarUrl (CollabSphere.API)'
+2025-10-13 13:34:08.873 +07:00 [INF] Route matched with {action = "GetAvatarUrl", controller = "Avatar"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAvatarUrl(System.String) on controller CollabSphere.API.Controllers.AvatarController (CollabSphere.API).
+2025-10-13 13:34:08.887 +07:00 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2025-10-13 13:34:08.890 +07:00 [INF] Executed action CollabSphere.API.Controllers.AvatarController.GetAvatarUrl (CollabSphere.API) in 13.0837ms
+2025-10-13 13:34:08.894 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AvatarController.GetAvatarUrl (CollabSphere.API)'
+2025-10-13 13:34:08.895 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/avatar/avatar-url?publicId=avatars%2Fobpgbuicvfkqt27hm1dp - 200 null text/plain; charset=utf-8 34.2547ms
