@@ -2,6 +2,7 @@
 using CollabSphere.Application.Features.Project.Commands.ApproveProject;
 using CollabSphere.Application.Features.Project.Commands.CreateProject;
 using CollabSphere.Application.Features.Project.Commands.DenyProject;
+using CollabSphere.Application.Features.Project.Commands.UpdateProject;
 using CollabSphere.Application.Features.Project.Queries.GetAllProjects;
 using CollabSphere.Application.Features.Project.Queries.GetPendingProjects;
 using CollabSphere.Application.Features.Project.Queries.GetProjectById;
@@ -179,6 +180,33 @@ namespace CollabSphere.API.Controllers
                 routeValues: new { ProjectId = result.ProjectId },
                 value: result
             );
+        }
+
+        // Roles: Lecturer
+        [Authorize(Roles = "4")]
+        [HttpPut]
+        public async Task<IActionResult> TeacherUpdateProject(UpdateProjectCommand command, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            command.UserId = int.Parse(UIdClaim.Value);
+            command.UserRole = int.Parse(roleClaim.Value);
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result.Message);
         }
     }
 }

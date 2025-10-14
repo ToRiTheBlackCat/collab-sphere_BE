@@ -49,7 +49,12 @@ namespace CollabSphere.Application.DTOs.Project
                 SubjectId = project.SubjectId,
                 SubjectCode = project.Subject?.SubjectCode ?? string.Empty,
                 SubjectName = project.Subject?.SubjectName ?? string.Empty,
-                Objectives = project.Objectives?.Select(x => (ObjectiveVM)x).ToList() ?? new List<ObjectiveVM>(),
+                Objectives = 
+                    project.Objectives?
+                        .Select(x => (ObjectiveVM)x)
+                        .OrderBy(x => x.ObjectiveMilestones.FirstOrDefault()?.StartDate)
+                        .ToList() ??
+                    new List<ObjectiveVM>(),
                 Status = project.Status,
             };
         }
