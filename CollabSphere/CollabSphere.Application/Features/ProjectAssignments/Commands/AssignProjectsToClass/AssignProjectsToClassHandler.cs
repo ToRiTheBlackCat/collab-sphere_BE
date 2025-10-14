@@ -29,7 +29,7 @@ namespace CollabSphere.Application.Features.ProjectAssignments.Commands.AssignPr
 
             try
             {
-                await _unitOfWork.RollbackTransactionAsync();
+                await _unitOfWork.BeginTransactionAsync();
 
                 #region Data Operations
                 // Get current time
