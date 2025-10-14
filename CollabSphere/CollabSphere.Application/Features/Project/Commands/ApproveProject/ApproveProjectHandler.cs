@@ -65,7 +65,7 @@ namespace CollabSphere.Application.Features.Project.Commands.ApproveProject
                     errors.Add(new OperationError()
                     {
                         Field = nameof(request.ProjectId),
-                        Message = $"Project with ID '{request.ProjectId}' is {ProjectStatuses.PENDING.ToString()}",
+                        Message = $"Project with ID '{request.ProjectId}' is not {ProjectStatuses.PENDING.ToString()}",
                     });
                 }
             }
