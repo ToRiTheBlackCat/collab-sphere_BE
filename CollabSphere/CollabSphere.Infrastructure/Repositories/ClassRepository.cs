@@ -33,7 +33,6 @@ namespace CollabSphere.Infrastructure.Repositories
         public override async Task<Class?> GetById(int classId)
         {
             var selectedClass = _context.Classes
-                .AsNoTracking()
                 .Include(x => x.Subject)
                 .Include(x => x.Lecturer)
                 .Include(x => x.ClassMembers).ThenInclude(x => x.Student)
