@@ -37,8 +37,7 @@ namespace CollabSphere.Infrastructure.Repositories
         {
             return await _context.ClassMembers
                 .AsNoTracking()
-                .Where(x => x.ClassId == classId && x.StudentId == studentId)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(x => x.ClassId == classId && x.StudentId == studentId);
         }
 
         public async Task<List<ClassMember>?> GetClassMemberAsyncByTeamId(int teamId)
