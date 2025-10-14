@@ -147,7 +147,7 @@ namespace CollabSphere.API.Controllers
         }
 
         [Authorize]
-        [HttpPost("class/{classId}")]
+        [HttpGet("class/{classId}")]
         public async Task<IActionResult> GetTeamListByAssignClassOfLecturer(GetAllTeamByAssignClassQuery query, CancellationToken cancellationToken = default)
         {
             if (!ModelState.IsValid)
@@ -172,7 +172,7 @@ namespace CollabSphere.API.Controllers
         }
         
         [Authorize]
-        [HttpPost("student/{studentId}")]
+        [HttpGet("student/{studentId}")]
         public async Task<IActionResult> GetTeamListOfStudent(GetAllTeamOfStudentQuery query, CancellationToken cancellationToken = default)
         {
             if (!ModelState.IsValid)
