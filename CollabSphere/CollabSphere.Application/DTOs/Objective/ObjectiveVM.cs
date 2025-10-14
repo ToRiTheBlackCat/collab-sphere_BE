@@ -30,6 +30,7 @@ namespace CollabSphere.Application.DTOs.Objective
                     objective.ObjectiveMilestones?
                         .OrderBy(x => x.ObjectiveMilestoneId)
                         .Select(x => (ObjectiveMilestoneVM)x)
+                        .OrderBy(x => x.StartDate)
                         .ToList() ??
                     new List<ObjectiveMilestoneVM>(),
             };

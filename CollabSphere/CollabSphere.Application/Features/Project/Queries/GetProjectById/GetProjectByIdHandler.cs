@@ -40,7 +40,7 @@ namespace CollabSphere.Application.Features.Project.Queries.GetProjectById
                     var bypassRoles = new int[] { RoleConstants.HEAD_DEPARTMENT, RoleConstants.ADMIN, RoleConstants.STAFF };
 
                     // Check viewing privileges if Project is NOT APPROVED & User is NOT HEAD_DEPARTMENT
-                    if (project.Status != ProjectStatuses.APPROVED && !bypassRoles.Contains(request.UserRole))
+                    if (project.Status != (int)ProjectStatuses.APPROVED && !bypassRoles.Contains(request.UserRole))
                     {
                         if (request.UserRole != RoleConstants.STUDENT)
                         {
