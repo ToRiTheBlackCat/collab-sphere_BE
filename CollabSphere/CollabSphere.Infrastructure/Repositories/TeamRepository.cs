@@ -49,6 +49,8 @@ namespace CollabSphere.Infrastructure.Repositories
                 : query.OrderBy(x => x.TeamName);
 
             return await query.ToListAsync();
+        }
+
         public async Task<List<Team>?> GetListTeamOfStudent(int studentId, string? teamName, int? classId)
         {
             var teamQuery = _context.Teams
