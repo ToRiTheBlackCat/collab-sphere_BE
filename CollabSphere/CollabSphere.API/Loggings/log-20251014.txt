@@ -1891,3 +1891,564 @@ LEFT JOIN lecturer AS l ON c.lecturer_id = l.lecturer_id
 2025-10-14 15:13:44.246 +07:00 [INF] Executed action CollabSphere.API.Controllers.ClassController.StaffGetAllClasses (CollabSphere.API) in 40092.949ms
 2025-10-14 15:13:44.248 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.ClassController.StaffGetAllClasses (CollabSphere.API)'
 2025-10-14 15:13:44.249 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/class?PageNum=2 - 200 null application/json; charset=utf-8 40111.4621ms
+2025-10-14 21:50:04.840 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-14 21:50:05.275 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-14 21:50:05.282 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-14 21:50:05.460 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-14 21:50:05.462 +07:00 [INF] Hosting environment: Development
+2025-10-14 21:50:05.465 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-14 21:50:05.935 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-14 21:50:06.215 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 289.2044ms
+2025-10-14 21:50:06.228 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-14 21:50:06.259 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 31.4749ms
+2025-10-14 21:50:06.491 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-14 21:50:06.572 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 83.0009ms
+2025-10-14 21:50:06.644 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-14 21:50:06.690 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 46.3995ms
+2025-10-14 21:50:32.488 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/team/student/class/1 - null null
+2025-10-14 21:50:32.743 +07:00 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2025-10-14 21:50:32.765 +07:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-10-14 21:50:32.772 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/team/student/class/1 - 401 0 null 284.3011ms
+2025-10-14 21:50:46.528 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/auth/login - application/json 61
+2025-10-14 21:50:46.547 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-14 21:50:46.561 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-14 21:50:46.631 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-14 21:50:46.646 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-14 21:50:54.379 +07:00 [INF] Executed DbCommand (200ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.password = @__password_1 AND u.is_active
+LIMIT 1
+2025-10-14 21:50:54.434 +07:00 [INF] Not found any user with Email: triminh0502@gmail.com
+2025-10-14 21:50:54.466 +07:00 [INF] Executing NotFoundObjectResult, writing value of type 'CollabSphere.Application.DTOs.User.LoginResponseDTO'.
+2025-10-14 21:50:54.520 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 7873.5031ms
+2025-10-14 21:50:54.527 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-14 21:50:54.607 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/auth/login - 404 null application/json; charset=utf-8 8078.7935ms
+2025-10-14 21:51:00.691 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/auth/login - application/json 61
+2025-10-14 21:51:00.711 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-14 21:51:00.717 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-14 21:51:00.724 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-14 21:51:00.933 +07:00 [INF] Executed DbCommand (41ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.password = @__password_1 AND u.is_active
+LIMIT 1
+2025-10-14 21:51:01.788 +07:00 [INF] Executed DbCommand (43ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
+WHERE u_id = @p8;
+2025-10-14 21:51:01.954 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.DTOs.User.LoginResponseDTO'.
+2025-10-14 21:51:01.964 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 1232.2714ms
+2025-10-14 21:51:01.972 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-14 21:51:01.981 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/auth/login - 200 null application/json; charset=utf-8 1290.1417ms
+2025-10-14 21:51:11.641 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/team/student/class/1 - null null
+2025-10-14 21:51:11.762 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API)'
+2025-10-14 21:51:11.780 +07:00 [INF] Route matched with {action = "GetStudentTeamByAssignClas", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetStudentTeamByAssignClas(CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass.GetStudentTeamByAssignClassQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-14 21:51:16.302 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-14 21:51:16.559 +07:00 [INF] Executed DbCommand (104ms) [Parameters=[@__classId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s1.class_id, s1.class_name, s1.created_date, s1.enrol_key, s1.is_active, s1.lecturer_id, s1.lecturer_name, s1.member_count, s1.subject_id, s1.team_count, s1.subject_id0, s1.is_active0, s1.subject_code, s1.subject_name, s1.lecturer_id0, s1.address, s1.avatar_img, s1.fullname, s1.lecturer_code, s1.major, s1.phone_number, s1.school, s1.yob, s2.class_member_id, s2.class_id, s2.fullname, s2.is_grouped, s2.status, s2.student_id, s2.team_id, s2.team_role, s2.student_id0, s2.address, s2.avatar_img, s2.fullname0, s2.major, s2.phone_number, s2.school, s2.student_code, s2.yob, c1.file_id, c1.class_id, c1.file_path, c1.type, s3.project_assignment_id, s3.assigned_date, s3.class_id, s3.project_id, s3.status, s3.project_id0, s3.description, s3.lecturer_id, s3.project_name, s3.status0, s3.subject_id, s4.team_id, s4.class_id, s4.created_date, s4.description, s4.end_date, s4.enrol_key, s4.git_link, s4.leader_id, s4.lecturer_id, s4.lecturer_name, s4.progress, s4.project_assignment_id, s4.status, s4.team_image, s4.team_name, s4.project_assignment_id0, s4.assigned_date, s4.class_id0, s4.project_id, s4.status0, s4.project_id0, s4.description0, s4.lecturer_id0, s4.project_name, s4.status1, s4.subject_id
+FROM (
+    SELECT c.class_id, c.class_name, c.created_date, c.enrol_key, c.is_active, c.lecturer_id, c.lecturer_name, c.member_count, c.subject_id, c.team_count, s.subject_id AS subject_id0, s.is_active AS is_active0, s.subject_code, s.subject_name, l.lecturer_id AS lecturer_id0, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+    FROM class AS c
+    INNER JOIN subject AS s ON c.subject_id = s.subject_id
+    LEFT JOIN lecturer AS l ON c.lecturer_id = l.lecturer_id
+    WHERE c.class_id = @__classId_0
+    LIMIT 1
+) AS s1
+LEFT JOIN (
+    SELECT c0.class_member_id, c0.class_id, c0.fullname, c0.is_grouped, c0.status, c0.student_id, c0.team_id, c0.team_role, s0.student_id AS student_id0, s0.address, s0.avatar_img, s0.fullname AS fullname0, s0.major, s0.phone_number, s0.school, s0.student_code, s0.yob
+    FROM class_member AS c0
+    INNER JOIN student AS s0 ON c0.student_id = s0.student_id
+) AS s2 ON s1.class_id = s2.class_id
+LEFT JOIN class_file AS c1 ON s1.class_id = c1.class_id
+LEFT JOIN (
+    SELECT p.project_assignment_id, p.assigned_date, p.class_id, p.project_id, p.status, p0.project_id AS project_id0, p0.description, p0.lecturer_id, p0.project_name, p0.status AS status0, p0.subject_id
+    FROM project_assignment AS p
+    INNER JOIN project AS p0 ON p.project_id = p0.project_id
+) AS s3 ON s1.class_id = s3.class_id
+LEFT JOIN (
+    SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name, p1.project_assignment_id AS project_assignment_id0, p1.assigned_date, p1.class_id AS class_id0, p1.project_id, p1.status AS status0, p2.project_id AS project_id0, p2.description AS description0, p2.lecturer_id AS lecturer_id0, p2.project_name, p2.status AS status1, p2.subject_id
+    FROM team AS t
+    LEFT JOIN project_assignment AS p1 ON t.project_assignment_id = p1.project_assignment_id
+    LEFT JOIN project AS p2 ON p1.project_id = p2.project_id
+) AS s4 ON s1.class_id = s4.class_id
+ORDER BY s1.class_id, s1.subject_id0, s1.lecturer_id0, s2.class_member_id, s2.student_id0, c1.file_id, s3.project_assignment_id, s3.project_id0, s4.team_id, s4.project_assignment_id0
+2025-10-14 21:51:21.755 +07:00 [INF] Executed DbCommand (105ms) [Parameters=[@__classId_0='?' (DbType = Int32), @__studentId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.class_member_id, c.class_id, c.fullname, c.is_grouped, c.status, c.student_id, c.team_id, c.team_role
+FROM class_member AS c
+WHERE c.class_id = @__classId_0 AND c.student_id = @__studentId_1
+LIMIT 1
+2025-10-14 21:51:34.487 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass.GetStudentTeamByAssignClassResult'.
+2025-10-14 21:51:34.507 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API) in 22719.7955ms
+2025-10-14 21:51:34.510 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API)'
+2025-10-14 21:51:34.513 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/team/student/class/1 - 500 null application/json; charset=utf-8 22873.4755ms
+2025-10-14 21:52:21.941 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/team/student/class/1 - null null
+2025-10-14 21:52:21.962 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API)'
+2025-10-14 21:52:21.967 +07:00 [INF] Route matched with {action = "GetStudentTeamByAssignClas", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetStudentTeamByAssignClas(CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass.GetStudentTeamByAssignClassQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-14 21:52:27.714 +07:00 [INF] Executed DbCommand (53ms) [Parameters=[@__classId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s1.class_id, s1.class_name, s1.created_date, s1.enrol_key, s1.is_active, s1.lecturer_id, s1.lecturer_name, s1.member_count, s1.subject_id, s1.team_count, s1.subject_id0, s1.is_active0, s1.subject_code, s1.subject_name, s1.lecturer_id0, s1.address, s1.avatar_img, s1.fullname, s1.lecturer_code, s1.major, s1.phone_number, s1.school, s1.yob, s2.class_member_id, s2.class_id, s2.fullname, s2.is_grouped, s2.status, s2.student_id, s2.team_id, s2.team_role, s2.student_id0, s2.address, s2.avatar_img, s2.fullname0, s2.major, s2.phone_number, s2.school, s2.student_code, s2.yob, c1.file_id, c1.class_id, c1.file_path, c1.type, s3.project_assignment_id, s3.assigned_date, s3.class_id, s3.project_id, s3.status, s3.project_id0, s3.description, s3.lecturer_id, s3.project_name, s3.status0, s3.subject_id, s4.team_id, s4.class_id, s4.created_date, s4.description, s4.end_date, s4.enrol_key, s4.git_link, s4.leader_id, s4.lecturer_id, s4.lecturer_name, s4.progress, s4.project_assignment_id, s4.status, s4.team_image, s4.team_name, s4.project_assignment_id0, s4.assigned_date, s4.class_id0, s4.project_id, s4.status0, s4.project_id0, s4.description0, s4.lecturer_id0, s4.project_name, s4.status1, s4.subject_id
+FROM (
+    SELECT c.class_id, c.class_name, c.created_date, c.enrol_key, c.is_active, c.lecturer_id, c.lecturer_name, c.member_count, c.subject_id, c.team_count, s.subject_id AS subject_id0, s.is_active AS is_active0, s.subject_code, s.subject_name, l.lecturer_id AS lecturer_id0, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+    FROM class AS c
+    INNER JOIN subject AS s ON c.subject_id = s.subject_id
+    LEFT JOIN lecturer AS l ON c.lecturer_id = l.lecturer_id
+    WHERE c.class_id = @__classId_0
+    LIMIT 1
+) AS s1
+LEFT JOIN (
+    SELECT c0.class_member_id, c0.class_id, c0.fullname, c0.is_grouped, c0.status, c0.student_id, c0.team_id, c0.team_role, s0.student_id AS student_id0, s0.address, s0.avatar_img, s0.fullname AS fullname0, s0.major, s0.phone_number, s0.school, s0.student_code, s0.yob
+    FROM class_member AS c0
+    INNER JOIN student AS s0 ON c0.student_id = s0.student_id
+) AS s2 ON s1.class_id = s2.class_id
+LEFT JOIN class_file AS c1 ON s1.class_id = c1.class_id
+LEFT JOIN (
+    SELECT p.project_assignment_id, p.assigned_date, p.class_id, p.project_id, p.status, p0.project_id AS project_id0, p0.description, p0.lecturer_id, p0.project_name, p0.status AS status0, p0.subject_id
+    FROM project_assignment AS p
+    INNER JOIN project AS p0 ON p.project_id = p0.project_id
+) AS s3 ON s1.class_id = s3.class_id
+LEFT JOIN (
+    SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name, p1.project_assignment_id AS project_assignment_id0, p1.assigned_date, p1.class_id AS class_id0, p1.project_id, p1.status AS status0, p2.project_id AS project_id0, p2.description AS description0, p2.lecturer_id AS lecturer_id0, p2.project_name, p2.status AS status1, p2.subject_id
+    FROM team AS t
+    LEFT JOIN project_assignment AS p1 ON t.project_assignment_id = p1.project_assignment_id
+    LEFT JOIN project AS p2 ON p1.project_id = p2.project_id
+) AS s4 ON s1.class_id = s4.class_id
+ORDER BY s1.class_id, s1.subject_id0, s1.lecturer_id0, s2.class_member_id, s2.student_id0, c1.file_id, s3.project_assignment_id, s3.project_id0, s4.team_id, s4.project_assignment_id0
+2025-10-14 21:52:30.622 +07:00 [INF] Executed DbCommand (41ms) [Parameters=[@__classId_0='?' (DbType = Int32), @__studentId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.class_member_id, c.class_id, c.fullname, c.is_grouped, c.status, c.student_id, c.team_id, c.team_role
+FROM class_member AS c
+WHERE c.class_id = @__classId_0 AND c.student_id = @__studentId_1
+LIMIT 1
+2025-10-14 21:53:43.139 +07:00 [INF] Executed DbCommand (38ms) [Parameters=[@__classId_0='?' (DbType = Int32), @__studentId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.class_member_id, c.class_id, c.fullname, c.is_grouped, c.status, c.student_id, c.team_id, c.team_role
+FROM class_member AS c
+WHERE c.class_id = @__classId_0 AND c.student_id = @__studentId_1
+LIMIT 1
+2025-10-14 21:54:57.550 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-14 21:54:58.087 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-14 21:54:58.090 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-14 21:54:58.213 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-14 21:54:58.217 +07:00 [INF] Hosting environment: Development
+2025-10-14 21:54:58.221 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-14 21:54:58.599 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-14 21:54:58.870 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 282.7752ms
+2025-10-14 21:54:58.877 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-14 21:54:58.897 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 21.2406ms
+2025-10-14 21:54:59.155 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-14 21:54:59.231 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 76.8992ms
+2025-10-14 21:54:59.304 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-14 21:54:59.352 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 48.7137ms
+2025-10-14 21:55:14.016 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/auth/login - application/json 61
+2025-10-14 21:55:14.034 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-14 21:55:14.234 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-14 21:55:14.299 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-14 21:55:14.312 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-14 21:55:21.380 +07:00 [INF] Executed DbCommand (326ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.password = @__password_1 AND u.is_active
+LIMIT 1
+2025-10-14 21:55:22.664 +07:00 [INF] Executed DbCommand (60ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
+WHERE u_id = @p8;
+2025-10-14 21:55:22.946 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.DTOs.User.LoginResponseDTO'.
+2025-10-14 21:55:23.016 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 8700.8371ms
+2025-10-14 21:55:23.023 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-14 21:55:23.045 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/auth/login - 200 null application/json; charset=utf-8 9029.136ms
+2025-10-14 21:55:58.270 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/team/student/class/1 - null null
+2025-10-14 21:55:58.433 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API)'
+2025-10-14 21:55:58.455 +07:00 [INF] Route matched with {action = "GetStudentTeamByAssignClas", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetStudentTeamByAssignClas(CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass.GetStudentTeamByAssignClassQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-14 21:56:18.385 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-14 21:56:18.535 +07:00 [INF] Executed DbCommand (78ms) [Parameters=[@__classId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s1.class_id, s1.class_name, s1.created_date, s1.enrol_key, s1.is_active, s1.lecturer_id, s1.lecturer_name, s1.member_count, s1.subject_id, s1.team_count, s1.subject_id0, s1.is_active0, s1.subject_code, s1.subject_name, s1.lecturer_id0, s1.address, s1.avatar_img, s1.fullname, s1.lecturer_code, s1.major, s1.phone_number, s1.school, s1.yob, s2.class_member_id, s2.class_id, s2.fullname, s2.is_grouped, s2.status, s2.student_id, s2.team_id, s2.team_role, s2.student_id0, s2.address, s2.avatar_img, s2.fullname0, s2.major, s2.phone_number, s2.school, s2.student_code, s2.yob, c1.file_id, c1.class_id, c1.file_path, c1.type, s3.project_assignment_id, s3.assigned_date, s3.class_id, s3.project_id, s3.status, s3.project_id0, s3.description, s3.lecturer_id, s3.project_name, s3.status0, s3.subject_id, s4.team_id, s4.class_id, s4.created_date, s4.description, s4.end_date, s4.enrol_key, s4.git_link, s4.leader_id, s4.lecturer_id, s4.lecturer_name, s4.progress, s4.project_assignment_id, s4.status, s4.team_image, s4.team_name, s4.project_assignment_id0, s4.assigned_date, s4.class_id0, s4.project_id, s4.status0, s4.project_id0, s4.description0, s4.lecturer_id0, s4.project_name, s4.status1, s4.subject_id
+FROM (
+    SELECT c.class_id, c.class_name, c.created_date, c.enrol_key, c.is_active, c.lecturer_id, c.lecturer_name, c.member_count, c.subject_id, c.team_count, s.subject_id AS subject_id0, s.is_active AS is_active0, s.subject_code, s.subject_name, l.lecturer_id AS lecturer_id0, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+    FROM class AS c
+    INNER JOIN subject AS s ON c.subject_id = s.subject_id
+    LEFT JOIN lecturer AS l ON c.lecturer_id = l.lecturer_id
+    WHERE c.class_id = @__classId_0
+    LIMIT 1
+) AS s1
+LEFT JOIN (
+    SELECT c0.class_member_id, c0.class_id, c0.fullname, c0.is_grouped, c0.status, c0.student_id, c0.team_id, c0.team_role, s0.student_id AS student_id0, s0.address, s0.avatar_img, s0.fullname AS fullname0, s0.major, s0.phone_number, s0.school, s0.student_code, s0.yob
+    FROM class_member AS c0
+    INNER JOIN student AS s0 ON c0.student_id = s0.student_id
+) AS s2 ON s1.class_id = s2.class_id
+LEFT JOIN class_file AS c1 ON s1.class_id = c1.class_id
+LEFT JOIN (
+    SELECT p.project_assignment_id, p.assigned_date, p.class_id, p.project_id, p.status, p0.project_id AS project_id0, p0.description, p0.lecturer_id, p0.project_name, p0.status AS status0, p0.subject_id
+    FROM project_assignment AS p
+    INNER JOIN project AS p0 ON p.project_id = p0.project_id
+) AS s3 ON s1.class_id = s3.class_id
+LEFT JOIN (
+    SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name, p1.project_assignment_id AS project_assignment_id0, p1.assigned_date, p1.class_id AS class_id0, p1.project_id, p1.status AS status0, p2.project_id AS project_id0, p2.description AS description0, p2.lecturer_id AS lecturer_id0, p2.project_name, p2.status AS status1, p2.subject_id
+    FROM team AS t
+    LEFT JOIN project_assignment AS p1 ON t.project_assignment_id = p1.project_assignment_id
+    LEFT JOIN project AS p2 ON p1.project_id = p2.project_id
+) AS s4 ON s1.class_id = s4.class_id
+ORDER BY s1.class_id, s1.subject_id0, s1.lecturer_id0, s2.class_member_id, s2.student_id0, c1.file_id, s3.project_assignment_id, s3.project_id0, s4.team_id, s4.project_assignment_id0
+2025-10-14 21:56:28.408 +07:00 [INF] Executed DbCommand (48ms) [Parameters=[@__classId_0='?' (DbType = Int32), @__studentId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.class_member_id, c.class_id, c.fullname, c.is_grouped, c.status, c.student_id, c.team_id, c.team_role
+FROM class_member AS c
+WHERE c.class_id = @__classId_0 AND c.student_id = @__studentId_1
+LIMIT 1
+2025-10-14 21:58:20.058 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-14 21:58:20.571 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-14 21:58:20.578 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-14 21:58:20.745 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-14 21:58:20.749 +07:00 [INF] Hosting environment: Development
+2025-10-14 21:58:20.755 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-14 21:58:21.183 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-14 21:58:21.429 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 252.0291ms
+2025-10-14 21:58:21.436 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-14 21:58:21.464 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 29.5579ms
+2025-10-14 21:58:21.642 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-14 21:58:21.769 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 127.2299ms
+2025-10-14 21:58:21.832 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-14 21:58:21.897 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 66.6554ms
+2025-10-14 21:58:33.912 +07:00 [INF] Request starting HTTP/2 POST https://localhost:7264/api/auth/login - application/json 61
+2025-10-14 21:58:33.935 +07:00 [INF] No CORS policy found for the specified request.
+2025-10-14 21:58:34.100 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-14 21:58:34.179 +07:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CollabSphere.Application.DTOs.User.LoginRequestDTO) on controller CollabSphere.API.Controllers.AuthController (CollabSphere.API).
+2025-10-14 21:58:34.199 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-14 21:58:40.662 +07:00 [INF] Executed DbCommand (259ms) [Parameters=[@__email_0='?', @__password_1='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u.u_id, u.created_date, u.email, u.is_active, u.is_teacher, u.password, u.refresh_token, u.refresh_token_expiry_time, u.role_id, r.role_id, r.role_name
+FROM "user" AS u
+INNER JOIN role AS r ON u.role_id = r.role_id
+WHERE u.email = @__email_0 AND u.password = @__password_1 AND u.is_active
+LIMIT 1
+2025-10-14 21:58:41.734 +07:00 [INF] Executed DbCommand (51ms) [Parameters=[@p8='?' (DbType = Int32), @p0='?' (DbType = DateTime), @p1='?', @p2='?' (DbType = Boolean), @p3='?' (DbType = Boolean), @p4='?', @p5='?', @p6='?' (DbType = DateTime), @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "user" SET created_date = @p0, email = @p1, is_active = @p2, is_teacher = @p3, password = @p4, refresh_token = @p5, refresh_token_expiry_time = @p6, role_id = @p7
+WHERE u_id = @p8;
+2025-10-14 21:58:41.946 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.DTOs.User.LoginResponseDTO'.
+2025-10-14 21:58:41.989 +07:00 [INF] Executed action CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API) in 7790.0313ms
+2025-10-14 21:58:41.999 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.AuthController.Login (CollabSphere.API)'
+2025-10-14 21:58:42.019 +07:00 [INF] Request finished HTTP/2 POST https://localhost:7264/api/auth/login - 200 null application/json; charset=utf-8 8107.3277ms
+2025-10-14 21:58:57.054 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/team/student/class/1 - null null
+2025-10-14 21:58:57.186 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API)'
+2025-10-14 21:58:57.210 +07:00 [INF] Route matched with {action = "GetStudentTeamByAssignClas", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetStudentTeamByAssignClas(CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass.GetStudentTeamByAssignClassQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-14 21:59:02.397 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-14 21:59:02.661 +07:00 [INF] Executed DbCommand (190ms) [Parameters=[@__classId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s1.class_id, s1.class_name, s1.created_date, s1.enrol_key, s1.is_active, s1.lecturer_id, s1.lecturer_name, s1.member_count, s1.subject_id, s1.team_count, s1.subject_id0, s1.is_active0, s1.subject_code, s1.subject_name, s1.lecturer_id0, s1.address, s1.avatar_img, s1.fullname, s1.lecturer_code, s1.major, s1.phone_number, s1.school, s1.yob, s2.class_member_id, s2.class_id, s2.fullname, s2.is_grouped, s2.status, s2.student_id, s2.team_id, s2.team_role, s2.student_id0, s2.address, s2.avatar_img, s2.fullname0, s2.major, s2.phone_number, s2.school, s2.student_code, s2.yob, c1.file_id, c1.class_id, c1.file_path, c1.type, s3.project_assignment_id, s3.assigned_date, s3.class_id, s3.project_id, s3.status, s3.project_id0, s3.description, s3.lecturer_id, s3.project_name, s3.status0, s3.subject_id, s4.team_id, s4.class_id, s4.created_date, s4.description, s4.end_date, s4.enrol_key, s4.git_link, s4.leader_id, s4.lecturer_id, s4.lecturer_name, s4.progress, s4.project_assignment_id, s4.status, s4.team_image, s4.team_name, s4.project_assignment_id0, s4.assigned_date, s4.class_id0, s4.project_id, s4.status0, s4.project_id0, s4.description0, s4.lecturer_id0, s4.project_name, s4.status1, s4.subject_id
+FROM (
+    SELECT c.class_id, c.class_name, c.created_date, c.enrol_key, c.is_active, c.lecturer_id, c.lecturer_name, c.member_count, c.subject_id, c.team_count, s.subject_id AS subject_id0, s.is_active AS is_active0, s.subject_code, s.subject_name, l.lecturer_id AS lecturer_id0, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+    FROM class AS c
+    INNER JOIN subject AS s ON c.subject_id = s.subject_id
+    LEFT JOIN lecturer AS l ON c.lecturer_id = l.lecturer_id
+    WHERE c.class_id = @__classId_0
+    LIMIT 1
+) AS s1
+LEFT JOIN (
+    SELECT c0.class_member_id, c0.class_id, c0.fullname, c0.is_grouped, c0.status, c0.student_id, c0.team_id, c0.team_role, s0.student_id AS student_id0, s0.address, s0.avatar_img, s0.fullname AS fullname0, s0.major, s0.phone_number, s0.school, s0.student_code, s0.yob
+    FROM class_member AS c0
+    INNER JOIN student AS s0 ON c0.student_id = s0.student_id
+) AS s2 ON s1.class_id = s2.class_id
+LEFT JOIN class_file AS c1 ON s1.class_id = c1.class_id
+LEFT JOIN (
+    SELECT p.project_assignment_id, p.assigned_date, p.class_id, p.project_id, p.status, p0.project_id AS project_id0, p0.description, p0.lecturer_id, p0.project_name, p0.status AS status0, p0.subject_id
+    FROM project_assignment AS p
+    INNER JOIN project AS p0 ON p.project_id = p0.project_id
+) AS s3 ON s1.class_id = s3.class_id
+LEFT JOIN (
+    SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name, p1.project_assignment_id AS project_assignment_id0, p1.assigned_date, p1.class_id AS class_id0, p1.project_id, p1.status AS status0, p2.project_id AS project_id0, p2.description AS description0, p2.lecturer_id AS lecturer_id0, p2.project_name, p2.status AS status1, p2.subject_id
+    FROM team AS t
+    LEFT JOIN project_assignment AS p1 ON t.project_assignment_id = p1.project_assignment_id
+    LEFT JOIN project AS p2 ON p1.project_id = p2.project_id
+) AS s4 ON s1.class_id = s4.class_id
+ORDER BY s1.class_id, s1.subject_id0, s1.lecturer_id0, s2.class_member_id, s2.student_id0, c1.file_id, s3.project_assignment_id, s3.project_id0, s4.team_id, s4.project_assignment_id0
+2025-10-14 21:59:05.179 +07:00 [INF] Executed DbCommand (49ms) [Parameters=[@__classId_0='?' (DbType = Int32), @__studentId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.class_member_id, c.class_id, c.fullname, c.is_grouped, c.status, c.student_id, c.team_id, c.team_role
+FROM class_member AS c
+WHERE c.class_id = @__classId_0 AND c.student_id = @__studentId_1
+LIMIT 1
+2025-10-14 21:59:54.509 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-14 21:59:54.944 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-14 21:59:54.949 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-14 21:59:55.093 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-14 21:59:55.105 +07:00 [INF] Hosting environment: Development
+2025-10-14 21:59:55.107 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-14 21:59:55.503 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-14 21:59:55.803 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 307.7606ms
+2025-10-14 21:59:55.809 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-14 21:59:55.834 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 25.777ms
+2025-10-14 21:59:55.991 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-14 21:59:56.082 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 91.4672ms
+2025-10-14 21:59:56.137 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-14 21:59:56.182 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 45.1526ms
+2025-10-14 22:00:08.502 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/team/student/class/1 - null null
+2025-10-14 22:00:08.839 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API)'
+2025-10-14 22:00:08.927 +07:00 [INF] Route matched with {action = "GetStudentTeamByAssignClas", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetStudentTeamByAssignClas(CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass.GetStudentTeamByAssignClassQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-14 22:00:08.944 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-14 22:00:17.587 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-14 22:00:19.100 +07:00 [INF] Executed DbCommand (173ms) [Parameters=[@__classId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s1.class_id, s1.class_name, s1.created_date, s1.enrol_key, s1.is_active, s1.lecturer_id, s1.lecturer_name, s1.member_count, s1.subject_id, s1.team_count, s1.subject_id0, s1.is_active0, s1.subject_code, s1.subject_name, s1.lecturer_id0, s1.address, s1.avatar_img, s1.fullname, s1.lecturer_code, s1.major, s1.phone_number, s1.school, s1.yob, s2.class_member_id, s2.class_id, s2.fullname, s2.is_grouped, s2.status, s2.student_id, s2.team_id, s2.team_role, s2.student_id0, s2.address, s2.avatar_img, s2.fullname0, s2.major, s2.phone_number, s2.school, s2.student_code, s2.yob, c1.file_id, c1.class_id, c1.file_path, c1.type, s3.project_assignment_id, s3.assigned_date, s3.class_id, s3.project_id, s3.status, s3.project_id0, s3.description, s3.lecturer_id, s3.project_name, s3.status0, s3.subject_id, s4.team_id, s4.class_id, s4.created_date, s4.description, s4.end_date, s4.enrol_key, s4.git_link, s4.leader_id, s4.lecturer_id, s4.lecturer_name, s4.progress, s4.project_assignment_id, s4.status, s4.team_image, s4.team_name, s4.project_assignment_id0, s4.assigned_date, s4.class_id0, s4.project_id, s4.status0, s4.project_id0, s4.description0, s4.lecturer_id0, s4.project_name, s4.status1, s4.subject_id
+FROM (
+    SELECT c.class_id, c.class_name, c.created_date, c.enrol_key, c.is_active, c.lecturer_id, c.lecturer_name, c.member_count, c.subject_id, c.team_count, s.subject_id AS subject_id0, s.is_active AS is_active0, s.subject_code, s.subject_name, l.lecturer_id AS lecturer_id0, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+    FROM class AS c
+    INNER JOIN subject AS s ON c.subject_id = s.subject_id
+    LEFT JOIN lecturer AS l ON c.lecturer_id = l.lecturer_id
+    WHERE c.class_id = @__classId_0
+    LIMIT 1
+) AS s1
+LEFT JOIN (
+    SELECT c0.class_member_id, c0.class_id, c0.fullname, c0.is_grouped, c0.status, c0.student_id, c0.team_id, c0.team_role, s0.student_id AS student_id0, s0.address, s0.avatar_img, s0.fullname AS fullname0, s0.major, s0.phone_number, s0.school, s0.student_code, s0.yob
+    FROM class_member AS c0
+    INNER JOIN student AS s0 ON c0.student_id = s0.student_id
+) AS s2 ON s1.class_id = s2.class_id
+LEFT JOIN class_file AS c1 ON s1.class_id = c1.class_id
+LEFT JOIN (
+    SELECT p.project_assignment_id, p.assigned_date, p.class_id, p.project_id, p.status, p0.project_id AS project_id0, p0.description, p0.lecturer_id, p0.project_name, p0.status AS status0, p0.subject_id
+    FROM project_assignment AS p
+    INNER JOIN project AS p0 ON p.project_id = p0.project_id
+) AS s3 ON s1.class_id = s3.class_id
+LEFT JOIN (
+    SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name, p1.project_assignment_id AS project_assignment_id0, p1.assigned_date, p1.class_id AS class_id0, p1.project_id, p1.status AS status0, p2.project_id AS project_id0, p2.description AS description0, p2.lecturer_id AS lecturer_id0, p2.project_name, p2.status AS status1, p2.subject_id
+    FROM team AS t
+    LEFT JOIN project_assignment AS p1 ON t.project_assignment_id = p1.project_assignment_id
+    LEFT JOIN project AS p2 ON p1.project_id = p2.project_id
+) AS s4 ON s1.class_id = s4.class_id
+ORDER BY s1.class_id, s1.subject_id0, s1.lecturer_id0, s2.class_member_id, s2.student_id0, c1.file_id, s3.project_assignment_id, s3.project_id0, s4.team_id, s4.project_assignment_id0
+2025-10-14 22:00:22.413 +07:00 [INF] Executed DbCommand (50ms) [Parameters=[@__classId_0='?' (DbType = Int32), @__studentId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.class_member_id, c.class_id, c.fullname, c.is_grouped, c.status, c.student_id, c.team_id, c.team_role
+FROM class_member AS c
+WHERE c.class_id = @__classId_0 AND c.student_id = @__studentId_1
+LIMIT 1
+2025-10-14 22:02:24.547 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass.GetStudentTeamByAssignClassResult'.
+2025-10-14 22:02:24.581 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API) in 135640.6358ms
+2025-10-14 22:02:24.588 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API)'
+2025-10-14 22:02:24.599 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/team/student/class/1 - 500 null application/json; charset=utf-8 136097.863ms
+2025-10-14 22:06:23.275 +07:00 [INF] User profile is available. Using 'C:\Users\minhtri\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-14 22:06:23.794 +07:00 [INF] Now listening on: https://localhost:7264
+2025-10-14 22:06:23.811 +07:00 [INF] Now listening on: http://localhost:5263
+2025-10-14 22:06:23.973 +07:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-14 22:06:23.978 +07:00 [INF] Hosting environment: Development
+2025-10-14 22:06:23.980 +07:00 [INF] Content root path: D:\SEP490\collab-sphere_BE\CollabSphere\CollabSphere.API
+2025-10-14 22:06:24.537 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/index.html - null null
+2025-10-14 22:06:24.807 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/index.html - 200 null text/html;charset=utf-8 278.9946ms
+2025-10-14 22:06:24.819 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-14 22:06:24.854 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_framework/aspnetcore-browser-refresh.js - 200 16517 application/javascript; charset=utf-8 35.2155ms
+2025-10-14 22:06:25.015 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/_vs/browserLink - null null
+2025-10-14 22:06:25.083 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/_vs/browserLink - 200 null text/javascript; charset=UTF-8 67.9936ms
+2025-10-14 22:06:25.141 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - null null
+2025-10-14 22:06:25.184 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 43.4274ms
+2025-10-14 22:07:40.990 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/team/student/class/2 - null null
+2025-10-14 22:07:41.395 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API)'
+2025-10-14 22:07:41.465 +07:00 [INF] Route matched with {action = "GetStudentTeamByAssignClas", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetStudentTeamByAssignClas(CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass.GetStudentTeamByAssignClassQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-14 22:07:41.481 +07:00 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2025-10-14 22:07:53.477 +07:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-14 22:07:54.961 +07:00 [INF] Executed DbCommand (140ms) [Parameters=[@__classId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s1.class_id, s1.class_name, s1.created_date, s1.enrol_key, s1.is_active, s1.lecturer_id, s1.lecturer_name, s1.member_count, s1.subject_id, s1.team_count, s1.subject_id0, s1.is_active0, s1.subject_code, s1.subject_name, s1.lecturer_id0, s1.address, s1.avatar_img, s1.fullname, s1.lecturer_code, s1.major, s1.phone_number, s1.school, s1.yob, s2.class_member_id, s2.class_id, s2.fullname, s2.is_grouped, s2.status, s2.student_id, s2.team_id, s2.team_role, s2.student_id0, s2.address, s2.avatar_img, s2.fullname0, s2.major, s2.phone_number, s2.school, s2.student_code, s2.yob, c1.file_id, c1.class_id, c1.file_path, c1.type, s3.project_assignment_id, s3.assigned_date, s3.class_id, s3.project_id, s3.status, s3.project_id0, s3.description, s3.lecturer_id, s3.project_name, s3.status0, s3.subject_id, s4.team_id, s4.class_id, s4.created_date, s4.description, s4.end_date, s4.enrol_key, s4.git_link, s4.leader_id, s4.lecturer_id, s4.lecturer_name, s4.progress, s4.project_assignment_id, s4.status, s4.team_image, s4.team_name, s4.project_assignment_id0, s4.assigned_date, s4.class_id0, s4.project_id, s4.status0, s4.project_id0, s4.description0, s4.lecturer_id0, s4.project_name, s4.status1, s4.subject_id
+FROM (
+    SELECT c.class_id, c.class_name, c.created_date, c.enrol_key, c.is_active, c.lecturer_id, c.lecturer_name, c.member_count, c.subject_id, c.team_count, s.subject_id AS subject_id0, s.is_active AS is_active0, s.subject_code, s.subject_name, l.lecturer_id AS lecturer_id0, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+    FROM class AS c
+    INNER JOIN subject AS s ON c.subject_id = s.subject_id
+    LEFT JOIN lecturer AS l ON c.lecturer_id = l.lecturer_id
+    WHERE c.class_id = @__classId_0
+    LIMIT 1
+) AS s1
+LEFT JOIN (
+    SELECT c0.class_member_id, c0.class_id, c0.fullname, c0.is_grouped, c0.status, c0.student_id, c0.team_id, c0.team_role, s0.student_id AS student_id0, s0.address, s0.avatar_img, s0.fullname AS fullname0, s0.major, s0.phone_number, s0.school, s0.student_code, s0.yob
+    FROM class_member AS c0
+    INNER JOIN student AS s0 ON c0.student_id = s0.student_id
+) AS s2 ON s1.class_id = s2.class_id
+LEFT JOIN class_file AS c1 ON s1.class_id = c1.class_id
+LEFT JOIN (
+    SELECT p.project_assignment_id, p.assigned_date, p.class_id, p.project_id, p.status, p0.project_id AS project_id0, p0.description, p0.lecturer_id, p0.project_name, p0.status AS status0, p0.subject_id
+    FROM project_assignment AS p
+    INNER JOIN project AS p0 ON p.project_id = p0.project_id
+) AS s3 ON s1.class_id = s3.class_id
+LEFT JOIN (
+    SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name, p1.project_assignment_id AS project_assignment_id0, p1.assigned_date, p1.class_id AS class_id0, p1.project_id, p1.status AS status0, p2.project_id AS project_id0, p2.description AS description0, p2.lecturer_id AS lecturer_id0, p2.project_name, p2.status AS status1, p2.subject_id
+    FROM team AS t
+    LEFT JOIN project_assignment AS p1 ON t.project_assignment_id = p1.project_assignment_id
+    LEFT JOIN project AS p2 ON p1.project_id = p2.project_id
+) AS s4 ON s1.class_id = s4.class_id
+ORDER BY s1.class_id, s1.subject_id0, s1.lecturer_id0, s2.class_member_id, s2.student_id0, c1.file_id, s3.project_assignment_id, s3.project_id0, s4.team_id, s4.project_assignment_id0
+2025-10-14 22:07:55.348 +07:00 [INF] Executed DbCommand (46ms) [Parameters=[@__classId_0='?' (DbType = Int32), @__studentId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.class_member_id, c.class_id, c.fullname, c.is_grouped, c.status, c.student_id, c.team_id, c.team_role
+FROM class_member AS c
+WHERE c.class_id = @__classId_0 AND c.student_id = @__studentId_1
+LIMIT 1
+2025-10-14 22:07:55.382 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass.GetStudentTeamByAssignClassResult'.
+2025-10-14 22:07:55.436 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API) in 13956.7022ms
+2025-10-14 22:07:55.448 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API)'
+2025-10-14 22:07:55.467 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/team/student/class/2 - 500 null application/json; charset=utf-8 14477.4437ms
+2025-10-14 22:07:59.371 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/team/student/class/123 - null null
+2025-10-14 22:07:59.395 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API)'
+2025-10-14 22:07:59.401 +07:00 [INF] Route matched with {action = "GetStudentTeamByAssignClas", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetStudentTeamByAssignClas(CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass.GetStudentTeamByAssignClassQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-14 22:08:00.943 +07:00 [INF] Executed DbCommand (61ms) [Parameters=[@__classId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s1.class_id, s1.class_name, s1.created_date, s1.enrol_key, s1.is_active, s1.lecturer_id, s1.lecturer_name, s1.member_count, s1.subject_id, s1.team_count, s1.subject_id0, s1.is_active0, s1.subject_code, s1.subject_name, s1.lecturer_id0, s1.address, s1.avatar_img, s1.fullname, s1.lecturer_code, s1.major, s1.phone_number, s1.school, s1.yob, s2.class_member_id, s2.class_id, s2.fullname, s2.is_grouped, s2.status, s2.student_id, s2.team_id, s2.team_role, s2.student_id0, s2.address, s2.avatar_img, s2.fullname0, s2.major, s2.phone_number, s2.school, s2.student_code, s2.yob, c1.file_id, c1.class_id, c1.file_path, c1.type, s3.project_assignment_id, s3.assigned_date, s3.class_id, s3.project_id, s3.status, s3.project_id0, s3.description, s3.lecturer_id, s3.project_name, s3.status0, s3.subject_id, s4.team_id, s4.class_id, s4.created_date, s4.description, s4.end_date, s4.enrol_key, s4.git_link, s4.leader_id, s4.lecturer_id, s4.lecturer_name, s4.progress, s4.project_assignment_id, s4.status, s4.team_image, s4.team_name, s4.project_assignment_id0, s4.assigned_date, s4.class_id0, s4.project_id, s4.status0, s4.project_id0, s4.description0, s4.lecturer_id0, s4.project_name, s4.status1, s4.subject_id
+FROM (
+    SELECT c.class_id, c.class_name, c.created_date, c.enrol_key, c.is_active, c.lecturer_id, c.lecturer_name, c.member_count, c.subject_id, c.team_count, s.subject_id AS subject_id0, s.is_active AS is_active0, s.subject_code, s.subject_name, l.lecturer_id AS lecturer_id0, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+    FROM class AS c
+    INNER JOIN subject AS s ON c.subject_id = s.subject_id
+    LEFT JOIN lecturer AS l ON c.lecturer_id = l.lecturer_id
+    WHERE c.class_id = @__classId_0
+    LIMIT 1
+) AS s1
+LEFT JOIN (
+    SELECT c0.class_member_id, c0.class_id, c0.fullname, c0.is_grouped, c0.status, c0.student_id, c0.team_id, c0.team_role, s0.student_id AS student_id0, s0.address, s0.avatar_img, s0.fullname AS fullname0, s0.major, s0.phone_number, s0.school, s0.student_code, s0.yob
+    FROM class_member AS c0
+    INNER JOIN student AS s0 ON c0.student_id = s0.student_id
+) AS s2 ON s1.class_id = s2.class_id
+LEFT JOIN class_file AS c1 ON s1.class_id = c1.class_id
+LEFT JOIN (
+    SELECT p.project_assignment_id, p.assigned_date, p.class_id, p.project_id, p.status, p0.project_id AS project_id0, p0.description, p0.lecturer_id, p0.project_name, p0.status AS status0, p0.subject_id
+    FROM project_assignment AS p
+    INNER JOIN project AS p0 ON p.project_id = p0.project_id
+) AS s3 ON s1.class_id = s3.class_id
+LEFT JOIN (
+    SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name, p1.project_assignment_id AS project_assignment_id0, p1.assigned_date, p1.class_id AS class_id0, p1.project_id, p1.status AS status0, p2.project_id AS project_id0, p2.description AS description0, p2.lecturer_id AS lecturer_id0, p2.project_name, p2.status AS status1, p2.subject_id
+    FROM team AS t
+    LEFT JOIN project_assignment AS p1 ON t.project_assignment_id = p1.project_assignment_id
+    LEFT JOIN project AS p2 ON p1.project_id = p2.project_id
+) AS s4 ON s1.class_id = s4.class_id
+ORDER BY s1.class_id, s1.subject_id0, s1.lecturer_id0, s2.class_member_id, s2.student_id0, c1.file_id, s3.project_assignment_id, s3.project_id0, s4.team_id, s4.project_assignment_id0
+2025-10-14 22:08:00.949 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass.GetStudentTeamByAssignClassResult'.
+2025-10-14 22:08:00.955 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API) in 1542.6973ms
+2025-10-14 22:08:00.959 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API)'
+2025-10-14 22:08:00.963 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/team/student/class/123 - 500 null application/json; charset=utf-8 1592.5522ms
+2025-10-14 22:08:04.531 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/team/student/class/1 - null null
+2025-10-14 22:08:04.556 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API)'
+2025-10-14 22:08:04.561 +07:00 [INF] Route matched with {action = "GetStudentTeamByAssignClas", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetStudentTeamByAssignClas(CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass.GetStudentTeamByAssignClassQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-14 22:08:05.862 +07:00 [INF] Executed DbCommand (53ms) [Parameters=[@__classId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s1.class_id, s1.class_name, s1.created_date, s1.enrol_key, s1.is_active, s1.lecturer_id, s1.lecturer_name, s1.member_count, s1.subject_id, s1.team_count, s1.subject_id0, s1.is_active0, s1.subject_code, s1.subject_name, s1.lecturer_id0, s1.address, s1.avatar_img, s1.fullname, s1.lecturer_code, s1.major, s1.phone_number, s1.school, s1.yob, s2.class_member_id, s2.class_id, s2.fullname, s2.is_grouped, s2.status, s2.student_id, s2.team_id, s2.team_role, s2.student_id0, s2.address, s2.avatar_img, s2.fullname0, s2.major, s2.phone_number, s2.school, s2.student_code, s2.yob, c1.file_id, c1.class_id, c1.file_path, c1.type, s3.project_assignment_id, s3.assigned_date, s3.class_id, s3.project_id, s3.status, s3.project_id0, s3.description, s3.lecturer_id, s3.project_name, s3.status0, s3.subject_id, s4.team_id, s4.class_id, s4.created_date, s4.description, s4.end_date, s4.enrol_key, s4.git_link, s4.leader_id, s4.lecturer_id, s4.lecturer_name, s4.progress, s4.project_assignment_id, s4.status, s4.team_image, s4.team_name, s4.project_assignment_id0, s4.assigned_date, s4.class_id0, s4.project_id, s4.status0, s4.project_id0, s4.description0, s4.lecturer_id0, s4.project_name, s4.status1, s4.subject_id
+FROM (
+    SELECT c.class_id, c.class_name, c.created_date, c.enrol_key, c.is_active, c.lecturer_id, c.lecturer_name, c.member_count, c.subject_id, c.team_count, s.subject_id AS subject_id0, s.is_active AS is_active0, s.subject_code, s.subject_name, l.lecturer_id AS lecturer_id0, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+    FROM class AS c
+    INNER JOIN subject AS s ON c.subject_id = s.subject_id
+    LEFT JOIN lecturer AS l ON c.lecturer_id = l.lecturer_id
+    WHERE c.class_id = @__classId_0
+    LIMIT 1
+) AS s1
+LEFT JOIN (
+    SELECT c0.class_member_id, c0.class_id, c0.fullname, c0.is_grouped, c0.status, c0.student_id, c0.team_id, c0.team_role, s0.student_id AS student_id0, s0.address, s0.avatar_img, s0.fullname AS fullname0, s0.major, s0.phone_number, s0.school, s0.student_code, s0.yob
+    FROM class_member AS c0
+    INNER JOIN student AS s0 ON c0.student_id = s0.student_id
+) AS s2 ON s1.class_id = s2.class_id
+LEFT JOIN class_file AS c1 ON s1.class_id = c1.class_id
+LEFT JOIN (
+    SELECT p.project_assignment_id, p.assigned_date, p.class_id, p.project_id, p.status, p0.project_id AS project_id0, p0.description, p0.lecturer_id, p0.project_name, p0.status AS status0, p0.subject_id
+    FROM project_assignment AS p
+    INNER JOIN project AS p0 ON p.project_id = p0.project_id
+) AS s3 ON s1.class_id = s3.class_id
+LEFT JOIN (
+    SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name, p1.project_assignment_id AS project_assignment_id0, p1.assigned_date, p1.class_id AS class_id0, p1.project_id, p1.status AS status0, p2.project_id AS project_id0, p2.description AS description0, p2.lecturer_id AS lecturer_id0, p2.project_name, p2.status AS status1, p2.subject_id
+    FROM team AS t
+    LEFT JOIN project_assignment AS p1 ON t.project_assignment_id = p1.project_assignment_id
+    LEFT JOIN project AS p2 ON p1.project_id = p2.project_id
+) AS s4 ON s1.class_id = s4.class_id
+ORDER BY s1.class_id, s1.subject_id0, s1.lecturer_id0, s2.class_member_id, s2.student_id0, c1.file_id, s3.project_assignment_id, s3.project_id0, s4.team_id, s4.project_assignment_id0
+2025-10-14 22:08:06.018 +07:00 [INF] Executed DbCommand (51ms) [Parameters=[@__classId_0='?' (DbType = Int32), @__studentId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.class_member_id, c.class_id, c.fullname, c.is_grouped, c.status, c.student_id, c.team_id, c.team_role
+FROM class_member AS c
+WHERE c.class_id = @__classId_0 AND c.student_id = @__studentId_1
+LIMIT 1
+2025-10-14 22:08:08.006 +07:00 [INF] Executed DbCommand (52ms) [Parameters=[@__studentId_0='?' (DbType = Int32), @__classId_Value_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name, c1.class_id, c1.class_name, c1.created_date, c1.enrol_key, c1.is_active, c1.lecturer_id, c1.lecturer_name, c1.member_count, c1.subject_id, c1.team_count, p.project_assignment_id, p.assigned_date, p.class_id, p.project_id, p.status, p0.project_id, p0.description, p0.lecturer_id, p0.project_name, p0.status, p0.subject_id
+FROM team AS t
+INNER JOIN (
+    SELECT c.team_id
+    FROM class_member AS c
+    WHERE c.student_id = @__studentId_0 AND c.team_id IS NOT NULL AND c.class_id = @__classId_Value_1
+) AS c0 ON t.team_id = c0.team_id
+INNER JOIN class AS c1 ON t.class_id = c1.class_id
+LEFT JOIN project_assignment AS p ON t.project_assignment_id = p.project_assignment_id
+LEFT JOIN project AS p0 ON p.project_id = p0.project_id
+2025-10-14 22:08:08.023 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass.GetStudentTeamByAssignClassResult'.
+2025-10-14 22:08:08.043 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API) in 3476.2499ms
+2025-10-14 22:08:08.053 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API)'
+2025-10-14 22:08:08.060 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/team/student/class/1 - 200 null application/json; charset=utf-8 3530.0039ms
+2025-10-14 22:08:22.871 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/team/student/class/2 - null null
+2025-10-14 22:08:22.882 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API)'
+2025-10-14 22:08:22.887 +07:00 [INF] Route matched with {action = "GetStudentTeamByAssignClas", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetStudentTeamByAssignClas(CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass.GetStudentTeamByAssignClassQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-14 22:08:23.982 +07:00 [INF] Executed DbCommand (79ms) [Parameters=[@__classId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s1.class_id, s1.class_name, s1.created_date, s1.enrol_key, s1.is_active, s1.lecturer_id, s1.lecturer_name, s1.member_count, s1.subject_id, s1.team_count, s1.subject_id0, s1.is_active0, s1.subject_code, s1.subject_name, s1.lecturer_id0, s1.address, s1.avatar_img, s1.fullname, s1.lecturer_code, s1.major, s1.phone_number, s1.school, s1.yob, s2.class_member_id, s2.class_id, s2.fullname, s2.is_grouped, s2.status, s2.student_id, s2.team_id, s2.team_role, s2.student_id0, s2.address, s2.avatar_img, s2.fullname0, s2.major, s2.phone_number, s2.school, s2.student_code, s2.yob, c1.file_id, c1.class_id, c1.file_path, c1.type, s3.project_assignment_id, s3.assigned_date, s3.class_id, s3.project_id, s3.status, s3.project_id0, s3.description, s3.lecturer_id, s3.project_name, s3.status0, s3.subject_id, s4.team_id, s4.class_id, s4.created_date, s4.description, s4.end_date, s4.enrol_key, s4.git_link, s4.leader_id, s4.lecturer_id, s4.lecturer_name, s4.progress, s4.project_assignment_id, s4.status, s4.team_image, s4.team_name, s4.project_assignment_id0, s4.assigned_date, s4.class_id0, s4.project_id, s4.status0, s4.project_id0, s4.description0, s4.lecturer_id0, s4.project_name, s4.status1, s4.subject_id
+FROM (
+    SELECT c.class_id, c.class_name, c.created_date, c.enrol_key, c.is_active, c.lecturer_id, c.lecturer_name, c.member_count, c.subject_id, c.team_count, s.subject_id AS subject_id0, s.is_active AS is_active0, s.subject_code, s.subject_name, l.lecturer_id AS lecturer_id0, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+    FROM class AS c
+    INNER JOIN subject AS s ON c.subject_id = s.subject_id
+    LEFT JOIN lecturer AS l ON c.lecturer_id = l.lecturer_id
+    WHERE c.class_id = @__classId_0
+    LIMIT 1
+) AS s1
+LEFT JOIN (
+    SELECT c0.class_member_id, c0.class_id, c0.fullname, c0.is_grouped, c0.status, c0.student_id, c0.team_id, c0.team_role, s0.student_id AS student_id0, s0.address, s0.avatar_img, s0.fullname AS fullname0, s0.major, s0.phone_number, s0.school, s0.student_code, s0.yob
+    FROM class_member AS c0
+    INNER JOIN student AS s0 ON c0.student_id = s0.student_id
+) AS s2 ON s1.class_id = s2.class_id
+LEFT JOIN class_file AS c1 ON s1.class_id = c1.class_id
+LEFT JOIN (
+    SELECT p.project_assignment_id, p.assigned_date, p.class_id, p.project_id, p.status, p0.project_id AS project_id0, p0.description, p0.lecturer_id, p0.project_name, p0.status AS status0, p0.subject_id
+    FROM project_assignment AS p
+    INNER JOIN project AS p0 ON p.project_id = p0.project_id
+) AS s3 ON s1.class_id = s3.class_id
+LEFT JOIN (
+    SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name, p1.project_assignment_id AS project_assignment_id0, p1.assigned_date, p1.class_id AS class_id0, p1.project_id, p1.status AS status0, p2.project_id AS project_id0, p2.description AS description0, p2.lecturer_id AS lecturer_id0, p2.project_name, p2.status AS status1, p2.subject_id
+    FROM team AS t
+    LEFT JOIN project_assignment AS p1 ON t.project_assignment_id = p1.project_assignment_id
+    LEFT JOIN project AS p2 ON p1.project_id = p2.project_id
+) AS s4 ON s1.class_id = s4.class_id
+ORDER BY s1.class_id, s1.subject_id0, s1.lecturer_id0, s2.class_member_id, s2.student_id0, c1.file_id, s3.project_assignment_id, s3.project_id0, s4.team_id, s4.project_assignment_id0
+2025-10-14 22:08:24.041 +07:00 [INF] Executed DbCommand (49ms) [Parameters=[@__classId_0='?' (DbType = Int32), @__studentId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.class_member_id, c.class_id, c.fullname, c.is_grouped, c.status, c.student_id, c.team_id, c.team_role
+FROM class_member AS c
+WHERE c.class_id = @__classId_0 AND c.student_id = @__studentId_1
+LIMIT 1
+2025-10-14 22:08:24.047 +07:00 [INF] Executing ObjectResult, writing value of type 'CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass.GetStudentTeamByAssignClassResult'.
+2025-10-14 22:08:24.053 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API) in 1156.4119ms
+2025-10-14 22:08:24.057 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API)'
+2025-10-14 22:08:24.060 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/team/student/class/2 - 500 null application/json; charset=utf-8 1190.0741ms
+2025-10-14 22:08:42.857 +07:00 [INF] Request starting HTTP/2 GET https://localhost:7264/api/team/student/class/1 - null null
+2025-10-14 22:08:42.866 +07:00 [INF] Executing endpoint 'CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API)'
+2025-10-14 22:08:42.871 +07:00 [INF] Route matched with {action = "GetStudentTeamByAssignClas", controller = "Team"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetStudentTeamByAssignClas(CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass.GetStudentTeamByAssignClassQuery, System.Threading.CancellationToken) on controller CollabSphere.API.Controllers.TeamController (CollabSphere.API).
+2025-10-14 22:08:49.474 +07:00 [INF] Executed DbCommand (53ms) [Parameters=[@__classId_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s1.class_id, s1.class_name, s1.created_date, s1.enrol_key, s1.is_active, s1.lecturer_id, s1.lecturer_name, s1.member_count, s1.subject_id, s1.team_count, s1.subject_id0, s1.is_active0, s1.subject_code, s1.subject_name, s1.lecturer_id0, s1.address, s1.avatar_img, s1.fullname, s1.lecturer_code, s1.major, s1.phone_number, s1.school, s1.yob, s2.class_member_id, s2.class_id, s2.fullname, s2.is_grouped, s2.status, s2.student_id, s2.team_id, s2.team_role, s2.student_id0, s2.address, s2.avatar_img, s2.fullname0, s2.major, s2.phone_number, s2.school, s2.student_code, s2.yob, c1.file_id, c1.class_id, c1.file_path, c1.type, s3.project_assignment_id, s3.assigned_date, s3.class_id, s3.project_id, s3.status, s3.project_id0, s3.description, s3.lecturer_id, s3.project_name, s3.status0, s3.subject_id, s4.team_id, s4.class_id, s4.created_date, s4.description, s4.end_date, s4.enrol_key, s4.git_link, s4.leader_id, s4.lecturer_id, s4.lecturer_name, s4.progress, s4.project_assignment_id, s4.status, s4.team_image, s4.team_name, s4.project_assignment_id0, s4.assigned_date, s4.class_id0, s4.project_id, s4.status0, s4.project_id0, s4.description0, s4.lecturer_id0, s4.project_name, s4.status1, s4.subject_id
+FROM (
+    SELECT c.class_id, c.class_name, c.created_date, c.enrol_key, c.is_active, c.lecturer_id, c.lecturer_name, c.member_count, c.subject_id, c.team_count, s.subject_id AS subject_id0, s.is_active AS is_active0, s.subject_code, s.subject_name, l.lecturer_id AS lecturer_id0, l.address, l.avatar_img, l.fullname, l.lecturer_code, l.major, l.phone_number, l.school, l.yob
+    FROM class AS c
+    INNER JOIN subject AS s ON c.subject_id = s.subject_id
+    LEFT JOIN lecturer AS l ON c.lecturer_id = l.lecturer_id
+    WHERE c.class_id = @__classId_0
+    LIMIT 1
+) AS s1
+LEFT JOIN (
+    SELECT c0.class_member_id, c0.class_id, c0.fullname, c0.is_grouped, c0.status, c0.student_id, c0.team_id, c0.team_role, s0.student_id AS student_id0, s0.address, s0.avatar_img, s0.fullname AS fullname0, s0.major, s0.phone_number, s0.school, s0.student_code, s0.yob
+    FROM class_member AS c0
+    INNER JOIN student AS s0 ON c0.student_id = s0.student_id
+) AS s2 ON s1.class_id = s2.class_id
+LEFT JOIN class_file AS c1 ON s1.class_id = c1.class_id
+LEFT JOIN (
+    SELECT p.project_assignment_id, p.assigned_date, p.class_id, p.project_id, p.status, p0.project_id AS project_id0, p0.description, p0.lecturer_id, p0.project_name, p0.status AS status0, p0.subject_id
+    FROM project_assignment AS p
+    INNER JOIN project AS p0 ON p.project_id = p0.project_id
+) AS s3 ON s1.class_id = s3.class_id
+LEFT JOIN (
+    SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name, p1.project_assignment_id AS project_assignment_id0, p1.assigned_date, p1.class_id AS class_id0, p1.project_id, p1.status AS status0, p2.project_id AS project_id0, p2.description AS description0, p2.lecturer_id AS lecturer_id0, p2.project_name, p2.status AS status1, p2.subject_id
+    FROM team AS t
+    LEFT JOIN project_assignment AS p1 ON t.project_assignment_id = p1.project_assignment_id
+    LEFT JOIN project AS p2 ON p1.project_id = p2.project_id
+) AS s4 ON s1.class_id = s4.class_id
+ORDER BY s1.class_id, s1.subject_id0, s1.lecturer_id0, s2.class_member_id, s2.student_id0, c1.file_id, s3.project_assignment_id, s3.project_id0, s4.team_id, s4.project_assignment_id0
+2025-10-14 22:08:49.533 +07:00 [INF] Executed DbCommand (47ms) [Parameters=[@__classId_0='?' (DbType = Int32), @__studentId_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c.class_member_id, c.class_id, c.fullname, c.is_grouped, c.status, c.student_id, c.team_id, c.team_role
+FROM class_member AS c
+WHERE c.class_id = @__classId_0 AND c.student_id = @__studentId_1
+LIMIT 1
+2025-10-14 22:08:49.590 +07:00 [INF] Executed DbCommand (48ms) [Parameters=[@__studentId_0='?' (DbType = Int32), @__classId_Value_1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT t.team_id, t.class_id, t.created_date, t.description, t.end_date, t.enrol_key, t.git_link, t.leader_id, t.lecturer_id, t.lecturer_name, t.progress, t.project_assignment_id, t.status, t.team_image, t.team_name, c1.class_id, c1.class_name, c1.created_date, c1.enrol_key, c1.is_active, c1.lecturer_id, c1.lecturer_name, c1.member_count, c1.subject_id, c1.team_count, p.project_assignment_id, p.assigned_date, p.class_id, p.project_id, p.status, p0.project_id, p0.description, p0.lecturer_id, p0.project_name, p0.status, p0.subject_id
+FROM team AS t
+INNER JOIN (
+    SELECT c.team_id
+    FROM class_member AS c
+    WHERE c.student_id = @__studentId_0 AND c.team_id IS NOT NULL AND c.class_id = @__classId_Value_1
+) AS c0 ON t.team_id = c0.team_id
+INNER JOIN class AS c1 ON t.class_id = c1.class_id
+LEFT JOIN project_assignment AS p ON t.project_assignment_id = p.project_assignment_id
+LEFT JOIN project AS p0 ON p.project_id = p0.project_id
+2025-10-14 22:08:49.608 +07:00 [INF] Executing OkObjectResult, writing value of type 'CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass.GetStudentTeamByAssignClassResult'.
+2025-10-14 22:08:49.617 +07:00 [INF] Executed action CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API) in 6737.6786ms
+2025-10-14 22:08:49.642 +07:00 [INF] Executed endpoint 'CollabSphere.API.Controllers.TeamController.GetStudentTeamByAssignClas (CollabSphere.API)'
+2025-10-14 22:08:49.648 +07:00 [INF] Request finished HTTP/2 GET https://localhost:7264/api/team/student/class/1 - 200 null application/json; charset=utf-8 6791.8831ms

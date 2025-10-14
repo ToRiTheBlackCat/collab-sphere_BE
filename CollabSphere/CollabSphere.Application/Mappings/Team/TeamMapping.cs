@@ -43,8 +43,8 @@ namespace CollabSphere.Application.Mappings.Team
 
             return dtoList;
         }
-        
-         public static List<AllTeamOfStudentDto> ListTeam_To_AllTeamOfStudentDto(this List<Domain.Entities.Team>? list)
+
+        public static List<AllTeamOfStudentDto> ListTeam_To_AllTeamOfStudentDto(this List<Domain.Entities.Team>? list)
         {
             if (list.Any() == false || list == null)
             {
@@ -77,6 +77,25 @@ namespace CollabSphere.Application.Mappings.Team
             }
 
             return dtoList;
+        }
+
+        public static StudentTeamByAssignClassDto? Team_To_StudentTeamByAssignClassDto(this Domain.Entities.Team team)
+        {
+            var dto = new StudentTeamByAssignClassDto
+            {
+                TeamId = team.TeamId,
+                TeamName = team.TeamName,
+                TeamImage = team.TeamImage,
+                Description = team.Description,
+                ProjectId = team.ProjectAssignment?.ProjectId,
+                ProjectName = team.ProjectAssignment?.Project?.ProjectName ?? "",
+                CreatedDate = team.CreatedDate,
+                EndDate = team.EndDate,
+                Progress = team.Progress,
+                Status = team.Status
+            };
+
+            return dto;
         }
     }
 }
