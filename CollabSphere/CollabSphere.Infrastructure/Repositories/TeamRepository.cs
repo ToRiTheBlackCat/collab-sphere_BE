@@ -49,6 +49,7 @@ namespace CollabSphere.Infrastructure.Repositories
 
             var result = await teamQuery.ToListAsync();
             return result;
+        }
         public async Task<List<Team>?> SearchTeam(int classId, string? teamName, DateOnly? fromDate, DateOnly? endDate, bool isDesc)
         {
             var query = _context.Teams
