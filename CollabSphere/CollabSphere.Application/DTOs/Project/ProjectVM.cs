@@ -1,4 +1,5 @@
-﻿using CollabSphere.Application.DTOs.Objective;
+﻿using CollabSphere.Application.Constants;
+using CollabSphere.Application.DTOs.Objective;
 using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -30,9 +31,11 @@ namespace CollabSphere.Application.DTOs.Project
         public string SubjectName { get; set; }
 
         public string SubjectCode { get; set; } 
-
-        public int Status { get; set; } 
         #endregion
+
+        public int Status { get; set; }
+
+        public string StatusString => ((ProjectStatuses)Status).ToString();
 
         public List<ObjectiveVM> Objectives { get; set; } = new List<ObjectiveVM>();
 
