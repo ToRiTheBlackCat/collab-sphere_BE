@@ -1,12 +1,9 @@
-﻿using CollabSphere.Application.DTOs.Image;
-using CollabSphere.Application.Features.Team.Commands;
+﻿using CollabSphere.Application.Features.Team.Commands;
 using CollabSphere.Application.Features.Team.Queries.GetAllTeamByAssignClass;
-using CollabSphere.Application.Features.User.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace CollabSphere.API.Controllers
 {
@@ -150,7 +147,7 @@ namespace CollabSphere.API.Controllers
         [HttpPost("class/{classId}")]
         public async Task<IActionResult> GetTeamListByAssignClassOfLecturer(GetAllTeamByAssignClassQuery query, CancellationToken cancellationToken = default)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }

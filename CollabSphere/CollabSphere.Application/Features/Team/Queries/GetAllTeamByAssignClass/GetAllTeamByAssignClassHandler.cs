@@ -5,11 +5,6 @@ using CollabSphere.Application.DTOs.Teams;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Application.Mappings.Team;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Team.Queries.GetAllTeamByAssignClass
 {

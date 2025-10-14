@@ -1,17 +1,11 @@
 ﻿using CollabSphere.Application.Base;
-using CollabSphere.Application.Features.Classes.Queries.GetAllClasses;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Team.Queries.GetAllTeamByAssignClass
 {
-    public class GetAllTeamByAssignClassQuery : PaginationQuery, IQuery<GetAllTeamByAssignClassResult>, IValidatableObject 
+    public class GetAllTeamByAssignClassQuery : PaginationQuery, IQuery<GetAllTeamByAssignClassResult>, IValidatableObject
     {
         [FromRoute(Name = "classId")]
         public int ClassId { get; set; }
