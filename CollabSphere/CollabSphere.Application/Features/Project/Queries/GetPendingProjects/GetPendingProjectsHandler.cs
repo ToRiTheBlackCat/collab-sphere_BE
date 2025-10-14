@@ -26,7 +26,7 @@ namespace CollabSphere.Application.Features.Project.Queries.GetPendingProjects
             try
             {
                 var projects = (await _unitOfWork.ProjectRepo.GetAll())
-                    .Where(x => x.Status == ProjectStatuses.PENDING);
+                    .Where(x => x.Status == (int)ProjectStatuses.PENDING);
 
                 var keywords = new HashSet<string>(request.Descriptors.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries));
 
