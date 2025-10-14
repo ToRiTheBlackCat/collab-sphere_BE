@@ -42,6 +42,7 @@ namespace CollabSphere.API.Controllers
             return Ok(result.PagedProjects);
         }
 
+        // Roles: Lecutrer
         [HttpGet("lecturer/{lecturerId}")]
         public async Task<IActionResult> GetTeacherProjects(GetLecturerProjectsQuery query, CancellationToken cancellationToken = default!)
         {
@@ -55,8 +56,9 @@ namespace CollabSphere.API.Controllers
             return Ok(result.PagedProjects);
         }
 
-        [HttpGet("class/{ClassId}")]
-        public async Task<IActionResult> GetTeacherProjects(GetProjectsOfClassQuery query, CancellationToken cancellationToken = default)
+        // Roles: Lecutrer, Student
+        [HttpGet("class/{classId}")]
+        public async Task<IActionResult> GetProjectsOfClass(GetProjectsOfClassQuery query, CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(query, cancellationToken);
 
@@ -68,8 +70,9 @@ namespace CollabSphere.API.Controllers
             return Ok(result.PagedProjects);
         }
 
+        // Roles: Head Department, Lecutrer, Student
         [Authorize]
-        [HttpGet("{ProjectId}")]
+        [HttpGet("{projectId}")]
         public async Task<IActionResult> GetProjectById(GetProjectByIdQuery query, CancellationToken cancellationToken = default!)
         {
             // Get UserId & Role of requester
@@ -99,7 +102,7 @@ namespace CollabSphere.API.Controllers
             return Ok(result.Project);
         }
 
-        // Head department only
+        // Role: Head Department
         [HttpGet("pending")]
         public async Task<IActionResult> GetPendingProjects(GetPendingProjectsQuery query, CancellationToken cancellationToken = default)
         {
@@ -113,7 +116,8 @@ namespace CollabSphere.API.Controllers
             return Ok(result.PagedProjects);
         }
 
-        [HttpPatch("{ProjectId}/approve")]
+        // Role: Head Department
+        [HttpPatch("{projectId}/approve")]
         public async Task<IActionResult> HeadDepartmentAppoveProject(ApproveProjectCommand command, CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);
@@ -129,25 +133,6 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result.Message);
-        }
-
-        // Head Department Role
-        [HttpPatch("{ProjectId}/deny")]
-        public async Task<IActionResult> HeadDepartmentDenyProject(DenyProjectCommand command, CancellationToken cancellationToken = default)
-        {
-            var result = await _mediator.Send(command, cancellationToken);
-
-            if (!result.IsValidInput)
-            {
-                return BadRequest(result);
-            }
-
-            if (!result.IsSuccess)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
-            }
-
-            return Ok(result);
         }
 
         // Roles: Lecturer

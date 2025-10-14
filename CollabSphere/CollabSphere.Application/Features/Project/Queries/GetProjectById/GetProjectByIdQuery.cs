@@ -12,7 +12,7 @@ namespace CollabSphere.Application.Features.Project.Queries.GetProjectById
 {
     public class GetProjectByIdQuery : IQuery<GetProjectByIdResult>
     {
-        [FromRoute(Name = "ProjectId")]
+        [FromRoute(Name = "projectId")]
         public int ProjectId { get; set; }
 
         [JsonIgnore]

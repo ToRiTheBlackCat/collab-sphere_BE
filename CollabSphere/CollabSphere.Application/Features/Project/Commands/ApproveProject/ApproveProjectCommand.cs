@@ -10,7 +10,9 @@ namespace CollabSphere.Application.Features.Project.Commands.ApproveProject
 {
     public class ApproveProjectCommand : ICommand
     {
-        [FromRoute(Name = "ProjectId")]
+        [FromRoute(Name = "projectId")]
         public int ProjectId { get; set; }
+
+        public bool Approve { get; set; } = true;
     }
 }
