@@ -134,8 +134,16 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
             // Add or Update Milestones
             foreach (var msDto in milestoneDtos)
             {
-                var existMilestone = objective.ObjectiveMilestones.FirstOrDefault(m => m.ObjectiveMilestoneId == msDto.ObjectiveMilestoneId);
-                if (existMilestone == null)
+                if (msDto.ObjectiveMilestoneId != 0)
+                {
+                    // Update existing milestone
+                    var existMilestone = objective.ObjectiveMilestones.First(m => m.ObjectiveMilestoneId == msDto.ObjectiveMilestoneId);
+                    existMilestone.Title = msDto.Title;
+                    existMilestone.Description = msDto.Description;
+                    existMilestone.StartDate = msDto.StartDate;
+                    existMilestone.EndDate = msDto.EndDate;
+                }
+                else
                 {
                     // Create new if no existing ObjectiveMilestone
                     objective.ObjectiveMilestones.Add(new ObjectiveMilestone
@@ -145,13 +153,6 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
                         StartDate = msDto.StartDate,
                         EndDate = msDto.EndDate
                     });
-                }
-                else
-                {
-                    existMilestone.Title = msDto.Title;
-                    existMilestone.Description = msDto.Description;
-                    existMilestone.StartDate = msDto.StartDate;
-                    existMilestone.EndDate = msDto.EndDate;
                 }
             }
         }
