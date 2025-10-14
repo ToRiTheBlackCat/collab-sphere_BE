@@ -31,7 +31,7 @@ namespace CollabSphere.Test.Projects
         }
 
         [Fact]
-        public async Task Handle_ShouldReturnSucces_WhenValidRequest()
+        public async Task Handle_ShouldApproveProject_WhenValidRequest()
         {
             // Arrange
             var command = new ApproveProjectCommand()
@@ -57,6 +57,38 @@ namespace CollabSphere.Test.Projects
             Assert.True(result.IsValidInput);
 
             _unitOfWorkMock.Verify(x => x.ProjectRepo.Update(It.Is<Project>(x => x.ProjectName.Equals("Project Name 1") && x.Status == (int)ProjectStatuses.APPROVED)), Times.Once);
+            _unitOfWorkMock.Verify(x => x.CommitTransactionAsync(), Times.Once);
+            Assert.Contains("Project Name 1", result.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public async Task Handle_ShouldDenyProject_WhenValidRequest()
+        {
+            // Arrange
+            var command = new ApproveProjectCommand()
+            {
+                ProjectId = 1,
+                Approve = false
+            };
+
+            var project = new Project()
+            {
+                ProjectId = 1,
+                ProjectName = "Project Name 1",
+                Description = "Description for Project 1",
+                Status = (int)ProjectStatuses.PENDING
+            };
+
+            _projectRepoMock.Setup(x => x.GetById(1)).ReturnsAsync(project);
+
+            // Act
+            var result = await _handler.Handle(command, CancellationToken.None);
+
+            // Assert
+            Assert.True(result.IsSuccess);
+            Assert.True(result.IsValidInput);
+
+            _unitOfWorkMock.Verify(x => x.ProjectRepo.Update(It.Is<Project>(x => x.ProjectName.Equals("Project Name 1") && x.Status == (int)ProjectStatuses.DENIED)), Times.Once);
             _unitOfWorkMock.Verify(x => x.CommitTransactionAsync(), Times.Once);
             Assert.Contains("Project Name 1", result.Message, StringComparison.OrdinalIgnoreCase);
         }
@@ -106,7 +138,7 @@ namespace CollabSphere.Test.Projects
             Assert.False(result.IsSuccess);
             Assert.False(result.IsValidInput);
             Assert.Single(result.ErrorList);
-            Assert.Contains(result.ErrorList, x => x.Message.Contains("not Pending"));
+            Assert.Contains(result.ErrorList, x => x.Message.Contains("not PENDING"));
         }
 
 

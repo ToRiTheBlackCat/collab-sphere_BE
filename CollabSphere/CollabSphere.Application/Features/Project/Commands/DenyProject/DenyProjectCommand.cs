@@ -10,7 +10,7 @@ namespace CollabSphere.Application.Features.Project.Commands.DenyProject
 {
     public class DenyProjectCommand : ICommand
     {
-        [FromRoute(Name = "ProjectId")]
+        [FromRoute(Name = "projectId")]
         public int ProjectId { get; set; }
     }
 }

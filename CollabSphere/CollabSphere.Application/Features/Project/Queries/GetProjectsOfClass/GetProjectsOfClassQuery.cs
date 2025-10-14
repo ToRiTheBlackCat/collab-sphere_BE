@@ -10,7 +10,7 @@ namespace CollabSphere.Application.Features.Project.Queries.GetProjectsOfClass
 {
     public class GetProjectsOfClassQuery : PaginationQuery, IQuery<GetProjectsOfClassResult>
     {
-        [FromRoute(Name = "ClassId")]
+        [FromRoute(Name = "classId")]
         public int ClassId { get; set; }
 
         public string Descriptors { get; set; } = string.Empty;
