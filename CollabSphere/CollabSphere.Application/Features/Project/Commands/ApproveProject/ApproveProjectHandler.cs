@@ -34,7 +34,7 @@ namespace CollabSphere.Application.Features.Project.Commands.ApproveProject
                 #region Data Operations
                 // Get project
                 var project = (await _unitOfWork.ProjectRepo.GetById(request.ProjectId))!;
-                project.Status = (int)ProjectStatuses.APPROVED;
+                project.Status = request.Approve ? (int)ProjectStatuses.APPROVED : (int)ProjectStatuses.DENIED;
 
                 // Update project
                 _unitOfWork.ProjectRepo.Update(project);
@@ -43,7 +43,7 @@ namespace CollabSphere.Application.Features.Project.Commands.ApproveProject
 
                 await _unitOfWork.CommitTransactionAsync();
 
-                result.Message = $"Project '{project.ProjectName}' approved.";
+                result.Message = $"Project '{project.ProjectName}' {((ProjectStatuses)project.Status).ToString()}.";
                 result.IsSuccess = true;
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace CollabSphere.Application.Features.Project.Commands.ApproveProject
                     errors.Add(new OperationError()
                     {
                         Field = nameof(request.ProjectId),
-                        Message = $"Project with ID '{request.ProjectId}' is not Pending",
+                        Message = $"Project with ID '{request.ProjectId}' is {ProjectStatuses.PENDING.ToString()}",
                     });
                 }
             }
