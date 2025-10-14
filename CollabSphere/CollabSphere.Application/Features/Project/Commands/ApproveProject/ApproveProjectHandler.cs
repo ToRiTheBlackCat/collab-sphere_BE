@@ -34,7 +34,7 @@ namespace CollabSphere.Application.Features.Project.Commands.ApproveProject
                 #region Data Operations
                 // Get project
                 var project = (await _unitOfWork.ProjectRepo.GetById(request.ProjectId))!;
-                project.Status = ProjectStatuses.APPROVED;
+                project.Status = (int)ProjectStatuses.APPROVED;
 
                 // Update project
                 _unitOfWork.ProjectRepo.Update(project);
@@ -60,7 +60,7 @@ namespace CollabSphere.Application.Features.Project.Commands.ApproveProject
             var project = await _unitOfWork.ProjectRepo.GetById(request.ProjectId);
             if (project != null)
             {
-                if (project.Status != ProjectStatuses.PENDING)
+                if (project.Status != (int)ProjectStatuses.PENDING)
                 {
                     errors.Add(new OperationError()
                     {

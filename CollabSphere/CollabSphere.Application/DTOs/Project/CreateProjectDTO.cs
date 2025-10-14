@@ -38,7 +38,7 @@ namespace CollabSphere.Application.DTOs.Project
                 Description = this.Description,
                 LecturerId = this.LecturerId,
                 SubjectId = this.SubjectId,
-                Status = ProjectStatuses.PENDING,
+                Status = (int)ProjectStatuses.PENDING,
                 Objectives = this.Objectives.Select(x => x.ToObjectiveEntity()).ToList(),
             };
         }
