@@ -1,10 +1,12 @@
 ﻿using CollabSphere.Application.DTOs.Image;
 using CollabSphere.Application.Features.Team.Commands;
+using CollabSphere.Application.Features.Team.Queries.GetAllTeamByAssignClass;
 using CollabSphere.Application.Features.User.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace CollabSphere.API.Controllers
 {
@@ -142,6 +144,31 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result);
+        }
+
+        [Authorize]
+        [HttpPost("class/{classId}")]
+        public async Task<IActionResult> GetTeamListByAssignClassOfLecturer(GetAllTeamByAssignClassQuery query, CancellationToken cancellationToken = default)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            query.UserId = int.Parse(UIdClaim.Value);
+            query.UserRole = int.Parse(roleClaim.Value);
+
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result.PaginatedTeams);
         }
     }
 }

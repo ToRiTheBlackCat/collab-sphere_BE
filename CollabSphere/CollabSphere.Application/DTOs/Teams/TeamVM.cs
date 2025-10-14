@@ -37,7 +37,7 @@ namespace CollabSphere.Application.DTOs.Teams
 
         public int Status { get; set; }
 
-        public static explicit operator TeamVM(Team team)
+        public static explicit operator TeamVM(Domain.Entities.Team team)
         {
             var projectAssign = team.ProjectAssignment;
 
