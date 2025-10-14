@@ -11,5 +11,7 @@ namespace CollabSphere.Domain.Intefaces
     public interface IClassMemberRepository : IGenericRepository<ClassMember>
     {
         Task<List<ClassMember>> GetClassMemberAsyncByClassId(int classId);
+        Task<ClassMember?> GetClassMemberAsyncByClassIdAndStudentId(int classId, int studentId);
+        Task<List<ClassMember>?> GetClassMemberAsyncByTeamId(int teamId);
     }
 }

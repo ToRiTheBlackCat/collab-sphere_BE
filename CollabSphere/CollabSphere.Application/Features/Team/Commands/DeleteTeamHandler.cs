@@ -48,6 +48,21 @@ namespace CollabSphere.Application.Features.Team.Commands
                 foundTeam.Status = 0;
                 _unitOfWork.TeamRepo.Update(foundTeam);
                 await _unitOfWork.SaveChangesAsync();
+
+                //Update data for all class members in this team
+                var classMembers = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByTeamId(request.TeamId);
+                if (classMembers != null && classMembers.Any())
+                {
+                    foreach (var member in classMembers)
+                    {
+                        member.TeamId = null;
+                        member.TeamRole = null;
+                        member.IsGrouped = false;
+                        _unitOfWork.ClassMemberRepo.Update(member);
+                    }
+                    await _unitOfWork.SaveChangesAsync();
+                }
+
                 await _unitOfWork.CommitTransactionAsync();
 
                 //Set data to result
@@ -99,7 +114,7 @@ namespace CollabSphere.Application.Features.Team.Commands
                     }
 
                     //Check if lecturer is the owner of the team
-                    if (request.UserRole == foundTeam.LecturerId)
+                    if (request.UserId != foundTeam.LecturerId)
                         errors.Add(new OperationError()
                         {
                             Field = "UserRole",
@@ -123,7 +138,7 @@ namespace CollabSphere.Application.Features.Team.Commands
                     }
 
                     //Check if student is the leader of the team
-                    if (request.UserRole == foundTeam.LeaderId)
+                    if (request.UserId != foundTeam.LeaderId)
                         errors.Add(new OperationError()
                         {
                             Field = "UserRole",

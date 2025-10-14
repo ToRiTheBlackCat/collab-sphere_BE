@@ -56,6 +56,14 @@ namespace CollabSphere.Application.Features.Team.Commands
                     Status = request.Status
                 };
                 await _unitOfWork.TeamRepo.Create(newTeam);
+                await _unitOfWork.SaveChangesAsync();
+
+                // Add count for team in class
+                var foundClass = await _unitOfWork.ClassRepo.GetById(request.ClassId);
+                foundClass.TeamCount++;
+                _unitOfWork.ClassRepo.Update(foundClass);
+                await _unitOfWork.SaveChangesAsync();
+
                 await _unitOfWork.CommitTransactionAsync();
 
                 result.IsSuccess = true;
