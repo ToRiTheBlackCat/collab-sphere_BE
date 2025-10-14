@@ -9,6 +9,7 @@ using CollabSphere.Application.Features.Classes.Queries.GetAllClasses;
 using CollabSphere.Application.Features.Classes.Queries.GetClassById;
 using CollabSphere.Application.Features.Classes.Queries.GetLecturerClasses;
 using CollabSphere.Application.Features.Classes.Queries.GetStudentClasses;
+using CollabSphere.Application.Features.ProjectAssignments.Commands.AssignProjectsToClass;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -146,8 +147,8 @@ namespace CollabSphere.API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
             }
-            
-         return Ok(result.PaginatedClasses);
+
+            return Ok(result.PaginatedClasses);
         }
 
         // Roles: Student
@@ -164,16 +165,16 @@ namespace CollabSphere.API.Controllers
 
             return Ok(result.PaginatedClasses);
         }
-  
+
         [Authorize]
         [HttpPatch("{classId}/assign-lecturer")]
         public async Task<IActionResult> AssignLecturerToClass(AssignLecturerToClassCommand command)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            
+
             // Get UserId & Role of requester
             var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
             var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
@@ -182,7 +183,7 @@ namespace CollabSphere.API.Controllers
 
             var result = await _mediator.Send(command);
 
-           if (!result.IsSuccess)
+            if (!result.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, result);
             }
@@ -191,11 +192,11 @@ namespace CollabSphere.API.Controllers
             {
                 return BadRequest(result);
             }
-            
+
             return Ok(result);
         }
-        
-                [Authorize]
+
+        [Authorize]
         [HttpPost("{classId}/add-student")]
         public async Task<IActionResult> AddStudentToClass(int classId, [FromBody] AddStudentToClassCommand command)
         {
@@ -228,6 +229,25 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result);
-         }
+        }
+
+        //[Authorize(Roles = "2")] // Roles: HeadDepartment
+        [HttpPost("{classId}/projects")]
+        public async Task<IActionResult> HeadDepartmentAssignProjectsToClass(AssignProjectsToClassCommand command, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result.Message);
+        }
     }
 }
