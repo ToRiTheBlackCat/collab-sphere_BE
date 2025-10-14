@@ -70,7 +70,7 @@ namespace CollabSphere.Test.Projects
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.PagedProjects);
             Assert.Equal(2, result.PagedProjects.ItemCount);
-            Assert.True(result.PagedProjects.List.All(x => x.Status == ProjectStatuses.PENDING));
+            Assert.True(result.PagedProjects.List.All(x => x.Status == (int)ProjectStatuses.PENDING));
         }
 
         [Fact]
@@ -115,7 +115,7 @@ namespace CollabSphere.Test.Projects
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.PagedProjects);
             Assert.Equal(1, result.PagedProjects.ItemCount);
-            Assert.True(result.PagedProjects.List.All(x => x.Status == ProjectStatuses.PENDING));
+            Assert.True(result.PagedProjects.List.All(x => x.Status == (int)ProjectStatuses.PENDING));
         }
 
         [Fact]

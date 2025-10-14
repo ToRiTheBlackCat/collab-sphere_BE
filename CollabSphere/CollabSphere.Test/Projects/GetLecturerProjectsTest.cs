@@ -140,7 +140,7 @@ namespace CollabSphere.Test.Projects
                 LecturerId = 1,
                 Statuses = new HashSet<int>()
                 {
-                    ProjectStatuses.PENDING,
+                    (int)ProjectStatuses.PENDING,
                 }
             };
 
@@ -192,7 +192,7 @@ namespace CollabSphere.Test.Projects
                 LecturerId = 2,
                 Statuses = new HashSet<int>()
                 {
-                    ProjectStatuses.PENDING,
+                    (int) ProjectStatuses.PENDING,
                 }
             };
 
@@ -243,7 +243,7 @@ namespace CollabSphere.Test.Projects
                 LecturerId = 2,
                 Statuses = new HashSet<int>()
                 {
-                    ProjectStatuses.PENDING,
+                    (int) ProjectStatuses.PENDING,
                 }
             };
 

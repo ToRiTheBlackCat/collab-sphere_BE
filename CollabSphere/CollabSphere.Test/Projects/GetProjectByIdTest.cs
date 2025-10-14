@@ -51,7 +51,7 @@ namespace CollabSphere.Test.Projects
                     ProjectName = "Exchange app",
                     Description = "A platform for users to post, exchange items with each other.",
                     LecturerId = 1,
-                    Status = ProjectStatuses.PENDING,
+                    Status = (int)ProjectStatuses.PENDING,
                 },
                 new Project()
                 {
@@ -59,7 +59,7 @@ namespace CollabSphere.Test.Projects
                     ProjectName = "CLI Calculator",
                     Description = "Terminal interface for calculating basic operations.",
                     LecturerId = 1,
-                    Status = ProjectStatuses.APPROVED
+                    Status = (int)ProjectStatuses.APPROVED
                 },
                 new Project()
                 {
@@ -67,7 +67,7 @@ namespace CollabSphere.Test.Projects
                     ProjectName = "Media Web app",
                     Description = "A web platform for student to share pictures, videos, ...",
                     LecturerId = 1,
-                    Status = ProjectStatuses.DENIED
+                    Status = (int)ProjectStatuses.DENIED
                 },
             };
 
@@ -103,7 +103,7 @@ namespace CollabSphere.Test.Projects
                     ProjectName = "Exchange app",
                     Description = "A platform for users to post, exchange items with each other.",
                     LecturerId = 1,
-                    Status = ProjectStatuses.PENDING,
+                    Status = (int)ProjectStatuses.PENDING,
                 },
                 new Project()
                 {
@@ -111,7 +111,7 @@ namespace CollabSphere.Test.Projects
                     ProjectName = "CLI Calculator",
                     Description = "Terminal interface for calculating basic operations.",
                     LecturerId = 1,
-                    Status = ProjectStatuses.APPROVED
+                    Status = (int)ProjectStatuses.APPROVED
                 },
                 new Project()
                 {
@@ -119,7 +119,7 @@ namespace CollabSphere.Test.Projects
                     ProjectName = "Media Web app",
                     Description = "A web platform for student to share pictures, videos, ...",
                     LecturerId = 1,
-                    Status = ProjectStatuses.DENIED
+                    Status = (int)ProjectStatuses.DENIED
                 },
             };
 
@@ -154,7 +154,7 @@ namespace CollabSphere.Test.Projects
                     ProjectName = "Exchange app",
                     Description = "A platform for users to post, exchange items with each other.",
                     LecturerId = 1,
-                    Status = ProjectStatuses.PENDING,
+                    Status = (int)ProjectStatuses.PENDING,
                 },
                 new Project()
                 {
@@ -162,7 +162,7 @@ namespace CollabSphere.Test.Projects
                     ProjectName = "CLI Calculator",
                     Description = "Terminal interface for calculating basic operations.",
                     LecturerId = 1,
-                    Status = ProjectStatuses.APPROVED
+                    Status = (int)ProjectStatuses.APPROVED
                 },
                 new Project()
                 {
@@ -170,7 +170,7 @@ namespace CollabSphere.Test.Projects
                     ProjectName = "Media Web app",
                     Description = "A web platform for student to share pictures, videos, ...",
                     LecturerId = 1,
-                    Status = ProjectStatuses.DENIED
+                    Status = (int)ProjectStatuses.DENIED
                 },
             };
 
@@ -206,7 +206,7 @@ namespace CollabSphere.Test.Projects
                     ProjectName = "Exchange app",
                     Description = "A platform for users to post, exchange items with each other.",
                     LecturerId = 1,
-                    Status = ProjectStatuses.PENDING,
+                    Status = (int)ProjectStatuses.PENDING,
                 },
                 new Project()
                 {
@@ -214,7 +214,7 @@ namespace CollabSphere.Test.Projects
                     ProjectName = "CLI Calculator",
                     Description = "Terminal interface for calculating basic operations.",
                     LecturerId = 1,
-                    Status = ProjectStatuses.APPROVED
+                    Status = (int)ProjectStatuses.APPROVED
                 },
                 new Project()
                 {
@@ -222,7 +222,7 @@ namespace CollabSphere.Test.Projects
                     ProjectName = "Media Web app",
                     Description = "A web platform for student to share pictures, videos, ...",
                     LecturerId = 1,
-                    Status = ProjectStatuses.DENIED
+                    Status = (int)ProjectStatuses.DENIED
                 },
             };
 
@@ -266,7 +266,7 @@ namespace CollabSphere.Test.Projects
                     ProjectName = "Exchange app",
                     Description = "A platform for users to post, exchange items with each other.",
                     LecturerId = 1,
-                    Status = ProjectStatuses.PENDING,
+                    Status = (int)ProjectStatuses.PENDING,
                 },
                 new Project()
                 {
@@ -274,7 +274,7 @@ namespace CollabSphere.Test.Projects
                     ProjectName = "CLI Calculator",
                     Description = "Terminal interface for calculating basic operations.",
                     LecturerId = 1,
-                    Status = ProjectStatuses.APPROVED
+                    Status = (int)ProjectStatuses.APPROVED
                 },
                 new Project()
                 {
@@ -282,7 +282,7 @@ namespace CollabSphere.Test.Projects
                     ProjectName = "Media Web app",
                     Description = "A web platform for student to share pictures, videos, ...",
                     LecturerId = 1,
-                    Status = ProjectStatuses.DENIED
+                    Status = (int)ProjectStatuses.DENIED
                 },
             };
 
@@ -326,7 +326,7 @@ namespace CollabSphere.Test.Projects
                     ProjectName = "Exchange app",
                     Description = "A platform for users to post, exchange items with each other.",
                     LecturerId = 1,
-                    Status = ProjectStatuses.PENDING,
+                    Status = (int)ProjectStatuses.PENDING,
                 },
                 new Project()
                 {
@@ -334,7 +334,7 @@ namespace CollabSphere.Test.Projects
                     ProjectName = "CLI Calculator",
                     Description = "Terminal interface for calculating basic operations.",
                     LecturerId = 1,
-                    Status = ProjectStatuses.APPROVED
+                    Status = (int)ProjectStatuses.APPROVED
                 },
                 new Project()
                 {
@@ -342,7 +342,7 @@ namespace CollabSphere.Test.Projects
                     ProjectName = "Media Web app",
                     Description = "A web platform for student to share pictures, videos, ...",
                     LecturerId = 1,
-                    Status = ProjectStatuses.DENIED
+                    Status = (int)ProjectStatuses.DENIED
                 },
             };
 

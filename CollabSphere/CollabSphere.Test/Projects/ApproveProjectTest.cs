@@ -44,7 +44,7 @@ namespace CollabSphere.Test.Projects
                 ProjectId = 1,
                 ProjectName = "Project Name 1",
                 Description = "Description for Project 1",
-                Status = ProjectStatuses.PENDING
+                Status = (int)ProjectStatuses.PENDING
             };
 
             _projectRepoMock.Setup(x => x.GetById(1)).ReturnsAsync(project);
@@ -56,7 +56,7 @@ namespace CollabSphere.Test.Projects
             Assert.True(result.IsSuccess);
             Assert.True(result.IsValidInput);
 
-            _unitOfWorkMock.Verify(x => x.ProjectRepo.Update(It.Is<Project>(x => x.ProjectName.Equals("Project Name 1") && x.Status == ProjectStatuses.APPROVED)), Times.Once);
+            _unitOfWorkMock.Verify(x => x.ProjectRepo.Update(It.Is<Project>(x => x.ProjectName.Equals("Project Name 1") && x.Status == (int)ProjectStatuses.APPROVED)), Times.Once);
             _unitOfWorkMock.Verify(x => x.CommitTransactionAsync(), Times.Once);
             Assert.Contains("Project Name 1", result.Message, StringComparison.OrdinalIgnoreCase);
         }
@@ -94,7 +94,7 @@ namespace CollabSphere.Test.Projects
                 ProjectId = 1,
                 ProjectName = "Project Name 1",
                 Description = "Description for Project 1",
-                Status = ProjectStatuses.APPROVED
+                Status = (int)ProjectStatuses.APPROVED
             };
 
             _projectRepoMock.Setup(x => x.GetById(1)).ReturnsAsync(project);
@@ -124,7 +124,7 @@ namespace CollabSphere.Test.Projects
                 ProjectId = 1,
                 ProjectName = "Project Name 1",
                 Description = "Description for Project 1",
-                Status = ProjectStatuses.APPROVED
+                Status = (int)ProjectStatuses.APPROVED
             };
 
             _projectRepoMock.Setup(x => x.GetById(1)).ThrowsAsync(new Exception("DB Exception"));
