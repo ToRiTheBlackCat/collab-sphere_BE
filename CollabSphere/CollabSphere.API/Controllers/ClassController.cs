@@ -9,6 +9,7 @@ using CollabSphere.Application.Features.Classes.Queries.GetAllClasses;
 using CollabSphere.Application.Features.Classes.Queries.GetClassById;
 using CollabSphere.Application.Features.Classes.Queries.GetLecturerClasses;
 using CollabSphere.Application.Features.Classes.Queries.GetStudentClasses;
+using CollabSphere.Application.Features.ProjectAssignments.Commands.AssignProjectsToClass;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -233,6 +234,25 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result.PaginatedClasses);
+        }
+
+        //[Authorize(Roles = "2")] // Roles: HeadDepartment
+        [HttpPost("{classId}/projects")]
+        public async Task<IActionResult> HeadDepartmentAssignProjectsToClass(AssignProjectsToClassCommand command, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result.Message);
         }
     }
 }
