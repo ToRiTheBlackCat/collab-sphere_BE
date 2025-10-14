@@ -11,5 +11,6 @@ namespace CollabSphere.Domain.Intefaces
     public interface ITeamRepository : IGenericRepository<Team>
     {
         Task<List<Team>?> GetListTeamOfStudent(int studentId,string? teamName, int? classId);
+        Task<List<Team>?> SearchTeam(int classId, string? teamName, DateOnly? fromDate, DateOnly? endDate, bool isDesc);
     }
 }

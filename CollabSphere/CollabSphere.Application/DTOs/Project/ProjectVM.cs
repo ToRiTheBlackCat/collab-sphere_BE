@@ -1,4 +1,5 @@
-﻿using CollabSphere.Application.DTOs.Objective;
+﻿using CollabSphere.Application.Constants;
+using CollabSphere.Application.DTOs.Objective;
 using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -30,9 +31,11 @@ namespace CollabSphere.Application.DTOs.Project
         public string SubjectName { get; set; }
 
         public string SubjectCode { get; set; } 
-
-        public int Status { get; set; } 
         #endregion
+
+        public int Status { get; set; }
+
+        public string StatusString => ((ProjectStatuses)Status).ToString();
 
         public List<ObjectiveVM> Objectives { get; set; } = new List<ObjectiveVM>();
 
@@ -49,7 +52,12 @@ namespace CollabSphere.Application.DTOs.Project
                 SubjectId = project.SubjectId,
                 SubjectCode = project.Subject?.SubjectCode ?? string.Empty,
                 SubjectName = project.Subject?.SubjectName ?? string.Empty,
-                Objectives = project.Objectives?.Select(x => (ObjectiveVM)x).ToList() ?? new List<ObjectiveVM>(),
+                Objectives = 
+                    project.Objectives?
+                        .Select(x => (ObjectiveVM)x)
+                        .OrderBy(x => x.ObjectiveMilestones.FirstOrDefault()?.StartDate)
+                        .ToList() ??
+                    new List<ObjectiveVM>(),
                 Status = project.Status,
             };
         }
