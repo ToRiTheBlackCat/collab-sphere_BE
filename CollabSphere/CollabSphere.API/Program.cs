@@ -1,4 +1,5 @@
 using CloudinaryDotNet;
+using CollabSphere.API.Hubs;
 using CollabSphere.Application;
 using CollabSphere.Application.Common;
 using CollabSphere.Domain;
@@ -62,12 +63,21 @@ builder.Services.AddSwaggerGen(c =>
 #region Configure CORS policy
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAllOrigins", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
+    //options.AddPolicy("AllowAllOrigins", policy =>
+    //{
+    //    policy.AllowAnyOrigin()
+    //          .AllowAnyHeader()
+    //          .AllowAnyMethod();
+    //});
+    options.AddPolicy("AllowReactApp",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173") // React dev server
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials(); // Needed for SignalR
+        });
+
 });
 
 #endregion
@@ -159,6 +169,11 @@ builder.Services.AddScoped<IDatabase>(sp =>
 });
 #endregion
 
+builder.Services.AddSignalR(options =>
+{
+    options.KeepAliveInterval = TimeSpan.FromSeconds(10);
+    options.ClientTimeoutInterval = TimeSpan.FromSeconds(20);
+});
 
 var app = builder.Build();
 
@@ -173,10 +188,11 @@ app.UseSwaggerUI(c =>
 
 
 app.UseHttpsRedirection();
-app.UseCors();
+app.UseCors("AllowReactApp");
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapHub<YjsHub>("/yhub");
 app.Run();
