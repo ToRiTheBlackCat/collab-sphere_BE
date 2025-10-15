@@ -52,6 +52,12 @@ namespace CollabSphere.Application.Base
     {
     }
 
+    public abstract class CommandHandler<Request, Result> : BaseHandler<Request, Result>
+        where Request : ICommand<Result>
+        where Result : CommandResult, new()
+    {
+    }
+
     public abstract class QueryHandler<TQuery, TResult> : BaseHandler<TQuery, TResult>
         where TQuery : IQuery<TResult>
         where TResult : QueryResult, new()

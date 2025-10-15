@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.DTOs.User;
+using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace CollabSphere.Application.Mappings.User
         public static List<Admin_AllHeadDepartment_StaffDto> ListUser_To_Admin_ListAllHeadDepartment_StaffDto(this List<Domain.Entities.User>? userList)
         {
             var dtoList = new List<Admin_AllHeadDepartment_StaffDto>();
-            if(userList == null)
+            if (userList == null)
             {
                 return dtoList;
             }
@@ -95,6 +96,46 @@ namespace CollabSphere.Application.Mappings.User
                 dtoList.Add(mappedDto);
             }
             return dtoList;
+        }
+
+        public static UserProfileDto Lecturer_To_UserProfileDto(this Domain.Entities.User user)
+        {
+            return new UserProfileDto
+            {
+                UId = user.UId,
+                Email = user.Email,
+                RoleId = user.RoleId,
+                RoleName = user.Role.RoleName,
+                Fullname = user.Lecturer.Fullname,
+                Address = user.Lecturer.Address,
+                PhoneNumber = user.Lecturer.PhoneNumber,
+                Yob = user.Lecturer.Yob,
+                AvatarImg = user.Lecturer.AvatarImg,
+                School = user.Lecturer.School,
+                IsTeacher = user.IsTeacher,
+                Code = user.Lecturer.LecturerCode,
+                Major = user.Lecturer.Major
+            };
+        }
+
+        public static UserProfileDto Student_To_UserProfileDto(this Domain.Entities.User user)
+        {
+            return new UserProfileDto
+            {
+                UId = user.UId,
+                Email = user.Email,
+                RoleId = user.RoleId,
+                RoleName = user.Role.RoleName,
+                Fullname = user.Student.Fullname,
+                Address = user.Student.Address,
+                PhoneNumber = user.Student.PhoneNumber,
+                Yob = user.Student.Yob,
+                AvatarImg = user.Student.AvatarImg,
+                School = user.Student.School,
+                IsTeacher = user.IsTeacher,
+                Code = user.Student.StudentCode,
+                Major = user.Student.Major
+            };
         }
     }
 }

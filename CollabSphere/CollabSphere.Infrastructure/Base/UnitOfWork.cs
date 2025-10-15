@@ -21,6 +21,8 @@ namespace CollabSphere.Infrastructure.Base
         public IClassMemberRepository ClassMemberRepo { get; }
         public IClassRepository ClassRepo { get; }
         public ILecturerRepository LecturerRepo { get; }
+        public IObjectiveRepository ObjectiveRepo { get; }
+        public IObjectiveMilestoneRepository ObjectiveMilestoneRepo { get; }
         public IProjectAssignmentRepository ProjectAssignmentRepo { get; }
         public IProjectRepository ProjectRepo { get; }
         public IStudentRepository StudentRepo { get; }
@@ -28,6 +30,7 @@ namespace CollabSphere.Infrastructure.Base
         public ISubjectOutcomeRepository SubjectOutcomeRepo { get; }
         public ISubjectRepository SubjectRepo { get; }
         public ISubjectSyllabusRepository SubjectSyllabusRepo { get; }
+        public ITeamRepository TeamRepo { get; }
 
         #endregion
 
@@ -40,6 +43,8 @@ namespace CollabSphere.Infrastructure.Base
             ClassMemberRepo = new ClassMemberRepositiory(_context);
             ClassRepo = new ClassRepository(_context);
             LecturerRepo = new LecturerRepository(_context);
+            ObjectiveRepo = new ObjectiveRepository(_context);
+            ObjectiveMilestoneRepo = new ObjectiveMilestoneRepository(_context);
             ProjectAssignmentRepo = new ProjectAssignmentRepository(_context);
             ProjectRepo = new ProjectRepository(_context);
             StudentRepo = new StudentRepository(_context);
@@ -47,6 +52,7 @@ namespace CollabSphere.Infrastructure.Base
             SubjectOutcomeRepo = new SubjectOutcomeRepository(_context);
             SubjectRepo = new SubjectRepository(_context);
             SubjectSyllabusRepo = new SubjectSyllabusRepository(_context);
+            TeamRepo = new TeamRepository(_context);
             #endregion
         }
 

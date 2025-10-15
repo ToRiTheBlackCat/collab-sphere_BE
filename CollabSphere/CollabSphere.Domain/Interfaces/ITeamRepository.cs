@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CollabSphere.Domain.Entities;
+using CollabSphere.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,9 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Domain.Intefaces
 {
-    internal interface ITeamRepository
+    public interface ITeamRepository : IGenericRepository<Team>
     {
+        Task<List<Team>?> GetListTeamOfStudent(int studentId,string? teamName, int? classId);
+        Task<List<Team>?> SearchTeam(int classId, string? teamName, DateOnly? fromDate, DateOnly? endDate, bool isDesc);
     }
 }
