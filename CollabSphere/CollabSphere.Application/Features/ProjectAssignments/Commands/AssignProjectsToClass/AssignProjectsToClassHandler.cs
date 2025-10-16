@@ -29,9 +29,6 @@ namespace CollabSphere.Application.Features.ProjectAssignments.Commands.AssignPr
 
             try
             {
-                await _unitOfWork.BeginTransactionAsync();
-
-                #region Data Operations
                 // Get current time
                 var assignDate = DateTime.UtcNow;
 
@@ -39,13 +36,16 @@ namespace CollabSphere.Application.Features.ProjectAssignments.Commands.AssignPr
                 var projectAssignments = await _unitOfWork.ProjectAssignmentRepo.GetProjectAssignmentsByClassAsync(request.ClassId);
                 var assignedProjectIds = projectAssignments.Select(x => x.ProjectId).ToHashSet(); // ProjectIds of assigned projects
 
+                await _unitOfWork.BeginTransactionAsync();
+
+                #region Data Operations
                 // Remove all project assignments not in request
                 var projectAssinmentsToRemove = projectAssignments.Where(x => !request.ProjectIds.Contains(x.ProjectId));
                 foreach (var projectAssignment in projectAssinmentsToRemove)
                 {
                     if (!request.ProjectIds.Contains(projectAssignment.ProjectId))
                     {
-                        _unitOfWork.ProjectAssignmentRepo.Delete(projectAssignment);
+                        _unitOfWork.ProjectAssignmentRepo.DeleteById(projectAssignment.ProjectAssignmentId);
                     }
                 }
                 await _unitOfWork.SaveChangesAsync();
@@ -120,19 +120,19 @@ namespace CollabSphere.Application.Features.ProjectAssignments.Commands.AssignPr
             }
 
             // Can't remove ProjectAssignments that are assigned to Teams
-            var invalidRemoval = classEntity.ProjectAssignments
-                .Where(x => !request.ProjectIds.Contains(x.ProjectId) && x.Teams.Count > 0)
+            var invalidRemoval = classEntity.Teams
+                .Where(x => x.ProjectAssignmentId != null && !request.ProjectIds.Contains(x.ProjectAssignment.ProjectId))
+                .Select(x => x.ProjectAssignment.ProjectId)
                 .ToList();
             if (invalidRemoval.Any())
             {
                 errors.Add(new OperationError()
                 {
                     Field = $"{nameof(request.ProjectIds)}",
-                    Message = $"Can not remove projects that are assigned to teams. Project IDs: {string.Join(", ", invalidRemoval.Select(x => x.ProjectId))}",
+                    Message = $"Can not remove projects that are assigned to teams. Project IDs: {string.Join(", ", invalidRemoval.Select(x => x))}",
                 });
                 return;
             }
-
 
             // Get existing assigned project
             var assignedProjectIds = classEntity.ProjectAssignments.Select(x => x.ProjectId).ToHashSet();
