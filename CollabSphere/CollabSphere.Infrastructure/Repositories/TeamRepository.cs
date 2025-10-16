@@ -15,6 +15,42 @@ namespace CollabSphere.Infrastructure.Repositories
     {
         public TeamRepository(collab_sphereContext context) : base(context) { }
 
+        public async Task<List<Team>?> GetListTeamOfStudent(int studentId, string? teamName, int? classId)
+        {
+            var teamQuery = _context.Teams
+                .Include(x => x.Class)
+                .Include(x => x.ProjectAssignment)
+                .ThenInclude(x => x.Project)
+                .AsNoTracking()
+                .AsQueryable();
+
+            // Filter by team name if provided
+            if (!string.IsNullOrEmpty(teamName))
+            {
+                teamQuery = teamQuery.Where(x => x.TeamName.ToLower().Contains(teamName.ToLower().Trim()));
+            }
+
+            //Get class of student that student is member
+            var classList = _context.ClassMembers
+                .Where(x => x.StudentId == studentId && x.TeamId != null)
+                .AsNoTracking();
+
+            // Filter by classId if provided
+            if (classId.HasValue)
+            {
+                classList = classList.Where(x => x.ClassId == classId.Value);
+            }
+
+            //Get teams of student
+            teamQuery = from team in teamQuery
+                        join cls in classList
+                        on team.TeamId equals cls.TeamId
+                        select team;
+
+            var result = await teamQuery.ToListAsync();
+            return result;
+        }
+
         public async Task<List<Team>?> SearchTeam(int classId, string? teamName, DateOnly? fromDate, DateOnly? endDate, bool isDesc)
         {
             var query = _context.Teams
@@ -51,40 +87,24 @@ namespace CollabSphere.Infrastructure.Repositories
             return await query.ToListAsync();
         }
 
-        public async Task<List<Team>?> GetListTeamOfStudent(int studentId, string? teamName, int? classId)
+        public async Task<Team?> GetTeamDetail(int teamId)
         {
-            var teamQuery = _context.Teams
+            var result = await _context.Teams
+                .Where(x => x.TeamId == teamId && x.Status == 1)
                 .Include(x => x.Class)
+                    .ThenInclude(x => x.Lecturer)
+                //.Include(x => x.TeamMilestones)    //Pending for DB fix
+                //   .ThenInclude(x => x.Checkpoints) //Pending for DB fix
+                .Include(x => x.ClassMembers)
+                    .ThenInclude(x => x.Student)
                 .Include(x => x.ProjectAssignment)
-                .ThenInclude(x => x.Project)
+                //.ThenInclude(x => x.Project) //Pending for DB fix
+
                 .AsNoTracking()
-                .AsQueryable();
+                .FirstOrDefaultAsync();
 
-            // Filter by team name if provided
-            if (!string.IsNullOrEmpty(teamName))
-            {
-                teamQuery = teamQuery.Where(x => x.TeamName.ToLower().Contains(teamName.ToLower().Trim()));
-            }
-
-            //Get class of student that student is member
-            var classList = _context.ClassMembers
-                .Where(x => x.StudentId == studentId && x.TeamId != null)
-                .AsNoTracking();
-
-            // Filter by classId if provided
-            if (classId.HasValue)
-            {
-                classList = classList.Where(x => x.ClassId == classId.Value);
-            }
-
-            //Get teams of student
-            teamQuery = from team in teamQuery
-                        join cls in classList
-                        on team.TeamId equals cls.TeamId
-                        select team;
-
-            var result = await teamQuery.ToListAsync();
             return result;
         }
+
     }
 }

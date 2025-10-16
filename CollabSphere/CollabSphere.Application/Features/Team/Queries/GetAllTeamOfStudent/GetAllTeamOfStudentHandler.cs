@@ -65,6 +65,16 @@ namespace CollabSphere.Application.Features.Team.Queries.GetAllTeamOfStudent
 
         protected override async Task ValidateRequest(List<OperationError> errors, GetAllTeamOfStudentQuery request)
         {
+            //Check view permision
+            if(request.ViewerUId != request.StudentId)
+            {
+                errors.Add(new OperationError
+                {
+                    Field = nameof(request.ViewerUId),
+                    Message = $"This user with ID: {request.ViewerUId} not has permission to get list of team of this student."
+                });
+            }
+
             //Check student exist
             var foundStudent = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(request.StudentId);
             if (foundStudent == null)
