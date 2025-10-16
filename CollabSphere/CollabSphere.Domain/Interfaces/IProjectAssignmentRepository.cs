@@ -11,5 +11,6 @@ namespace CollabSphere.Domain.Intefaces
     public interface IProjectAssignmentRepository : IGenericRepository<ProjectAssignment>
     {
         Task<List<ProjectAssignment>> GetProjectAssignmentsByClassAsync(int classId);
+        void DeleteById(int projectAssignmentId);
     }
 }
