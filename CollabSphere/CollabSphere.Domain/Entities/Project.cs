@@ -19,6 +19,12 @@ public partial class Project
 
     public int Status { get; set; }
 
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime UpdatedAt { get; set; }
+
+    public int UpdatedBy { get; set; }
+
     public virtual Subject Subject { get; set; }
 
     public virtual Lecturer Lecturer { get; set; }

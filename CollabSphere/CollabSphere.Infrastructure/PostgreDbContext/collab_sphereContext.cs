@@ -722,6 +722,13 @@ public partial class collab_sphereContext : DbContext
                 .HasColumnName("project_name");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.SubjectId).HasColumnName("subject_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("created_at");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("updated_at");
+            entity.Property(e => e.UpdatedBy).HasColumnName("updated_by");
 
             entity.HasOne(d => d.Subject).WithMany(p => p.Projects)
                 .HasForeignKey(d => d.SubjectId)
