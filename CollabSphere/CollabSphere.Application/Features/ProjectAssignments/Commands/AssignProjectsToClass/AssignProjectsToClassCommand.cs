@@ -11,8 +11,7 @@ namespace CollabSphere.Application.Features.ProjectAssignments.Commands.AssignPr
 {
     public class AssignProjectsToClassCommand : ICommand
     {
-        [FromRoute(Name = "classId")]
-        public int ClassId { get; set; }
+        public int ClassId = -1;
 
         [FromBody]
         [Required]
