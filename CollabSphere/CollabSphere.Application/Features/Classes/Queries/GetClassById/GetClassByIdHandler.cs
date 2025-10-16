@@ -43,6 +43,7 @@ namespace CollabSphere.Application.Features.Classes.Queries.GetClassById
                     else
                     {
                         result.Class = (ClassDetailDto)classEntity;
+                        result.Class.EnrolKey = request.ViewerRole == RoleConstants.STUDENT ? "" : result.Class.EnrolKey;
                     }
                 }
 
