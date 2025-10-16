@@ -42,6 +42,9 @@ namespace CollabSphere.Application.Features.Project.Commands.CreateProject
 
                 #region Data Operations
                 var newPoject = request.Project.ToProjectEntity();
+                newPoject.CreatedAt = DateTime.UtcNow;
+                newPoject.UpdatedAt = DateTime.UtcNow;
+                newPoject.UpdatedBy = request.UserId;
 
                 await _uniUnitOfWork.ProjectRepo.Create(newPoject);
                 await _uniUnitOfWork.SaveChangesAsync();
