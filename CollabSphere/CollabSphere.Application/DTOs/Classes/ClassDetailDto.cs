@@ -33,6 +33,8 @@ namespace CollabSphere.Application.DTOs.Classes
         public string LecturerName { get; set; }
         #endregion
 
+        public string EnrolKey { get; set; }
+
         public int? MemberCount { get; set; }
 
         public int? TeamCount { get; set; }
@@ -61,6 +63,7 @@ namespace CollabSphere.Application.DTOs.Classes
                 LecturerId = classEntity.LecturerId!.Value,
                 LecturerCode = classEntity.Lecturer.LecturerCode,
                 LecturerName = classEntity.Lecturer.Fullname,
+                EnrolKey = classEntity.EnrolKey,
                 MemberCount = classEntity.MemberCount,
                 TeamCount = classEntity.TeamCount,
                 CreatedDate = classEntity.CreatedDate,
