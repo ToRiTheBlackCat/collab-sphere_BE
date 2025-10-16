@@ -13,7 +13,7 @@ namespace CollabSphere.API.Hubs
     {
         // Dictionary<roomName, YDocState>
         private static readonly ConcurrentDictionary<string, List<string>> DocumentStates = new();
-        private static readonly ConcurrentDictionary<int, List<string>> UserConnectionIds = new();
+        private static readonly ConcurrentDictionary<string, int> UserConnectionIds = new();
 
         // When a client joins a "room"
         public async Task JoinDocument(string room)
@@ -22,8 +22,7 @@ namespace CollabSphere.API.Hubs
             {
                 var userIdClaim = Context.User!.Claims.First(x => x.Type == ClaimTypes.NameIdentifier);
                 var userId = int.Parse(userIdClaim.Value);
-                var connectionIds = UserConnectionIds.GetOrAdd(userId, _ => new List<string>());
-                connectionIds.Add(Context.ConnectionId);
+                UserConnectionIds.TryAdd(Context.ConnectionId, userId);
 
                 await Groups.AddToGroupAsync(Context.ConnectionId, room);
                 await Clients.Groups(room).SendAsync("UserConnected", userId);
@@ -88,17 +87,13 @@ namespace CollabSphere.API.Hubs
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
             // Optional: cleanup logic if needed
-            var userIdClaim = Context.User!.Claims.First(x => x.Type == ClaimTypes.NameIdentifier);
-            var userId = int.Parse(userIdClaim.Value);
-            if (UserConnectionIds.TryGetValue(userId, out var connectionIds))
+            if (UserConnectionIds.TryGetValue(Context.ConnectionId, out var userId))
             {
-                connectionIds.Remove(Context.ConnectionId);
+                Console.WriteLine($"User {userId} disconnected.");
+
+                // Perform cleanup (e.g., mark user as offline, remove from room, etc.)
+                await Clients.All.SendAsync("UserDisconnected", userId);
             }
-
-            Console.WriteLine($"User {userId} disconnected.");
-
-            // Perform cleanup (e.g., mark user as offline, remove from room, etc.)
-            await Clients.All.SendAsync("UserDisconnected", userId);
 
             await base.OnDisconnectedAsync(exception);
         }
