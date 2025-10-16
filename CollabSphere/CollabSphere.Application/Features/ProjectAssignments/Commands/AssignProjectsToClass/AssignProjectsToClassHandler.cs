@@ -29,14 +29,30 @@ namespace CollabSphere.Application.Features.ProjectAssignments.Commands.AssignPr
 
             try
             {
-                await _unitOfWork.BeginTransactionAsync();
-
-                #region Data Operations
                 // Get current time
                 var assignDate = DateTime.UtcNow;
 
-                // Create new Project Assignments
-                foreach (var projectId in request.ProjectIds)
+                // Get existing assigned project
+                var projectAssignments = await _unitOfWork.ProjectAssignmentRepo.GetProjectAssignmentsByClassAsync(request.ClassId);
+                var assignedProjectIds = projectAssignments.Select(x => x.ProjectId).ToHashSet(); // ProjectIds of assigned projects
+
+                await _unitOfWork.BeginTransactionAsync();
+
+                #region Data Operations
+                // Remove all project assignments not in request
+                var projectAssinmentsToRemove = projectAssignments.Where(x => !request.ProjectIds.Contains(x.ProjectId));
+                foreach (var projectAssignment in projectAssinmentsToRemove)
+                {
+                    if (!request.ProjectIds.Contains(projectAssignment.ProjectId))
+                    {
+                        _unitOfWork.ProjectAssignmentRepo.DeleteById(projectAssignment.ProjectAssignmentId);
+                    }
+                }
+                await _unitOfWork.SaveChangesAsync();
+
+                // Create assignment for new Projects
+                var newProjectIds = request.ProjectIds.Where(x => !assignedProjectIds.Contains(x)); // ProjectIds of new projects
+                foreach (var projectId in newProjectIds)
                 {
                     var newProjectAssign = new ProjectAssignment()
                     {
@@ -52,7 +68,7 @@ namespace CollabSphere.Application.Features.ProjectAssignments.Commands.AssignPr
 
                 await _unitOfWork.CommitTransactionAsync();
 
-                result.Message = $"Assigned {request.ProjectIds.Count} project(s) to class with ID '{request.ClassId}'.";
+                result.Message = $"Class with ID '{request.ClassId}'. Assigned {newProjectIds.Count()} project(s). Removed {projectAssinmentsToRemove.Count()} project(s)";
                 result.IsSuccess = true;
             }
             catch (Exception ex)
@@ -78,14 +94,61 @@ namespace CollabSphere.Application.Features.ProjectAssignments.Commands.AssignPr
                 return;
             }
 
-            // Check Projects
-            var projectAssignment = await _unitOfWork.ProjectAssignmentRepo.GetProjectAssignmentsByClassAsync(request.ClassId);
-            var assignedProjectIds = projectAssignment.Select(x => x.ProjectId).ToHashSet();
+            var bypassRoles = new List<int>() { RoleConstants.HEAD_DEPARTMENT }; // Roles that can bypass the check
+            // Check if the viewer is the lecturer assigned to this class
+            if (!bypassRoles.Contains(request.Role))
+            {
+                var lecturer = await _unitOfWork.LecturerRepo.GetById(request.UserId);
+                if (lecturer == null)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = "LecturerId",
+                        Message = $"No Lecturer with ID: {request.UserId}",
+                    });
+                    return;
+                }
+                else if (classEntity.LecturerId != request.UserId)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = "LecturerId",
+                        Message = $"You are not the Lecturer of this Class ({request.ClassId})",
+                    });
+                    return;
+                }
+            }
+
+            // Can't remove ProjectAssignments that are assigned to Teams
+            var invalidRemoval = classEntity.Teams
+                .Where(x => x.ProjectAssignmentId != null && !request.ProjectIds.Contains(x.ProjectAssignment.ProjectId))
+                .Select(x => x.ProjectAssignment.ProjectId)
+                .ToList();
+            if (invalidRemoval.Any())
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = $"{nameof(request.ProjectIds)}",
+                    Message = $"Can not remove projects that are assigned to teams. Project IDs: {string.Join(", ", invalidRemoval.Select(x => x))}",
+                });
+                return;
+            }
+
+            // Get existing assigned project
+            var assignedProjectIds = classEntity.ProjectAssignments.Select(x => x.ProjectId).ToHashSet();
             for (int i = 0; i < request.ProjectIds.Count; i++)
             {
                 var projectId = request.ProjectIds.ElementAt(i);
+                // Skip check if project is already assigned
+                if (assignedProjectIds.Contains(projectId))
+                {
+                    continue;
+                }
+
+                // If assigning new project then check if the project can be assign
                 var projectIdprefix = $"{nameof(request.ProjectIds)}[{i}]";
 
+                // If project does exist
                 var project = await _unitOfWork.ProjectRepo.GetById(projectId);
                 if (project == null)
                 {
@@ -95,6 +158,7 @@ namespace CollabSphere.Application.Features.ProjectAssignments.Commands.AssignPr
                         Message = $"No Project with ID: {projectId}",
                     });
                 }
+                // If project is approved
                 else if (project.Status != (int)ProjectStatuses.APPROVED)
                 {
                     errors.Add(new OperationError()
@@ -102,16 +166,6 @@ namespace CollabSphere.Application.Features.ProjectAssignments.Commands.AssignPr
                         Field = projectIdprefix,
                         Message = $"Project with ID '{projectId}' is not {ProjectStatuses.APPROVED.ToString()}.",
                     });
-                }
-                else if (assignedProjectIds.Contains(projectId))
-                {
-                    {
-                        errors.Add(new OperationError()
-                        {
-                            Field = projectIdprefix,
-                            Message = $"Class with ID '{request.ClassId}' is already assigned Project with ID '{projectId}'.",
-                        });
-                    }
                 }
             }
         }
