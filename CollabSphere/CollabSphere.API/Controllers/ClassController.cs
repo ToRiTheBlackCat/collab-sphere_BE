@@ -231,10 +231,16 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
-        //[Authorize(Roles = "2")] // Roles: HeadDepartment
+        [Authorize(Roles = "2, 4")] // Roles: HeadDepartment, Lecturer
         [HttpPost("{classId}/projects")]
-        public async Task<IActionResult> HeadDepartmentAssignProjectsToClass(AssignProjectsToClassCommand command, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> AssignProjectsToClass(AssignProjectsToClassCommand command, CancellationToken cancellationToken = default)
         {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            command.UserId = int.Parse(UIdClaim.Value);
+            command.Role = int.Parse(roleClaim.Value);
+
             var result = await _mediator.Send(command, cancellationToken);
 
             if (!result.IsValidInput)
