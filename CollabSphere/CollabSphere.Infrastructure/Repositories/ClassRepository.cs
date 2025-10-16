@@ -33,6 +33,7 @@ namespace CollabSphere.Infrastructure.Repositories
         public override async Task<Class?> GetById(int classId)
         {
             var selectedClass = _context.Classes
+                .AsNoTracking()
                 .Include(x => x.Subject)
                 .Include(x => x.Lecturer)
                 .Include(x => x.ClassMembers).ThenInclude(x => x.Student)
@@ -49,6 +50,7 @@ namespace CollabSphere.Infrastructure.Repositories
         public async Task<List<Class>> GetClassByStudentId(int studentId, HashSet<int>? subjectIds = null, string className = "", string orderby = "", bool descending = false)
         {
             var classesQuery = _context.ClassMembers
+                .AsNoTracking()
                 .Where(x => x.StudentId == studentId)
                 .Include(x => x.Class)
                     .ThenInclude(x => x.Subject)
