@@ -167,6 +167,36 @@ namespace CollabSphere.API.Controllers
         }
 
         [Authorize]
+        [HttpPatch("{classId}/assign-lecturer")]
+        public async Task<IActionResult> AssignLecturerToClass(AssignLecturerToClassCommand command)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            command.UserId = int.Parse(UIdClaim.Value);
+            command.UserRole = int.Parse(roleClaim.Value);
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize]
         [HttpPost("{classId}/add-student")]
         public async Task<IActionResult> AddStudentToClass(int classId, [FromBody] AddStudentToClassCommand command)
         {
@@ -201,9 +231,9 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
-        [Authorize]
-        [HttpPatch("{classId}/assign-lecturer")]
-        public async Task<IActionResult> AssignLecturerToClass(AssignLecturerToClassCommand command)
+        //[Authorize(Roles = "2")] // Roles: HeadDepartment
+        [HttpPost("{classId}/projects")]
+        public async Task<IActionResult> HeadDepartmentAssignProjectsToClass(AssignProjectsToClassCommand command, CancellationToken cancellationToken = default)
         {
             if (!ModelState.IsValid)
             {

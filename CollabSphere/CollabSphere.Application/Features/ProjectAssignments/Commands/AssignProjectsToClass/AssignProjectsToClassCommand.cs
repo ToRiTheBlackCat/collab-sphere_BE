@@ -11,15 +11,12 @@ namespace CollabSphere.Application.Features.ProjectAssignments.Commands.AssignPr
 {
     public class AssignProjectsToClassCommand : ICommand
     {
-        public int ClassId = -1;
+        [FromRoute(Name = "classId")]
+        public int ClassId { get; set; }
 
         [FromBody]
         [Required]
         [MinLength(1)]
-        public HashSet<int> ProjectIds { get; set; } = new();
-
-        public int UserId = -1;
-
-        public int Role = -1;
+        public HashSet<int> ProjectIds { get; set; }
     }
 }

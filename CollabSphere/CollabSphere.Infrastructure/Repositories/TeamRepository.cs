@@ -50,6 +50,7 @@ namespace CollabSphere.Infrastructure.Repositories
             var result = await teamQuery.ToListAsync();
             return result;
         }
+
         public async Task<List<Team>?> SearchTeam(int classId, string? teamName, DateOnly? fromDate, DateOnly? endDate, bool isDesc)
         {
             var query = _context.Teams
@@ -85,5 +86,25 @@ namespace CollabSphere.Infrastructure.Repositories
 
             return await query.ToListAsync();
         }
+
+        public async Task<Team?> GetTeamDetail(int teamId)
+        {
+            var result = await _context.Teams
+                .Where(x => x.TeamId == teamId && x.Status == 1)
+                .Include(x => x.Class)
+                    .ThenInclude(x => x.Lecturer)
+                //.Include(x => x.TeamMilestones)    //Pending for DB fix
+                //   .ThenInclude(x => x.Checkpoints) //Pending for DB fix
+                .Include(x => x.ClassMembers)
+                    .ThenInclude(x => x.Student)
+                .Include(x => x.ProjectAssignment)
+                //.ThenInclude(x => x.Project) //Pending for DB fix
+
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+
+            return result;
+        }
+
     }
 }
