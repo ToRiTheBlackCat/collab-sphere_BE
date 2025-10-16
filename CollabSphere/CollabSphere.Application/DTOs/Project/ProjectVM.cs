@@ -35,6 +35,12 @@ namespace CollabSphere.Application.DTOs.Project
 
         public int Status { get; set; }
 
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime UpdatedAt { get; set; }
+
+        public int UpdatedBy { get; set; }
+
         public string StatusString => ((ProjectStatuses)Status).ToString();
 
         public List<ObjectiveVM> Objectives { get; set; } = new List<ObjectiveVM>();
@@ -59,6 +65,9 @@ namespace CollabSphere.Application.DTOs.Project
                         .ToList() ??
                     new List<ObjectiveVM>(),
                 Status = project.Status,
+                CreatedAt = project.CreatedAt,
+                UpdatedAt = project.UpdatedAt,
+                UpdatedBy = project.UpdatedBy,
             };
         }
     }
