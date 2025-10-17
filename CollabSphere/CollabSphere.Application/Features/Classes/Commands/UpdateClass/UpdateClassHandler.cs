@@ -41,10 +41,11 @@ namespace CollabSphere.Application.Features.Classes.Commands.UpdateClass
 
                 if (classDto.LecturerId.HasValue)
                 {
+                    classEntity.Lecturer = null;
+
                     var lecturer = await _unitOfWork.LecturerRepo.GetById(classDto.LecturerId.Value);
                     classEntity.LecturerId = lecturer!.LecturerId;
                     classEntity.LecturerName = lecturer.Fullname;
-                    classEntity.Lecturer = lecturer;
                 }
 
                 if (classDto.SubjectId.HasValue && classEntity.SubjectId != classDto.SubjectId)
