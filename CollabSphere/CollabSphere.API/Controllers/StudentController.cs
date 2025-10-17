@@ -1,9 +1,12 @@
 ﻿using CollabSphere.Application.Common;
 using CollabSphere.Application.DTOs.Student;
 using CollabSphere.Application.Features.Student.Commands;
+using CollabSphere.Application.Features.Student.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CollabSphere.API.Controllers
 {
@@ -20,7 +23,7 @@ namespace CollabSphere.API.Controllers
             _excelValidate = excelValidate;
         }
 
-        [HttpPost("import")]
+        [HttpPost("imports")]
         public async Task<IActionResult> ImportFileToCreateStudents (IFormFile file)
         {
             if (!Path.GetExtension(file.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
@@ -61,11 +64,23 @@ namespace CollabSphere.API.Controllers
 
         }
 
+        [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAllStudent([FromQuery] GetAllStudentRequestDto dto)
+        public async Task<IActionResult> GetALlStudents (GetAllStudentQuery query, CancellationToken cancellationToken = default)
         {
-            var result = await _mediator.Send(new GetAllStudentCommand(dto));
-            return Ok(result);
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            query.UserId = int.Parse(UIdClaim.Value);
+            query.UserRole = int.Parse(roleClaim.Value);
+
+            var result = await _mediator.Send(query, cancellationToken);
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result.PaginatedStudents);
         }
     }
 }

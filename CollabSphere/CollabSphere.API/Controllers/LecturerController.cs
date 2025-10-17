@@ -1,9 +1,14 @@
 ﻿using CollabSphere.Application.Common;
 using CollabSphere.Application.DTOs.Lecturer;
 using CollabSphere.Application.Features.Lecturer.Commands;
+using CollabSphere.Application.Features.Lecturer.Queries.GetAllLec;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace CollabSphere.API.Controllers
 {
@@ -20,7 +25,7 @@ namespace CollabSphere.API.Controllers
             _excelValidate = excelValidate;
         }
 
-        [HttpPost("import")]
+        [HttpPost("imports")]
         public async Task<IActionResult> ImportFileToCreateLecturers(IFormFile file)
         {
             if (!Path.GetExtension(file.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
@@ -60,11 +65,24 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetAllLecturer([FromQuery] GetAllLecturerRequestDto dto)
+        public async Task<IActionResult> GetAllLecturer(GetAllLecturerQuery query, CancellationToken cancellationToken = default)
         {
-            var result = await _mediator.Send(new GetAllLecturerCommand(dto));
-            return Ok(result);
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            query.UserId = int.Parse(UIdClaim.Value);
+            query.UserRole = int.Parse(roleClaim.Value);
+
+            var result = await _mediator.Send(query, cancellationToken);
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result.PaginatedLecturers);
         }
+
     }
 }

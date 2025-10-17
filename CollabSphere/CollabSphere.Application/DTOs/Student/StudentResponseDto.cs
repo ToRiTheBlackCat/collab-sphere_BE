@@ -1,24 +1,13 @@
-﻿using System;
+﻿using CollabSphere.Application.DTOs.Lecturer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.DTOs.Lecturer
+namespace CollabSphere.Application.DTOs.Student
 {
-    public class GetAllLecturerResponseDto
-    {
-        public int ItemCount { get; set; }
-        public int PageNum { get; set; }
-
-        public int PageSize { get; set; }
-
-        public int PageCount => (int)Math.Ceiling(ItemCount * 1.0 / PageSize);
-
-        public List<LecturerResponseDto> LecturerList { get; set; } = new List<LecturerResponseDto>();
-    }
-
-    public class LecturerResponseDto
+    public class StudentResponseDto
     {
         public int UId { get; set; }
 
@@ -42,7 +31,7 @@ namespace CollabSphere.Application.DTOs.Lecturer
 
         public string School { get; set; } = string.Empty;
 
-        public string LecturerCode { get; set; } = string.Empty;
+        public string StudentCode { get; set; } = string.Empty;
 
         public string Major { get; set; } = string.Empty;
 
