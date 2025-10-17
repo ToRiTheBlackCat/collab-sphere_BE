@@ -67,11 +67,11 @@ namespace CollabSphere.Application.Features.Lecturer.Queries.GetAllLec
                    viewAll: request.ViewAll
                );
                 result.IsSuccess = true;
-
-
+                await _unitOfWork.CommitTransactionAsync();
             }
             catch (Exception ex)
             {
+                await _unitOfWork.RollbackTransactionAsync();
                 _logger.LogError(ex, "Error occurred while getting list of Lecturer");
                 result.Message = "An error occurred while processing your request.";
             }

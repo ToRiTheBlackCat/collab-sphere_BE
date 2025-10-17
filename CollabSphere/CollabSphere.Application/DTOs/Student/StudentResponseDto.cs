@@ -7,18 +7,6 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.DTOs.Student
 {
-
-    public class GetAllLecturerResponseDto
-    {
-        public int ItemCount { get; set; }
-        public int PageNum { get; set; }
-
-        public int PageSize { get; set; }
-
-        public int PageCount => (int)Math.Ceiling(ItemCount * 1.0 / PageSize);
-
-        public List<StudentResponseDto> StudentList { get; set; } = new List<StudentResponseDto>();
-    }
     public class StudentResponseDto
     {
         public int UId { get; set; }
