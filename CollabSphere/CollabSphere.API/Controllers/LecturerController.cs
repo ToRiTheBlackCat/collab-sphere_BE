@@ -1,6 +1,7 @@
 ﻿using CollabSphere.Application.Common;
 using CollabSphere.Application.DTOs.Lecturer;
 using CollabSphere.Application.Features.Lecturer.Commands;
+using CollabSphere.Application.Features.Lecturer.Commands.ImportLecturer;
 using CollabSphere.Application.Features.Lecturer.Queries.GetAllLec;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

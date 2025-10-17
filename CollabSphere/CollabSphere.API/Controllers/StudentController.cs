@@ -1,10 +1,9 @@
 ﻿using CollabSphere.Application.Common;
-using CollabSphere.Application.DTOs.Student;
-using CollabSphere.Application.Features.Student.Commands;
-using CollabSphere.Application.Features.Student.Queries;
+using CollabSphere.Application.Features.Student.Commands.ImportStudent;
+using CollabSphere.Application.Features.Student.Queries.GetAllStudent;
+using CollabSphere.Application.Features.Student.Queries.GetStudentOfClass;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -24,7 +23,7 @@ namespace CollabSphere.API.Controllers
         }
 
         [HttpPost("imports")]
-        public async Task<IActionResult> ImportFileToCreateStudents (IFormFile file)
+        public async Task<IActionResult> ImportFileToCreateStudents(IFormFile file)
         {
             if (!Path.GetExtension(file.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
             {
@@ -66,7 +65,7 @@ namespace CollabSphere.API.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetALlStudents (GetAllStudentQuery query, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetALlStudents(GetAllStudentQuery query, CancellationToken cancellationToken = default)
         {
             // Get UserId & Role of requester
             var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
