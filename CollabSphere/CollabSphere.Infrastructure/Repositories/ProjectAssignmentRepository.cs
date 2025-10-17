@@ -39,5 +39,15 @@ namespace CollabSphere.Infrastructure.Repositories
 
             return projectAssignments;
         }
+
+        public async Task<List<ProjectAssignment>> GetProjectAssignmentsByProjectAsync(int projectId)
+        {
+            var query = _context.ProjectAssignments
+                .AsNoTracking()
+                .Where(x => x.ProjectId == projectId)
+                .ToListAsync();
+
+            return await query;
+        }
     }
 }
