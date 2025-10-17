@@ -1,0 +1,221 @@
+﻿{
+   "CodeGenerationMode": 4,
+   "ContextClassName": "collab_sphereContext",
+   "ContextNamespace": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models999",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "CollabSphere.Domain",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 0,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "public.answer_evaluation",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.card",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.card_assignment",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.chat_conversation",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.chat_message",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.checkpoint",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.checkpoint_assignment",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.checkpoint_evaluation",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.checkpoint_file",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.checkpoint_submit",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.class",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.class_file",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.class_member",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.evaluation_detail",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.lecturer",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.list",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.meeting",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.member_evaluation",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.message_recipient",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.milestone_question",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.milestone_question_ans",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.notification",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.notification_recipient",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.objective",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.objective_milestone",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.project",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.project_assignment",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.role",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.shape",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.student",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.sub_task",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.subject",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.subject_grade_component",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.subject_outcome",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.subject_syllabus",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.task",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.team",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.team_evaluation",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.team_file",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.team_milestone",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.team_whiteboard",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.team_workspace",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.user",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.whiteboard_page",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": null,
+   "UncountableWords": null,
+   "UseAsyncStoredProcedureCalls": true,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDatabaseNamesForRoutines": true,
+   "UseDateOnlyTimeOnly": true,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseInternalAccessModifiersForSprocsAndFunctions": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UsePrefixNavigationNaming": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false,
+   "UseT4Split": false
+}

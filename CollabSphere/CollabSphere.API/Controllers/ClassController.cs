@@ -54,9 +54,8 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("import")]
+        [HttpPost("imports")]
         public async Task<IActionResult> StaffImportExcel(IFormFile file)
-        //public async Task<IActionResult> StaffImportExcel(List<ImportClassDto> file)
         {
             if (!Path.GetExtension(file.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
             {
@@ -78,76 +77,6 @@ namespace CollabSphere.API.Controllers
 
             // Send command
             var result = await _mediator.Send(command);
-            if (!result.IsValidInput)
-            {
-                return BadRequest(result);
-            }
-
-            if (!result.IsSuccess)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
-            }
-
-            return Ok(result);
-        }
-
-        [Authorize]
-        [HttpPatch("{classId}/assign-lecturer")]
-        public async Task<IActionResult> AssignLecturerToClass(AssignLecturerToClassCommand command)
-        {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            
-            // Get UserId & Role of requester
-            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
-            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
-            command.UserId = int.Parse(UIdClaim.Value);
-            command.UserRole = int.Parse(roleClaim.Value);
-
-            var result = await _mediator.Send(command);
-
-            if (!result.IsSuccess)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, result);
-            }
-
-            if (!result.IsValidInput)
-            {
-                return BadRequest(result);
-            }
-
-            if (!result.IsSuccess)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
-            }
-
-            return Ok(result);
-        }
-
-        [Authorize]
-        [HttpPost("{classId}/add-student")]
-        public async Task<IActionResult> AddStudentToClass(int classId, [FromBody] AddStudentToClassCommand command)
-        {
-            if (classId != command.ClassId)
-            {
-                return BadRequest("ClassId in url route and body do not match.");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            // Get UserId & Role of requester
-            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
-            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
-            command.UserId = int.Parse(UIdClaim.Value);
-            command.UserRole = int.Parse(roleClaim.Value);
-
-            var result = await _mediator.Send(command);
-
             if (!result.IsValidInput)
             {
                 return BadRequest(result);
@@ -236,8 +165,73 @@ namespace CollabSphere.API.Controllers
             return Ok(result.PaginatedClasses);
         }
 
+        [Authorize]
+        [HttpPatch("{classId}/lecturer-assignment")]
+        public async Task<IActionResult> AssignLecturerToClass(AssignLecturerToClassCommand command)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            command.UserId = int.Parse(UIdClaim.Value);
+            command.UserRole = int.Parse(roleClaim.Value);
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpPost("{classId}/students")]
+        public async Task<IActionResult> AddStudentToClass(int classId, [FromBody] AddStudentToClassCommand command)
+        {
+            if (classId != command.ClassId)
+            {
+                return BadRequest("ClassId in url route and body do not match.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            command.UserId = int.Parse(UIdClaim.Value);
+            command.UserRole = int.Parse(roleClaim.Value);
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result);
+        }
+
         [Authorize(Roles = "2, 4")] // Roles: HeadDepartment, Lecturer
-        [HttpPatch("{classId}/projects")]
+        [HttpPatch("{classId}/projects-assignment")]
         public async Task<IActionResult> AssignProjectsToClass(int classId, AssignProjectsToClassCommand command, CancellationToken cancellationToken = default)
         {
             // Get UserId & Role of requester
