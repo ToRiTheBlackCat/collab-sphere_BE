@@ -32,7 +32,7 @@ namespace CollabSphere.Infrastructure.Repositories
                     .ThenInclude(x => x.Lecturer)
                 .Include(x => x.Project)
                     .ThenInclude(x => x.Subject)
-                .Include(x => x.Class)
+                //.Include(x => x.Class)
                 .Where(x => 
                     x.ClassId == classId)
                 .ToListAsync();

@@ -1,6 +1,7 @@
 ﻿using CollabSphere.Application.Constants;
 using CollabSphere.Application.Features.Project.Commands.ApproveProject;
 using CollabSphere.Application.Features.Project.Commands.CreateProject;
+using CollabSphere.Application.Features.Project.Commands.DeleteProject;
 using CollabSphere.Application.Features.Project.Commands.DenyProject;
 using CollabSphere.Application.Features.Project.Commands.UpdateProject;
 using CollabSphere.Application.Features.Project.Queries.GetAllProjects;
@@ -117,7 +118,7 @@ namespace CollabSphere.API.Controllers
         }
 
         // Role: Head Department
-        [HttpPatch("{projectId}/approvals")]
+        [HttpPatch("{projectId}/approval")]
         public async Task<IActionResult> HeadDepartmentAppoveProject(ApproveProjectCommand command, CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);
@@ -176,6 +177,37 @@ namespace CollabSphere.API.Controllers
             var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
             command.UserId = int.Parse(UIdClaim.Value);
             command.UserRole = int.Parse(roleClaim.Value);
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result.Message);
+        }
+
+        [Authorize(Roles = "4")]
+        [HttpDelete("{projectId}")]
+        public async Task<IActionResult> LecturerRemoveProjectBeforeApprove(int projectId, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+
+            var command = new DeleteProjectCommand()
+            {
+                ProjectId = projectId,
+                UserId = int.Parse(UIdClaim.Value),
+                UserRole = int.Parse(roleClaim.Value),
+            };
 
             // Handle command
             var result = await _mediator.Send(command, cancellationToken);
