@@ -1,6 +1,7 @@
 ﻿using CollabSphere.Application.DTOs.User;
 using CollabSphere.Application.Features.Admin.Queries;
 using CollabSphere.Application.Features.User.Commands;
+using CollabSphere.Application.Features.User.Commands.SignUpHead_Staff;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -106,7 +106,5 @@ namespace CollabSphere.Infrastructure.Repositories
         {
             _context.Users.Update(user);
         }
-
-
     }
 }

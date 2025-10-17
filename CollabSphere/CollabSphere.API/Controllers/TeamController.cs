@@ -1,14 +1,15 @@
-﻿using CollabSphere.Application.DTOs.Image;
-using CollabSphere.Application.Features.Team.Queries.GetAllTeamOfStudent;
-using CollabSphere.Application.Features.User.Commands;
-﻿using CollabSphere.Application.Features.Team.Commands;
+﻿using CollabSphere.Application.Features.Team.Commands.CreateTeam;
+using CollabSphere.Application.Features.Team.Commands.DeleteTeam;
+using CollabSphere.Application.Features.Team.Commands.TeamUploadAvatar;
+using CollabSphere.Application.Features.Team.Commands.UpdateTeam;
 using CollabSphere.Application.Features.Team.Queries.GetAllTeamByAssignClass;
+using CollabSphere.Application.Features.Team.Queries.GetAllTeamOfStudent;
+using CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass;
+using CollabSphere.Application.Features.Team.Queries.GetTeamDetail;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass;
-using CollabSphere.Application.Features.Team.Queries.GetTeamDetail;
 
 namespace CollabSphere.API.Controllers
 {
@@ -172,7 +173,7 @@ namespace CollabSphere.API.Controllers
 
             return Ok(result.PaginatedTeams);
         }
-        
+
         [Authorize]
         [HttpGet("student/{studentId}")]
         public async Task<IActionResult> GetTeamListOfStudent(GetAllTeamOfStudentQuery query, CancellationToken cancellationToken = default)

@@ -799,6 +799,9 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.ProjectId)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("project_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("created_at");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.LecturerId).HasColumnName("lecturer_id");
             entity.Property(e => e.ProjectName)

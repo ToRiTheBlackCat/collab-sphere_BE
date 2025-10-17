@@ -13,8 +13,6 @@ namespace CollabSphere.Application.DTOs.Student
         public int Yob { get; set; } = 0;
         public string? StudentCode { get; set; }
         public string? Major { get; set; }
-        public int PageNumber { get; set; } = 1;
-        public int PageSize { get; set; } = 20;
         public bool IsDesc { get; set; } = false;
     }
 }
