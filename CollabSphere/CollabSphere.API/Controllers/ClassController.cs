@@ -5,6 +5,7 @@ using CollabSphere.Application.Features.Classes.Commands.AssignLec;
 using CollabSphere.Application.Features.Classes.Commands.AddStudent;
 using CollabSphere.Application.Features.Classes.Commands.CreateClass;
 using CollabSphere.Application.Features.Classes.Commands.ImportClass;
+using CollabSphere.Application.Features.Classes.Commands.UpdateClass;
 using CollabSphere.Application.Features.Classes.Queries.GetAllClasses;
 using CollabSphere.Application.Features.Classes.Queries.GetClassById;
 using CollabSphere.Application.Features.Classes.Queries.GetLecturerClasses;
@@ -240,6 +241,32 @@ namespace CollabSphere.API.Controllers
             command.UserId = int.Parse(UIdClaim.Value);
             command.Role = int.Parse(roleClaim.Value);
             command.ClassId = classId;
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result.Message);
+        }
+
+        // Roles: Staff
+        //[Authorize(Roles = "")]
+        [HttpPatch("{classId}")]
+        public async Task<IActionResult> StaffUpdateClassInfo(int classId, UpdateClassDto classDto, CancellationToken cancellationToken = default)
+        {
+            classDto.ClassId = classId;
+            var command = new UpdateClassCommand()
+            {
+                ClassDto = classDto
+            };
 
             var result = await _mediator.Send(command, cancellationToken);
 
