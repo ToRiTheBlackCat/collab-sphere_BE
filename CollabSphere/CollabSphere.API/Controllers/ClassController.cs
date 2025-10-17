@@ -257,8 +257,10 @@ namespace CollabSphere.API.Controllers
             return Ok(result.Message);
         }
 
+        // Roles: Staff
+        //[Authorize(Roles = "")]
         [HttpPatch("{classId}")]
-        public async Task<IActionResult> UpdateClassInfo(int classId, UpdateClassDto classDto, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> StaffUpdateClassInfo(int classId, UpdateClassDto classDto, CancellationToken cancellationToken = default)
         {
             classDto.ClassId = classId;
             var command = new UpdateClassCommand()
