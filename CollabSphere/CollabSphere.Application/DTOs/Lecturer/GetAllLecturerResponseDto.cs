@@ -6,18 +6,6 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.DTOs.Lecturer
 {
-    public class GetAllLecturerResponseDto
-    {
-        public int ItemCount { get; set; }
-        public int PageNum { get; set; }
-
-        public int PageSize { get; set; }
-
-        public int PageCount => (int)Math.Ceiling(ItemCount * 1.0 / PageSize);
-
-        public List<LecturerResponseDto> LecturerList { get; set; } = new List<LecturerResponseDto>();
-    }
-
     public class LecturerResponseDto
     {
         public int UId { get; set; }
