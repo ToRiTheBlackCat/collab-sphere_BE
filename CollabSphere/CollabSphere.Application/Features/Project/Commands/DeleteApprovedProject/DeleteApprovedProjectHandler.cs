@@ -44,6 +44,7 @@ namespace CollabSphere.Application.Features.Project.Commands.DeleteApprovedProje
                 await _unitOfWork.CommitTransactionAsync();
 
                 result.Message = $"Deleted project '{project.ProjectName}' ({project.ProjectId}) successfully.";
+                result.IsSuccess = true;
             }
             catch (Exception ex)
             {
