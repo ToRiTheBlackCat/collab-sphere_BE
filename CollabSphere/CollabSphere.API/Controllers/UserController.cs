@@ -1,21 +1,16 @@
-﻿using CollabSphere.Application.Common;
-using CollabSphere.Application.DTOs.Image;
+﻿using CollabSphere.Application.DTOs.Image;
 using CollabSphere.Application.DTOs.Lecturer;
 using CollabSphere.Application.DTOs.OTP;
 using CollabSphere.Application.DTOs.Student;
-using CollabSphere.Application.DTOs.User;
-using CollabSphere.Application.Features.Admin.Queries;
-using CollabSphere.Application.Features.Lecturer.Commands;
-using CollabSphere.Application.Features.OTP;
+using CollabSphere.Application.Features.Lecturer.Commands.CreateLecturer;
 using CollabSphere.Application.Features.OTP.Commands;
-using CollabSphere.Application.Features.Student;
-using CollabSphere.Application.Features.Student.Commands;
-using CollabSphere.Application.Features.User.Commands;
-using CollabSphere.Application.Features.User.Queries;
+using CollabSphere.Application.Features.Student.Commands.CreateStudent;
+using CollabSphere.Application.Features.Student.Commands.SignUpStudent;
+using CollabSphere.Application.Features.User.Commands.UserManageAvatar;
+using CollabSphere.Application.Features.User.Commands.UserUpdateProfile;
 using CollabSphere.Application.Features.User.Queries.GetUserById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
