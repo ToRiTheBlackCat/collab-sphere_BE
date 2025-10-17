@@ -179,7 +179,7 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
                 return;
             }
 
-            var validStatuses = new HashSet<ProjectStatuses>() { ProjectStatuses.PENDING, ProjectStatuses.DENIED };
+            var validStatuses = new HashSet<ProjectStatuses>() { ProjectStatuses.PENDING, ProjectStatuses.DENIED, ProjectStatuses.REMOVED };
 
             // Check project status
             if (!validStatuses.Contains((ProjectStatuses)project.Status))
