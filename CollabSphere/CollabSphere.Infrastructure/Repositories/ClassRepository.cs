@@ -194,5 +194,16 @@ namespace CollabSphere.Infrastructure.Repositories
 
             return grouped.SelectMany(g => g.OrderBy(subSelector));
         }
+
+        public async Task<Class?> GetClassByIdAsync (int classId)
+        {
+            return await _context.Classes
+                .Include(x => x.ClassMembers)
+                    .ThenInclude(x => x.Team)
+                .Include(x => x.ProjectAssignments)
+                    .ThenInclude(x => x.Project)
+                .FirstOrDefaultAsync(x => x.ClassId == classId && x.IsActive);
+        }
+
     }
 }
