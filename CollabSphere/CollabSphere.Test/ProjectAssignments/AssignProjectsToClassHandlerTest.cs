@@ -82,7 +82,7 @@ namespace CollabSphere.Test.ProjectAssignments
 
             _unitOfWorkMock.Verify(x => x.BeginTransactionAsync(), Times.Once);
             _assignmentRepoMock.Verify(x => x.Create(It.Is<ProjectAssignment>(x => x.ProjectId == 12 && x.ClassId == 1)), Times.Once);
-            _assignmentRepoMock.Verify(x => x.DeleteById(3), Times.Once);
+            _assignmentRepoMock.Verify(x => x.Delete(removedAssignment), Times.Once);
             _unitOfWorkMock.Verify(x => x.CommitTransactionAsync(), Times.Once);
         }
 
