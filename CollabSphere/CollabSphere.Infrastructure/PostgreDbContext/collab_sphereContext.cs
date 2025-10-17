@@ -799,9 +799,6 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.ProjectId)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("project_id");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("now()")
-                .HasColumnName("created_at");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.LecturerId).HasColumnName("lecturer_id");
             entity.Property(e => e.ProjectName)
@@ -812,6 +809,9 @@ public partial class collab_sphereContext : DbContext
                 .HasComment("0 - Pending,\r\n1 - Approved,\r\n2 - Denied")
                 .HasColumnName("status");
             entity.Property(e => e.SubjectId).HasColumnName("subject_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("created_at");
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("updated_at");
@@ -1034,7 +1034,7 @@ public partial class collab_sphereContext : DbContext
                 .HasConstraintName("subject_syllabus_subject_fk");
         });
 
-        modelBuilder.Entity<Domain.Models.Task>(entity => 
+        modelBuilder.Entity<Domain.Models.Task>(entity =>
         {
             entity.HasKey(e => e.TaskId).HasName("task_pk");
 
