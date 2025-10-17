@@ -93,12 +93,12 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Where(x => x.TeamId == teamId && x.Status == 1)
                 .Include(x => x.Class)
                     .ThenInclude(x => x.Lecturer)
-                //.Include(x => x.TeamMilestones)    //Pending for DB fix
-                //   .ThenInclude(x => x.Checkpoints) //Pending for DB fix
+                .Include(x => x.TeamMilestones)
+                   .ThenInclude(x => x.Checkpoints)
                 .Include(x => x.ClassMembers)
                     .ThenInclude(x => x.Student)
                 .Include(x => x.ProjectAssignment)
-                //.ThenInclude(x => x.Project) //Pending for DB fix
+                .ThenInclude(x => x.Project)
 
                 .AsNoTracking()
                 .FirstOrDefaultAsync();

@@ -17,13 +17,24 @@ public partial class Project
 
     public int SubjectId { get; set; }
 
+    /// <summary>
+    /// 0 - Pending,
+    /// 1 - Approved,
+    /// 2 - Denied
+    /// </summary>
     public int Status { get; set; }
 
-    public virtual Subject Subject { get; set; }
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime UpdatedAt { get; set; }
+
+    public int UpdatedBy { get; set; }
 
     public virtual Lecturer Lecturer { get; set; }
 
     public virtual ICollection<Objective> Objectives { get; set; } = new List<Objective>();
 
     public virtual ICollection<ProjectAssignment> ProjectAssignments { get; set; } = new List<ProjectAssignment>();
+
+    public virtual Subject Subject { get; set; }
 }

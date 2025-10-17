@@ -45,7 +45,11 @@ namespace CollabSphere.Application.Features.ProjectAssignments.Commands.AssignPr
                 {
                     if (!request.ProjectIds.Contains(projectAssignment.ProjectId))
                     {
-                        _unitOfWork.ProjectAssignmentRepo.DeleteById(projectAssignment.ProjectAssignmentId);
+                        // Remove references to avoid double tracking when deleting
+                        projectAssignment.Class = null;
+                        projectAssignment.Project = null;
+
+                        _unitOfWork.ProjectAssignmentRepo.Delete(projectAssignment);
                     }
                 }
                 await _unitOfWork.SaveChangesAsync();

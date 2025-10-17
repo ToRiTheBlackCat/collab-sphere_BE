@@ -61,7 +61,7 @@ namespace CollabSphere.API.Controllers
         }
 
         //[Authorize] staff Role
-        [HttpPost("import")]
+        [HttpPost("imports")]
         public async Task<IActionResult> ImportSubject(IFormFile file)
         {
             if (!Path.GetExtension(file.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))

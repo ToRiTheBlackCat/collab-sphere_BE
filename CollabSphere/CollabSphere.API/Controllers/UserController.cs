@@ -159,7 +159,7 @@ namespace CollabSphere.API.Controllers
         }
 
 
-        [HttpPost("upload-avatar")]
+        [HttpPost("avatar")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadAvatar([FromForm] UploadAvatarRequestDTO request)
         {
@@ -180,7 +180,7 @@ namespace CollabSphere.API.Controllers
               : BadRequest(new { result.Item1, result.Item2 });
         }
 
-        [HttpDelete("remove-avatar")]
+        [HttpDelete("avatar")]
         public async Task<IActionResult> RemoveAvatarImage([FromBody] RemoveAvatarImageDto request)
         {
             if (!ModelState.IsValid)
