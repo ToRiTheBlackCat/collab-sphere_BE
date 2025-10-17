@@ -63,6 +63,12 @@ namespace CollabSphere.Application.Features.Team.Commands.DeleteTeam
                     await _unitOfWork.SaveChangesAsync();
                 }
 
+                //Update Team Count of class
+                var foundClass = await _unitOfWork.ClassRepo.GetClassByIdAsync(foundTeam.ClassId);
+                foundClass.TeamCount--;
+                _unitOfWork.ClassRepo.Update(foundClass);
+                await _unitOfWork.SaveChangesAsync();
+
                 await _unitOfWork.CommitTransactionAsync();
 
                 //Set data to result
