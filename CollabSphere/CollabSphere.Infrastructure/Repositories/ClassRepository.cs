@@ -197,7 +197,12 @@ namespace CollabSphere.Infrastructure.Repositories
 
         public async Task<Class?> GetClassByIdAsync (int classId)
         {
-            return await _context.Classes.FirstOrDefaultAsync(x => x.ClassId == classId && x.IsActive);
+            return await _context.Classes
+                .Include(x => x.ClassMembers)
+                    .ThenInclude(x => x.Team)
+                .Include(x => x.ProjectAssignments)
+                    .ThenInclude(x => x.Project)
+                .FirstOrDefaultAsync(x => x.ClassId == classId && x.IsActive);
         }
 
     }
