@@ -117,7 +117,7 @@ namespace CollabSphere.API.Controllers
         }
 
         // Role: Head Department
-        [HttpPatch("{projectId}/approve")]
+        [HttpPatch("{projectId}/approvals")]
         public async Task<IActionResult> HeadDepartmentAppoveProject(ApproveProjectCommand command, CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(command, cancellationToken);

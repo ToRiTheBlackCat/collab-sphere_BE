@@ -112,7 +112,7 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("upload-avatar")]
+        [HttpPost("avatar")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadAvatar(TeamUploadAvatarCommand command)
         {

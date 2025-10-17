@@ -20,7 +20,7 @@ namespace CollabSphere.API.Controllers
             _excelValidate = excelValidate;
         }
 
-        [HttpPost("import")]
+        [HttpPost("imports")]
         public async Task<IActionResult> ImportFileToCreateLecturers(IFormFile file)
         {
             if (!Path.GetExtension(file.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
