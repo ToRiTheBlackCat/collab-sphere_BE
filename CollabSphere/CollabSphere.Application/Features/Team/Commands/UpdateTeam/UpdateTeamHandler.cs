@@ -58,12 +58,6 @@ namespace CollabSphere.Application.Features.Team.Commands.UpdateTeam
                 foundTeam.GitLink = string.IsNullOrWhiteSpace(request.GitLink)
                     ? foundTeam.GitLink
                     : request.GitLink.Trim();
-                //Project Id
-                if (request.ProjectAssignmentId.HasValue && request.ProjectAssignmentId.Value != 0)
-                    foundTeam.ProjectAssignmentId = request.ProjectAssignmentId;
-
-                if (request.EndDate.HasValue)
-                    foundTeam.EndDate = request.EndDate;
 
                 _unitOfWork.TeamRepo.Update(foundTeam);
                 await _unitOfWork.SaveChangesAsync();
@@ -148,49 +142,6 @@ namespace CollabSphere.Application.Features.Team.Commands.UpdateTeam
                         });
                     return;
                 }
-            }
-
-            //Validate class
-            var foundClass = await _unitOfWork.ClassRepo.GetById(request.ClassId);
-            if (foundClass == null)
-            {
-                errors.Add(new OperationError
-                {
-                    Field = nameof(request.ClassId),
-                    Message = $"Not found any class with that Id: {request.ClassId}"
-                });
-            }
-
-            //Check project assignment exists in class
-            if (request.ProjectAssignmentId.HasValue)
-            {
-                var projectAssignment = _unitOfWork.ProjectAssignmentRepo.GetById(request.ProjectAssignmentId ?? 0).Result;
-                if (projectAssignment == null)
-                {
-                    errors.Add(new OperationError
-                    {
-                        Field = "InvalidProjectAssignment",
-                        Message = $"Project assignment with ID {request.ProjectAssignmentId} does not exist."
-                    });
-                }
-                if (projectAssignment != null && projectAssignment.ClassId != request.ClassId)
-                {
-                    errors.Add(new OperationError
-                    {
-                        Field = "ProjectAssignmentClassMismatch",
-                        Message = $"Project assignment with ID {request.ProjectAssignmentId} does not belong to class with ID {request.ClassId}."
-                    });
-                }
-            }
-
-            //Check end date is after start date
-            if (request.EndDate.HasValue && foundTeam != null && request.EndDate <= foundTeam.CreatedDate)
-            {
-                errors.Add(new OperationError
-                {
-                    Field = nameof(request.EndDate),
-                    Message = "End date must be after created date."
-                });
             }
         }
     }
