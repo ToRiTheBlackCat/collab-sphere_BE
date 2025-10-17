@@ -1,5 +1,6 @@
 ﻿using CollabSphere.Application;
 using CollabSphere.Application.Features.Team.Commands;
+using CollabSphere.Application.Features.Team.Commands.CreateTeam;
 using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
 using Microsoft.Extensions.Logging;

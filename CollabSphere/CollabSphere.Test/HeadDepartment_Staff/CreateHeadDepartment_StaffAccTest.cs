@@ -17,6 +17,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
+using CollabSphere.Application.Features.User.Commands.SignUpHead_Staff;
 
 namespace CollabSphere.Test.HeadDepartment_Staff
 {
