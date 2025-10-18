@@ -88,7 +88,7 @@ namespace CollabSphere.Application.Features.Team.Commands.DeleteTeam
 
         protected override async Task ValidateRequest(List<OperationError> errors, DeleteTeamCommand request)
         {
-            var bypassRoles = new int[] { RoleConstants.LECTURER, RoleConstants.STUDENT };
+            var bypassRoles = new int[] { RoleConstants.LECTURER };
             var foundTeam = await _unitOfWork.TeamRepo.GetById(request.TeamId);
 
             //Check if team exists
@@ -125,30 +125,6 @@ namespace CollabSphere.Application.Features.Team.Commands.DeleteTeam
                         {
                             Field = "UserRole",
                             Message = $"This lecturer with ID: {request.UserId} not has permission to delete this team."
-                        });
-                    return;
-                }
-
-                //IF Student
-                if (request.UserRole == RoleConstants.STUDENT)
-                {
-                    //Check if student exists
-                    var foundStudent = await _unitOfWork.StudentRepo.GetById(request.UserId);
-                    if (foundStudent == null)
-                    {
-                        errors.Add(new OperationError()
-                        {
-                            Field = "UserId",
-                            Message = $"Student with the given ID: {request.UserId} does not exist."
-                        });
-                    }
-
-                    //Check if student is the leader of the team
-                    if (request.UserId != foundTeam.LeaderId)
-                        errors.Add(new OperationError()
-                        {
-                            Field = "UserRole",
-                            Message = $"This student with ID: {request.UserId} is not the leader - not has permission to delete this team."
                         });
                     return;
                 }
