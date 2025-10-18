@@ -31,13 +31,5 @@ namespace CollabSphere.Application.Features.Team.Commands.UpdateTeam
         public string? Description { get; set; }
 
         public string? GitLink { get; set; }
-        [Required]
-        public int ClassId { get; set; }
-
-        public int? ProjectAssignmentId { get; set; }
-
-        public DateOnly? EndDate { get; set; }
-
-        public int Status { get; set; }
     }
 }

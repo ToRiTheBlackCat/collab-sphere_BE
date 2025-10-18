@@ -33,8 +33,6 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
 
         public DateOnly? EndDate { get; set; }
 
-        public int Status { get; set; } = 1; // Default to active
-
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (EndDate.HasValue && EndDate.Value <= CreatedDate)

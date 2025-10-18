@@ -24,6 +24,7 @@ namespace CollabSphere.API.Controllers
             _mediator = mediator;
         }
 
+        [Authorize(Roles = "4")]
         [HttpPost]
         public async Task<IActionResult> CreateTeam([FromBody] CreateTeamCommand command)
         {
