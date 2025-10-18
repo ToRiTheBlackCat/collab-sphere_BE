@@ -24,10 +24,11 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Where(x => x.TeamId == teamId)
                 .Include(x => x.Checkpoints)
                     .ThenInclude(x => x.CheckpointAssignments)
+                        .ThenInclude(x => x.ClassMember)
+                            .ThenInclude(x => x.Student)
                 .Include(x => x.Checkpoints)
                     .ThenInclude(x => x.CheckpointFiles)
                 .Include(x => x.MilestoneQuestions)
-                    .ThenInclude(x => x.MilestoneQuestionAns)
                 .OrderBy(mile => mile.StartDate)
                 .ToListAsync();
 
