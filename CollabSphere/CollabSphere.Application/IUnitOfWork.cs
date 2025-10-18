@@ -24,8 +24,8 @@ namespace CollabSphere.Application
         ISubjectOutcomeRepository SubjectOutcomeRepo { get; }
         ISubjectRepository SubjectRepo { get; }
         ISubjectSyllabusRepository SubjectSyllabusRepo { get; }
-        ITeamRepository TeamRepo { get; }
         ITeamMilestoneRepository TeamMilestoneRepo { get; }
+        ITeamRepository TeamRepo { get; }
 
         //More IRepo below
 
