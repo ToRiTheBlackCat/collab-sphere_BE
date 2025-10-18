@@ -134,7 +134,7 @@ namespace CollabSphere.Application.Features.Team.Commands.UpdateTeam
                     }
 
                     //Check if student is the leader of the team
-                    if (request.UserRole == foundTeam.LeaderId)
+                    if (request.UserId != foundTeam.LeaderId)
                         errors.Add(new OperationError()
                         {
                             Field = "UserRole",
