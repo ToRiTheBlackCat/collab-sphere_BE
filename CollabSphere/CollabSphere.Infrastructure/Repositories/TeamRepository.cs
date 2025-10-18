@@ -99,7 +99,6 @@ namespace CollabSphere.Infrastructure.Repositories
                     .ThenInclude(x => x.Student)
                 .Include(x => x.ProjectAssignment)
                 .ThenInclude(x => x.Project)
-
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
 

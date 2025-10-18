@@ -45,7 +45,7 @@ namespace CollabSphere.Application.Features.Team.Commands.DeleteTeam
                 }
 
                 //Soft delete the team
-                foundTeam.Status = 0;
+                foundTeam.Status = (int)TeamStatus.DEACTIVE;
                 _unitOfWork.TeamRepo.Update(foundTeam);
                 await _unitOfWork.SaveChangesAsync();
 
