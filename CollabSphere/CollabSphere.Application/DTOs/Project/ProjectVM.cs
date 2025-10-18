@@ -30,7 +30,7 @@ namespace CollabSphere.Application.DTOs.Project
 
         public string SubjectName { get; set; }
 
-        public string SubjectCode { get; set; } 
+        public string SubjectCode { get; set; }
         #endregion
 
         public int Status { get; set; }
@@ -58,12 +58,10 @@ namespace CollabSphere.Application.DTOs.Project
                 SubjectId = project.SubjectId,
                 SubjectCode = project.Subject?.SubjectCode ?? string.Empty,
                 SubjectName = project.Subject?.SubjectName ?? string.Empty,
-                Objectives = 
-                    project.Objectives?
+                Objectives =
+                    project.Objectives
                         .Select(x => (ObjectiveVM)x)
-                        .OrderBy(x => x.ObjectiveMilestones.FirstOrDefault()?.StartDate)
-                        .ToList() ??
-                    new List<ObjectiveVM>(),
+                        .ToList(),
                 Status = project.Status,
                 CreatedAt = project.CreatedAt,
                 UpdatedAt = project.UpdatedAt,
