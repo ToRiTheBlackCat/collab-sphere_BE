@@ -36,6 +36,9 @@ namespace CollabSphere.Infrastructure.Repositories
                             .ThenInclude(member => member.Student)
                 .Include(mst => mst.Checkpoints)
                     .ThenInclude(check => check.CheckpointFiles)
+                // Return Info
+                .Include(mst => mst.MilestoneEvaluation)
+                    .ThenInclude(eval => eval.Lecturer)
                 .FirstOrDefaultAsync(mst => mst.TeamMilestoneId == id);
 
             return milestone;

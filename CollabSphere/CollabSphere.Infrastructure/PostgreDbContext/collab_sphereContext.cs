@@ -596,8 +596,8 @@ public partial class collab_sphereContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("milestone_evaluation_lecturer_fk");
 
-            entity.HasOne(d => d.Milestone).WithMany(p => p.MilestoneEvaluations)
-                .HasForeignKey(d => d.MilestoneId)
+            entity.HasOne(d => d.Milestone).WithOne(p => p.MilestoneEvaluation)
+                .HasForeignKey<MilestoneEvaluation>(d => d.MilestoneId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("milestone_evaluation_team_milestone_fk");
 
