@@ -43,15 +43,7 @@
          "ObjectType": 0
       },
       {
-         "Name": "public.checkpoint_evaluation",
-         "ObjectType": 0
-      },
-      {
          "Name": "public.checkpoint_file",
-         "ObjectType": 0
-      },
-      {
-         "Name": "public.checkpoint_submit",
          "ObjectType": 0
       },
       {
@@ -91,11 +83,23 @@
          "ObjectType": 0
       },
       {
+         "Name": "public.milestone_evaluation",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.milestone_file",
+         "ObjectType": 0
+      },
+      {
          "Name": "public.milestone_question",
          "ObjectType": 0
       },
       {
          "Name": "public.milestone_question_ans",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.milestone_return",
          "ObjectType": 0
       },
       {
