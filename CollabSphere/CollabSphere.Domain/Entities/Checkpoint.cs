@@ -21,15 +21,14 @@ public partial class Checkpoint
 
     public DateOnly DueDate { get; set; }
 
+    /// <summary>
+    /// 0 - not done , 1 - done
+    /// </summary>
     public int Status { get; set; }
 
     public virtual ICollection<CheckpointAssignment> CheckpointAssignments { get; set; } = new List<CheckpointAssignment>();
 
-    public virtual ICollection<CheckpointEvaluation> CheckpointEvaluations { get; set; } = new List<CheckpointEvaluation>();
-
     public virtual ICollection<CheckpointFile> CheckpointFiles { get; set; } = new List<CheckpointFile>();
-
-    public virtual ICollection<CheckpointSubmit> CheckpointSubmits { get; set; } = new List<CheckpointSubmit>();
 
     public virtual TeamMilestone TeamMilestone { get; set; }
 }

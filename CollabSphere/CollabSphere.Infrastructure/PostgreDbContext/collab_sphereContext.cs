@@ -29,11 +29,7 @@ public partial class collab_sphereContext : DbContext
 
     public virtual DbSet<CheckpointAssignment> CheckpointAssignments { get; set; }
 
-    public virtual DbSet<CheckpointEvaluation> CheckpointEvaluations { get; set; }
-
     public virtual DbSet<CheckpointFile> CheckpointFiles { get; set; }
-
-    public virtual DbSet<CheckpointSubmit> CheckpointSubmits { get; set; }
 
     public virtual DbSet<Class> Classes { get; set; }
 
@@ -53,9 +49,15 @@ public partial class collab_sphereContext : DbContext
 
     public virtual DbSet<MessageRecipient> MessageRecipients { get; set; }
 
+    public virtual DbSet<MilestoneEvaluation> MilestoneEvaluations { get; set; }
+
+    public virtual DbSet<MilestoneFile> MilestoneFiles { get; set; }
+
     public virtual DbSet<MilestoneQuestion> MilestoneQuestions { get; set; }
 
     public virtual DbSet<MilestoneQuestionAn> MilestoneQuestionAns { get; set; }
+
+    public virtual DbSet<MilestoneReturn> MilestoneReturns { get; set; }
 
     public virtual DbSet<Notification> Notifications { get; set; }
 
@@ -102,6 +104,7 @@ public partial class collab_sphereContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<WhiteboardPage> WhiteboardPages { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -188,11 +191,6 @@ public partial class collab_sphereContext : DbContext
                 .HasForeignKey(d => d.CardId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("card_assignment_card_fk");
-
-            entity.HasOne(d => d.Student).WithMany(p => p.CardAssignments)
-                .HasForeignKey(d => d.StudentId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("card_assignment_student_fk");
         });
 
         modelBuilder.Entity<ChatConversation>(entity =>
@@ -301,41 +299,6 @@ public partial class collab_sphereContext : DbContext
                 .HasConstraintName("checkpoint_assignment_class_member_fk");
         });
 
-        modelBuilder.Entity<CheckpointEvaluation>(entity =>
-        {
-            entity.HasKey(e => e.CheckpointEvaluationId).HasName("checkpoint_evaluation_pk");
-
-            entity.ToTable("checkpoint_evaluation");
-
-            entity.Property(e => e.CheckpointEvaluationId)
-                .UseIdentityAlwaysColumn()
-                .HasColumnName("checkpoint_evaluation_id");
-            entity.Property(e => e.CheckpointId).HasColumnName("checkpoint_id");
-            entity.Property(e => e.CheckpointSubmitId).HasColumnName("checkpoint_submit_id");
-            entity.Property(e => e.Comment).HasColumnName("comment");
-            entity.Property(e => e.CreatedDate)
-                .HasDefaultValueSql("now()")
-                .HasColumnName("created_date");
-            entity.Property(e => e.LecturerId).HasColumnName("lecturer_id");
-            entity.Property(e => e.Score).HasColumnName("score");
-            entity.Property(e => e.TeamId).HasColumnName("team_id");
-
-            entity.HasOne(d => d.Checkpoint).WithMany(p => p.CheckpointEvaluations)
-                .HasForeignKey(d => d.CheckpointId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("checkpoint_evaluation_checkpoint_fk");
-
-            entity.HasOne(d => d.CheckpointSubmit).WithMany(p => p.CheckpointEvaluations)
-                .HasForeignKey(d => d.CheckpointSubmitId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("checkpoint_evaluation_checkpoint_submit_fk");
-
-            entity.HasOne(d => d.Lecturer).WithMany(p => p.CheckpointEvaluations)
-                .HasForeignKey(d => d.LecturerId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("checkpoint_evaluation_lecturer_fk");
-        });
-
         modelBuilder.Entity<CheckpointFile>(entity =>
         {
             entity.HasKey(e => e.FileId).HasName("checkpoint_file_pk");
@@ -357,33 +320,6 @@ public partial class collab_sphereContext : DbContext
                 .HasForeignKey(d => d.CheckpointId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("checkpoint_file_checkpoint_fk");
-        });
-
-        modelBuilder.Entity<CheckpointSubmit>(entity =>
-        {
-            entity.HasKey(e => e.CheckpointSubmitId).HasName("checkpoint_submit_pk");
-
-            entity.ToTable("checkpoint_submit");
-
-            entity.Property(e => e.CheckpointSubmitId)
-                .UseIdentityAlwaysColumn()
-                .HasColumnName("checkpoint_submit_id");
-            entity.Property(e => e.CheckpointId).HasColumnName("checkpoint_id");
-            entity.Property(e => e.ClassMemberId).HasColumnName("class_member_id");
-            entity.Property(e => e.SubmitFilePath).HasColumnName("submit_file_path");
-            entity.Property(e => e.SubmittedDate)
-                .HasDefaultValueSql("now()")
-                .HasColumnName("submitted_date");
-
-            entity.HasOne(d => d.Checkpoint).WithMany(p => p.CheckpointSubmits)
-                .HasForeignKey(d => d.CheckpointId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("checkpoint_submit_checkpoint_fk");
-
-            entity.HasOne(d => d.ClassMember).WithMany(p => p.CheckpointSubmits)
-                .HasForeignKey(d => d.ClassMemberId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("checkpoint_submit_class_member_fk");
         });
 
         modelBuilder.Entity<Class>(entity =>
@@ -640,6 +576,58 @@ public partial class collab_sphereContext : DbContext
                 .HasConstraintName("message_recipient_user_fk");
         });
 
+        modelBuilder.Entity<MilestoneEvaluation>(entity =>
+        {
+            entity.HasKey(e => new { e.MilestoneId, e.LecturerId }).HasName("pk_milestone_evaluation");
+
+            entity.ToTable("milestone_evaluation");
+
+            entity.Property(e => e.MilestoneId).HasColumnName("milestone_id");
+            entity.Property(e => e.LecturerId).HasColumnName("lecturer_id");
+            entity.Property(e => e.Comment).HasColumnName("comment");
+            entity.Property(e => e.CreatedDate)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("created_date");
+            entity.Property(e => e.Score).HasColumnName("score");
+            entity.Property(e => e.TeamId).HasColumnName("team_id");
+
+            entity.HasOne(d => d.Lecturer).WithMany(p => p.MilestoneEvaluations)
+                .HasForeignKey(d => d.LecturerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("milestone_evaluation_lecturer_fk");
+
+            entity.HasOne(d => d.Milestone).WithMany(p => p.MilestoneEvaluations)
+                .HasForeignKey(d => d.MilestoneId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("milestone_evaluation_team_milestone_fk");
+
+            entity.HasOne(d => d.Team).WithMany(p => p.MilestoneEvaluations)
+                .HasForeignKey(d => d.TeamId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("milestone_evaluation_team_fk");
+        });
+
+        modelBuilder.Entity<MilestoneFile>(entity =>
+        {
+            entity.HasKey(e => e.FileId).HasName("milestone_file_pk");
+
+            entity.ToTable("milestone_file");
+
+            entity.Property(e => e.FileId)
+                .UseIdentityAlwaysColumn()
+                .HasColumnName("file_id");
+            entity.Property(e => e.FilePath).HasColumnName("file_path");
+            entity.Property(e => e.TeamMilstoneId).HasColumnName("team_milstone_id");
+            entity.Property(e => e.Type)
+                .HasMaxLength(50)
+                .HasColumnName("type");
+
+            entity.HasOne(d => d.TeamMilstone).WithMany(p => p.MilestoneFiles)
+                .HasForeignKey(d => d.TeamMilstoneId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("milestone_file_team_milestone_fk");
+        });
+
         modelBuilder.Entity<MilestoneQuestion>(entity =>
         {
             entity.HasKey(e => e.MilestoneQuestionId).HasName("milestone_question_pk");
@@ -693,6 +681,36 @@ public partial class collab_sphereContext : DbContext
                 .HasForeignKey(d => d.MilestoneQuestionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("milestone_question_ans_milestone_question_fk");
+        });
+
+        modelBuilder.Entity<MilestoneReturn>(entity =>
+        {
+            entity.HasKey(e => e.MileReturnId).HasName("milestone_return_pk");
+
+            entity.ToTable("milestone_return");
+
+            entity.Property(e => e.MileReturnId)
+                .UseIdentityAlwaysColumn()
+                .HasColumnName("mile_return_id");
+            entity.Property(e => e.ClassMemberId).HasColumnName("class_member_id");
+            entity.Property(e => e.FilePath).HasColumnName("file_path");
+            entity.Property(e => e.SubmitedDate)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("submited_date");
+            entity.Property(e => e.TeamMilestoneId).HasColumnName("team_milestone_id");
+            entity.Property(e => e.Type)
+                .HasMaxLength(50)
+                .HasColumnName("type");
+
+            entity.HasOne(d => d.ClassMember).WithMany(p => p.MilestoneReturns)
+                .HasForeignKey(d => d.ClassMemberId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("milestone_return_class_member_fk");
+
+            entity.HasOne(d => d.TeamMilestone).WithMany(p => p.MilestoneReturns)
+                .HasForeignKey(d => d.TeamMilestoneId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("milestone_return_team_milestone_fk");
         });
 
         modelBuilder.Entity<Notification>(entity =>
@@ -799,6 +817,9 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.ProjectId)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("project_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("created_at");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.LecturerId).HasColumnName("lecturer_id");
             entity.Property(e => e.ProjectName)
@@ -809,9 +830,6 @@ public partial class collab_sphereContext : DbContext
                 .HasComment("0 - Pending,\r\n1 - Approved,\r\n2 - Denied")
                 .HasColumnName("status");
             entity.Property(e => e.SubjectId).HasColumnName("subject_id");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("now()")
-                .HasColumnName("created_at");
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("updated_at");

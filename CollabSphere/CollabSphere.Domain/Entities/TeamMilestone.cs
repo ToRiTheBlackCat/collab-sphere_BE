@@ -23,11 +23,20 @@ public partial class TeamMilestone
 
     public float? Progress { get; set; }
 
+    /// <summary>
+    /// 0 - not done , 1 - done
+    /// </summary>
     public int Status { get; set; }
 
     public virtual ICollection<Checkpoint> Checkpoints { get; set; } = new List<Checkpoint>();
 
+    public virtual ICollection<MilestoneEvaluation> MilestoneEvaluations { get; set; } = new List<MilestoneEvaluation>();
+
+    public virtual ICollection<MilestoneFile> MilestoneFiles { get; set; } = new List<MilestoneFile>();
+
     public virtual ICollection<MilestoneQuestion> MilestoneQuestions { get; set; } = new List<MilestoneQuestion>();
+
+    public virtual ICollection<MilestoneReturn> MilestoneReturns { get; set; } = new List<MilestoneReturn>();
 
     public virtual ObjectiveMilestone ObjectiveMilestone { get; set; }
 
