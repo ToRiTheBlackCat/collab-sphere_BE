@@ -1,4 +1,6 @@
-﻿using CollabSphere.Application.Features.Team.Commands.CreateTeam;
+﻿using CollabSphere.Application.Features.Classes.Commands.AddStudent;
+using CollabSphere.Application.Features.Team.Commands.AddStudentsToTeam;
+using CollabSphere.Application.Features.Team.Commands.CreateTeam;
 using CollabSphere.Application.Features.Team.Commands.DeleteTeam;
 using CollabSphere.Application.Features.Team.Commands.TeamUploadAvatar;
 using CollabSphere.Application.Features.Team.Commands.UpdateTeam;
@@ -236,6 +238,41 @@ namespace CollabSphere.API.Controllers
             query.UserRole = int.Parse(roleClaim.Value);
 
             var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpPost("{teamId}/students")]
+        public async Task<IActionResult> AddStudentToTeam(int teamId, [FromBody] AddStudentToTeamCommand command)
+        {
+            if (teamId != command.TeamId)
+            {
+                return BadRequest("TeamId in url route and body do not match.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            command.UserId = int.Parse(UIdClaim.Value);
+            command.UserRole = int.Parse(roleClaim.Value);
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
 
             if (!result.IsSuccess)
             {

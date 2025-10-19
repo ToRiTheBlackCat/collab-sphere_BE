@@ -13,8 +13,9 @@ namespace CollabSphere.Infrastructure.Repositories
 {
     public class ClassMemberRepositiory : GenericRepository<ClassMember>, IClassMemberRepository
     {
-        public ClassMemberRepositiory(collab_sphereContext context): base(context) {
-        
+        public ClassMemberRepositiory(collab_sphereContext context) : base(context)
+        {
+
         }
 
         public override async Task<List<ClassMember>> GetAll()
@@ -48,3 +49,4 @@ namespace CollabSphere.Infrastructure.Repositories
         }
     }
 }
+
