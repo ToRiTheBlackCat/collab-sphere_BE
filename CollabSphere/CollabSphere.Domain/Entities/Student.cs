@@ -30,8 +30,6 @@ public partial class Student
 
     public virtual ICollection<AnswerEvaluation> AnswerEvaluationReceivers { get; set; } = new List<AnswerEvaluation>();
 
-    public virtual ICollection<CardAssignment> CardAssignments { get; set; } = new List<CardAssignment>();
-
     public virtual ICollection<ClassMember> ClassMembers { get; set; } = new List<ClassMember>();
 
     public virtual User StudentNavigation { get; set; }

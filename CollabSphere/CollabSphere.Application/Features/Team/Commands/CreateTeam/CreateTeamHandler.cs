@@ -2,6 +2,8 @@
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Application.Features.Student.Commands;
+using CollabSphere.Domain.Entities;
+using CollabSphere.Domain.Intefaces;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.Logging;
 using System;
@@ -54,13 +56,13 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                     LecturerName = foundLecturer?.Lecturer.Fullname,
                     CreatedDate = request.CreatedDate,
                     EndDate = request.EndDate,
-                    Status = request.Status
+                    Status = (int)TeamStatus.ACTIVE
                 };
                 await _unitOfWork.TeamRepo.Create(newTeam);
                 await _unitOfWork.SaveChangesAsync();
 
                 // Add count for team in class
-                var foundClass = await _unitOfWork.ClassRepo.GetById(request.ClassId);
+                var foundClass = await _unitOfWork.ClassRepo.GetClassByIdAsync(request.ClassId);
                 foundClass.TeamCount++;
                 _unitOfWork.ClassRepo.Update(foundClass);
                 await _unitOfWork.SaveChangesAsync();
@@ -69,7 +71,7 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                 var foundLeader = await _unitOfWork.UserRepo.GetOneByUserIdAsync(request.LeaderId);
                 var foundClassMember = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByClassIdAndStudentId(request.ClassId, request.LeaderId);
 
-                if(foundClassMember != null)
+                if (foundClassMember != null)
                 {
                     foundClassMember.TeamId = newTeam.TeamId;
                     foundClassMember.TeamRole = (int?)TeamRole.LEADER;
@@ -77,6 +79,47 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
 
                     _unitOfWork.ClassMemberRepo.Update(foundClassMember);
                     await _unitOfWork.SaveChangesAsync();
+                }
+
+                //Create Team Milestone if picked project
+                var foundProjectAssign = newTeam.ProjectAssignment;
+                if (foundProjectAssign != null)
+                {
+                    var foundProject = await _unitOfWork.ProjectRepo.GetById(foundProjectAssign.ProjectId);
+                    if (foundProject != null)
+                    {
+                        //Find objective milestone
+                        var objectives = foundProject.Objectives;
+                        if (objectives.Any() || objectives.Count() > 0)
+                        {
+                            //Find milestones of objective
+                            foreach (var obj in objectives)
+                            {
+                                var objMilestones = obj.ObjectiveMilestones;
+                                if (objMilestones.Any() || objMilestones.Count() > 0)
+                                {
+                                    foreach (var mile in objMilestones)
+                                    {
+                                        //Create team milestone
+                                        var newTeamMilestone = new TeamMilestone
+                                        {
+                                            ObjectiveMilestoneId = mile.ObjectiveMilestoneId,
+                                            Title = mile.Title,
+                                            Description = mile.Description,
+                                            TeamId = newTeam.TeamId,
+                                            StartDate = mile.StartDate,
+                                            EndDate = mile.EndDate,
+                                            Progress = 0,
+                                            Status = (int)MilestoneStatus.NOTDONE,
+                                        };
+
+                                        await _unitOfWork.TeamMilestoneRepo.Create(newTeamMilestone);
+                                        await _unitOfWork.SaveChangesAsync();
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 await _unitOfWork.CommitTransactionAsync();
 

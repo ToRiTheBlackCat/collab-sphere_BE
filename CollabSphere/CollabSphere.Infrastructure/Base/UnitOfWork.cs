@@ -55,6 +55,7 @@ namespace CollabSphere.Infrastructure.Base
             SubjectSyllabusRepo = new SubjectSyllabusRepository(_context);
             TeamMilestoneRepo = new TeamMilestoneRepository(_context);
             TeamRepo = new TeamRepository(_context);
+            TeamMilestoneRepo = new TeamMilestoneRepository(_context);
             #endregion
         }
 
