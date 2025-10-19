@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.TeamMilestones.GetMilestonesByTeam
+namespace CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestonesByTeam
 {
     public class GetMilestonesByTeamResult : QueryResult
     {

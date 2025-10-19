@@ -1,4 +1,5 @@
-﻿using CollabSphere.Application.Features.TeamMilestones.GetMilestonesByTeam;
+﻿using CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestoneDetail;
+using CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestonesByTeam;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -52,6 +53,38 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result.TeamMilestones);
+        }
+
+        [Authorize]
+        [HttpGet("{teamMilestoneId}")]
+        public async Task<IActionResult> GetMilestoneDetail(int teamMilestoneId, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+
+            // Construct query
+            var query = new GetMilestoneDetailQuery()
+            {
+                TeamMilestoneId = teamMilestoneId,
+                UserId = int.Parse(UIdClaim.Value),
+                UserRole = int.Parse(roleClaim.Value),
+            };
+
+            // Handle command
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result.TeamMilestone);
         }
     }
 }
