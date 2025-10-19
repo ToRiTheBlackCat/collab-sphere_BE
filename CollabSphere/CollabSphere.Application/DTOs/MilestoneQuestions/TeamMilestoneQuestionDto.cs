@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.DTOs.MilestoneQuestions
 {
-    public class TeamMilestoneQuestionVM
+    public class TeamMilestoneQuestionDto
     {
         public int MilestoneQuestionId { get; set; }
 
@@ -21,9 +21,9 @@ namespace CollabSphere.Application.DTOs.MilestoneQuestions
 
         public DateTime CreatedTime { get; set; }
 
-        public static explicit operator TeamMilestoneQuestionVM(MilestoneQuestion milestoneQuestion)
+        public static explicit operator TeamMilestoneQuestionDto(MilestoneQuestion milestoneQuestion)
         {
-            return new TeamMilestoneQuestionVM()
+            return new TeamMilestoneQuestionDto()
             {
                 MilestoneQuestionId = milestoneQuestion.MilestoneQuestionId,
                 TeamMilestoneId = milestoneQuestion.TeamMilestoneId,

@@ -13,9 +13,9 @@ namespace CollabSphere.Application.DTOs.Checkpoints
 
         public int CheckpointId { get; set; }
 
-        public int ClassId { get; set; }
+        //public int ClassId { get; set; }
 
-        public int TeamId { get; set; }
+        //public int TeamId { get; set; }
 
         #region Student Display Info
         public int ClassMemberId { get; set; }
@@ -37,8 +37,8 @@ namespace CollabSphere.Application.DTOs.Checkpoints
             {
                 CheckpointAssignmentId = assignment.CheckpointAssignmentId,
                 CheckpointId = assignment.CheckpointId,
-                ClassId = assignment.ClassMember.ClassId,
-                TeamId = assignment.ClassMember.TeamId!.Value,
+                //ClassId = assignment.ClassMember.ClassId,
+                //TeamId = assignment.ClassMember.TeamId!.Value,
 
                 ClassMemberId = assignment.ClassMemberId,
                 StudentId = assignment.ClassMember.StudentId,
