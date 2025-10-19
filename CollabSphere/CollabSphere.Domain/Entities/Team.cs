@@ -17,8 +17,6 @@ public partial class Team
 
     public string Description { get; set; }
 
-    public string GitLink { get; set; }
-
     public int LeaderId { get; set; }
 
     public int ClassId { get; set; }
@@ -35,7 +33,12 @@ public partial class Team
 
     public float? Progress { get; set; }
 
+    /// <summary>
+    /// 1 - valid, 2 - invalid
+    /// </summary>
     public int Status { get; set; }
+
+    public string GitLink { get; set; }
 
     public virtual ICollection<ChatConversation> ChatConversations { get; set; } = new List<ChatConversation>();
 
@@ -46,6 +49,8 @@ public partial class Team
     public virtual ICollection<Meeting> Meetings { get; set; } = new List<Meeting>();
 
     public virtual ICollection<MemberEvaluation> MemberEvaluations { get; set; } = new List<MemberEvaluation>();
+
+    public virtual ICollection<MilestoneEvaluation> MilestoneEvaluations { get; set; } = new List<MilestoneEvaluation>();
 
     public virtual ProjectAssignment ProjectAssignment { get; set; }
 

@@ -27,11 +27,11 @@ public partial class Lecturer
 
     public virtual ICollection<AnswerEvaluation> AnswerEvaluations { get; set; } = new List<AnswerEvaluation>();
 
-    public virtual ICollection<CheckpointEvaluation> CheckpointEvaluations { get; set; } = new List<CheckpointEvaluation>();
-
     public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
 
     public virtual User LecturerNavigation { get; set; }
+
+    public virtual ICollection<MilestoneEvaluation> MilestoneEvaluations { get; set; } = new List<MilestoneEvaluation>();
 
     public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
 

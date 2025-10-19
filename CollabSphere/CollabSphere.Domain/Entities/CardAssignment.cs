@@ -17,6 +17,4 @@ public partial class CardAssignment
     public string Avatar { get; set; }
 
     public virtual Card Card { get; set; }
-
-    public virtual Student Student { get; set; }
 }
