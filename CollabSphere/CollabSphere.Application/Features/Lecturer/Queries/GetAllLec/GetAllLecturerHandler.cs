@@ -81,7 +81,7 @@ namespace CollabSphere.Application.Features.Lecturer.Queries.GetAllLec
 
         protected override async Task ValidateRequest(List<OperationError> errors, GetAllLecturerQuery request)
         {
-            var bypassRoles = new int[] { RoleConstants.STAFF };
+            var bypassRoles = new int[] { RoleConstants.STAFF, RoleConstants.HEAD_DEPARTMENT };
 
             //Check role permission
             if (!bypassRoles.Contains(request.UserRole))
