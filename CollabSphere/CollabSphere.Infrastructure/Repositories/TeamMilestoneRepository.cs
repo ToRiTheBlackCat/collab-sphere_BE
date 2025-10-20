@@ -17,6 +17,39 @@ namespace CollabSphere.Infrastructure.Repositories
         {
         }
 
+        public override async Task<TeamMilestone?> GetById(int id)
+        {
+            var milestone = await _context.TeamMilestones
+                .AsNoTracking()
+                // Team Info for checking viewing user
+                .Include(mst => mst.Team)
+                    .ThenInclude(team => team.Class)
+                .Include(mst => mst.Team)
+                    .ThenInclude(team => team.ClassMembers)
+                // Milestone questions Info
+                .Include(mst => mst.MilestoneQuestions)
+                    .ThenInclude(question => question.MilestoneQuestionAns)
+                // Checkpoints Info
+                .Include(mst => mst.Checkpoints)
+                    .ThenInclude(check => check.CheckpointAssignments)
+                        .ThenInclude(assign => assign.ClassMember)
+                            .ThenInclude(member => member.Student)
+                .Include(mst => mst.Checkpoints)
+                    .ThenInclude(check => check.CheckpointFiles)
+                // Return Info
+                .Include(mst => mst.MilestoneEvaluation)
+                    .ThenInclude(eval => eval.Lecturer)
+                // File Info
+                .Include(mst => mst.MilestoneFiles)
+                // Return Info
+                .Include(mst => mst.MilestoneReturns)
+                    .ThenInclude(rtrn => rtrn.ClassMember)
+                        .ThenInclude(member => member.Student)
+                .FirstOrDefaultAsync(mst => mst.TeamMilestoneId == id);
+
+            return milestone;
+        }
+
         public async Task<List<TeamMilestone>> GetMilestonesByTeamId(int teamId)
         {
             var query = _context.TeamMilestones
@@ -35,7 +68,7 @@ namespace CollabSphere.Infrastructure.Repositories
             var milestones = await query;
             if (milestones.Any())
             {
-                foreach(var milestone in milestones)
+                foreach (var milestone in milestones)
                 {
                     milestone.Checkpoints = milestone.Checkpoints.OrderBy(x => x.StartDate).ToList();
                 }
