@@ -29,7 +29,11 @@ namespace CollabSphere.Application.DTOs.Checkpoints
         public string AvatarImg { get; set; }
         #endregion
 
-        public int TeamRole { get; set; }
+        public int? TeamRole { get; set; }
+
+        public string TeamRoleString => this.TeamRole.HasValue && Enum.IsDefined(typeof(Application.Constants.TeamRole), this.TeamRole) ?
+            ((Application.Constants.TeamRole)this.TeamRole).ToString() :
+            $"Invalid team role ({this.TeamRole})";
 
         public static explicit operator CheckpointAssignmentVM(CheckpointAssignment assignment)
         {
@@ -42,10 +46,10 @@ namespace CollabSphere.Application.DTOs.Checkpoints
 
                 ClassMemberId = assignment.ClassMemberId,
                 StudentId = assignment.ClassMember.StudentId,
-                Fullname = assignment.ClassMember.Fullname,
+                Fullname = assignment.ClassMember.Student.Fullname,
                 StudentCode = assignment.ClassMember.Student.StudentCode,
                 AvatarImg = assignment.ClassMember.Student.AvatarImg,
-                TeamRole = assignment.ClassMember.TeamRole!.Value,
+                TeamRole = assignment.ClassMember?.TeamRole ?? -1,
             };
         }
     }
