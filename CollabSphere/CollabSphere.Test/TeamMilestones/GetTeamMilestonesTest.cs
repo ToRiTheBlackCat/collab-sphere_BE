@@ -2,7 +2,7 @@
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.Features.Project.Commands.ApproveProject;
 using CollabSphere.Application.Features.Team.Queries.GetTeamDetail;
-using CollabSphere.Application.Features.TeamMilestones.GetMilestonesByTeam;
+using CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestonesByTeam;
 using CollabSphere.Application.Mappings.TeamMilestones;
 using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
