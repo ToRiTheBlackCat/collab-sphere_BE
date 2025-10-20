@@ -30,7 +30,7 @@ public partial class TeamMilestone
 
     public virtual ICollection<Checkpoint> Checkpoints { get; set; } = new List<Checkpoint>();
 
-    public virtual ICollection<MilestoneEvaluation> MilestoneEvaluations { get; set; } = new List<MilestoneEvaluation>();
+    public virtual MilestoneEvaluation MilestoneEvaluation { get; set; }
 
     public virtual ICollection<MilestoneFile> MilestoneFiles { get; set; } = new List<MilestoneFile>();
 
