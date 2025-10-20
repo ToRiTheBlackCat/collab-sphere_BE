@@ -39,10 +39,10 @@ namespace CollabSphere.Application.DTOs.MilestoneReturns
                 TeamMilestoneId = milestoneReturn.TeamMilestoneId,
 
                 ClassMemberId = milestoneReturn.ClassMemberId,
-                StudentId = milestoneReturn.ClassMember.Student.StudentId,
-                Fullname = milestoneReturn.ClassMember.Student.Fullname,
-                AvatarImg = milestoneReturn.ClassMember.Student.AvatarImg,
-                StudentCode = milestoneReturn.ClassMember.Student.StudentCode,
+                StudentId = milestoneReturn.ClassMember?.Student?.StudentId ?? -1,
+                Fullname = milestoneReturn.ClassMember?.Student?.Fullname ?? "Student relation missing",
+                AvatarImg = milestoneReturn.ClassMember?.Student?.AvatarImg ?? "Student relation missing",
+                StudentCode = milestoneReturn.ClassMember?.Student?.StudentCode ?? "Student relation missing",
 
                 FilePath =milestoneReturn.FilePath,
                 Type = milestoneReturn.Type,
