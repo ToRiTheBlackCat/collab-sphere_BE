@@ -596,8 +596,8 @@ public partial class collab_sphereContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("milestone_evaluation_lecturer_fk");
 
-            entity.HasOne(d => d.Milestone).WithMany(p => p.MilestoneEvaluations)
-                .HasForeignKey(d => d.MilestoneId)
+            entity.HasOne(d => d.Milestone).WithOne(p => p.MilestoneEvaluation)
+                .HasForeignKey<MilestoneEvaluation>(d => d.MilestoneId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("milestone_evaluation_team_milestone_fk");
 
@@ -830,9 +830,6 @@ public partial class collab_sphereContext : DbContext
                 .HasComment("0 - Pending,\r\n1 - Approved,\r\n2 - Denied")
                 .HasColumnName("status");
             entity.Property(e => e.SubjectId).HasColumnName("subject_id");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("now()")
-                .HasColumnName("created_at");
             entity.Property(e => e.UpdatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("updated_at");

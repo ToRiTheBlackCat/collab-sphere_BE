@@ -55,9 +55,6 @@ namespace CollabSphere.Test.Team
                 EnrolKey = "ABC123",
                 Description = "Updated description",
                 GitLink = "https://github.com/team",
-                ClassId = 2,
-                EndDate = new DateOnly(2025, 12, 31),
-                Status = 1
             };
 
             var foundTeam = new Domain.Entities.Team
@@ -72,7 +69,6 @@ namespace CollabSphere.Test.Team
             };
 
             _teamRepoMock.Setup(r => r.GetById(command.TeamId)).ReturnsAsync(foundTeam);
-            _classRepoMock.Setup(r => r.GetById(command.ClassId)).ReturnsAsync(new Class { ClassId = 2 });
 
             _unitOfWorkMock.Setup(u => u.BeginTransactionAsync()).Returns(Task.CompletedTask);
             _unitOfWorkMock.Setup(u => u.CommitTransactionAsync()).Returns(Task.CompletedTask);
@@ -96,7 +92,6 @@ namespace CollabSphere.Test.Team
             {
                 TeamId = 99,
                 TeamName = "NonExistent",
-                ClassId = 2
             };
 
             _teamRepoMock.Setup(r => r.GetById(command.TeamId)).ReturnsAsync((Domain.Entities.Team?)null);
@@ -117,7 +112,6 @@ namespace CollabSphere.Test.Team
             {
                 TeamId = 1,
                 TeamName = "TeamCrash",
-                ClassId = 2
             };
 
             var foundTeam = new Domain.Entities.Team { TeamId = 1, TeamName = "Old Team" };
