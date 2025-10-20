@@ -29,7 +29,7 @@ namespace CollabSphere.Application.DTOs.MilestoneEvaluations
 
         public string Comment { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
 
         public static explicit operator TeamMilestoneEvaluationVM(MilestoneEvaluation evaluation)
         {
@@ -39,14 +39,14 @@ namespace CollabSphere.Application.DTOs.MilestoneEvaluations
                 TeamId = evaluation.TeamId,
 
                 LecturerId = evaluation.LecturerId,
-                FullName = evaluation.Lecturer.Fullname,
-                AvatarImg = evaluation.Lecturer.AvatarImg,
-                PhoneNumber = evaluation.Lecturer.PhoneNumber,
-                LecturerCode = evaluation.Lecturer.LecturerCode,
+                FullName = evaluation.Lecturer?.Fullname ?? "Lecturer relation missing",
+                AvatarImg = evaluation.Lecturer?.AvatarImg ?? "Lecturer relation missing",
+                PhoneNumber = evaluation.Lecturer?.PhoneNumber ?? "Lecturer relation missing",
+                LecturerCode = evaluation.Lecturer?.LecturerCode ?? "Lecturer relation missing",
 
-                Score = evaluation.Score!.Value,
+                Score = evaluation.Score ?? -1,
                 Comment = evaluation.Comment,
-                CreatedDate = evaluation.CreatedDate!.Value,
+                CreatedDate = evaluation.CreatedDate,
             };
         }
     }

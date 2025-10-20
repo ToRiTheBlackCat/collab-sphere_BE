@@ -24,7 +24,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestoneD
             var result = new GetMilestoneDetailResult()
             {
                 IsSuccess = false,
-                IsValidInput = true,
+                IsValidInput = false,
                 Message = string.Empty,
             };
 
@@ -60,6 +60,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestoneD
                     result.TeamMilestone = (TeamMilestoneDetailDto)milestone;
                 }
 
+                result.IsValidInput = true;
                 result.IsSuccess = true;
             }
             catch (Exception ex)

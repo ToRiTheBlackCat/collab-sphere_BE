@@ -20,7 +20,7 @@ namespace CollabSphere.Application.DTOs.Checkpoints
 
         public string Complexity { get; set; }
 
-        public DateOnly StartDate { get; set; }
+        public DateOnly? StartDate { get; set; }
 
         public DateOnly DueDate { get; set; }
 
@@ -45,7 +45,7 @@ namespace CollabSphere.Application.DTOs.Checkpoints
                  Title = checkpoint.Title,
                  Description = checkpoint.Description,
                  Complexity = checkpoint.Complexity,
-                 StartDate = checkpoint.StartDate!.Value,
+                 StartDate = checkpoint.StartDate,
                  DueDate = checkpoint.DueDate,
                  Status = checkpoint.Status,
                  FileCount = checkpoint.CheckpointFiles.Count,
