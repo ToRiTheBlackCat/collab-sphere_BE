@@ -1,4 +1,6 @@
-﻿using CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestoneDetail;
+﻿using CollabSphere.Application.DTOs.TeamMilestones;
+using CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMilestone;
+using CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestoneDetail;
 using CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestonesByTeam;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -6,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Threading;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace CollabSphere.API.Controllers
@@ -85,6 +88,41 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result.TeamMilestone);
+        }
+
+        // Roles: Lecturer
+        [Authorize(Roles = "4")]
+        [HttpPatch("{teamMilestoneId}")]
+        public async Task<IActionResult> LecturerUpdateTeamMilestone(int teamMilestoneId, UpdateTeamMilestoneDto teamMilestoneDto, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+
+            teamMilestoneDto.TeamMilestoneId = teamMilestoneId;
+
+            // Construct command
+            var command = new UpdateTeamMilestoneCommand()
+            {
+                TeamMilestoneDto = teamMilestoneDto,
+                UserId = int.Parse(UIdClaim.Value),
+                UserRole = int.Parse(roleClaim.Value),
+            };
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result.Message);
         }
     }
 }

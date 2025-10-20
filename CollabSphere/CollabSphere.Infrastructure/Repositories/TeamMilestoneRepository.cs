@@ -26,6 +26,7 @@ namespace CollabSphere.Infrastructure.Repositories
                     .ThenInclude(team => team.Class)
                 .Include(mst => mst.Team)
                     .ThenInclude(team => team.ClassMembers)
+                        .ThenInclude(member => member.Student)
                 // Milestone questions Info
                 .Include(mst => mst.MilestoneQuestions)
                     .ThenInclude(question => question.MilestoneQuestionAns)
@@ -46,6 +47,11 @@ namespace CollabSphere.Infrastructure.Repositories
                     .ThenInclude(rtrn => rtrn.ClassMember)
                         .ThenInclude(member => member.Student)
                 .FirstOrDefaultAsync(mst => mst.TeamMilestoneId == id);
+
+            if (milestone != null)
+            {
+                milestone.Checkpoints = milestone.Checkpoints.OrderBy(x => x.StartDate).ToList();
+            }
 
             return milestone;
         }
