@@ -18,7 +18,6 @@ namespace CollabSphere.API.Controllers
     [ApiController]
     public class TeamMilestonesController : ControllerBase
     {
-
         private readonly IMediator _mediator;
 
         public TeamMilestonesController(IMediator mediator)
@@ -59,6 +58,7 @@ namespace CollabSphere.API.Controllers
             return Ok(result.TeamMilestones);
         }
 
+        // Roles: Lecturer, Student
         [Authorize]
         [HttpGet("{teamMilestoneId}")]
         public async Task<IActionResult> GetMilestoneDetail(int teamMilestoneId, CancellationToken cancellationToken = default)
