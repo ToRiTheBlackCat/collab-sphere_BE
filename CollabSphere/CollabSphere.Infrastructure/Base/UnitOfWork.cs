@@ -18,6 +18,9 @@ namespace CollabSphere.Infrastructure.Base
 
         #region Register_Repo
         public IUserRepository UserRepo { get; }
+        public ICheckpointAssignmentRepository CheckpointAssignmentRepo { get; }
+        public ICheckpointFileRepository CheckpointFileRepo { get; }
+        public ICheckpointRepository CheckpointRepo { get; }
         public IClassMemberRepository ClassMemberRepo { get; }
         public IClassRepository ClassRepo { get; }
         public ILecturerRepository LecturerRepo { get; }
@@ -41,6 +44,9 @@ namespace CollabSphere.Infrastructure.Base
 
             #region Register_Repo
             UserRepo = new UserRepository(_context);
+            CheckpointAssignmentRepo = new CheckpointAssignmentRepository(_context);
+            CheckpointFileRepo = new CheckpointFileRepository(_context);
+            CheckpointRepo = new CheckpointRepository(_context);
             ClassMemberRepo = new ClassMemberRepositiory(_context);
             ClassRepo = new ClassRepository(_context);
             LecturerRepo = new LecturerRepository(_context);
