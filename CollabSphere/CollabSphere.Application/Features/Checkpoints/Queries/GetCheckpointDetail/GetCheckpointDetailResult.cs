@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Checkpoint.Queries.GetCheckpointDetail
+namespace CollabSphere.Application.Features.Checkpoints.Queries.GetCheckpointDetail
 {
     public class GetCheckpointDetailResult : QueryResult
     {
