@@ -1,7 +1,7 @@
 ﻿using CollabSphere.Application;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Checkpoints;
-using CollabSphere.Application.Features.Checkpoint.Queries.GetCheckpointDetail;
+using CollabSphere.Application.Features.Checkpoints.Queries.GetCheckpointDetail;
 using CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestoneDetail;
 using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
