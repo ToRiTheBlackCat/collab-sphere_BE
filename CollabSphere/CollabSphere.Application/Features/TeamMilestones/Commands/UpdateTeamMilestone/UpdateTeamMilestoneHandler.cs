@@ -100,22 +100,24 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMi
             if (milestoneCheckpoints.Any())
             {
                 // Check StartDate
-                if (dto.StartDate > milestoneCheckpoints.First().StartDate)
+                var earliestStartDate = milestoneCheckpoints.Min(x => x.StartDate);
+                if (earliestStartDate.HasValue && dto.StartDate > earliestStartDate)
                 {
                     errors.Add(new OperationError()
                     {
                         Field = nameof(dto.StartDate),
-                        Message = $"StartDate can't be a date later than earliest checkpoint's StartDate: {milestoneCheckpoints.First().StartDate}",
+                        Message = $"StartDate can't be a date later than earliest checkpoint's StartDate: {earliestStartDate}",
                     });
                 }
 
                 // Check EndDate
-                if (dto.EndDate < milestoneCheckpoints.Last().DueDate)
-                {
+                var latestDueDate = milestoneCheckpoints.Max(x => x.DueDate);
+                if (dto.EndDate < latestDueDate)
+                {   
                     errors.Add(new OperationError()
                     {
                         Field = nameof(dto.EndDate),
-                        Message = $"EndDate can't be a date earlier than latest checpoint's DueDate: {milestoneCheckpoints.Last().DueDate}",
+                        Message = $"EndDate can't be a date earlier than latest checpoint's DueDate: {latestDueDate}",
                     });
                 }
             }
