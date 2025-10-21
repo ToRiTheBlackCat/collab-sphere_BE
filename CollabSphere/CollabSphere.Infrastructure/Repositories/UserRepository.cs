@@ -111,5 +111,21 @@ namespace CollabSphere.Infrastructure.Repositories
         {
             _context.Users.Update(user);
         }
+
+        public async Task<User?> GetStudentByStudentCodeAsync(string? studentCode)
+        {
+            return await _context.Users
+                .Include(x => x.Student)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Student.StudentCode.ToLower().Equals(studentCode.ToLower().Trim()) && x.IsActive);
+        }
+
+        public async Task<User?> GetLecturerByLecturerCodeAsync(string? lecturerCode)
+        {
+            return await _context.Users
+                .Include(x => x.Lecturer)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Lecturer.LecturerCode.ToLower().Equals(lecturerCode.ToLower().Trim()) && x.IsActive);
+        }
     }
 }

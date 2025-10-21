@@ -59,6 +59,15 @@ namespace CollabSphere.Application.Features.Lecturer.Commands.ImportLecturer
                         continue;
                     }
 
+                    //Check if duplicated studentcode
+                    var foundLeccode = await _unitOfWork.UserRepo.GetLecturerByLecturerCodeAsync(lecturer.LecturerCode);
+                    if (foundLeccode != null)
+                    {
+                        message.Append($"One Lecturer already existed with lecturer code: {lecturer.LecturerCode}, cannot create that lecturer! ");
+                        errCnt++;
+                        continue;
+                    }
+
                     //Hash password
                     var hashedPassword = SHA256Encoding.ComputeSHA256Hash(lecturer.Password + _configure["SecretString"]);
 
@@ -154,6 +163,17 @@ namespace CollabSphere.Application.Features.Lecturer.Commands.ImportLecturer
                     {
                         Field = $"LecturerList[{i}].{request.LecturerList[i].Yob}",
                         Message = $"There is not a valid year of birth format '{request.LecturerList[i].Yob}'."
+                    });
+                }
+
+                //Validate duplicated lecturer code
+                var foundStuCode = await _unitOfWork.UserRepo.GetLecturerByLecturerCodeAsync(request.LecturerList[i].LecturerCode);
+                if (foundStuCode != null)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = "LecturerCode",
+                        Message = $"There is a dupliacted lecturer code : {request.LecturerList[i].LecturerCode}. Try another lecturer code create lecturer"
                     });
                 }
             }

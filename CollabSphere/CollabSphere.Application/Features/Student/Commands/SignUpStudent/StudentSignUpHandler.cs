@@ -25,6 +25,7 @@ namespace CollabSphere.Application.Features.Student.Commands.SignUpStudent
         private static string FAIL = "Create new student fail. Not valid OTP code";
         private static string EXCEPTION = "Exception when create new student";
         private static string EXISTED = "Already exist student with that email. Try other email to sign up";
+        private static string EXISTEDSTUCODE = "Already exist student with that student code. Try other studentcode to create account";
 
         public StudentSignUpHandler(IUnitOfWork unitOfWork,
                                     IConfiguration configure,
@@ -52,6 +53,13 @@ namespace CollabSphere.Application.Features.Student.Commands.SignUpStudent
                     if (foundUser != null)
                     {
                         return (false, EXISTED);
+                    }
+
+                    //Check duplicated studentcode
+                    var foundStucode = await _unitOfWork.UserRepo.GetStudentByStudentCodeAsync(request.Dto.StudentCode);
+                    if (foundStucode != null)
+                    {
+                        return(false, EXISTEDSTUCODE);
                     }
 
                     var hashedPassword = SHA256Encoding.ComputeSHA256Hash(request.Dto.Password + _configure["SecretString"]);

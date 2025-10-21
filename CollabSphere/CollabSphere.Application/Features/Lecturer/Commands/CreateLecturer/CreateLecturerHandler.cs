@@ -22,6 +22,7 @@ namespace CollabSphere.Application.Features.Lecturer.Commands.CreateLecturer
         private static string SUCCESS = "Create new lecturer successfully";
         private static string EXCEPTION = "Exception when create new lecturer";
         private static string EXISTED = "Already exist lecturer with that email. Try other email to create accounts";
+        private static string EXISTEDLECCODE = "Already exist lecturer with that lecturer code. Try other lecturercode to create account";
 
         public CreateLecturerHandler(IUnitOfWork unitOfWork,
                                     IConfiguration configure,
@@ -44,6 +45,13 @@ namespace CollabSphere.Application.Features.Lecturer.Commands.CreateLecturer
                 if (foundUser != null)
                 {
                     return (false, EXISTED);
+                }
+
+                //Check duplicated lecturer code
+                var foundLecCode = await _unitOfWork.UserRepo.GetLecturerByLecturerCodeAsync(request.Dto.LecturerCode);
+                if (foundLecCode != null)
+                {
+                    return (false, EXISTEDLECCODE);
                 }
                 //Hash password
                 var hashedPassword = SHA256Encoding.ComputeSHA256Hash(request.Dto.Password + _configure["SecretString"]);
