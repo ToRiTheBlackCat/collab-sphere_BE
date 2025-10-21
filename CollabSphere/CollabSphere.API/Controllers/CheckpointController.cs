@@ -1,4 +1,5 @@
-﻿using CollabSphere.Application.Features.Checkpoint.Queries.GetCheckpointDetail;
+﻿using CollabSphere.Application.Features.Checkpoints.Commands.CreateCheckpoint;
+using CollabSphere.Application.Features.Checkpoints.Queries.GetCheckpointDetail;
 using CollabSphere.Application.Features.TeamMilestones.Commands.CheckTeamMilestone;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -55,6 +56,38 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result.Checkpoint);
+        }
+
+        // Roles: Student
+        [Authorize(Roles = "5")]
+        [HttpPost]
+        public async Task<IActionResult> CreateCheckpoint(CreateCheckpointCommand command, CancellationToken cancellationToken = default)
+        {// Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+
+            // Set claims in command
+            command.UserId = int.Parse(UIdClaim.Value);
+            command.UserRole = int.Parse(roleClaim.Value);
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result.ErrorList);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return CreatedAtAction(
+                actionName: nameof(GetCheckpointDetail),
+                routeValues: new { CheckpointId = result.CheckpointId },
+                value: result
+            );
         }
     }
 }
