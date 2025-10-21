@@ -2,6 +2,7 @@
 using CollabSphere.Domain.Intefaces;
 using CollabSphere.Infrastructure.Base;
 using CollabSphere.Infrastructure.PostgreDbContext;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,20 @@ namespace CollabSphere.Infrastructure.Repositories
         {
         }
 
-        public Task<Checkpoint> GetCheckpointDetail(int checkpontId)
+        public async Task<Checkpoint?> GetCheckpointDetail(int checkpontId)
         {
-            throw new NotImplementedException();
+            var checkpoint = await _context.Checkpoints
+                .AsNoTracking()
+                .Include(x => x.CheckpointFiles)
+                .Include(x => x.CheckpointAssignments)
+                    .ThenInclude(assign => assign.ClassMember)
+                        .ThenInclude(member => member.Student)
+                .Include(x => x.TeamMilestone)
+                    .ThenInclude(mls => mls.Team)
+                        .ThenInclude(team => team.ClassMembers)
+                .FirstOrDefaultAsync(x => x.CheckpointId == checkpontId);
+
+            return checkpoint;
         }
     }
 }
