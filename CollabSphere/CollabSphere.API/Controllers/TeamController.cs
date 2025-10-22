@@ -12,6 +12,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace CollabSphere.API.Controllers
 {
@@ -26,7 +27,7 @@ namespace CollabSphere.API.Controllers
             _mediator = mediator;
         }
 
-        [Authorize(Roles = "4")]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateTeam([FromBody] CreateTeamCommand command)
         {
@@ -35,6 +36,11 @@ namespace CollabSphere.API.Controllers
             {
                 return BadRequest(ModelState);
             }
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            command.UserId = int.Parse(UIdClaim.Value);
+            command.UserRole = int.Parse(roleClaim.Value);
 
             var result = await _mediator.Send(command);
 
@@ -238,41 +244,6 @@ namespace CollabSphere.API.Controllers
             query.UserRole = int.Parse(roleClaim.Value);
 
             var result = await _mediator.Send(query, cancellationToken);
-
-            if (!result.IsSuccess)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, result);
-            }
-
-            return Ok(result);
-        }
-
-        [Authorize]
-        [HttpPost("{teamId}/students")]
-        public async Task<IActionResult> AddStudentToTeam(int teamId, [FromBody] AddStudentToTeamCommand command)
-        {
-            if (teamId != command.TeamId)
-            {
-                return BadRequest("TeamId in url route and body do not match.");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            // Get UserId & Role of requester
-            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
-            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
-            command.UserId = int.Parse(UIdClaim.Value);
-            command.UserRole = int.Parse(roleClaim.Value);
-
-            var result = await _mediator.Send(command);
-
-            if (!result.IsValidInput)
-            {
-                return BadRequest(result);
-            }
 
             if (!result.IsSuccess)
             {
