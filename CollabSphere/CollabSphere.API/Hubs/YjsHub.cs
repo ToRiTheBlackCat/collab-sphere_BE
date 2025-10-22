@@ -25,7 +25,7 @@ namespace CollabSphere.API.Hubs
                 UserConnectionIds.TryAdd(Context.ConnectionId, userId);
 
                 await Groups.AddToGroupAsync(Context.ConnectionId, room);
-                await Clients.Groups(room).SendAsync("UserConnected", userId);
+                var notifyConnect = Clients.Groups(room).SendAsync("UserConnected", userId);
 
                 if (DocumentStates.TryGetValue(room, out var state))
                 {
@@ -48,7 +48,7 @@ namespace CollabSphere.API.Hubs
                 list.Add(updateBase64);
 
                 // Forward to others in the room
-                await Clients.OthersInGroup(room).SendAsync("ReceiveUpdate", updateBase64);
+                var sendDocUpdate = Clients.OthersInGroup(room).SendAsync("ReceiveUpdate", updateBase64);
             }
             catch (Exception ex)
             {
@@ -61,7 +61,7 @@ namespace CollabSphere.API.Hubs
         {
             try
             {
-                await Clients.OthersInGroup(room).SendAsync("ReceiveAwareness", updateBase64);
+                var sendAwareness = Clients.OthersInGroup(room).SendAsync("ReceiveAwareness", updateBase64);
             }
             catch (Exception ex)
             {
@@ -92,7 +92,11 @@ namespace CollabSphere.API.Hubs
                 Console.WriteLine($"User {userId} disconnected.");
 
                 // Perform cleanup (e.g., mark user as offline, remove from room, etc.)
-                await Clients.All.SendAsync("UserDisconnected", userId);
+                var notifyDisconnect = Clients.All.SendAsync("UserDisconnected", userId);
+                if (UserConnectionIds.TryRemove(new KeyValuePair<string, int>(Context.ConnectionId, userId)))
+                {
+                    Console.WriteLine($"Removed connection '{Context.ConnectionId}' of user '{userId}'");
+                }
             }
 
             await base.OnDisconnectedAsync(exception);
