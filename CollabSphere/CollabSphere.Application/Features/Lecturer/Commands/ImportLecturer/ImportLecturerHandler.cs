@@ -132,6 +132,24 @@ namespace CollabSphere.Application.Features.Lecturer.Commands.ImportLecturer
             }
             for (int i = 0; i < request.LecturerList.Count; i++)
             {
+                //Check duplicated lecturecode in request list
+                var lecturerCodeSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+                var lecturer = request.LecturerList[i];
+
+                // Check for duplicated lecturer code inside the import file
+                if (!string.IsNullOrEmpty(lecturer.LecturerCode))
+                {
+                    if (!lecturerCodeSet.Add(lecturer.LecturerCode.ToLower().Trim()))
+                    {
+                        errors.Add(new OperationError()
+                        {
+                            Field = $"LecturerList[{i}].LecturerCode",
+                            Message = $"Duplicate lecturer code '{lecturer.LecturerCode}' found within import list."
+                        });
+                    }
+                }
+
                 //Validate Email format
                 var emailFormat = @"^[\x00-\x7F]+@[A-Za-z0-9\p{L}.-]+\.\p{L}+$";
 
@@ -178,7 +196,6 @@ namespace CollabSphere.Application.Features.Lecturer.Commands.ImportLecturer
                 }
             }
         }
-
 
         private bool ValidateYearOfBirth(string? yob)
         {

@@ -132,6 +132,24 @@ namespace CollabSphere.Application.Features.Student.Commands.ImportStudent
             }
             for (int i = 0; i < request.StudentList.Count; i++)
             {
+                //Check duplicated studentcode in request list
+                var studentCodeSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+                var student = request.StudentList[i];
+
+                // Check for duplicated lecturer code inside the import file
+                if (!string.IsNullOrEmpty(student.StudentCode))
+                {
+                    if (!studentCodeSet.Add(student.StudentCode.ToLower().Trim()))
+                    {
+                        errors.Add(new OperationError()
+                        {
+                            Field = $"StudentList[{i}].StudentCode",
+                            Message = $"Duplicate student code '{student.StudentCode}' found within import list."
+                        });
+                    }
+                }
+
                 //Validate Email format
                 var emailFormat = @"^[\x00-\x7F]+@[A-Za-z0-9\p{L}.-]+\.\p{L}+$";
 
