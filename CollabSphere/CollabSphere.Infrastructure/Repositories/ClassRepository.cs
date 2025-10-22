@@ -35,6 +35,7 @@ namespace CollabSphere.Infrastructure.Repositories
             var selectedClass = _context.Classes
                 .AsNoTracking()
                 .Include(x => x.Subject)
+                .Include(x => x.Semester)
                 .Include(x => x.Lecturer)
                 .Include(x => x.ClassMembers).ThenInclude(x => x.Student)
                 .Include(x => x.ClassFiles)
@@ -47,7 +48,7 @@ namespace CollabSphere.Infrastructure.Repositories
             return await selectedClass;
         }
 
-        public async Task<List<Class>> GetClassByStudentId(int studentId, HashSet<int>? subjectIds = null, string className = "", string orderby = "", bool descending = false)
+        public async Task<List<Class>> GetClassByStudentId(int studentId, HashSet<int>? subjectIds = null, string className = "", int? semesterId = null, string orderby = "", bool descending = false)
         {
             var classesQuery = _context.ClassMembers
                 .AsNoTracking()
@@ -56,7 +57,12 @@ namespace CollabSphere.Infrastructure.Repositories
                     .ThenInclude(x => x.Subject)
                 .Include(x => x.Class)
                     .ThenInclude(x => x.Lecturer)
+                .Include(x => x.Class)
+                    .ThenInclude(x => x.Semester)
                 .Select(x => x.Class)
+                //.Include(x => x.Subject)
+                //.Include(x => x.Semester)
+                //.Include(x => x.Lecturer)
                 .AsQueryable();
 
             if (subjectIds != null && subjectIds.Any())
@@ -64,16 +70,17 @@ namespace CollabSphere.Infrastructure.Repositories
                 classesQuery = classesQuery.Where(x => subjectIds.Contains(x.SubjectId));
             }
 
-            var classes = FilterClasses(await classesQuery.ToListAsync(), className, orderby, descending);
+            var classes = FilterClasses(await classesQuery.ToListAsync(), className, semesterId, orderby, descending);
 
             return classes;
         }
 
-        public async Task<List<Class>> GetClassByLecturerId(int lecturerId, HashSet<int>? subjectIds = null, string className = "", string orderby = "", bool descending = false)
+        public async Task<List<Class>> GetClassByLecturerId(int lecturerId, HashSet<int>? subjectIds = null, string className = "", int? semesterId = null, string orderby = "", bool descending = false)
         {
             var classesQuery = _context.Classes
                 .AsNoTracking()
                 .Include(x => x.Subject)
+                .Include(x => x.Semester)
                 .Include(x => x.Lecturer)
                 .Where(x =>
                     x.Lecturer.LecturerId == lecturerId
@@ -84,15 +91,16 @@ namespace CollabSphere.Infrastructure.Repositories
                 classesQuery = classesQuery.Where(x => subjectIds.Contains(x.SubjectId));
             }
 
-            var classes = FilterClasses(await classesQuery.ToListAsync(), className, orderby, descending);
+            var classes = FilterClasses(await classesQuery.ToListAsync(), className, semesterId, orderby, descending);
 
             return classes;
         }
 
-        public async Task<List<Class>> SearchClasses(string className = "", HashSet<int>? lecturerIds = null, HashSet<int>? subjectIds = null, string orderby = "", bool descending = false)
+        public async Task<List<Class>> SearchClasses(string className = "", int? semesterId = null, HashSet<int>? lecturerIds = null, HashSet<int>? subjectIds = null, string orderby = "", bool descending = false)
         {
             var classesQuery = _context.Classes
                 .Include(x => x.Subject)
+                .Include(x => x.Semester)
                 .Include(x => x.Lecturer)
                 .AsNoTracking();
 
@@ -106,13 +114,23 @@ namespace CollabSphere.Infrastructure.Repositories
                 classesQuery = classesQuery.Where(x => subjectIds.Contains(x.SubjectId));
             }
 
-            var classes = FilterClasses(await classesQuery.ToListAsync(), className, orderby, descending);
+            var classes = FilterClasses(await classesQuery.ToListAsync(), className, semesterId, orderby, descending);
 
             return classes;
         }
 
-        public List<Class> FilterClasses(IEnumerable<Class> classes, string className = "", string orderby = "", bool descending = false)
+        public List<Class> FilterClasses(IEnumerable<Class> classes, string className = "", int? semesterId = null, string orderby = "", bool descending = false)
         {
+            if (!classes.Any())
+            {
+                return new List<Class>();
+            }
+
+            if (semesterId.HasValue)
+            {
+                classes = classes.Where(x => x.SemesterId == semesterId.Value);
+            }
+
             if (!string.IsNullOrWhiteSpace(className))
             {
                 // Keywords ranking
@@ -173,6 +191,7 @@ namespace CollabSphere.Infrastructure.Repositories
                     nameof(ClassVM.TeamCount) => GroupAndOrder(source: classes, keySelector: x => x.TeamCount, subSelector: x => x.ClassName, descending),
                     nameof(ClassVM.CreatedDate) => GroupAndOrder(source: classes, keySelector: x => x.CreatedDate, subSelector: x => x.ClassName, descending),
                     nameof(ClassVM.IsActive) => GroupAndOrder(source: classes, keySelector: x => x.IsActive, subSelector: x => x.ClassName, descending),
+                    nameof(ClassVM.SemesterId) => GroupAndOrder(source: classes, keySelector: x => x.SemesterId, subSelector: x => x.ClassName, descending),
                     _ => classes.OrderBy(x => 0),
                 };
 
@@ -195,7 +214,7 @@ namespace CollabSphere.Infrastructure.Repositories
             return grouped.SelectMany(g => g.OrderBy(subSelector));
         }
 
-        public async Task<Class?> GetClassByIdAsync (int classId)
+        public async Task<Class?> GetClassByIdAsync(int classId)
         {
             return await _context.Classes
                 .Include(x => x.ClassMembers)

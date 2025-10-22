@@ -33,8 +33,9 @@ namespace CollabSphere.Application.Features.Classes.Queries.GetLecturerClasses
             try
             {
                 var classes = await _unitOfWork.ClassRepo.GetClassByLecturerId(
-                    className: request.ClassName,
                     lecturerId: request.LecturerId,
+                    className: request.ClassName,
+                    semesterId: request.SemesterId,
                     subjectIds: request.SubjectIds,
                     orderby: request.OrderBy,
                     descending: request.Descending);

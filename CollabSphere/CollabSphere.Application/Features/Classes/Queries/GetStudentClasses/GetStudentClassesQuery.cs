@@ -18,6 +18,9 @@ namespace CollabSphere.Application.Features.Classes.Queries.GetStudentClasses
         public string ClassName { get; set; } = string.Empty;
 
         [FromQuery]
+        public int? SemesterId { get; set; }
+
+        [FromQuery]
         public HashSet<int>? SubjectIds { get; set; }
 
         [FromQuery]
