@@ -11,6 +11,8 @@ public partial class Class
 
     public string ClassName { get; set; }
 
+    public int SemesterId { get; set; }
+
     public int SubjectId { get; set; }
 
     public int? LecturerId { get; set; }
@@ -34,6 +36,8 @@ public partial class Class
     public virtual Lecturer Lecturer { get; set; }
 
     public virtual ICollection<ProjectAssignment> ProjectAssignments { get; set; } = new List<ProjectAssignment>();
+
+    public virtual Semester Semester { get; set; }
 
     public virtual Subject Subject { get; set; }
 

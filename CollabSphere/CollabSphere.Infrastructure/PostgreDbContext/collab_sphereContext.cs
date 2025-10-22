@@ -73,6 +73,8 @@ public partial class collab_sphereContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
+    public virtual DbSet<Semester> Semesters { get; set; }
+
     public virtual DbSet<Shape> Shapes { get; set; }
 
     public virtual DbSet<Student> Students { get; set; }
@@ -361,6 +363,11 @@ public partial class collab_sphereContext : DbContext
                 .HasForeignKey(d => d.SubjectId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("class_subject_fk");
+
+            entity.HasOne(d => d.Semester).WithMany(p => Classes)
+                .HasForeignKey(d => d.SemesterId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("class_semester_fk");
         });
 
         modelBuilder.Entity<ClassFile>(entity =>
@@ -886,6 +893,23 @@ public partial class collab_sphereContext : DbContext
                 .IsRequired()
                 .HasMaxLength(30)
                 .HasColumnName("role_name");
+        });
+
+        modelBuilder.Entity<Semester>(entity =>
+        {
+            entity.HasKey(e => e.SemesterId).HasName("semester_pk");
+
+            entity.ToTable("semester");
+
+            entity.Property(e => e.SemesterId)
+                .UseIdentityAlwaysColumn()
+                .HasColumnName("semester_id");
+            entity.Property(e => e.SemesterName)
+                .IsRequired()
+                .HasMaxLength(100)
+                .HasColumnName("semester_name");
+            entity.Property(e => e.StartDate).HasColumnName("start_date");
+            entity.Property(e => e.EndDate).HasColumnName("end_date");
         });
 
         modelBuilder.Entity<Shape>(entity =>
