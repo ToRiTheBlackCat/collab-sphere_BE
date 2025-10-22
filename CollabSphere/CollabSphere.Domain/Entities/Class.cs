@@ -11,9 +11,9 @@ public partial class Class
 
     public string ClassName { get; set; }
 
-    public int SemesterId { get; set; }
-
     public int SubjectId { get; set; }
+
+    public int SemesterId { get; set; }
 
     public int? LecturerId { get; set; }
 

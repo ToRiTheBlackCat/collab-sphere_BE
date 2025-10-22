@@ -33,6 +33,7 @@ namespace CollabSphere.Application.Features.Classes.Queries.GetStudentClasses
                 var classes = await _unitOfWork.ClassRepo.GetClassByStudentId(request.StudentId,
                     subjectIds: request.SubjectIds,
                     className: request.ClassName,
+                    semesterId: request.SemesterId,
                     orderby: request.OrderBy,
                     descending: request.Descending);
 

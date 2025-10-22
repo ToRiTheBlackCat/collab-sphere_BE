@@ -353,6 +353,7 @@ public partial class collab_sphereContext : DbContext
                 .HasColumnName("lecturer_name");
             entity.Property(e => e.MemberCount).HasColumnName("member_count");
             entity.Property(e => e.SubjectId).HasColumnName("subject_id");
+            entity.Property(e => e.SemesterId).HasColumnName("semester_id");
             entity.Property(e => e.TeamCount).HasColumnName("team_count");
 
             entity.HasOne(d => d.Lecturer).WithMany(p => p.Classes)
@@ -364,7 +365,7 @@ public partial class collab_sphereContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("class_subject_fk");
 
-            entity.HasOne(d => d.Semester).WithMany(p => Classes)
+            entity.HasOne(d => d.Semester).WithMany(p => p.Classes)
                 .HasForeignKey(d => d.SemesterId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("class_semester_fk");
