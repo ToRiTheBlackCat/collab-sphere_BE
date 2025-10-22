@@ -19,6 +19,10 @@ namespace CollabSphere.Application.DTOs.Classes
 
         public string SubjectName { get; set; } = string.Empty;
 
+        public int SemesterId { get; set; } = -1;
+
+        public string SemesterName { get; set; } = string.Empty;
+
         public int? LecturerId { get; set; }
 
         public string LecturerCode { get; set; } = string.Empty;
