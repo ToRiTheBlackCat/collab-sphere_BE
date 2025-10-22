@@ -51,10 +51,12 @@ namespace CollabSphere.Test.Classes
         {
             // Arrange
             var context = GetInMemoryContext("StudentTest");
+
+            var semester = new Semester { SemesterId = 1, SemesterName = "Fall 2025", StartDate = new DateOnly(2025, 10, 1), EndDate = new DateOnly(2025, 12, 1) };
             var subject = new Subject { SubjectId = 1, SubjectName = "Math", SubjectCode = "MATH101" };
             var lecturer = new Lecturer { LecturerId = 1, Fullname = "Dr. Smith", LecturerCode = "L001" };
 
-            var cls = new Class { ClassId = 1, ClassName = "Algebra", EnrolKey = "12345", Subject = subject, Lecturer = lecturer, SubjectId = 1, LecturerId = 1 };
+            var cls = new Class { ClassId = 1, ClassName = "Algebra", EnrolKey = "12345", Subject = subject, Lecturer = lecturer, SubjectId = 1, LecturerId = 1, SemesterId = 1, Semester = semester };
             context.Classes.Add(cls);
             context.ClassMembers.Add(new ClassMember { ClassId = 1, StudentId = 42, Fullname = "Jack Roberts" });
             context.SaveChanges();
@@ -74,13 +76,16 @@ namespace CollabSphere.Test.Classes
         {
             // Arrange
             var context = GetInMemoryContext("LecturerFilterTest");
+
+            var semester = new Semester { SemesterId = 1, SemesterName = "Fall 2025", StartDate = new DateOnly(2025, 10, 1), EndDate = new DateOnly(2025, 12, 1) };
+
             var lecturer1 = new Lecturer { LecturerId = 1, Fullname = "Dr. Smith", LecturerCode = "L001" };
             var lecturer2 = new Lecturer { LecturerId = 2, Fullname = "Dr. Adams", LecturerCode = "L002" };
 
             var subject = new Subject { SubjectId = 1, SubjectName = "Math", SubjectCode = "MATH101" };
 
-            context.Classes.Add(new Class { ClassId = 1, ClassName = "Algebra", EnrolKey = "12345", Lecturer = lecturer1, LecturerId = 1, Subject = subject });
-            context.Classes.Add(new Class { ClassId = 2, ClassName = "Geometry", EnrolKey = "12345", Lecturer = lecturer2, LecturerId = 2, Subject = subject });
+            context.Classes.Add(new Class { ClassId = 1, ClassName = "Algebra", EnrolKey = "12345", Lecturer = lecturer1, LecturerId = 1, Subject = subject, SemesterId = 1, Semester = semester });
+            context.Classes.Add(new Class { ClassId = 2, ClassName = "Geometry", EnrolKey = "12345", Lecturer = lecturer2, LecturerId = 2, Subject = subject, SemesterId = 1, Semester = semester });
             context.SaveChanges();
 
             var repo = new ClassRepository(context);

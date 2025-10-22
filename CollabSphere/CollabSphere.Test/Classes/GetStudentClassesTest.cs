@@ -26,15 +26,17 @@ namespace CollabSphere.Test.Classes
 
         private collab_sphereContext SetUpContext(collab_sphereContext context)
         {
+            var semester = new Semester { SemesterId = 1, SemesterName = "Fall 2025", StartDate = new DateOnly(2025, 10, 1), EndDate = new DateOnly(2025, 12, 1) };
+
             var lecturer1 = new Lecturer { LecturerId = 1, Fullname = "Dr. Smith", LecturerCode = "L001" };
             var lecturer2 = new Lecturer { LecturerId = 2, Fullname = "Dr. Adams", LecturerCode = "L002" };
 
             var subject1 = new Subject { SubjectId = 1, SubjectName = "Math", SubjectCode = "MATH101" };
             var subject2 = new Subject { SubjectId = 2, SubjectName = "Literature", SubjectCode = "LIT101" };
 
-            var class1 = new Class { ClassId = 1, ClassName = "Algebra", EnrolKey = "12345", Lecturer = lecturer1, LecturerId = 1, Subject = subject1 };
-            var class2 = new Class { ClassId = 2, ClassName = "Geometry", EnrolKey = "12345", Lecturer = lecturer2, LecturerId = 2, Subject = subject1 };
-            var class3 = new Class { ClassId = 3, ClassName = "Critic Writing", EnrolKey = "12345", Lecturer = lecturer1, LecturerId = 1, Subject = subject2 };
+            var class1 = new Class { ClassId = 1, ClassName = "Algebra", EnrolKey = "12345", Lecturer = lecturer1, LecturerId = 1, Subject = subject1, SemesterId = 1, Semester = semester };
+            var class2 = new Class { ClassId = 2, ClassName = "Geometry", EnrolKey = "12345", Lecturer = lecturer2, LecturerId = 2, Subject = subject1, SemesterId = 1, Semester = semester };
+            var class3 = new Class { ClassId = 3, ClassName = "Critic Writing", EnrolKey = "12345", Lecturer = lecturer1, LecturerId = 1, Subject = subject2, SemesterId = 1, Semester = semester };
 
             var student1 = new Student { StudentId = 4, Fullname = "Saul Goodman", StudentCode = "SE134566" };
             var student2 = new Student { StudentId = 5, Fullname = "Flash Thundercock", StudentCode = "SE153678" };
