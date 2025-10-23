@@ -30,17 +30,19 @@ namespace CollabSphere.Test.Classes
             ws.Cells[1, 1].Value = "ClassName";
             ws.Cells[1, 2].Value = "EnrolKey";
             ws.Cells[1, 3].Value = "SubjectCode";
-            ws.Cells[1, 4].Value = "LecturerCode";
-            ws.Cells[1, 5].Value = "StudentCodes";
-            ws.Cells[1, 6].Value = "IsActive";
+            ws.Cells[1, 4].Value = "SemesterCode";
+            ws.Cells[1, 5].Value = "LecturerCode";
+            ws.Cells[1, 6].Value = "StudentCodes";
+            ws.Cells[1, 7].Value = "IsActive";
 
             // Data row
             ws.Cells[2, 1].Value = "CS101A";
             ws.Cells[2, 2].Value = "KEY123";
             ws.Cells[2, 3].Value = "CS101";
-            ws.Cells[2, 4].Value = "LECT001";
-            ws.Cells[2, 5].Value = "STU001,STU002,STU003";
-            ws.Cells[2, 6].Value = true;
+            ws.Cells[2, 4].Value = "FA25";
+            ws.Cells[2, 5].Value = "LECT001";
+            ws.Cells[2, 6].Value = "STU001,STU002,STU003";
+            ws.Cells[2, 7].Value = true;
 
             using var ms = new MemoryStream();
             package.SaveAs(ms);
@@ -66,17 +68,19 @@ namespace CollabSphere.Test.Classes
             ws.Cells[1, 1].Value = "ClassName";
             ws.Cells[1, 2].Value = "EnrolKey";
             ws.Cells[1, 3].Value = "SubjectCode";
-            ws.Cells[1, 4].Value = "LecturerCode";
-            ws.Cells[1, 5].Value = "StudentCodes";
-            ws.Cells[1, 6].Value = "IsActive";
+            ws.Cells[1, 4].Value = "SemesterCode";
+            ws.Cells[1, 5].Value = "LecturerCode";
+            ws.Cells[1, 6].Value = "StudentCodes";
+            ws.Cells[1, 7].Value = "IsActive";
 
             // Row with student codes having whitespace
             ws.Cells[2, 1].Value = "CS102A";
             ws.Cells[2, 2].Value = "KEY456";
             ws.Cells[2, 3].Value = "CS102";
-            ws.Cells[2, 4].Value = "LECT002";
-            ws.Cells[2, 5].Value = " STU001 ,  STU002 ,STU003 "; // extra spaces
-            ws.Cells[2, 6].Value = true;
+            ws.Cells[2, 4].Value = "FA25";
+            ws.Cells[2, 5].Value = "LECT002";
+            ws.Cells[2, 6].Value = " STU001 ,  STU002 ,STU003 "; // extra spaces
+            ws.Cells[2, 7].Value = true;
 
             using var ms = new MemoryStream();
             package.SaveAs(ms);
@@ -102,17 +106,19 @@ namespace CollabSphere.Test.Classes
             ws.Cells[1, 1].Value = "ClassName";
             ws.Cells[1, 2].Value = "EnrolKey";
             ws.Cells[1, 3].Value = "SubjectCode";
-            ws.Cells[1, 4].Value = "LecturerCode";
-            ws.Cells[1, 5].Value = "StudentCodes";
-            ws.Cells[1, 6].Value = "IsActive";
+            ws.Cells[1, 4].Value = "SemesterCode";
+            ws.Cells[1, 5].Value = "LecturerCode";
+            ws.Cells[1, 6].Value = "StudentCodes";
+            ws.Cells[1, 7].Value = "IsActive";
 
             // Row with empty student codes
             ws.Cells[2, 1].Value = "CS103A";
             ws.Cells[2, 2].Value = "KEY789";
             ws.Cells[2, 3].Value = "CS103";
-            ws.Cells[2, 4].Value = "LECT003";
-            ws.Cells[2, 5].Value = ""; // empty
-            ws.Cells[2, 6].Value = true;
+            ws.Cells[2, 4].Value = "FA25";
+            ws.Cells[2, 5].Value = "LECT003";
+            ws.Cells[2, 6].Value = ""; // empty
+            ws.Cells[2, 7].Value = true;
 
             using var ms = new MemoryStream();
             package.SaveAs(ms);

@@ -2,6 +2,7 @@
 using CollabSphere.Application.Features.Classes.Commands.CreateClass;
 using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
+using CollabSphere.Domain.Interfaces;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace CollabSphere.Test.Classes
         private readonly Mock<ILecturerRepository> _lecturerRepo;
         private readonly Mock<IStudentRepository> _studentRepo;
         private readonly Mock<IClassMemberRepository> _classMemberRepo;
+        private readonly Mock<ISemesterRepository> _semesterRepo;
 
         private readonly CreateClassCommandHandler _handler;
 
@@ -30,12 +32,14 @@ namespace CollabSphere.Test.Classes
             _lecturerRepo = new Mock<ILecturerRepository>();
             _studentRepo = new Mock<IStudentRepository>();
             _classMemberRepo = new Mock<IClassMemberRepository>();
+            _semesterRepo = new Mock<ISemesterRepository>();
 
             _unitOfWork.Setup(x => x.SubjectRepo).Returns(_subjectRepo.Object);
             _unitOfWork.Setup(x => x.ClassRepo).Returns(_classRepo.Object);
             _unitOfWork.Setup(x => x.LecturerRepo).Returns(_lecturerRepo.Object);
             _unitOfWork.Setup(x => x.StudentRepo).Returns(_studentRepo.Object);
             _unitOfWork.Setup(x => x.ClassMemberRepo).Returns(_classMemberRepo.Object);
+            _unitOfWork.Setup(x => x.SemesterRepo).Returns(_semesterRepo.Object);
 
             _handler = new CreateClassCommandHandler(_unitOfWork.Object);
         }
@@ -48,6 +52,7 @@ namespace CollabSphere.Test.Classes
                 EnrolKey = "JV_SP25",
                 LecturerId = 1,
                 SubjectId = 1,
+                SemesterId = 1,
                 StudentIds = new()
                 {
                     1, 2
@@ -99,17 +104,20 @@ namespace CollabSphere.Test.Classes
                 StudentCode = "SS1902",
                 Address = "Ben Tre",
             };
+            var semester = new Semester { SemesterId = 1, SemesterName = "Fall 2025", SemesterCode = "FA25", StartDate = new DateOnly(2025, 10, 1), EndDate = new DateOnly(2025, 12, 1) };
+
             _subjectRepo.Setup(x => x.GetById(1)).ReturnsAsync(subject);
             _lecturerRepo.Setup(x => x.GetById(1)).ReturnsAsync(lecturer);
             _studentRepo.Setup(x => x.GetById(1)).ReturnsAsync(student_1);
             _studentRepo.Setup(x => x.GetById(2)).ReturnsAsync(student_2);
+            _semesterRepo.Setup(x => x.GetById(1)).ReturnsAsync(semester);
 
             // Act
             var result = await _handler.Handle(request, CancellationToken.None);
             
             // Assert
-            Assert.True(result.IsSuccess);
             Assert.True(result.IsValidInput);
+            Assert.True(result.IsSuccess);
             Assert.Empty(result.ErrorList);
             _unitOfWork.Verify(x => x.BeginTransactionAsync(), Times.Once);
             _classRepo.Verify(x => x.Create(It.Is<Class>(x => x.ClassName == "Java Programming Class 2025 Spring" && x.SubjectId == 1)), Times.Once);
@@ -299,10 +307,13 @@ namespace CollabSphere.Test.Classes
                 StudentCode = "SS1902",
                 Address = "Ben Tre",
             };
+            var semester = new Semester { SemesterId = 1, SemesterName = "Fall 2025", SemesterCode = "FA25", StartDate = new DateOnly(2025, 10, 1), EndDate = new DateOnly(2025, 12, 1) };
+
             _subjectRepo.Setup(x => x.GetById(1)).ReturnsAsync(subject);
             _lecturerRepo.Setup(x => x.GetById(1)).ReturnsAsync(lecturer);
             _studentRepo.Setup(x => x.GetById(1)).ReturnsAsync(student_1);
             _studentRepo.Setup(x => x.GetById(2)).ReturnsAsync(student_2);
+            _semesterRepo.Setup(x => x.GetById(1)).ReturnsAsync(semester);
 
             _unitOfWork.Setup(u => u.ClassRepo.Create(It.IsAny<Class>()))
                 .ThrowsAsync(new Exception("DB error"));

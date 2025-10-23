@@ -38,7 +38,7 @@ namespace CollabSphere.Test.Classes
             // Arrange
             var context = GetInMemoryContext("LecturerIdsTest");
 
-            var semester = new Semester { SemesterId = 1, SemesterName = "Fall 2025", StartDate = new DateOnly(2025, 10, 1), EndDate = new DateOnly(2025, 12, 1) };
+            var semester = new Semester { SemesterId = 1, SemesterName = "Fall 2025", SemesterCode = "FA25", StartDate = new DateOnly(2025, 10, 1), EndDate = new DateOnly(2025, 12, 1) };
 
             var lecturer1 = new Lecturer { LecturerId = 1, Fullname = "Dr. Smith", LecturerCode = "L001" };
             var lecturer2 = new Lecturer { LecturerId = 2, Fullname = "Dr. Adams", LecturerCode = "L002" };
@@ -75,7 +75,7 @@ namespace CollabSphere.Test.Classes
         {
             // Arrange
             var context = GetInMemoryContext("SubjectIdsTest");
-            var semester = new Semester { SemesterId = 1, SemesterName = "Fall 2025", StartDate = new DateOnly(2025, 10, 1), EndDate = new DateOnly(2025, 12, 1) };
+            var semester = new Semester { SemesterId = 1, SemesterName = "Fall 2025", SemesterCode = "FA25", StartDate = new DateOnly(2025, 10, 1), EndDate = new DateOnly(2025, 12, 1) };
 
             var lecturer1 = new Lecturer { LecturerId = 1, Fullname = "Dr. Smith", LecturerCode = "L001" };
             var lecturer2 = new Lecturer { LecturerId = 2, Fullname = "Dr. Adams", LecturerCode = "L002" };
@@ -114,7 +114,7 @@ namespace CollabSphere.Test.Classes
             // Arrange
             var context = GetInMemoryContext("PagingTest");
 
-            var semester = new Semester { SemesterId = 1, SemesterName = "Fall 2025", StartDate = new DateOnly(2025, 10, 1), EndDate = new DateOnly(2025, 12, 1) };
+            var semester = new Semester { SemesterId = 1, SemesterName = "Fall 2025", SemesterCode = "FA25", StartDate = new DateOnly(2025, 10, 1), EndDate = new DateOnly(2025, 12, 1) };
 
             var lecturer1 = new Lecturer { LecturerId = 1, Fullname = "Dr. Smith", LecturerCode = "L001" };
             var lecturer2 = new Lecturer { LecturerId = 2, Fullname = "Dr. Adams", LecturerCode = "L002" };

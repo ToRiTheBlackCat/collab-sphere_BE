@@ -1,8 +1,10 @@
 ﻿using CollabSphere.Application;
 using CollabSphere.Application.DTOs.Classes;
+using CollabSphere.Application.DTOs.Semesters;
 using CollabSphere.Application.Features.Classes.Commands.ImportClass;
 using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
+using CollabSphere.Domain.Interfaces;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,7 @@ namespace CollabSphere.Test.Classes
         private readonly Mock<ILecturerRepository> _lecturerRepo;
         private readonly Mock<IStudentRepository> _studentRepo;
         private readonly Mock<IClassMemberRepository> _classMemberRepo;
+        private readonly Mock<ISemesterRepository> _semesterRepo;
 
         private readonly ImportClassHandler _handler;
         public ImportClassHandlerTest()
@@ -31,12 +34,14 @@ namespace CollabSphere.Test.Classes
             _lecturerRepo = new Mock<ILecturerRepository>();
             _studentRepo = new Mock<IStudentRepository>();
             _classMemberRepo = new Mock<IClassMemberRepository>();
+            _semesterRepo = new Mock<ISemesterRepository>();
 
             _unitOfWork.Setup(x => x.SubjectRepo).Returns(_subjectRepo.Object);
             _unitOfWork.Setup(x => x.ClassRepo).Returns(_classRepo.Object);
             _unitOfWork.Setup(x => x.LecturerRepo).Returns(_lecturerRepo.Object);
             _unitOfWork.Setup(x => x.StudentRepo).Returns(_studentRepo.Object);
             _unitOfWork.Setup(x => x.ClassMemberRepo).Returns(_classMemberRepo.Object);
+            _unitOfWork.Setup(x => x.SemesterRepo).Returns(_semesterRepo.Object);
 
             _handler = new ImportClassHandler(_unitOfWork.Object);
         }
@@ -50,6 +55,7 @@ namespace CollabSphere.Test.Classes
                 ClassName = "CS101A",
                 EnrolKey = "KEY123",
                 SubjectCode = "CS101",
+                SemesterCode = "FA25",
                 LecturerCode = "LECT001",
                 StudentCodes = new List<string> { "STU001", "STU002" },
                 IsActive = true
@@ -59,6 +65,7 @@ namespace CollabSphere.Test.Classes
             var lecturer = new Lecturer { LecturerCode = "LECT001", LecturerId = 10 };
             var student1 = new Student { StudentCode = "STU001", StudentId = 100 };
             var student2 = new Student { StudentCode = "STU002", StudentId = 200 };
+            var semester = new Semester { SemesterId = 1, SemesterName = "Fall 2025", SemesterCode = "FA25", StartDate = new DateOnly(2025, 10, 1), EndDate = new DateOnly(2025, 12, 1) };
 
             _subjectRepo.Setup(r => r.GetAll())
                 .ReturnsAsync(new List<Subject> { subject });
@@ -68,6 +75,8 @@ namespace CollabSphere.Test.Classes
                 .ReturnsAsync(new List<Student>() { student1, student2 });
             _lecturerRepo.Setup(r => r.GetAll())
                 .ReturnsAsync(new List<Lecturer>() { lecturer });
+            _semesterRepo.Setup(r => r.GetAll())
+                .ReturnsAsync(new List<Semester>() { semester });
 
             var command = new ImportClassCommand()
             {
@@ -105,6 +114,8 @@ namespace CollabSphere.Test.Classes
                 .ReturnsAsync(new List<Lecturer>());
             _studentRepo.Setup(r => r.GetAll())
                 .ReturnsAsync(new List<Student>());
+            _semesterRepo.Setup(r => r.GetAll())
+                .ReturnsAsync(new List<Semester>());
 
             var command = new ImportClassCommand()
             {
@@ -140,6 +151,8 @@ namespace CollabSphere.Test.Classes
                 .ReturnsAsync(new List<Subject>() { subject });
             _lecturerRepo.Setup(r => r.GetAll())
                 .ReturnsAsync(new List<Lecturer>());
+            _semesterRepo.Setup(r => r.GetAll())
+                .ReturnsAsync(new List<Semester>());
 
 
             var command = new ImportClassCommand()
@@ -180,6 +193,8 @@ namespace CollabSphere.Test.Classes
                 .ReturnsAsync(new List<Lecturer>());
             _studentRepo.Setup(r => r.GetAll())
                 .ReturnsAsync(new List<Student>());
+            _semesterRepo.Setup(r => r.GetAll())
+                .ReturnsAsync(new List<Semester>());
 
 
             var command = new ImportClassCommand()
@@ -191,9 +206,9 @@ namespace CollabSphere.Test.Classes
             var result = await _handler.Handle(command, default);
 
             // Assert
-            Assert.False(result.IsSuccess);
             Assert.False(result.IsValidInput);
-            Assert.Contains(result.ErrorList, x => x.Message.Contains("Some student codes in class 'CS101A' are invalid.", StringComparison.OrdinalIgnoreCase));
+            Assert.False(result.IsSuccess);
+            Assert.Contains(result.ErrorList, x => x.Message.Contains("There were invalid student codes: STU001, STU404", StringComparison.OrdinalIgnoreCase));
         }
 
         [Fact]
@@ -205,6 +220,7 @@ namespace CollabSphere.Test.Classes
                 ClassName = "CS101A",
                 EnrolKey = "KEY123",
                 SubjectCode = "CS101",
+                SemesterCode = "FA25",
                 LecturerCode = "LECT001",
                 StudentCodes = new List<string> { "STU001" },
                 IsActive = true
@@ -214,6 +230,7 @@ namespace CollabSphere.Test.Classes
             var lecturer = new Lecturer { LecturerCode = "LECT001", LecturerId = 10 };
             var student1 = new Student { StudentCode = "STU001", StudentId = 100 };
             var student2 = new Student { StudentCode = "STU002", StudentId = 200 };
+            var semester = new Semester { SemesterId = 1, SemesterName = "Fall 2025", SemesterCode = "FA25", StartDate = new DateOnly(2025, 10, 1), EndDate = new DateOnly(2025, 12, 1) };
 
             _subjectRepo.Setup(r => r.GetAll())
                 .ReturnsAsync(new List<Subject> { subject });
@@ -223,6 +240,8 @@ namespace CollabSphere.Test.Classes
                 .ReturnsAsync(new List<Student>() { student1, student2 });
             _lecturerRepo.Setup(r => r.GetAll())
                 .ReturnsAsync(new List<Lecturer>() { lecturer });
+            _semesterRepo.Setup(r => r.GetAll())
+                .ReturnsAsync(new List<Semester>() { semester });
 
             _classRepo.Setup(r => r.Create(It.IsAny<Class>()))
                 .ThrowsAsync(new Exception("DB Insert failed"));
