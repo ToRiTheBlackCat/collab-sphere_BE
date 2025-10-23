@@ -29,6 +29,7 @@ namespace CollabSphere.Application.Features.Classes.Commands.ImportClass
             var lecturerList = await _unitOfWork.LecturerRepo.GetAll();
             var subjectList = await _unitOfWork.SubjectRepo.GetAll();
             var studentList = await _unitOfWork.StudentRepo.GetAll();
+            var semesterList = await _unitOfWork.SemesterRepo.GetAll();
 
             try
             {
@@ -39,6 +40,9 @@ namespace CollabSphere.Application.Features.Classes.Commands.ImportClass
                 {
                     // Find subject
                     var subject = subjectList.First(x => x.SubjectCode == classDto.SubjectCode);
+
+                    // Find semester
+                    var semester = semesterList.First(x => x.SemesterCode == classDto.SemesterCode);
 
                     // Find lecturer
                     var lecturer = lecturerList.First(x => x.LecturerCode == classDto.LecturerCode);
@@ -59,10 +63,9 @@ namespace CollabSphere.Application.Features.Classes.Commands.ImportClass
                         CreatedDate = DateTime.UtcNow,
                         EnrolKey = classDto.EnrolKey,
                         SubjectId = subject.SubjectId,
-                        Subject = subject,
+                        SemesterId = semester.SemesterId,
                         LecturerId = lecturer.LecturerId,
                         LecturerName = lecturer.Fullname,
-                        Lecturer = lecturer,
                         MemberCount = studentCount,
                         TeamCount = 0,
                         IsActive = classDto.IsActive,
@@ -117,6 +120,7 @@ namespace CollabSphere.Application.Features.Classes.Commands.ImportClass
             var lecturerList = await _unitOfWork.LecturerRepo.GetAll();
             var subjectList = await _unitOfWork.SubjectRepo.GetAll();
             var studentList = await _unitOfWork.StudentRepo.GetAll();
+            var semesterList = await _unitOfWork.SemesterRepo.GetAll();
 
             // Validate each class insert request
             for (int index = 0; index < request.Classes.Count; index++)
@@ -132,6 +136,18 @@ namespace CollabSphere.Application.Features.Classes.Commands.ImportClass
                     {
                         Field = $"Classes[{index}].{nameof(classDto.SubjectCode)}",
                         Message = $"There is no subject with SubjectCode '{classDto.SubjectCode}'."
+                    });
+                }
+
+                // Validate SemesterCode
+                var semester = semesterList
+                   .FirstOrDefault(x => x.SemesterCode == classDto.SemesterCode);
+                if (semester == null)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = $"Classes[{index}].{nameof(classDto.SemesterCode)}",
+                        Message = $"There is no semester with SemesterCode '{classDto.SemesterCode}'."
                     });
                 }
 
@@ -161,18 +177,31 @@ namespace CollabSphere.Application.Features.Classes.Commands.ImportClass
                 }
                 else
                 {
-                    // Check student codes in class
-                    var existStudents = studentList
-                        .Where(x => classDto.StudentCodes.Contains(x.StudentCode));
+                    var validCodes = studentList.Select(x => x.StudentCode).ToList();
 
-                    if (existStudents.Count() != classDto.StudentCodes.Count)
+                    // Get invalid student codes
+                    var invalidCodes = classDto.StudentCodes
+                        .Where(x => !validCodes.Contains(x))
+                        .ToList();
+                    if (invalidCodes.Any())
                     {
                         errors.Add(new OperationError()
                         {
                             Field = $"Classes[{index}].{nameof(classDto.StudentCodes)}",
-                            Message = $"Some student codes in class '{classDto.ClassName}' are invalid."
+                            Message = $"There were invalid student codes: {string.Join(", ", invalidCodes)}"
                         });
+                        return;
+                    }
 
+                    // Check existing students
+                    var foundCodes = validCodes.Where(x => classDto.StudentCodes.Contains(x));
+                    if (foundCodes.Count() != classDto.StudentCodes.Count)
+                    {
+                        errors.Add(new OperationError()
+                        {
+                            Field = $"Classes[{index}].{nameof(classDto.StudentCodes)}",
+                            Message = $"Internal database error, input has {classDto.StudentCodes.Count} StudentCode(s) but found {foundCodes.Count()} student(s)."
+                        });
                         return;
                     }
                 }

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,23 +18,55 @@ namespace CollabSphere.Application.Common
 {
     public static class FileParser
     {
+        private static bool IsCorrectPropertiesOrder<T>(ExcelWorksheet worksheet, out List<string>? correctNames)
+        {
+            var type = typeof(T);
+            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            var propertyNames = properties.Select(prop => prop.Name).ToList();
+            var propCount = propertyNames.Count;
+
+            var checkNames = new List<string>();
+            for (int column = 1; column <= propCount; column++)
+            {
+                var checkField = worksheet.Cells[1, column].Text.Trim();
+                checkNames.Add(checkField);
+            }
+
+            if (propertyNames.SequenceEqual(checkNames))
+            {
+                correctNames = null;
+                return true;
+            }
+
+            correctNames = propertyNames;
+            return false;
+        }
+
         public static async Task<List<ImportClassDto>> ParseClassFromExcel(Stream fileStream)
         {
             ExcelPackage.License.SetNonCommercialOrganization("Collab_sphere");
             using var package = new ExcelPackage(fileStream);
             var worksheet = package.Workbook.Worksheets[0];
 
+            if (!IsCorrectPropertiesOrder<ImportClassDto>(worksheet, out var correctNames))
+            {
+                throw new Exception($"Incorrect input order, must be: {string.Join(", ", correctNames!)}");
+            }
+
             var result = new List<ImportClassDto>();
             var rowCount = worksheet.Dimension.Rows;
 
+            int col = 1;
             for (int row = 2; row <= rowCount; row++)
             {
-                var className = worksheet.Cells[row, 1].Text.Trim();
-                var enrolKey = worksheet.Cells[row, 2].Text.Trim();
-                var subjectCode = worksheet.Cells[row, 3].Text.Trim();
-                var lecturerCode = worksheet.Cells[row, 4].Text.Trim();
-                var studentCodes = worksheet.Cells[row, 5].Text.Trim();
-                var isActive = worksheet.Cells[row, 6].GetCellValue<bool>();
+                var className = worksheet.Cells[row, col++].Text.Trim();
+                var enrolKey = worksheet.Cells[row, col++].Text.Trim();
+                var subjectCode = worksheet.Cells[row, col++].Text.Trim();
+                var semesterCode = worksheet.Cells[row, col++].Text.Trim();
+                var lecturerCode = worksheet.Cells[row, col++].Text.Trim();
+                var studentCodes = worksheet.Cells[row, col++].Text.Trim();
+                var isActive = worksheet.Cells[row, col++].GetCellValue<bool>();
+                col = 1;
 
                 if (string.IsNullOrEmpty(className))
                 {
@@ -45,6 +78,7 @@ namespace CollabSphere.Application.Common
                     ClassName = className,
                     EnrolKey = enrolKey,
                     SubjectCode = subjectCode,
+                    SemesterCode = semesterCode,
                     LecturerCode = lecturerCode,
                     StudentCodes = studentCodes
                         .Split(',', StringSplitOptions.RemoveEmptyEntries)
@@ -194,7 +228,7 @@ namespace CollabSphere.Application.Common
                 var phoneCell = worksheet.Cells[row, 5].Value;
                 string phoneNumber = phoneCell switch
                 {
-                    double d => d.ToString("0"),        
+                    double d => d.ToString("0"),
                     decimal m => m.ToString("0"),
                     _ => phoneCell?.ToString().Trim()
                 };
