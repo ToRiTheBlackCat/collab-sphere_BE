@@ -40,10 +40,11 @@ namespace CollabSphere.Application.Features.Classes.Commands.CreateClass
                     ClassName = request.ClassName,
                     EnrolKey = request.EnrolKey,
                     CreatedDate = DateTime.UtcNow,
+                    SubjectId = request.SubjectId,
+                    SemesterId = request.SemesterId,
                     IsActive = request.IsActive,
                     LecturerId = request.LecturerId,
                     LecturerName = lecturer!.Fullname,
-                    SubjectId = request.SubjectId,
                     MemberCount = request.StudentIds.Count(),
                     TeamCount = 0,
                 };
@@ -93,6 +94,18 @@ namespace CollabSphere.Application.Features.Classes.Commands.CreateClass
                 {
                     Field = nameof(request.SubjectId),
                     Message = $"No subject with ID '{request.SubjectId}' exist."
+                };
+                errors.Add(error);
+            }
+
+            // Check semester
+            var semester = await _unitOfWork.SemesterRepo.GetById(request.SemesterId);
+            if (semester == null)
+            {
+                var error = new OperationError()
+                {
+                    Field = nameof(request.SemesterId),
+                    Message = $"No semester with ID '{request.SemesterId}' exist."
                 };
                 errors.Add(error);
             }

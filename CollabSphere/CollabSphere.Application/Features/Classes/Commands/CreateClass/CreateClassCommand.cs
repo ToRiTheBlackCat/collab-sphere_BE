@@ -19,6 +19,9 @@ namespace CollabSphere.Application.Features.Classes.Commands.CreateClass
         public int SubjectId { get; set; }
 
         [Required]
+        public int SemesterId { get; set; }
+
+        [Required]
         public int LecturerId { get; set; }
 
         [Required]
