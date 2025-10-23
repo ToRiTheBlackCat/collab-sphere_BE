@@ -12,6 +12,8 @@ namespace CollabSphere.Application.DTOs.Semesters
 
         public string SemesterName { get; set; }
 
+        public string SemesterCode { get; set; }
+
         public DateOnly StartDate { get; set; }
 
         public DateOnly EndDate { get; set; }
