@@ -22,7 +22,9 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.UpdateCheckpoin
         {
             var result = new CommandResult()
             {
-
+                IsSuccess = false,
+                IsValidInput = true,
+                Message = string.Empty,
             };
 
             try

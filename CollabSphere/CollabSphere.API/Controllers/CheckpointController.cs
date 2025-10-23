@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.DTOs.Checkpoints;
+using CollabSphere.Application.Features.Checkpoints.Commands.CheckDoneCheckpoint;
 using CollabSphere.Application.Features.Checkpoints.Commands.CreateCheckpoint;
 using CollabSphere.Application.Features.Checkpoints.Commands.UpdateCheckpoint;
 using CollabSphere.Application.Features.Checkpoints.Queries.GetCheckpointDetail;
@@ -110,6 +111,34 @@ namespace CollabSphere.API.Controllers
                 UserId = int.Parse(UIdClaim.Value),
                 UserRole = int.Parse(roleClaim.Value),
             };
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result.ErrorList);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result.Message);
+        }
+
+        // Roles: Student
+        [Authorize(Roles = "5")]
+        [HttpPatch("{checkpointId}/status")]
+        public async Task<IActionResult> CheckDoneCheckpoint(CheckDoneCheckpointCommand command, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+
+            command.UserId = int.Parse(UIdClaim.Value);
+            command.UserRole = int.Parse(roleClaim.Value);
 
             // Handle command
             var result = await _mediator.Send(command, cancellationToken);
