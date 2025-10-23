@@ -1,5 +1,6 @@
 ﻿using CollabSphere.Application;
 using CollabSphere.Domain.Intefaces;
+using CollabSphere.Domain.Interfaces;
 using CollabSphere.Infrastructure.PostgreDbContext;
 using CollabSphere.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -28,6 +29,7 @@ namespace CollabSphere.Infrastructure.Base
         public IObjectiveMilestoneRepository ObjectiveMilestoneRepo { get; }
         public IProjectAssignmentRepository ProjectAssignmentRepo { get; }
         public IProjectRepository ProjectRepo { get; }
+        public ISemesterRepository SemesterRepo { get; }
         public IStudentRepository StudentRepo { get; }
         public ISubjectGradeComponentRepository SubjectGradeComponentRepo { get; }
         public ISubjectOutcomeRepository SubjectOutcomeRepo { get; }
@@ -54,6 +56,7 @@ namespace CollabSphere.Infrastructure.Base
             ObjectiveMilestoneRepo = new ObjectiveMilestoneRepository(_context);
             ProjectAssignmentRepo = new ProjectAssignmentRepository(_context);
             ProjectRepo = new ProjectRepository(_context);
+            SemesterRepo = new SemesterRepository(_context);
             StudentRepo = new StudentRepository(_context);
             SubjectGradeComponentRepo = new SubjectGradeComponentRepository(_context);
             SubjectOutcomeRepo = new SubjectOutcomeRepository(_context);

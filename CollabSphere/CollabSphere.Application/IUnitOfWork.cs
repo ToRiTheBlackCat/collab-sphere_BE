@@ -1,5 +1,6 @@
 ﻿
 using CollabSphere.Domain.Intefaces;
+using CollabSphere.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace CollabSphere.Application
         IObjectiveMilestoneRepository ObjectiveMilestoneRepo { get; }
         IProjectAssignmentRepository ProjectAssignmentRepo { get; }
         IProjectRepository ProjectRepo { get; }
+        ISemesterRepository SemesterRepo { get; }
         IStudentRepository StudentRepo { get; }
         ISubjectGradeComponentRepository SubjectGradeComponentRepo { get; }
         ISubjectOutcomeRepository SubjectOutcomeRepo { get; }
