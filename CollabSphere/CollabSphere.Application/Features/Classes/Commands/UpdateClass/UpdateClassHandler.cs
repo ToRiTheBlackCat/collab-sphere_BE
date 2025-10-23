@@ -1,5 +1,6 @@
 ﻿using CollabSphere.Application.Base;
 using CollabSphere.Application.DTOs.Validation;
+using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,12 +47,26 @@ namespace CollabSphere.Application.Features.Classes.Commands.UpdateClass
                     var lecturer = await _unitOfWork.LecturerRepo.GetById(classDto.LecturerId.Value);
                     classEntity.LecturerId = lecturer!.LecturerId;
                     classEntity.LecturerName = lecturer.Fullname;
+
+                    foreach(var team in classEntity.Teams)
+                    {
+                        team.ProjectAssignment = null;
+
+                        team.LecturerId = lecturer.LecturerId;
+                        team.LecturerName = lecturer.Fullname;
+                    }
                 }
 
                 if (classDto.SubjectId.HasValue && classEntity.SubjectId != classDto.SubjectId)
                 {
-                    classEntity.SubjectId = classDto.SubjectId.Value;
                     classEntity.Subject = null;
+                    classEntity.SubjectId = classDto.SubjectId.Value;
+                }
+
+                if (classDto.SemesterId.HasValue && classEntity.SemesterId != classDto.SemesterId)
+                {
+                    classEntity.Semester = null;
+                    classEntity.SemesterId = classDto.SemesterId.Value;
                 }
 
                 if (!string.IsNullOrWhiteSpace(classDto.EnrolKey))
@@ -105,11 +120,25 @@ namespace CollabSphere.Application.Features.Classes.Commands.UpdateClass
                 {
                     errors.Add(new OperationError()
                     {
-                        Field = $"{nameof(request.ClassDto.SubjectId)}",
-                        Message = $"No subject with ID: {request.ClassDto.SubjectId}",
+                        Field = $"{nameof(classDto.SubjectId)}",
+                        Message = $"No subject with ID: {classDto.SubjectId}",
                     });
                 }
 
+            }
+
+            // Check updated semesterId
+            if (classDto.SemesterId.HasValue && classDto.SemesterId != classEntity.SemesterId)
+            {
+                var semester = await _unitOfWork.SemesterRepo.GetById(classDto.SemesterId.Value);
+                if (semester == null)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = $"{nameof(classDto.SemesterId)}",
+                        Message = $"No semester with ID: {classDto.SemesterId}",
+                    });
+                }
             }
 
             // Check updated lecturerId
