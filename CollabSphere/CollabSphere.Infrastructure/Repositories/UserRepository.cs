@@ -25,6 +25,7 @@ namespace CollabSphere.Infrastructure.Repositories
             return await _context.Users
                 .Include(x => x.Role)
                 .Where(x => x.RoleId == RoleConstants.HEAD_DEPARTMENT)
+                .AsNoTracking()
                 .ToListAsync();
         }
 
@@ -33,6 +34,7 @@ namespace CollabSphere.Infrastructure.Repositories
             return await _context.Users
                 .Include(x => x.Role)
                 .Where(x => x.RoleId == RoleConstants.STAFF)
+                .AsNoTracking()
                 .ToListAsync();
         }
 
@@ -42,6 +44,7 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(x => x.Role)
                 .Include(x => x.Lecturer)
                 .Where(x => x.RoleId == RoleConstants.LECTURER)
+                .AsNoTracking()
                 .ToListAsync();
         }
 
@@ -51,6 +54,7 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(x => x.Role)
                 .Include(x => x.Student)
                 .Where(x => x.RoleId == RoleConstants.STUDENT)
+                .AsNoTracking()
                 .ToListAsync();
         }
 
@@ -58,6 +62,7 @@ namespace CollabSphere.Infrastructure.Repositories
         {
             return await _context.Users
                 .Include(x => x.Role)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Email.Equals(email)
                     && x.Password == password
                     && x.IsActive);
@@ -105,6 +110,22 @@ namespace CollabSphere.Infrastructure.Repositories
         public void UpdateUser(User user)
         {
             _context.Users.Update(user);
+        }
+
+        public async Task<User?> GetStudentByStudentCodeAsync(string? studentCode)
+        {
+            return await _context.Users
+                .Include(x => x.Student)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Student.StudentCode.ToLower().Equals(studentCode.ToLower().Trim()) && x.IsActive);
+        }
+
+        public async Task<User?> GetLecturerByLecturerCodeAsync(string? lecturerCode)
+        {
+            return await _context.Users
+                .Include(x => x.Lecturer)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Lecturer.LecturerCode.ToLower().Equals(lecturerCode.ToLower().Trim()) && x.IsActive);
         }
     }
 }

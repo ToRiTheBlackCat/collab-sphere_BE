@@ -35,10 +35,15 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                 IsValidInput = true,
                 Message = string.Empty
             };
+            int maxAdded = 5;
+            int addedCount = 0;
+            StringBuilder rawMessage = new StringBuilder();
+
             try
             {
                 await _unitOfWork.BeginTransactionAsync();
 
+                #region Create Team
                 //Find lecturer
                 var foundLecturer = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(request.LecturerId);
 
@@ -60,13 +65,17 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                 };
                 await _unitOfWork.TeamRepo.Create(newTeam);
                 await _unitOfWork.SaveChangesAsync();
+                #endregion
 
+                #region Update team count in class
                 // Add count for team in class
                 var foundClass = await _unitOfWork.ClassRepo.GetClassByIdAsync(request.ClassId);
                 foundClass.TeamCount++;
                 _unitOfWork.ClassRepo.Update(foundClass);
                 await _unitOfWork.SaveChangesAsync();
+                #endregion
 
+                #region Update Class member in class
                 //Update class member
                 var foundLeader = await _unitOfWork.UserRepo.GetOneByUserIdAsync(request.LeaderId);
                 var foundClassMember = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByClassIdAndStudentId(request.ClassId, request.LeaderId);
@@ -80,7 +89,9 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                     _unitOfWork.ClassMemberRepo.Update(foundClassMember);
                     await _unitOfWork.SaveChangesAsync();
                 }
+                #endregion
 
+                #region Auto create team milestone
                 //Create Team Milestone if picked project
                 var foundProjectAssign = newTeam.ProjectAssignment;
                 if (foundProjectAssign != null)
@@ -121,11 +132,63 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                         }
                     }
                 }
-                await _unitOfWork.CommitTransactionAsync();
+                #endregion
 
-                result.IsSuccess = true;
-                result.Message = "Team created successfully.";
-                _logger.LogInformation("Team created successfully with ID: {TeamId}", newTeam.TeamId);
+                #region Add team members
+                foreach (var student in request.StudentList)
+                {
+                    if (maxAdded > 0)
+                    {
+                        //Find classmember
+                        var foundClassMem = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByClassIdAndStudentId(student.ClassId, student.StudentId);
+
+                        //If not in class
+                        if (foundClassMem == null)
+                        {
+                            rawMessage.Append($"Cannot add student with id: {student.StudentId} to team. This student not in this class with id: {student.ClassId} | ");
+                            continue;
+                        }
+                        //If in class
+                        else
+                        {
+                            //Check if already in any team
+                            if (foundClassMem.TeamId != null)
+                            {
+                                //Same team
+                                if (foundClassMem.TeamId == newTeam.TeamId)
+                                {
+                                    rawMessage.Append($"Cannot add this student because this student with id: {student.StudentId} already in this team. | ");
+                                }
+                                //Other team
+                                else
+                                {
+                                    rawMessage.Append($"Cannot add this student with id: {student.StudentId} already in other team with id: {foundClassMem.TeamId}. | ");
+                                }
+                                continue;
+                            }
+                            //If not in any team
+                            else
+                            {
+                                foundClassMem.TeamId = newTeam.TeamId;
+                                foundClassMem.TeamRole = (int)TeamRole.MEMBER;
+                                foundClassMem.IsGrouped = true;
+
+                                _unitOfWork.ClassMemberRepo.Update(foundClassMem);
+                                await _unitOfWork.SaveChangesAsync();
+
+                                addedCount++;
+                                maxAdded--;
+                            }
+                        }
+                    }
+                    //Full of member in team
+                    else
+                    {
+                        result.IsSuccess = false;
+                        rawMessage.Append($"Reach the max members of team, cannot add anymore. Fail to added student with id: {student.StudentId} into team with id: {newTeam.TeamId}| ");
+                    }
+                }
+                #endregion
             }
             catch (Exception ex)
             {
@@ -133,6 +196,12 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                 result.Message = ex.Message;
                 _logger.LogError(ex, "Error occurred while creating team.");
             }
+
+            await _unitOfWork.CommitTransactionAsync();
+            rawMessage.Append($"Team created successfully.Add total {addedCount} students into team");
+            result.IsSuccess = true;
+            result.Message = rawMessage.ToString();
+
             return result;
         }
 
@@ -155,47 +224,72 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
 
         protected override async Task ValidateRequest(List<OperationError> errors, CreateTeamCommand request)
         {
-            //Validate leaderId
-            var foundLeader = await _unitOfWork.StudentRepo.GetStudentById(request.LeaderId);
-            if (foundLeader == null)
+            var bypassRoles = new int[] { RoleConstants.LECTURER };
+            if (bypassRoles.Contains(request.UserRole))
             {
-                errors.Add(new OperationError
-                {
-                    Field = nameof(request.LeaderId),
-                    Message = $"Not found any student with that Id: {request.LeaderId}"
-                });
-            }
 
-            //Validate class
-            var foundClass = await _unitOfWork.ClassRepo.GetById(request.ClassId);
-            if (foundClass == null)
-            {
-                errors.Add(new OperationError
+                //Validate leaderId
+                var foundLeader = await _unitOfWork.StudentRepo.GetStudentById(request.LeaderId);
+                if (foundLeader == null)
                 {
-                    Field = nameof(request.ClassId),
-                    Message = $"Not found any class with that Id: {request.ClassId}"
-                });
-            }
+                    errors.Add(new OperationError
+                    {
+                        Field = nameof(request.LeaderId),
+                        Message = $"Not found any student with that Id: {request.LeaderId}"
+                    });
+                }
 
-            //Validate lecturer
-            var foundLecturer = await _unitOfWork.LecturerRepo.GetById(request.LecturerId);
-            if (foundLecturer == null)
-            {
-                errors.Add(new OperationError
+                //Validate class
+                var foundClass = await _unitOfWork.ClassRepo.GetById(request.ClassId);
+                if (foundClass == null)
                 {
-                    Field = nameof(request.LecturerId),
-                    Message = $"Not found any lecturer with that Id: {request.LeaderId}"
-                });
-            }
+                    errors.Add(new OperationError
+                    {
+                        Field = nameof(request.ClassId),
+                        Message = $"Not found any class with that Id: {request.ClassId}"
+                    });
+                }
 
-            //Check if lecturer is assigned to that class
-            if (foundClass?.LecturerId != request.LecturerId)
-            {
-                errors.Add(new OperationError
+                //Validate lecturer
+                var foundLecturer = await _unitOfWork.LecturerRepo.GetById(request.LecturerId);
+                if (foundLecturer == null)
                 {
-                    Field = nameof(request.LecturerId),
-                    Message = $"Lecturer with Id: {request.LecturerId} is not belong to class with Id: {request.ClassId}"
+                    errors.Add(new OperationError
+                    {
+                        Field = nameof(request.LecturerId),
+                        Message = $"Not found any lecturer with that Id: {request.LeaderId}"
+                    });
+                }
+
+                //Check if lecturer is assigned to that class
+                if (foundClass?.LecturerId != request.UserId || foundClass?.LecturerId != request.LecturerId)
+                {
+                    errors.Add(new OperationError
+                    {
+                        Field = nameof(request.LecturerId),
+                        Message = $"Lecturer with Id: {request.LecturerId} is not belong to class with Id: {request.ClassId}. Cannot create team"
+                    });
+                }
+
+                //Check if input list > 0
+                if (request.StudentList == null || request.StudentList.Count == 0)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = "StudentList",
+                        Message = $"Cannot add empty student list into team."
+                    });
+                    return;
+                }
+            }
+            else
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = "UserRole",
+                    Message = $"You do not have permission to create team."
                 });
+                return;
             }
         }
     }

@@ -5,12 +5,18 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
 {
     public class CreateTeamCommand : ICommand, IValidatableObject
     {
+        [JsonIgnore]
+        public int UserId = -1;
+        [JsonIgnore]
+        public int UserRole = -1;
+
         [Required]
         [Length(3, 100)]
         public string TeamName { get; set; } = string.Empty;
@@ -33,6 +39,8 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
 
         public DateOnly? EndDate { get; set; }
 
+        public List<AddStudentToTeam> StudentList { get; set; } = new();
+
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if (EndDate.HasValue && EndDate.Value <= CreatedDate)
@@ -43,5 +51,12 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                 );
             }
         }
+    }
+    public class AddStudentToTeam
+    {
+        [Required]
+        public int StudentId { get; set; }
+        [Required]
+        public int ClassId { get; set; }
     }
 }

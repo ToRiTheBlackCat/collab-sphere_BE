@@ -59,6 +59,15 @@ namespace CollabSphere.Application.Features.Student.Commands.ImportStudent
                         continue;
                     }
 
+                    //Check if duplicated studentcode
+                    var foundStucode = await _unitOfWork.UserRepo.GetStudentByStudentCodeAsync(student.StudentCode);
+                    if (foundStucode != null)
+                    {
+                        message.Append($"One Student already existed with student code: {student.StudentCode}, cannot create that student! ");
+                        errCnt++;
+                        continue;
+                    }
+
                     //Hash password
                     var hashedPassword = SHA256Encoding.ComputeSHA256Hash(student.Password + _configure["SecretString"]);
 
@@ -123,6 +132,24 @@ namespace CollabSphere.Application.Features.Student.Commands.ImportStudent
             }
             for (int i = 0; i < request.StudentList.Count; i++)
             {
+                //Check duplicated studentcode in request list
+                var studentCodeSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+                var student = request.StudentList[i];
+
+                // Check for duplicated lecturer code inside the import file
+                if (!string.IsNullOrEmpty(student.StudentCode))
+                {
+                    if (!studentCodeSet.Add(student.StudentCode.ToLower().Trim()))
+                    {
+                        errors.Add(new OperationError()
+                        {
+                            Field = $"StudentList[{i}].StudentCode",
+                            Message = $"Duplicate student code '{student.StudentCode}' found within import list."
+                        });
+                    }
+                }
+
                 //Validate Email format
                 var emailFormat = @"^[\x00-\x7F]+@[A-Za-z0-9\p{L}.-]+\.\p{L}+$";
 
@@ -155,6 +182,17 @@ namespace CollabSphere.Application.Features.Student.Commands.ImportStudent
                     {
                         Field = $"StudentList[{i}].{request.StudentList[i].Yob}",
                         Message = $"There is not a valid year of birth format '{request.StudentList[i].Yob}'."
+                    });
+                }
+
+                //Validate duplicated student code
+                var foundStuCode = await _unitOfWork.UserRepo.GetStudentByStudentCodeAsync(request.StudentList[i].StudentCode);
+                if (foundStuCode != null)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = "StudentCode",
+                        Message = $"There is a dupliacted student code : {request.StudentList[i].StudentCode}. Try another student code create student"
                     });
                 }
             }

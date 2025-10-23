@@ -35,6 +35,8 @@ namespace CollabSphere.Infrastructure.Base
         public ISubjectSyllabusRepository SubjectSyllabusRepo { get; }
         public ITeamMilestoneRepository TeamMilestoneRepo { get; }
         public ITeamRepository TeamRepo { get; }
+        public ITeamEvaluationRepository TeamEvaluationRepo { get; }
+        public IEvaluationDetailRepository EvaluationDetailRepo { get; }
 
         #endregion
 
@@ -62,6 +64,8 @@ namespace CollabSphere.Infrastructure.Base
             TeamMilestoneRepo = new TeamMilestoneRepository(_context);
             TeamRepo = new TeamRepository(_context);
             TeamMilestoneRepo = new TeamMilestoneRepository(_context);
+            TeamEvaluationRepo = new TeamEvaluationRepository(_context);
+            EvaluationDetailRepo = new EvaluationDetailRepository(_context);
             #endregion
         }
 
