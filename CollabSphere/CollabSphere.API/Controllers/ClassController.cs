@@ -71,9 +71,9 @@ namespace CollabSphere.API.Controllers
                 var parsedClasses = await FileParser.ParseClassFromExcel(file.OpenReadStream());
                 command.Classes = parsedClasses;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest("Invalid data from file.");
+                return BadRequest($"Invalid data from file. {ex.Message}");
             }
 
             // Send command

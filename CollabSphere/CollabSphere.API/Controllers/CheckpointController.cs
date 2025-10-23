@@ -1,4 +1,7 @@
-﻿using CollabSphere.Application.Features.Checkpoints.Commands.CreateCheckpoint;
+﻿using CollabSphere.Application.DTOs.Checkpoints;
+using CollabSphere.Application.Features.Checkpoints.Commands.CheckDoneCheckpoint;
+using CollabSphere.Application.Features.Checkpoints.Commands.CreateCheckpoint;
+using CollabSphere.Application.Features.Checkpoints.Commands.UpdateCheckpoint;
 using CollabSphere.Application.Features.Checkpoints.Queries.GetCheckpointDetail;
 using CollabSphere.Application.Features.TeamMilestones.Commands.CheckTeamMilestone;
 using MediatR;
@@ -58,11 +61,12 @@ namespace CollabSphere.API.Controllers
             return Ok(result.Checkpoint);
         }
 
-        // Roles: Student
-        [Authorize(Roles = "5")]
+        // Roles: Student, Lecturer
+        [Authorize(Roles = "4, 5")]
         [HttpPost]
         public async Task<IActionResult> CreateCheckpoint(CreateCheckpointCommand command, CancellationToken cancellationToken = default)
-        {// Get UserId & Role of requester
+        {
+            // Get UserId & Role of requester
             var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
             var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
 
@@ -88,6 +92,68 @@ namespace CollabSphere.API.Controllers
                 routeValues: new { CheckpointId = result.CheckpointId },
                 value: result
             );
+        }
+
+        // Roles: Student, Lecturer
+        [Authorize(Roles = "4, 5")]
+        [HttpPut("{checkpointId}")]
+        public async Task<IActionResult> UpdateCheckpoint(int checkpointId,UpdateCheckpointDto dto, CancellationToken cancellationToken = default)
+        {
+            dto.CheckpointId = checkpointId;
+
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+
+            // Set claims in command
+            var command = new UpdateCheckpointCommand() {
+                UpdateDto = dto,
+                UserId = int.Parse(UIdClaim.Value),
+                UserRole = int.Parse(roleClaim.Value),
+            };
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result.ErrorList);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result.Message);
+        }
+
+        // Roles: Student
+        [Authorize(Roles = "5")]
+        [HttpPatch("{checkpointId}/status")]
+        public async Task<IActionResult> CheckDoneCheckpoint(CheckDoneCheckpointCommand command, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+
+            command.UserId = int.Parse(UIdClaim.Value);
+            command.UserRole = int.Parse(roleClaim.Value);
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result.ErrorList);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result.Message);
         }
     }
 }
