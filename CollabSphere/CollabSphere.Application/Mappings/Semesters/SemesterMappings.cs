@@ -16,6 +16,7 @@ namespace CollabSphere.Application.Mappings.Semesters
             {
                 SemesterId = semester.SemesterId,
                 SemesterName = semester.SemesterName,
+                SemesterCode = semester.SemesterCode,
                 StartDate = semester.StartDate,
                 EndDate = semester.EndDate,
             };
