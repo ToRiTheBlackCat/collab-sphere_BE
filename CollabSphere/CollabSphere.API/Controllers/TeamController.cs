@@ -1,5 +1,4 @@
 ﻿using CollabSphere.Application.Features.Classes.Commands.AddStudent;
-using CollabSphere.Application.Features.Team.Commands.AddStudentsToTeam;
 using CollabSphere.Application.Features.Team.Commands.CreateTeam;
 using CollabSphere.Application.Features.Team.Commands.DeleteTeam;
 using CollabSphere.Application.Features.Team.Commands.TeamUploadAvatar;

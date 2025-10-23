@@ -10,5 +10,6 @@ namespace CollabSphere.Domain.Intefaces
 {
     public interface ISubjectGradeComponentRepository : IGenericRepository<SubjectGradeComponent>
     {
+        Task<List<SubjectGradeComponent>?> GetComponentsBySubjectId(int subjectId);
     }
 }
