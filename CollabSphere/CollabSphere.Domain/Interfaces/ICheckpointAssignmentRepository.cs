@@ -10,5 +10,6 @@ namespace CollabSphere.Domain.Intefaces
 {
     public interface ICheckpointAssignmentRepository : IGenericRepository<CheckpointAssignment>
     {
+        Task<List<CheckpointAssignment>> GetByCheckpointId(int checkpointId);
     }
 }
