@@ -912,6 +912,10 @@ public partial class collab_sphereContext : DbContext
                 .IsRequired()
                 .HasMaxLength(100)
                 .HasColumnName("semester_name");
+            entity.Property(e => e.SemesterCode)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasColumnName("semester_code");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
             entity.Property(e => e.EndDate).HasColumnName("end_date");
         });

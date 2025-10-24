@@ -40,6 +40,11 @@ namespace CollabSphere.Application.Features.Classes.Queries.GetClassById
                         result.Authorized = false;
                         result.Message = "You are not a Student in this Class.";
                     }
+                    else if (request.ViewerRole == RoleConstants.LECTURER && classEntity.LecturerId != request.ViewerUId)
+                    {
+                        result.Authorized = false;
+                        result.Message = "You are not the assigned lecturer of the Class.";
+                    }
                     else
                     {
                         result.Class = (ClassDetailDto)classEntity;

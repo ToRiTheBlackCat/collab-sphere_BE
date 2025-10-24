@@ -11,6 +11,7 @@ namespace CollabSphere.Application.DTOs.Classes
         public string ClassName { get; set; }
         public string EnrolKey { get; set; }
         public string SubjectCode { get; set; }
+        public string SemesterCode { get; set; }
         public string LecturerCode { get; set; }
         public List<string> StudentCodes { get; set; }
         public bool IsActive { get; set; }
