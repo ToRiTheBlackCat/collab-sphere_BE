@@ -41,11 +41,18 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.DeleteCheckpoin
                 }
                 await _unitOfWork.SaveChangesAsync();
 
+                // Remove checkpoint's files
+                var files = await _unitOfWork.CheckpointFileRepo.GetFilesByCheckpointId(request.CheckpointId);
+                foreach (var file in files)
+                {
+                    _unitOfWork.CheckpointFileRepo.Delete(file);
+                }
+                await _unitOfWork.SaveChangesAsync();
+
                 // Remove checkpoint
                 var checkpoint = (await _unitOfWork.CheckpointRepo.GetById(request.CheckpointId))!;
                 _unitOfWork.CheckpointRepo.Delete(checkpoint);
                 await _unitOfWork.SaveChangesAsync();
-
                 #endregion
 
                 await _unitOfWork.CommitTransactionAsync();
