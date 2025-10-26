@@ -24,8 +24,27 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(x => x.Subject)
                 .Include(x => x.Objectives)
                     .ThenInclude(x => x.ObjectiveMilestones)
+                .OrderByDescending(x => x.CreatedAt)
                 .AsNoTracking()
                 .ToListAsync();
+
+            if (projects.Any())
+            {
+                foreach (var project in projects)
+                {
+                    foreach (var objective in project.Objectives)
+                    {
+                        if (!objective.ObjectiveMilestones.Any())
+                        {
+                            continue;
+                        }
+
+                        objective.ObjectiveMilestones = objective.ObjectiveMilestones.OrderBy(mile => mile.StartDate).ToList();
+                    }
+
+                    project.Objectives = project.Objectives.OrderBy(obj => obj.ObjectiveMilestones.FirstOrDefault()?.StartDate).ToList();
+                }
+            }
 
             return projects;
         }
@@ -33,12 +52,27 @@ namespace CollabSphere.Infrastructure.Repositories
         public override async Task<Project?> GetById(int id)
         {
             var project = await _context.Projects
+                .AsNoTracking()
                 .Include(x => x.Lecturer)
                 .Include(x => x.Subject)
                 .Include(x => x.Objectives)
                     .ThenInclude(x => x.ObjectiveMilestones)
-                .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.ProjectId == id);
+
+            if (project != null && project.Objectives.Any())
+            {
+                foreach (var objective in project.Objectives)
+                {
+                    if (!objective.ObjectiveMilestones.Any())
+                    {
+                        continue;
+                    }
+
+                    objective.ObjectiveMilestones = objective.ObjectiveMilestones.OrderBy(mile => mile.StartDate).ToList();
+                }
+
+                project.Objectives = project.Objectives.OrderBy(obj => obj.ObjectiveMilestones.FirstOrDefault()?.StartDate).ToList();
+            }
 
             return project;
         }

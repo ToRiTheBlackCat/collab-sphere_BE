@@ -15,6 +15,7 @@ namespace CollabSphere.Application.Constants
 
     public enum ProjectStatuses: int
     {
+        REMOVED = -1,
         PENDING = 0,
         APPROVED = 1,
         DENIED = 2,

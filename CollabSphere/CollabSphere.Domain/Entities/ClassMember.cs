@@ -25,8 +25,6 @@ public partial class ClassMember
 
     public virtual ICollection<CheckpointAssignment> CheckpointAssignments { get; set; } = new List<CheckpointAssignment>();
 
-    public virtual ICollection<CheckpointSubmit> CheckpointSubmits { get; set; } = new List<CheckpointSubmit>();
-
     public virtual Class Class { get; set; }
 
     public virtual ICollection<MemberEvaluation> MemberEvaluationRaters { get; set; } = new List<MemberEvaluation>();
@@ -34,6 +32,8 @@ public partial class ClassMember
     public virtual ICollection<MemberEvaluation> MemberEvaluationReceivers { get; set; } = new List<MemberEvaluation>();
 
     public virtual ICollection<MilestoneQuestionAn> MilestoneQuestionAns { get; set; } = new List<MilestoneQuestionAn>();
+
+    public virtual ICollection<MilestoneReturn> MilestoneReturns { get; set; } = new List<MilestoneReturn>();
 
     public virtual Student Student { get; set; }
 

@@ -43,6 +43,8 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
                 project.Description = projectDto.Description;
                 project.SubjectId = projectDto.SubjectId;
                 project.Status = (int)ProjectStatuses.PENDING;
+                project.UpdatedAt = DateTime.UtcNow;
+                project.UpdatedBy = request.UserId;
 
                 // 1. Remove objectives not in DTO
                 var requestObjectiveIds = projectDto.Objectives.Select(x => x.ObjectiveId).ToHashSet();
@@ -63,6 +65,7 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
                     // Delete reference in project object
                     project.Objectives.Remove(objective);
                 }
+                await _uniUnitOfWork.SaveChangesAsync();
 
                 // 2. Add or update objectives
                 foreach (var objectiveDto in projectDto.Objectives)
@@ -93,9 +96,10 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
                         objectiveEntity.Priority = objectiveDto.Priority;
 
                         // Sync milestones
-                        SyncMilestones(objectiveEntity, objectiveDto.ObjectiveMilestones);
+                        await SyncMilestones(objectiveEntity, objectiveDto.ObjectiveMilestones);
                     }
                 }
+                await _uniUnitOfWork.SaveChangesAsync();
 
                 _uniUnitOfWork.ProjectRepo.Update(project);
                 await _uniUnitOfWork.SaveChangesAsync();
@@ -115,7 +119,7 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
             return result;
         }
 
-        private void SyncMilestones(Objective objective, List<UpdateProjectObjectiveMilestoneDTO> milestoneDtos)
+        private async Task SyncMilestones(Objective objective, List<UpdateProjectObjectiveMilestoneDTO> milestoneDtos)
         {
             // Remove milestones not in DTO
             var milestoneIds = milestoneDtos.Select(m => m.ObjectiveMilestoneId).ToHashSet();
@@ -124,12 +128,13 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
                 .ToList();
             foreach (var milestoneEntity in milestonesToDelte)
             {
-                // Delete milestone in DB
-                _uniUnitOfWork.ObjectiveMilestoneRepo.Delete(milestoneEntity);
-
                 // Delete reference in objective object
                 objective.ObjectiveMilestones.Remove(milestoneEntity);
+
+                // Delete milestone in DB
+                _uniUnitOfWork.ObjectiveMilestoneRepo.Delete(milestoneEntity);
             }
+            await _uniUnitOfWork.SaveChangesAsync();
 
             // Add or Update Milestones
             foreach (var msDto in milestoneDtos)
@@ -174,7 +179,7 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
                 return;
             }
 
-            var validStatuses = new HashSet<ProjectStatuses>() { ProjectStatuses.PENDING, ProjectStatuses.DENIED };
+            var validStatuses = new HashSet<ProjectStatuses>() { ProjectStatuses.PENDING, ProjectStatuses.DENIED, ProjectStatuses.REMOVED };
 
             // Check project status
             if (!validStatuses.Contains((ProjectStatuses)project.Status))

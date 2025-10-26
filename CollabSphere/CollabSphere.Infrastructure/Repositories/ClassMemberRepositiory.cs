@@ -13,8 +13,9 @@ namespace CollabSphere.Infrastructure.Repositories
 {
     public class ClassMemberRepositiory : GenericRepository<ClassMember>, IClassMemberRepository
     {
-        public ClassMemberRepositiory(collab_sphereContext context): base(context) {
-        
+        public ClassMemberRepositiory(collab_sphereContext context) : base(context)
+        {
+
         }
 
         public override async Task<List<ClassMember>> GetAll()
@@ -36,7 +37,6 @@ namespace CollabSphere.Infrastructure.Repositories
         public async Task<ClassMember?> GetClassMemberAsyncByClassIdAndStudentId(int classId, int studentId)
         {
             return await _context.ClassMembers
-                .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.ClassId == classId && x.StudentId == studentId);
         }
 
@@ -49,3 +49,4 @@ namespace CollabSphere.Infrastructure.Repositories
         }
     }
 }
+

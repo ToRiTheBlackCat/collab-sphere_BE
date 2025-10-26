@@ -17,20 +17,37 @@ namespace CollabSphere.Infrastructure.Repositories
         {
         }
 
+        public void DeleteById(int projectAssignmentId)
+        {
+            var entity = new ProjectAssignment { ProjectAssignmentId = projectAssignmentId };
+            _dbSet.Attach(entity);
+            _dbSet.Remove(entity);
+        }
+
         public async Task<List<ProjectAssignment>> GetProjectAssignmentsByClassAsync(int classId)
         {
             var projectAssignments = await _context.ProjectAssignments
+                .AsNoTracking()
                 .Include(x => x.Project)
                     .ThenInclude(x => x.Lecturer)
                 .Include(x => x.Project)
                     .ThenInclude(x => x.Subject)
-                .Include(x => x.Class)
-                .AsNoTracking()
+                //.Include(x => x.Class)
                 .Where(x => 
                     x.ClassId == classId)
                 .ToListAsync();
 
             return projectAssignments;
+        }
+
+        public async Task<List<ProjectAssignment>> GetProjectAssignmentsByProjectAsync(int projectId)
+        {
+            var query = _context.ProjectAssignments
+                .AsNoTracking()
+                .Where(x => x.ProjectId == projectId)
+                .ToListAsync();
+
+            return await query;
         }
     }
 }

@@ -31,7 +31,7 @@ namespace CollabSphere.Infrastructure.Repositories
             _context.Lecturers.Update(lecturer);
         }
 
-        public async Task<List<User>?> SearchLecturer(string? email, string? fullName, int yob, string? lecturerCode, string? major, int pageNumber, int pageSize, bool isDesc)
+        public async Task<List<User>?> SearchLecturer(string? email, string? fullName, int yob, string? lecturerCode, string? major, bool isDesc)
         {
             var queryList = _context.Users
                 .Include(x => x.Role)
@@ -60,16 +60,8 @@ namespace CollabSphere.Infrastructure.Repositories
                 ? queryList.OrderByDescending(x => x.UId)
                 : queryList.OrderBy(x => x.UId);
 
-            // Paging
-            var totalItems = await queryList.CountAsync();
-            var totalPages = (int)Math.Ceiling((double)totalItems / pageSize);
 
-            var pagingResult = await queryList
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-
-            return pagingResult;
+            return await queryList.ToListAsync();
         }
     }
 }

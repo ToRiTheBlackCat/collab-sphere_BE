@@ -21,6 +21,9 @@ namespace CollabSphere.Infrastructure.Base
         public IUserRepository UserRepo { get; }
         public IChatConversationRepository ChatConversationRepo { get; }
         public IChatMessageRepository ChatMessageRepo { get; }
+        public ICheckpointAssignmentRepository CheckpointAssignmentRepo { get; }
+        public ICheckpointFileRepository CheckpointFileRepo { get; }
+        public ICheckpointRepository CheckpointRepo { get; }
         public IClassMemberRepository ClassMemberRepo { get; }
         public IClassRepository ClassRepo { get; }
         public IDocumentStateRepository DocStateRepo { get; }
@@ -29,12 +32,16 @@ namespace CollabSphere.Infrastructure.Base
         public IObjectiveMilestoneRepository ObjectiveMilestoneRepo { get; }
         public IProjectAssignmentRepository ProjectAssignmentRepo { get; }
         public IProjectRepository ProjectRepo { get; }
+        public ISemesterRepository SemesterRepo { get; }
         public IStudentRepository StudentRepo { get; }
         public ISubjectGradeComponentRepository SubjectGradeComponentRepo { get; }
         public ISubjectOutcomeRepository SubjectOutcomeRepo { get; }
         public ISubjectRepository SubjectRepo { get; }
         public ISubjectSyllabusRepository SubjectSyllabusRepo { get; }
+        public ITeamMilestoneRepository TeamMilestoneRepo { get; }
         public ITeamRepository TeamRepo { get; }
+        public ITeamEvaluationRepository TeamEvaluationRepo { get; }
+        public IEvaluationDetailRepository EvaluationDetailRepo { get; }
 
         #endregion
 
@@ -46,6 +53,9 @@ namespace CollabSphere.Infrastructure.Base
             UserRepo = new UserRepository(_context);
             ChatConversationRepo = new ChatConversationRepository(_context);
             ChatMessageRepo = new ChatMessageRepository(_context);
+            CheckpointAssignmentRepo = new CheckpointAssignmentRepository(_context);
+            CheckpointFileRepo = new CheckpointFileRepository(_context);
+            CheckpointRepo = new CheckpointRepository(_context);
             ClassMemberRepo = new ClassMemberRepositiory(_context);
             ClassRepo = new ClassRepository(_context);
             DocStateRepo = new DocumentStateRepository(_context);
@@ -54,12 +64,17 @@ namespace CollabSphere.Infrastructure.Base
             ObjectiveMilestoneRepo = new ObjectiveMilestoneRepository(_context);
             ProjectAssignmentRepo = new ProjectAssignmentRepository(_context);
             ProjectRepo = new ProjectRepository(_context);
+            SemesterRepo = new SemesterRepository(_context);
             StudentRepo = new StudentRepository(_context);
             SubjectGradeComponentRepo = new SubjectGradeComponentRepository(_context);
             SubjectOutcomeRepo = new SubjectOutcomeRepository(_context);
             SubjectRepo = new SubjectRepository(_context);
             SubjectSyllabusRepo = new SubjectSyllabusRepository(_context);
+            TeamMilestoneRepo = new TeamMilestoneRepository(_context);
             TeamRepo = new TeamRepository(_context);
+            TeamMilestoneRepo = new TeamMilestoneRepository(_context);
+            TeamEvaluationRepo = new TeamEvaluationRepository(_context);
+            EvaluationDetailRepo = new EvaluationDetailRepository(_context);
             #endregion
         }
 

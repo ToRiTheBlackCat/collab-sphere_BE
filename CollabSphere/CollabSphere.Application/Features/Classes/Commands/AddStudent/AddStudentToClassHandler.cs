@@ -38,7 +38,7 @@ namespace CollabSphere.Application.Features.Classes.Commands.AddStudent
                 await _unitOfWork.BeginTransactionAsync();
 
                 //Find existing class
-                var existingClass = await _unitOfWork.ClassRepo.GetById(request.ClassId);
+                var existingClass = await _unitOfWork.ClassRepo.GetClassByIdAsync(request.ClassId);
 
                 //Find all classmembers in that class
                 var classMembers = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByClassId(request.ClassId);
@@ -74,7 +74,7 @@ namespace CollabSphere.Application.Features.Classes.Commands.AddStudent
                         StudentId = existingStudent.StudentId,
                         Fullname = existingStudent.Fullname,
                         IsGrouped = false,
-                        Status = 1 //Active
+                        Status = (int)ClassMemberStatus.VALID 
                     };
                     await _unitOfWork.ClassMemberRepo.Create(newClassMember);
                     await _unitOfWork.SaveChangesAsync();
@@ -82,6 +82,12 @@ namespace CollabSphere.Application.Features.Classes.Commands.AddStudent
                     rawMessage.Append($"Added student {existingStudent.Fullname} to class {existingClass.ClassName} successfully. | ");
                     addedCount++;
                 }
+
+                //Update member count of class
+                existingClass.MemberCount += addedCount;
+                _unitOfWork.ClassRepo.Update(existingClass);
+                await _unitOfWork.SaveChangesAsync();
+
                 await _unitOfWork.CommitTransactionAsync();
 
                 result.IsSuccess = true;
@@ -133,7 +139,7 @@ namespace CollabSphere.Application.Features.Classes.Commands.AddStudent
                 errors.Add(new OperationError()
                 {
                     Field = "UserRole",
-                    Message = $"You do not have permission to assign lecturer to class."
+                    Message = $"You do not have permission to add students to class."
                 });
                 return;
             }

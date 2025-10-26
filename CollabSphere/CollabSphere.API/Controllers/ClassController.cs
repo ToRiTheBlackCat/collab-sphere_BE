@@ -5,6 +5,7 @@ using CollabSphere.Application.Features.Classes.Commands.AddStudent;
 using CollabSphere.Application.Features.Classes.Commands.AssignLec;
 using CollabSphere.Application.Features.Classes.Commands.CreateClass;
 using CollabSphere.Application.Features.Classes.Commands.ImportClass;
+using CollabSphere.Application.Features.Classes.Commands.UpdateClass;
 using CollabSphere.Application.Features.Classes.Queries.GetAllClasses;
 using CollabSphere.Application.Features.Classes.Queries.GetClassById;
 using CollabSphere.Application.Features.Classes.Queries.GetLecturerClasses;
@@ -54,9 +55,8 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("import")]
+        [HttpPost("imports")]
         public async Task<IActionResult> StaffImportExcel(IFormFile file)
-        //public async Task<IActionResult> StaffImportExcel(List<ImportClassDto> file)
         {
             if (!Path.GetExtension(file.FileName).Equals(".xlsx", StringComparison.OrdinalIgnoreCase))
             {
@@ -71,9 +71,9 @@ namespace CollabSphere.API.Controllers
                 var parsedClasses = await FileParser.ParseClassFromExcel(file.OpenReadStream());
                 command.Classes = parsedClasses;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest("Invalid data from file.");
+                return BadRequest($"Invalid data from file. {ex.Message}");
             }
 
             // Send command
@@ -167,7 +167,7 @@ namespace CollabSphere.API.Controllers
         }
 
         [Authorize]
-        [HttpPatch("{classId}/assign-lecturer")]
+        [HttpPatch("{classId}/lecturer-assignment")]
         public async Task<IActionResult> AssignLecturerToClass(AssignLecturerToClassCommand command)
         {
             if (!ModelState.IsValid)
@@ -197,7 +197,7 @@ namespace CollabSphere.API.Controllers
         }
 
         [Authorize]
-        [HttpPost("{classId}/add-student")]
+        [HttpPost("{classId}/students")]
         public async Task<IActionResult> AddStudentToClass(int classId, [FromBody] AddStudentToClassCommand command)
         {
             if (classId != command.ClassId)
@@ -231,10 +231,43 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
-        //[Authorize(Roles = "2")] // Roles: HeadDepartment
-        [HttpPost("{classId}/projects")]
-        public async Task<IActionResult> HeadDepartmentAssignProjectsToClass(AssignProjectsToClassCommand command, CancellationToken cancellationToken = default)
+        [Authorize(Roles = "2, 4")] // Roles: HeadDepartment, Lecturer
+        [HttpPatch("{classId}/projects-assignment")]
+        public async Task<IActionResult> AssignProjectsToClass(int classId, AssignProjectsToClassCommand command, CancellationToken cancellationToken = default)
         {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            command.UserId = int.Parse(UIdClaim.Value);
+            command.Role = int.Parse(roleClaim.Value);
+            command.ClassId = classId;
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result.Message);
+        }
+
+        // Roles: Staff
+        //[Authorize(Roles = "")]
+        [HttpPatch("{classId}")]
+        public async Task<IActionResult> StaffUpdateClassInfo(int classId, UpdateClassDto classDto, CancellationToken cancellationToken = default)
+        {
+            classDto.ClassId = classId;
+            var command = new UpdateClassCommand()
+            {
+                ClassDto = classDto
+            };
+
             var result = await _mediator.Send(command, cancellationToken);
 
             if (!result.IsValidInput)

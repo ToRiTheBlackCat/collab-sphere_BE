@@ -14,6 +14,6 @@ namespace CollabSphere.Domain.Intefaces
         Task InsertStudent(Student student);
         void UpdateStudent(Student student);
 
-        Task<List<User>?> SearchStudent(string? email, string? fullName, int yob, string? studentCode, string? major, int pageNumber, int pageSize, bool isDesc);
+        Task<List<User>?> SearchStudent(string? email, string? fullName, int yob, string? studentCode, string? major, bool isDesc);
     }
 }

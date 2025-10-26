@@ -1,13 +1,17 @@
-﻿using CollabSphere.Application.DTOs.Image;
-using CollabSphere.Application.Features.Team.Queries.GetAllTeamOfStudent;
-using CollabSphere.Application.Features.User.Commands;
-﻿using CollabSphere.Application.Features.Team.Commands;
+﻿using CollabSphere.Application.Features.Classes.Commands.AddStudent;
+using CollabSphere.Application.Features.Team.Commands.CreateTeam;
+using CollabSphere.Application.Features.Team.Commands.DeleteTeam;
+using CollabSphere.Application.Features.Team.Commands.TeamUploadAvatar;
+using CollabSphere.Application.Features.Team.Commands.UpdateTeam;
 using CollabSphere.Application.Features.Team.Queries.GetAllTeamByAssignClass;
+using CollabSphere.Application.Features.Team.Queries.GetAllTeamOfStudent;
+using CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass;
+using CollabSphere.Application.Features.Team.Queries.GetTeamDetail;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace CollabSphere.API.Controllers
 {
@@ -22,6 +26,7 @@ namespace CollabSphere.API.Controllers
             _mediator = mediator;
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateTeam([FromBody] CreateTeamCommand command)
         {
@@ -30,6 +35,11 @@ namespace CollabSphere.API.Controllers
             {
                 return BadRequest(ModelState);
             }
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            command.UserId = int.Parse(UIdClaim.Value);
+            command.UserRole = int.Parse(roleClaim.Value);
 
             var result = await _mediator.Send(command);
 
@@ -111,7 +121,7 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
-        [HttpPost("upload-avatar")]
+        [HttpPost("avatar")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadAvatar(TeamUploadAvatarCommand command)
         {
@@ -171,7 +181,7 @@ namespace CollabSphere.API.Controllers
 
             return Ok(result.PaginatedTeams);
         }
-        
+
         [Authorize]
         [HttpGet("student/{studentId}")]
         public async Task<IActionResult> GetTeamListOfStudent(GetAllTeamOfStudentQuery query, CancellationToken cancellationToken = default)
@@ -206,6 +216,26 @@ namespace CollabSphere.API.Controllers
                 return BadRequest(ModelState);
             }
 
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            query.UserId = int.Parse(UIdClaim.Value);
+            query.UserRole = int.Parse(roleClaim.Value);
+
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpGet("{teamId}")]
+        public async Task<IActionResult> GetTeamDetailsById(GetTeamDetailQuery query, CancellationToken cancellationToken = default)
+        {
             // Get UserId & Role of requester
             var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
             var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);

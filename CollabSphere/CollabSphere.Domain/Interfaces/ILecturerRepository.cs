@@ -13,6 +13,6 @@ namespace CollabSphere.Domain.Intefaces
         Task InsertLecturer(Lecturer lecturer);
         void UpdateLecturer(Lecturer lecturer);
 
-        Task<List<User>?> SearchLecturer(string? email, string? fullName, int yob, string? lecturerCode, string? major, int pageNumber, int pageSize, bool isDesc);
+        Task<List<User>?> SearchLecturer(string? email, string? fullName, int yob, string? lecturerCode, string? major, bool isDesc);
     }
 }

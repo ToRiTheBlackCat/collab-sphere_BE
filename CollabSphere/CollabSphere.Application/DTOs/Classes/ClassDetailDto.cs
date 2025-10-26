@@ -25,6 +25,10 @@ namespace CollabSphere.Application.DTOs.Classes
         public string SubjectName { get; set; }
         #endregion
 
+        public int SemesterId { get; set; }
+
+        public string SemesterName { get; set; }
+
         #region Lecturer Info
         public int LecturerId { get; set; }
 
@@ -32,6 +36,8 @@ namespace CollabSphere.Application.DTOs.Classes
 
         public string LecturerName { get; set; }
         #endregion
+
+        public string EnrolKey { get; set; }
 
         public int? MemberCount { get; set; }
 
@@ -58,9 +64,12 @@ namespace CollabSphere.Application.DTOs.Classes
                 SubjectId = classEntity.SubjectId,
                 SubjectCode = classEntity.Subject.SubjectCode,
                 SubjectName = classEntity.Subject.SubjectName,
-                LecturerId = classEntity.LecturerId!.Value,
-                LecturerCode = classEntity.Lecturer.LecturerCode,
-                LecturerName = classEntity.Lecturer.Fullname,
+                SemesterId = classEntity.SemesterId,
+                SemesterName = classEntity.Semester != null ? classEntity.Semester.SemesterName : "NOT FOUND",
+                LecturerId = classEntity.LecturerId ?? -1,
+                LecturerCode = classEntity.Lecturer != null ? classEntity.Lecturer.LecturerCode : "NOT FOUND",
+                LecturerName = classEntity.Lecturer != null ? classEntity.Lecturer.Fullname : "NOT FOUND",
+                EnrolKey = classEntity.EnrolKey,
                 MemberCount = classEntity.MemberCount,
                 TeamCount = classEntity.TeamCount,
                 CreatedDate = classEntity.CreatedDate,

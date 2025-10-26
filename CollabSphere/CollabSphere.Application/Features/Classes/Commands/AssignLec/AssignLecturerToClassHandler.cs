@@ -36,7 +36,7 @@ namespace CollabSphere.Application.Features.Classes.Commands.AssignLec
                 await _unitOfWork.BeginTransactionAsync();
 
                 //Find class
-                var foundClass = await _unitOfWork.ClassRepo.GetById(request.ClassId);
+                var foundClass = await _unitOfWork.ClassRepo.GetClassByIdAsync(request.ClassId);
 
                 //Find lecturer
                 var foundLecturer = await _unitOfWork.LecturerRepo.GetById(request.LecturerId);
@@ -45,6 +45,7 @@ namespace CollabSphere.Application.Features.Classes.Commands.AssignLec
                 {
                     //Assign lecturer to class
                     foundClass.LecturerId = foundLecturer.LecturerId;
+                    foundClass.LecturerName = foundLecturer.Fullname;
                     _unitOfWork.ClassRepo.Update(foundClass);
 
                     await _unitOfWork.SaveChangesAsync();

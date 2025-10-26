@@ -1,6 +1,7 @@
 ﻿using CollabSphere.Application.Base;
 using CollabSphere.Application.DTOs.Classes;
 using CollabSphere.Application.DTOs.Validation;
+using CollabSphere.Application.Mappings.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,11 +33,12 @@ namespace CollabSphere.Application.Features.Classes.Queries.GetStudentClasses
                 var classes = await _unitOfWork.ClassRepo.GetClassByStudentId(request.StudentId,
                     subjectIds: request.SubjectIds,
                     className: request.ClassName,
+                    semesterId: request.SemesterId,
                     orderby: request.OrderBy,
                     descending: request.Descending);
 
                 result.PaginatedClasses = new Common.PagedList<ClassVM>(
-                    list: classes.Select(x => (ClassVM)x),
+                    list: classes.Select(x => x.ToClassVM()),
                     pageNum: request.PageNum,
                     pageSize: request.PageSize,
                     viewAll: request.ViewAll);
