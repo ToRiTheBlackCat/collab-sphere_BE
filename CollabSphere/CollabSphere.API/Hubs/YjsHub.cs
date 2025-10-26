@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using CollabSphere.Application;
+using CollabSphere.Application.DTOs.ChatMessages;
+using CollabSphere.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Concurrent;
@@ -8,12 +11,38 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace CollabSphere.API.Hubs
 {
-    [Authorize]
-    public class YjsHub : Hub
+    public interface IDocumentClient
     {
-        // Dictionary<roomName, YDocState>
-        private static readonly ConcurrentDictionary<string, List<string>> DocumentStates = new();
+        Task ReceiveUpdate(string updateBase64);
+
+        Task ReceiveAwareness(string updateBase64);
+
+        Task ReceiveDocState(string[] updateBase64s);
+
+        Task UserDisconnected(int userId);
+    }
+
+    [Authorize]
+    public class YjsHub : Hub<IDocumentClient>
+    {
+        // Dictionary<roomName, List<byte[]>>
+        // This stores a list of all historical updates (as binary data) for each room.
+        //private static readonly ConcurrentDictionary<string, List<string>> DocumentStates = new();
+
+        // Dictionary<connectionId, userId>
         private static readonly ConcurrentDictionary<string, int> UserConnectionIds = new();
+
+        // Tracks which rooms a specific connection is in for proper disconnect notifications.
+        private static readonly ConcurrentDictionary<string, HashSet<string>> ConnectionRooms = new();
+
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<YjsHub> _logger; // ADDED: For logging
+
+        public YjsHub(IUnitOfWork unitOfWork, ILogger<YjsHub> logger)
+        {
+            _unitOfWork = unitOfWork;
+            _logger = logger;
+        }
 
         // When a client joins a "room"
         public async Task JoinDocument(string room)
@@ -22,37 +51,89 @@ namespace CollabSphere.API.Hubs
             {
                 var userIdClaim = Context.User!.Claims.First(x => x.Type == ClaimTypes.NameIdentifier);
                 var userId = int.Parse(userIdClaim.Value);
+
+                // Track connection ID to User ID
                 UserConnectionIds.TryAdd(Context.ConnectionId, userId);
 
-                await Groups.AddToGroupAsync(Context.ConnectionId, room);
-                var notifyConnect = Clients.Groups(room).SendAsync("UserConnected", userId);
+                // ADDED: Track that this connection is in this room
+                ConnectionRooms.GetOrAdd(Context.ConnectionId, _ => new HashSet<string>()).Add(room);
 
-                if (DocumentStates.TryGetValue(room, out var state))
-                {
-                    // Send current document state to new client
-                    await Clients.Caller.SendAsync("ReceiveDocState", state);
-                }
+                await Groups.AddToGroupAsync(Context.ConnectionId, room);
+
+                var docStates = await _unitOfWork.DocStateRepo.GetStatesByRoom(room);
+                var latestUpdates = docStates.Select(x => x.UpdateData).ToArray();
+
+                await Clients.Caller.ReceiveDocState(latestUpdates);
+
+                // 3. Notify others of the new connection
+                // ... (notify and return)
             }
             catch (Exception ex)
             {
-                var test = ex.InnerException;
+                // FIX: Log the error instead of swallowing it.
+                _logger.LogError(ex, "Error in JoinDocument for room {Room} by user {ConnectionId}", room, Context.ConnectionId);
+                // Optionally notify the caller of the failure
+                throw new HubException($"Failed to join document. Please try again. Message: {ex}");
             }
         }
 
         // Broadcast Yjs document updates
-        public async Task BroadcastUpdate(string room, string updateBase64)
+        public async Task BroadcastUpdate(string room, string update)
         {
             try
             {
-                var list = DocumentStates.GetOrAdd(room, _ => new List<string>());
-                list.Add(updateBase64);
+                // CRITICAL - Persist the new update to the database
+                var newDocState = new DocumentState 
+                {
+                    RoomId = room,
+                    UpdateData = update,
+                    CreatedTime = DateTime.UtcNow,
+                };
+                await _unitOfWork.DocStateRepo.Create(newDocState);
+                await _unitOfWork.SaveChangesAsync();
 
                 // Forward to others in the room
-                var sendDocUpdate = Clients.OthersInGroup(room).SendAsync("ReceiveUpdate", updateBase64);
+                await Clients.OthersInGroup(room).ReceiveUpdate(update);
             }
             catch (Exception ex)
             {
-                var test = ex.InnerException;
+                _logger.LogError(ex, "Error in BroadcastUpdate for room {Room}", room);
+            }
+        }
+
+        // Replace updates in DB with snapshot
+        public async Task SendMergedSnapshot(string room, string snapshotBase64)
+        {
+            try
+            {
+                await _unitOfWork.BeginTransactionAsync();
+
+                #region Data Operation
+                // Delete previous document states
+                var docStates = await _unitOfWork.DocStateRepo.GetStatesByRoom(room);
+                foreach (var docState in docStates)
+                {
+                    _unitOfWork.DocStateRepo.Delete(docState);
+                }
+                await _unitOfWork.SaveChangesAsync();
+
+                // Create new state with merged snapshot
+                var newDocState = new DocumentState
+                {
+                    RoomId = room,
+                    UpdateData = snapshotBase64,
+                    CreatedTime = DateTime.UtcNow,
+                };
+                await _unitOfWork.DocStateRepo.Create(newDocState);
+                await _unitOfWork.SaveChangesAsync();
+                #endregion
+
+                await _unitOfWork.CommitTransactionAsync();
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.RollbackTransactionAsync();
+                _logger.LogError(ex, "Error in BroadcastUpdate for room {Room}", room);
             }
         }
 
@@ -61,19 +142,33 @@ namespace CollabSphere.API.Hubs
         {
             try
             {
-                var sendAwareness = Clients.OthersInGroup(room).SendAsync("ReceiveAwareness", updateBase64);
+                await Clients.OthersInGroup(room).ReceiveAwareness(updateBase64);
             }
             catch (Exception ex)
             {
-                var test = ex.InnerException;
+                // Log the error
+                _logger.LogError(ex, "Error in BroadcastAwareness for room {Room}", room);
             }
         }
 
-        public async Task DisconnectFromDocument(string room)
+        // User LeaveDocument
+        public async Task LeaveDocument(string room)
         {
-            await Groups.RemoveFromGroupAsync(room, Context.ConnectionId);
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, room);
 
-            await OnDisconnectedAsync(null);
+            // Remove this room from the connection's tracking
+            if (ConnectionRooms.TryGetValue(Context.ConnectionId, out var rooms))
+            {
+                rooms.Remove(room);
+            }
+
+            // Notify the *specific room* that the user left
+            if (UserConnectionIds.TryGetValue(Context.ConnectionId, out var userId))
+            {
+                await Clients.Group(room).UserDisconnected(userId);
+            }
+
+            // DO NOT call OnDisconnectedAsync manually.
         }
 
         // Optional: return a snapshot if requested
@@ -86,17 +181,20 @@ namespace CollabSphere.API.Hubs
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            // Optional: cleanup logic if needed
-            if (UserConnectionIds.TryGetValue(Context.ConnectionId, out var userId))
+            // Try to get the user ID for the disconnecting client
+            if (UserConnectionIds.TryRemove(Context.ConnectionId, out var userId))
             {
-                Console.WriteLine($"User {userId} disconnected.");
-
-                // Perform cleanup (e.g., mark user as offline, remove from room, etc.)
-                var notifyDisconnect = Clients.All.SendAsync("UserDisconnected", userId);
-                if (UserConnectionIds.TryRemove(new KeyValuePair<string, int>(Context.ConnectionId, userId)))
+                // Try to get the list of rooms the user was in
+                if (ConnectionRooms.TryRemove(Context.ConnectionId, out var rooms))
                 {
-                    Console.WriteLine($"Removed connection '{Context.ConnectionId}' of user '{userId}'");
+                    // Create a task to notify each room
+                    var notificationTasks = rooms.Select(room =>
+                        Clients.Group(room).UserDisconnected(userId)
+                    );
+                    await Task.WhenAll(notificationTasks);
                 }
+
+                _logger.LogInformation("User {UserId} (Connection {ConnectionId}) disconnected.", userId, Context.ConnectionId);
             }
 
             await base.OnDisconnectedAsync(exception);

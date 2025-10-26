@@ -1,5 +1,6 @@
 ﻿using CollabSphere.Application;
 using CollabSphere.Domain.Intefaces;
+using CollabSphere.Domain.Interfaces;
 using CollabSphere.Infrastructure.PostgreDbContext;
 using CollabSphere.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -18,8 +19,11 @@ namespace CollabSphere.Infrastructure.Base
 
         #region Register_Repo
         public IUserRepository UserRepo { get; }
+        public IChatConversationRepository ChatConversationRepo { get; }
+        public IChatMessageRepository ChatMessageRepo { get; }
         public IClassMemberRepository ClassMemberRepo { get; }
         public IClassRepository ClassRepo { get; }
+        public IDocumentStateRepository DocStateRepo { get; }
         public ILecturerRepository LecturerRepo { get; }
         public IObjectiveRepository ObjectiveRepo { get; }
         public IObjectiveMilestoneRepository ObjectiveMilestoneRepo { get; }
@@ -40,8 +44,11 @@ namespace CollabSphere.Infrastructure.Base
 
             #region Register_Repo
             UserRepo = new UserRepository(_context);
+            ChatConversationRepo = new ChatConversationRepository(_context);
+            ChatMessageRepo = new ChatMessageRepository(_context);
             ClassMemberRepo = new ClassMemberRepositiory(_context);
             ClassRepo = new ClassRepository(_context);
+            DocStateRepo = new DocumentStateRepository(_context);
             LecturerRepo = new LecturerRepository(_context);
             ObjectiveRepo = new ObjectiveRepository(_context);
             ObjectiveMilestoneRepo = new ObjectiveMilestoneRepository(_context);

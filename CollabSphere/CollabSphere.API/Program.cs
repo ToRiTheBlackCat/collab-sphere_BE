@@ -173,6 +173,8 @@ builder.Services.AddSignalR(options =>
 {
     options.KeepAliveInterval = TimeSpan.FromSeconds(10);
     options.ClientTimeoutInterval = TimeSpan.FromSeconds(20);
+    options.EnableDetailedErrors = true;
+    options.MaximumReceiveMessageSize = 2 * 1024 * 1024;
 });
 
 var app = builder.Build();
@@ -195,4 +197,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.MapHub<YjsHub>("/yhub");
+app.MapHub<ChatHub>("/chathub");
 app.Run();

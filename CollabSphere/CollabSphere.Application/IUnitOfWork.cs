@@ -1,5 +1,6 @@
 ﻿
 using CollabSphere.Domain.Intefaces;
+using CollabSphere.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,11 @@ namespace CollabSphere.Application
     {
 
         IUserRepository UserRepo { get; }
+        IChatConversationRepository ChatConversationRepo { get; }
+        IChatMessageRepository ChatMessageRepo { get; }
         IClassMemberRepository ClassMemberRepo { get; }
         IClassRepository ClassRepo { get; }
+        IDocumentStateRepository DocStateRepo { get; }
         ILecturerRepository LecturerRepo { get; }
         IObjectiveRepository ObjectiveRepo { get; }
         IObjectiveMilestoneRepository ObjectiveMilestoneRepo { get; }
