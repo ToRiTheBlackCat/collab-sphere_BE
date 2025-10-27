@@ -29,6 +29,8 @@ namespace CollabSphere.Infrastructure.Base
         public IDocumentStateRepository DocStateRepo { get; }
         public ILecturerRepository LecturerRepo { get; }
         public IObjectiveRepository ObjectiveRepo { get; }
+        public INotificationRecipientRepository NotificationRecipientRepo { get; }
+        public INotificationRepository NotificationRepo { get; }
         public IObjectiveMilestoneRepository ObjectiveMilestoneRepo { get; }
         public IProjectAssignmentRepository ProjectAssignmentRepo { get; }
         public IProjectRepository ProjectRepo { get; }
@@ -61,6 +63,8 @@ namespace CollabSphere.Infrastructure.Base
             DocStateRepo = new DocumentStateRepository(_context);
             LecturerRepo = new LecturerRepository(_context);
             ObjectiveRepo = new ObjectiveRepository(_context);
+            NotificationRecipientRepo = new NotificationRecipientRepository(_context);
+            NotificationRepo = new NotificationRepository(_context);
             ObjectiveMilestoneRepo = new ObjectiveMilestoneRepository(_context);
             ProjectAssignmentRepo = new ProjectAssignmentRepository(_context);
             ProjectRepo = new ProjectRepository(_context);

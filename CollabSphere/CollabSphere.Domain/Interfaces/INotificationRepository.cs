@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CollabSphere.Domain.Entities;
+using CollabSphere.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Domain.Intefaces
 {
-    internal interface INotificationRepository
+    public interface INotificationRepository : IGenericRepository<Notification>
     {
+        Task<List<Notification>> GetNotificationsOfUser(int userId);
     }
 }

@@ -23,6 +23,8 @@ namespace CollabSphere.Application
         IDocumentStateRepository DocStateRepo { get; }
         ILecturerRepository LecturerRepo { get; }
         IObjectiveRepository ObjectiveRepo { get; }
+        INotificationRecipientRepository NotificationRecipientRepo { get; }
+        INotificationRepository NotificationRepo { get; }
         IObjectiveMilestoneRepository ObjectiveMilestoneRepo { get; }
         IProjectAssignmentRepository ProjectAssignmentRepo { get; }
         IProjectRepository ProjectRepo { get; }

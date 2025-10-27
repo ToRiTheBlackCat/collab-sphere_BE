@@ -27,6 +27,8 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(x => x.ChatMessages)
                     .ThenInclude(x => x.Sender)
                         .ThenInclude(x => x.Lecturer)
+                .Include(x => x.Team)
+                    .ThenInclude(x => x.ClassMembers)
                 .FirstOrDefaultAsync(x => x.ConversationId == conversationId);
 
             if (conversation != null)
