@@ -2,11 +2,13 @@
 using CollabSphere.Application.DTOs.Checkpoints;
 using CollabSphere.Application.Features.Checkpoints.Commands.AssignMembersToCheckpoint;
 using CollabSphere.Application.Features.Checkpoints.Commands.CheckDoneCheckpoint;
+using CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUpload;
 using CollabSphere.Application.Features.Checkpoints.Commands.CreateCheckpoint;
 using CollabSphere.Application.Features.Checkpoints.Commands.DeleteCheckpoint;
 using CollabSphere.Application.Features.Checkpoints.Commands.UpdateCheckpoint;
 using CollabSphere.Application.Features.Checkpoints.Queries.GetCheckpointDetail;
 using CollabSphere.Application.Features.TeamMilestones.Commands.CheckTeamMilestone;
+using CollabSphere.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -207,6 +209,40 @@ namespace CollabSphere.API.Controllers
             var command = new DeleteCheckpointCommand()
             {
                 CheckpointId = checkpointId,
+                UserId = int.Parse(UIdClaim.Value),
+                UserRole = int.Parse(roleClaim.Value),
+            };
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result.ErrorList);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result.Message);
+        }
+
+        // Roles: Lecturer, Student
+        [Authorize(Roles = "4, 5")]
+        [HttpPost("{checkpointId}/uploads")]
+        public async Task<IActionResult> UploadFile(int checkpointId, IFormFile checkpointFile, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+
+            // Construct command
+            var command = new CheckpointUploadCommand()
+            {
+                CheckpointId = checkpointId,
+                File = checkpointFile,
                 UserId = int.Parse(UIdClaim.Value),
                 UserRole = int.Parse(roleClaim.Value),
             };
