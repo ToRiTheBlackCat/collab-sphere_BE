@@ -2,8 +2,7 @@
 using CollabSphere.Application.DTOs.Checkpoints;
 using CollabSphere.Application.Features.Checkpoints.Commands.AssignMembersToCheckpoint;
 using CollabSphere.Application.Features.Checkpoints.Commands.CheckDoneCheckpoint;
-using CollabSphere.Application.Features.Checkpoints.Commands.CheckpointDeleteFile;
-using CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUploadFile;
+using CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUpload;
 using CollabSphere.Application.Features.Checkpoints.Commands.CreateCheckpoint;
 using CollabSphere.Application.Features.Checkpoints.Commands.DeleteCheckpoint;
 using CollabSphere.Application.Features.Checkpoints.Commands.GenerateCheckpointFileUrl;
@@ -233,7 +232,7 @@ namespace CollabSphere.API.Controllers
 
         // Roles: Lecturer, Student
         [Authorize(Roles = "4, 5")]
-        [HttpPost("{checkpointId}/files")]
+        [HttpPost("{checkpointId}/uploads")]
         public async Task<IActionResult> UploadFile(int checkpointId, IFormFile checkpointFile, CancellationToken cancellationToken = default)
         {
             // Get UserId & Role of requester
@@ -263,76 +262,6 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result.Message);
-        }
-
-        [Authorize(Roles = "4, 5")]
-        [HttpDelete("{checkpointId}/files/{fileId}")]
-        public async Task<IActionResult> RemoveCheckpointFile(int checkpointId, int fileId, CancellationToken cancellationToken = default)
-        {
-            // Get UserId & Role of requester
-            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
-            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
-
-            // Construct command
-            var command = new CheckpointDeleteFileCommand()
-            {
-                CheckpointId = checkpointId,
-                FileId = fileId,
-                UserId = int.Parse(UIdClaim.Value),
-                UserRole = int.Parse(roleClaim.Value),
-            };
-
-            // Handle command
-            var result = await _mediator.Send(command, cancellationToken);
-
-            if (!result.IsValidInput)
-            {
-                return BadRequest(result.ErrorList);
-            }
-
-            if (!result.IsSuccess)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
-            }
-
-            return Ok(result.Message);
-        }
-
-        [Authorize(Roles = "4, 5")]
-        [HttpPatch("{checkpointId}/files/{fileId}/new-url")]
-        public async Task<IActionResult> GenerateNewFileUrl(int checkpointId, int fileId, CancellationToken cancellationToken = default)
-        {
-            // Get UserId & Role of requester
-            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
-            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
-
-            // Construct command
-            var command = new GenerateCheckpointFileUrlCommand()
-            {
-                CheckpointId = checkpointId,
-                FileId = fileId,
-                UserId = int.Parse(UIdClaim.Value),
-                UserRole = int.Parse(roleClaim.Value),
-            };
-
-            // Handle command
-            var result = await _mediator.Send(command, cancellationToken);
-
-            if (!result.IsValidInput)
-            {
-                return BadRequest(result.ErrorList);
-            }
-
-            if (!result.IsSuccess)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
-            }
-
-            return Ok(new
-            {
-                FilePath = result.FileUrl,
-                PathExpireTime = result.UrlExpireTime,
-            });
         }
     }
 }

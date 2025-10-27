@@ -110,7 +110,7 @@ namespace CollabSphere.Application.Common
                 }
             }
 
-            // Check file size
+            // Optional: Check file size (example 20 MB max)
             long maxFileSizeBytes = maxFilSize * 1024 * 1024;
             if (file.Length > maxFileSizeBytes)
             {
