@@ -1,8 +1,7 @@
 ﻿using CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam;
-using CollabSphere.Application.Features.Team.Commands.CreateTeam;
+using CollabSphere.Application.Features.Evaluate.Commands.StudentEvaluateOtherInTeam;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -34,6 +33,38 @@ namespace CollabSphere.API.Controllers
             var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
             command.UserId = int.Parse(UIdClaim.Value);
             command.UserRole = int.Parse(roleClaim.Value);
+            command.TeamId = teamId;
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpPost("member/team/{teamId}")]
+        public async Task<IActionResult> StudentEvaluateOtherInTeam(int teamId, [FromBody] StudentEvaluateOtherInTeamCommand command)
+        {
+            if (!ModelState.IsValid)
+
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            command.RaterId = int.Parse(UIdClaim.Value);
+            command.RaterRole = int.Parse(roleClaim.Value);
             command.TeamId = teamId;
 
             var result = await _mediator.Send(command);
