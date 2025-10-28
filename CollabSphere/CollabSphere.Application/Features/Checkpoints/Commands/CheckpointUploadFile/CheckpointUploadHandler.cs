@@ -38,28 +38,52 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUploa
                 await _unitOfWork.BeginTransactionAsync();
 
                 #region Data Operation
-                // Upload file to AWS
                 var currentTime = DateTime.UtcNow;
 
-                var uploadResponse = await _s3Client.UploadFileToS3Async(
-                    request.File,
-                    AwsS3HelperPaths.Checkpoint,
-                    request.CheckpointId,
-                    currentTime
-                );
+                // Get the original file name parts
+                string fileName = Path.GetFileNameWithoutExtension(request.File.FileName);
+                string extension = Path.GetExtension(request.File.FileName);
+                string timestamp = currentTime.ToString("yyyyMMddHHmmss"); // Create a file-safe timestamp
+                var newFileName = $"{fileName}_{timestamp}{extension}"; // New unique file name
+
+                string folderPath = $"uploads/checkpoints/{request.CheckpointId}"; // Bucket's checkpoint folder path
+
+                string objectKey = $"{folderPath}/{newFileName}";
+
+                // Upload file to AWS
+                await using var stream = request.File.OpenReadStream();
+
+                var putRequest = new PutObjectRequest
+                {
+                    BucketName = "collab-sphere-bucket",
+                    Key = objectKey,
+                    InputStream = stream,
+                    ContentType = request.File.ContentType,
+                };
+
+                var putObjectResponse = await _s3Client.PutObjectAsync(putRequest);
+
+                // Generate pre-signed URL for file download
+                var preSignedRequest = new GetPreSignedUrlRequest()
+                {
+                    BucketName = "collab-sphere-bucket",
+                    Key = objectKey,
+                    Expires = currentTime.AddHours(5),
+                };
+
+                var preSignedUrl = await _s3Client.GetPreSignedURLAsync(preSignedRequest);
 
                 // Create database entry
                 var checkFile = new CheckpointFile()
                 {
                     CheckpointId = request.CheckpointId,
                     UserId = request.UserId,
-                    FileName = uploadResponse.FileName,
+                    FileName = newFileName,
                     Type = request.File.ContentType,
-                    FileUrl = uploadResponse.PresignedUrl,
+                    FilePath = preSignedUrl,
                     FileSize = request.File.Length,
-                    ObjectKey = uploadResponse.ObjectKey,
                     CreatedAt = currentTime,
-                    UrlExpireTime = uploadResponse.UrlExpireTime,
+                    PathExpireTime = currentTime.AddHours(5),
                 };
 
                 await _unitOfWork.CheckpointFileRepo.Create(checkFile);
@@ -68,7 +92,7 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUploa
 
                 await _unitOfWork.CommitTransactionAsync();
 
-                result.Message = $"Uploaded file \"{uploadResponse.FileName}\" successfully.";
+                result.Message = $"Uploaded file \"{newFileName}\" successfully.";
                 result.IsSuccess = true;
             }
             catch (AmazonS3Exception ex)
