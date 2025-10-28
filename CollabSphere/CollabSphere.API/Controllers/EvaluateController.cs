@@ -1,5 +1,6 @@
 ﻿using CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam;
 using CollabSphere.Application.Features.Evaluate.Commands.StudentEvaluateOtherInTeam;
+using CollabSphere.Application.Features.Evaluate.Queries.GetLecturerEvaluationForTeam;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,28 @@ namespace CollabSphere.API.Controllers
         public EvaluateController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+
+        [Authorize]
+        [HttpGet("lecturer/team/{teamId}")]
+        public async Task<IActionResult> GetLecturerEvaluationForTeam(GetLecturerEvaluationForTeamQuery query, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            query.UserId = int.Parse(UIdClaim.Value);
+            query.UserRole = int.Parse(roleClaim.Value);
+
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+
         }
 
         [Authorize]

@@ -83,7 +83,8 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                                 StudentId = cm.Student.StudentId,
                                 StudentName = cm.Student.Fullname,
                                 Avatar = cm.Student.AvatarImg ?? string.Empty,
-                                TeamRole = cm.TeamRole
+                                TeamRole = cm.TeamRole,
+                                MemberContributionPercentage = 0 //Pending for logic checking contribution
                             }).ToList() ?? new List<TeamMemberInfo>()
                     }
                 };
@@ -97,15 +98,28 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                 var totalCheckpoints = checkpoints.Count;
                 var completedCheckpoints = checkpoints.Count(c => c.Status == 1);
 
+              
+
                 dto.TeamProgress = new TeamProgress
                 {
-                    MilestonesComplete = completedMilestones,
-                    OverallProgress = totalMilestones > 0
+                    //Total progress
+                    OverallProgress = (totalMilestones + totalCheckpoints) > 0
+                        ? (float)Math.Round(
+                            ((completedMilestones + completedCheckpoints) * 100f) /
+                            (totalMilestones + totalCheckpoints), 2)
+                        : 0,
+                    //Milestone
+                    MilestonesProgress = totalMilestones > 0
                         ? (float)Math.Round((completedMilestones * 100f / totalMilestones), 2)
                         : 0,
+                    TotalMilestones = totalMilestones,
+                    MilestonesComplete = completedMilestones,
+                    //Checkpoint
                     CheckPointProgress = totalCheckpoints > 0
                         ? (float)Math.Round((completedCheckpoints * 100f / totalCheckpoints), 2)
-                        : 0
+                        : 0,
+                    TotalCheckpoints = totalCheckpoints,
+                    CheckpointsComplete = completedCheckpoints,
                 };
                 #endregion
 

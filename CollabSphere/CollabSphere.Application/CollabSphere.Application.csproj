@@ -20,8 +20,4 @@
     <ProjectReference Include="..\CollabSphere.Domain\CollabSphere.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Evaluate\Queries\" />
-  </ItemGroup>
-
 </Project>

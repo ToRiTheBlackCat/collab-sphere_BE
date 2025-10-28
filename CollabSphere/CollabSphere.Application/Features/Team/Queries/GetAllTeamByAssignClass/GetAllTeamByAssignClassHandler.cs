@@ -33,6 +33,7 @@ namespace CollabSphere.Application.Features.Team.Queries.GetAllTeamByAssignClass
                 var teams = await _unitOfWork.TeamRepo.SearchTeam(
                     classId: request.ClassId,
                     teamName: request.TeamName,
+                    projectId: request.ProjectId,
                     fromDate: request.FromDate,
                     endDate: request.EndDate,
                     isDesc: request.IsDesc);
