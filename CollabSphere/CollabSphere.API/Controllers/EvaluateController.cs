@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace CollabSphere.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/evaluate")]
     [ApiController]
     public class EvaluateController : ControllerBase
     {
