@@ -33,6 +33,7 @@ namespace CollabSphere.Application
         ITeamRepository TeamRepo { get; }
         ITeamEvaluationRepository TeamEvaluationRepo { get; }
         IEvaluationDetailRepository EvaluationDetailRepo { get; }
+        IMemberEvaluationRepository MemberEvaluationRepo { get; }
 
         //More IRepo below
 
