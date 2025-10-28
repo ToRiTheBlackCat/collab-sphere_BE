@@ -20,6 +20,9 @@ namespace CollabSphere.Application.Features.Team.Queries.GetAllTeamByAssignClass
         public string? TeamName { get; set; }
 
         [FromQuery]
+        public int? ProjectId { get; set; } = 0;
+
+        [FromQuery]
         public DateOnly? FromDate { get; set; }
 
         [FromQuery]
