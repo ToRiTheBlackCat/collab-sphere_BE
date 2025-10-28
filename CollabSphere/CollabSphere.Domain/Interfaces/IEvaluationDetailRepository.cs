@@ -10,5 +10,6 @@ namespace CollabSphere.Domain.Intefaces
 {
     public interface IEvaluationDetailRepository : IGenericRepository<EvaluationDetail>
     {
+        Task<List<EvaluationDetail>> GetEvaluationDetailsByTeamEvaluationId(int teamEvaluationId);
     }
 }
