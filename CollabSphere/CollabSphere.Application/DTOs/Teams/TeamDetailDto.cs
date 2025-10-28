@@ -36,8 +36,12 @@ namespace CollabSphere.Application.DTOs.Teams
     public class TeamProgress
     {
         public float? OverallProgress { get; set; } = 0;
+        public float? MilestonesProgress { get; set; } = 0;
+        public int? TotalMilestones { get; set; } = 0;
         public int? MilestonesComplete { get; set; } = 0;
         public float? CheckPointProgress { get; set; } = 0;
+        public int? TotalCheckpoints { get; set; } = 0;
+        public int? CheckpointsComplete { get; set; } = 0;
     }
     public class ClassInfo
     {
@@ -68,5 +72,6 @@ namespace CollabSphere.Application.DTOs.Teams
         public string StudentName { get; set; } = string.Empty;
         public string Avatar { get; set; } = string.Empty;
         public int? TeamRole { get; set; }
+        public float? MemberContributionPercentage { get; set; } = 0;
     }
 }
