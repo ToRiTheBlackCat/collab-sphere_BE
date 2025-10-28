@@ -2,7 +2,7 @@
 using CollabSphere.Application.DTOs.Checkpoints;
 using CollabSphere.Application.Features.Checkpoints.Commands.AssignMembersToCheckpoint;
 using CollabSphere.Application.Features.Checkpoints.Commands.CheckDoneCheckpoint;
-using CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUpload;
+using CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUploadFile;
 using CollabSphere.Application.Features.Checkpoints.Commands.CreateCheckpoint;
 using CollabSphere.Application.Features.Checkpoints.Commands.DeleteCheckpoint;
 using CollabSphere.Application.Features.Checkpoints.Commands.UpdateCheckpoint;
