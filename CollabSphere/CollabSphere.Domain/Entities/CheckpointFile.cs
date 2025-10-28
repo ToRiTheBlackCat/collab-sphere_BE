@@ -11,9 +11,21 @@ public partial class CheckpointFile
 
     public int CheckpointId { get; set; }
 
-    public string FilePath { get; set; }
+    public int UserId { get; set; }
+
+    public string FileName { get; set; }
 
     public string Type { get; set; }
 
+    public string FilePath { get; set; }
+
+    public long FileSize { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime PathExpireTime { get; set; }
+
     public virtual Checkpoint Checkpoint { get; set; }
+
+    public virtual User User { get; set; }
 }
