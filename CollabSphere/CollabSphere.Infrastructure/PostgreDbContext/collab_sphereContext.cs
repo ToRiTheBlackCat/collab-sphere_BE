@@ -311,17 +311,35 @@ public partial class collab_sphereContext : DbContext
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("file_id");
             entity.Property(e => e.CheckpointId).HasColumnName("checkpoint_id");
-            entity.Property(e => e.FilePath)
-                .IsRequired()
-                .HasColumnName("file_path");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.FileName)
+                .HasMaxLength(200)
+                .HasColumnName("file_name");
             entity.Property(e => e.Type)
                 .HasMaxLength(50)
                 .HasColumnName("type");
+            entity.Property(e => e.FilePath)
+                .IsRequired()
+                .HasColumnName("file_path");
+            entity.Property(e => e.FileSize)
+                .IsRequired()
+                .HasColumnType("bigint")
+                .HasColumnName("file_size");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("created_at");
+            entity.Property(e => e.PathExpireTime)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("path_expire_time");
 
             entity.HasOne(d => d.Checkpoint).WithMany(p => p.CheckpointFiles)
                 .HasForeignKey(d => d.CheckpointId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("checkpoint_file_checkpoint_fk");
+            entity.HasOne(d => d.User).WithMany(p => p.CheckpointFiles)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("checkpoint_file_user_fk");
         });
 
         modelBuilder.Entity<Class>(entity =>

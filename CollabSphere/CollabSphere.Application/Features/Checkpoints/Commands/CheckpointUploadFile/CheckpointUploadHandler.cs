@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUpload
+namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUploadFile
 {
     public class CheckpointUploadHandler : CommandHandler<CheckpointUploadCommand>
     {
@@ -52,21 +52,38 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUploa
 
                 // Upload file to AWS
                 await using var stream = request.File.OpenReadStream();
+
                 var putRequest = new PutObjectRequest
                 {
                     BucketName = "collab-sphere-bucket",
                     Key = objectKey,
                     InputStream = stream,
-                    ContentType = request.File.ContentType
+                    ContentType = request.File.ContentType,
                 };
+
                 var putObjectResponse = await _s3Client.PutObjectAsync(putRequest);
+
+                // Generate pre-signed URL for file download
+                var preSignedRequest = new GetPreSignedUrlRequest()
+                {
+                    BucketName = "collab-sphere-bucket",
+                    Key = objectKey,
+                    Expires = currentTime.AddHours(5),
+                };
+
+                var preSignedUrl = await _s3Client.GetPreSignedURLAsync(preSignedRequest);
 
                 // Create database entry
                 var checkFile = new CheckpointFile()
                 {
                     CheckpointId = request.CheckpointId,
-                    FilePath = objectKey,
-                    Type = request.File.ContentType
+                    UserId = request.UserId,
+                    FileName = newFileName,
+                    Type = request.File.ContentType,
+                    FilePath = preSignedUrl,
+                    FileSize = request.File.Length,
+                    CreatedAt = currentTime,
+                    PathExpireTime = currentTime.AddHours(5),
                 };
 
                 await _unitOfWork.CheckpointFileRepo.Create(checkFile);
@@ -80,9 +97,17 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUploa
             }
             catch (AmazonS3Exception ex)
             {
-                // Capture S3 upload error
                 await _unitOfWork.RollbackTransactionAsync();
-                result.Message = $"S3 Error: {ex.Message}";
+
+                // Handle cases like the object key not being found
+                if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    result.Message = $"S3 Error: {ex.Message}";
+                }
+                else
+                {
+                    result.Message = $"S3 Error: {ex.Message}";
+                }
             }
             catch (Exception ex)
             {

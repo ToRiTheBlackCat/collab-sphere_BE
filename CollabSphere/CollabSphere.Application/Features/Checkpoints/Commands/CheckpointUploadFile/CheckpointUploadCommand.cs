@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUpload
+namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUploadFile
 {
     public class CheckpointUploadCommand : ICommand
     {
