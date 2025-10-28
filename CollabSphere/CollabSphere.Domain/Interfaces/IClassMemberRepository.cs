@@ -13,5 +13,6 @@ namespace CollabSphere.Domain.Intefaces
         Task<List<ClassMember>> GetClassMemberAsyncByClassId(int classId);
         Task<ClassMember?> GetClassMemberAsyncByClassIdAndStudentId(int classId, int studentId);
         Task<List<ClassMember>?> GetClassMemberAsyncByTeamId(int teamId);
+        Task<ClassMember?> GetClassMemberAsyncByTeamIdAndStudentId(int teamId, int studentId);
     }
 }

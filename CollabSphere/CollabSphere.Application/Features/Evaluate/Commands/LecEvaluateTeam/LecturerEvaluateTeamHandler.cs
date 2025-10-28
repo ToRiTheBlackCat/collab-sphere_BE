@@ -86,6 +86,7 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam
             {
                 await _unitOfWork.RollbackTransactionAsync();
                 result.Message = ex.Message;
+                return result;
             }
 
             await _unitOfWork.CommitTransactionAsync();
