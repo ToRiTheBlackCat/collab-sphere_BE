@@ -297,5 +297,42 @@ namespace CollabSphere.API.Controllers
 
             return Ok(result.Message);
         }
+
+        [Authorize(Roles = "4, 5")]
+        [HttpPatch("{checkpointId}/files/{fileId}/new-url")]
+        public async Task<IActionResult> GenerateNewFileUrl(int checkpointId, int fileId, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+
+            // Construct command
+            var command = new GenerateCheckpointFileUrlCommand()
+            {
+                CheckpointId = checkpointId,
+                FileId = fileId,
+                UserId = int.Parse(UIdClaim.Value),
+                UserRole = int.Parse(roleClaim.Value),
+            };
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result.ErrorList);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(new
+            {
+                FilePath = result.FileUrl,
+                PathExpireTime = result.UrlExpireTime,
+            });
+        }
     }
 }

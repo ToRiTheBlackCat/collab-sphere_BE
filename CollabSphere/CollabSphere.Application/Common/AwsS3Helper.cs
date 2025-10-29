@@ -31,7 +31,7 @@ namespace CollabSphere.Application.Common
             public required string ObjectKey { get; set; }
 
             /// <summary>
-            /// A expirable pre-signed URL <see cref="string"/> for downloading the file
+            /// A temporally pre-signed URL <see cref="string"/> for accessing the AWS S3 object file
             /// </summary>
             public required string PresignedUrl { get; set; }
 
@@ -128,29 +128,29 @@ namespace CollabSphere.Application.Common
             var putObjectResponse = await s3Client.PutObjectAsync(putRequest);
 
             // Generate pre-signed URL for file download
-            var expireTime = currentTime.Value.AddHours(EXPIRATION_COUNT_DOWN);
-            var preSignedRequest = new GetPreSignedUrlRequest()
-            {
-                BucketName = BUCKET_NAME,
-                Key = objectKey,
-                Expires = expireTime,
-            };
 
-            var preSignedUrl = await s3Client.GetPreSignedURLAsync(preSignedRequest);
+            var preSignResponse = await s3Client.GetPresignedUrlFromS3Async(objectKey, currentTime.Value);
 
             return new UploadResponse()
             {
                 FileName = newFileName,
                 ObjectKey = objectKey,
-                PresignedUrl = preSignedUrl,
-                UrlExpireTime = expireTime,
+                PresignedUrl = preSignResponse.url,
+                UrlExpireTime = preSignResponse.expireTime,
             };
         }
 
-        private static async Task<string> GetPresignedUrlFromS3Async(this IAmazonS3 s3Client, string objectKey)
+        /// <summary>
+        /// Get a temporally pre-signed URL <see cref="string"/> for other clients <br/>
+        /// to access the AWS S3 object file mapped with the <paramref name="objectKey"/>
+        /// </summary>
+        /// <param name="objectKey">The key <see cref="string"/> for the AWS S3 object file to get a pre-signed URL</param>
+        /// <param name="startTime">The time 5 hours from which the URL path expires</param>
+        /// <returns>An pre-signed URL <see cref="string"/> and it's <see cref="DateTime"/> expire time</returns>
+        public static async Task<(string url, DateTime expireTime)> GetPresignedUrlFromS3Async(this IAmazonS3 s3Client, string objectKey, DateTime startTime)
         {
             // Generate pre-signed URL for file download
-            var expireTime = DateTime.Now.AddHours(EXPIRATION_COUNT_DOWN);
+            var expireTime = startTime.AddHours(EXPIRATION_COUNT_DOWN);
             var preSignedRequest = new GetPreSignedUrlRequest()
             {
                 BucketName = BUCKET_NAME,
@@ -159,9 +159,13 @@ namespace CollabSphere.Application.Common
             };
 
             var preSignedUrl = await s3Client.GetPreSignedURLAsync(preSignedRequest);
-            return preSignedUrl;
+            return (preSignedUrl, expireTime);
         }
 
+        /// <summary>
+        /// Delete the AWS S3 object file mappead with the <paramref name="objectKey"/>
+        /// </summary>
+        /// <param name="objectKey">The key <see cref="string"/> for the AWS S3 object file to delete</param>
         public static async Task DeleteFileFromS3Async(this IAmazonS3 s3Client, string objectKey)
         {
             await s3Client.DeleteObjectAsync(BUCKET_NAME, objectKey);

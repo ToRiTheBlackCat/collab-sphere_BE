@@ -99,6 +99,7 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointDelet
             }
             else if (request.UserRole == RoleConstants.LECTURER && checkpoint.TeamMilestone.Team.LecturerId != request.UserId)
             {
+                // User is not lecuter assigned to class
                 errors.Add(new OperationError()
                 {
                     Field = nameof(request.UserId),
