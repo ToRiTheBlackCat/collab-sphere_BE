@@ -11,5 +11,6 @@ namespace CollabSphere.Domain.Intefaces
     public interface ITeamMilestoneRepository : IGenericRepository<TeamMilestone>
     {
         Task<List<TeamMilestone>> GetMilestonesByTeamId(int teamId);
+        Task<TeamMilestone?> GetTeamMilestoneById (int teamMilestoneId);
     }
 }
