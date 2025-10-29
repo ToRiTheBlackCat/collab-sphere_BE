@@ -3,29 +3,28 @@ using CollabSphere.Application.Base;
 using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
-using CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUploadFile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointDeleteFile
+namespace CollabSphere.Application.Features.Checkpoints.Commands.GenerateCheckpointFileUrl
 {
-    public class CheckpointDeleteFileHandler : CommandHandler<CheckpointDeleteFileCommand>
+    public class GenerateCheckpointFileUrlHandler : CommandHandler<GenerateCheckpointFileUrlCommand, GenerateCheckpointFileUrlResult>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAmazonS3 _s3Client;
 
-        public CheckpointDeleteFileHandler(IUnitOfWork unitOfWork, IAmazonS3 s3Client)
+        public GenerateCheckpointFileUrlHandler(IUnitOfWork unitOfWork, IAmazonS3 s3Client)
         {
             _unitOfWork = unitOfWork;
             _s3Client = s3Client;
         }
 
-        protected override async Task<CommandResult> HandleCommand(CheckpointDeleteFileCommand request, CancellationToken cancellationToken)
+        protected override async Task<GenerateCheckpointFileUrlResult> HandleCommand(GenerateCheckpointFileUrlCommand request, CancellationToken cancellationToken)
         {
-            var result = new CommandResult()
+            var result = new GenerateCheckpointFileUrlResult()
             {
                 IsSuccess = false,
                 IsValidInput = true,
@@ -34,22 +33,35 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointDelet
 
             try
             {
-                await _unitOfWork.RollbackTransactionAsync();
+                // Get checkpoint
+                var file = (await _unitOfWork.CheckpointFileRepo.GetById(request.FileId))!;
+
+                //var timeGap = DateTime.UtcNow - file.UrlExpireTime;
+                //if (timeGap.TotalHours > 2d)
+                //{
+                //    result.FileUrl = file.FileUrl;
+                //    result.UrlExpireTime = file.UrlExpireTime;
+                //    result.IsSuccess = true;
+                //    return result;
+                //}
+
+                await _unitOfWork.BeginTransactionAsync();
 
                 #region Data Operation
-                var checkpointFile = (await _unitOfWork.CheckpointFileRepo.GetById(request.FileId))!;
+                // Generate new presigned URL
+                var presignResponse = await _s3Client.GetPresignedUrlFromS3Async(file.ObjectKey, DateTime.UtcNow);
 
-                // Delete file on Aws S3
-                await _s3Client.DeleteFileFromS3Async(checkpointFile.ObjectKey);
+                file.FileUrl = presignResponse.url;
+                file.UrlExpireTime = presignResponse.expireTime;
 
-                // Delete file entry in DB
-                _unitOfWork.CheckpointFileRepo.Delete(checkpointFile);
+                _unitOfWork.CheckpointFileRepo.Update(file);
                 await _unitOfWork.SaveChangesAsync();
                 #endregion
 
-                await _unitOfWork.RollbackTransactionAsync();
+                await _unitOfWork.CommitTransactionAsync();
 
-                result.Message = $"Deleted successlly checkpoint file \"{checkpointFile.FileName}\".";
+                result.FileUrl = presignResponse.url;
+                result.UrlExpireTime = presignResponse.expireTime;
                 result.IsSuccess = true;
             }
             catch (AmazonS3Exception ex)
@@ -68,7 +80,7 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointDelet
             return result;
         }
 
-        protected override async Task ValidateRequest(List<OperationError> errors, CheckpointDeleteFileCommand request)
+        protected override async Task ValidateRequest(List<OperationError> errors, GenerateCheckpointFileUrlCommand request)
         {
             // Check checkpointId
             var checkpoint = await _unitOfWork.CheckpointRepo.GetCheckpointDetail(request.CheckpointId);
