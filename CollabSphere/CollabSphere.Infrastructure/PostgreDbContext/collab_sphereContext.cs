@@ -316,11 +316,11 @@ public partial class collab_sphereContext : DbContext
                 .HasMaxLength(200)
                 .HasColumnName("file_name");
             entity.Property(e => e.Type)
-                .HasMaxLength(50)
+                .HasMaxLength(150)
                 .HasColumnName("type");
-            entity.Property(e => e.FilePath)
+            entity.Property(e => e.FileUrl)
                 .IsRequired()
-                .HasColumnName("file_path");
+                .HasColumnName("file_url");
             entity.Property(e => e.FileSize)
                 .IsRequired()
                 .HasColumnType("bigint")
@@ -331,9 +331,9 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("created_at");
-            entity.Property(e => e.PathExpireTime)
-                .HasDefaultValueSql("now()")
-                .HasColumnName("path_expire_time");
+            entity.Property(e => e.UrlExpireTime)
+                .IsRequired()
+                .HasColumnName("url_expire_time");
 
             entity.HasOne(d => d.Checkpoint).WithMany(p => p.CheckpointFiles)
                 .HasForeignKey(d => d.CheckpointId)

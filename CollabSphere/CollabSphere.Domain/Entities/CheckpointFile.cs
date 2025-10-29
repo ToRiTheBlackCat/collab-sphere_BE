@@ -17,7 +17,7 @@ public partial class CheckpointFile
 
     public string Type { get; set; }
 
-    public string FilePath { get; set; }
+    public string FileUrl { get; set; }
 
     public long FileSize { get; set; }
 
@@ -25,7 +25,7 @@ public partial class CheckpointFile
 
     public DateTime CreatedAt { get; set; }
 
-    public DateTime PathExpireTime { get; set; }
+    public DateTime UrlExpireTime { get; set; }
 
     public virtual Checkpoint Checkpoint { get; set; }
 
