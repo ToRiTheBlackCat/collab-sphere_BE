@@ -325,6 +325,9 @@ public partial class collab_sphereContext : DbContext
                 .IsRequired()
                 .HasColumnType("bigint")
                 .HasColumnName("file_size");
+            entity.Property(e => e.ObjectKey)
+                .IsRequired()
+                .HasColumnName("object_key");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("created_at");

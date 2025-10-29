@@ -24,13 +24,13 @@ namespace CollabSphere.Application.DTOs.Checkpoints
 
         public required string Type { get; set; }
 
-        public required string FileUrl { get; set; }
+        public required string FilePath { get; set; }
 
         public required long FileSize { get; set; }
 
         public required DateTime CreatedAt { get; set; }
 
-        public required DateTime UrlExpireTime { get; set; }
+        public required DateTime PathExpireTime { get; set; }
     }
 }
 
@@ -61,11 +61,11 @@ namespace CollabSphere.Application.Mappings
                 UserName = userName,
                 AvatarImg = avatarImg,
                 FileName = file.FileName,
-                FileUrl = file.FileUrl,
+                FilePath = file.FilePath,
                 FileSize = file.FileSize,
                 Type = file.Type,
                 CreatedAt = file.CreatedAt,
-                UrlExpireTime = file.UrlExpireTime,
+                PathExpireTime = file.PathExpireTime,
             };
         }
 

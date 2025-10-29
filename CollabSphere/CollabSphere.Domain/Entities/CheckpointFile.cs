@@ -21,6 +21,8 @@ public partial class CheckpointFile
 
     public long FileSize { get; set; }
 
+    public string ObjectKey { get; set; }
+
     public DateTime CreatedAt { get; set; }
 
     public DateTime PathExpireTime { get; set; }

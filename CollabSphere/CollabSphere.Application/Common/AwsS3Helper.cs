@@ -31,7 +31,7 @@ namespace CollabSphere.Application.Common
             public required string ObjectKey { get; set; }
 
             /// <summary>
-            /// A temporally pre-signed URL <see cref="string"/> for accessing the AWS S3 object file
+            /// A expirable pre-signed URL <see cref="string"/> for downloading the file
             /// </summary>
             public required string PresignedUrl { get; set; }
 
@@ -56,7 +56,7 @@ namespace CollabSphere.Application.Common
         /// </summary>aaaaa
         private static string ConstructFolderPath(AwsS3HelperPaths pathEnum, int sepertationId, string prefix = "uploads/")
         {
-            var sepertationString = sepertationId != 0 ? $"{sepertationId}/" : "";
+            var sepertationString = sepertationId != 0 ? $"{sepertationId}" : "";
             return $"{prefix}{_enumPath[pathEnum]}{sepertationString}";
         }
 
@@ -94,20 +94,25 @@ namespace CollabSphere.Application.Common
         /// If <see cref="null"/> then defaults to <see cref="DateTime.UtcNow"/>
         /// </param>
         /// <returns></returns>
-        public static async Task<UploadResponse> UploadFileToS3Async(this IAmazonS3 s3Client, IFormFile formFile, AwsS3HelperPaths pathEnum, int seperationId, DateTime currentTime)
+        public static async Task<UploadResponse> UploadFileToS3Async(this IAmazonS3 s3Client, IFormFile formFile, AwsS3HelperPaths pathEnum, int seperationId = 0, DateTime? currentTime = null)
         {
             if (formFile.Length > FILE_SIZE_LIMIT)
             {
                 throw new ArgumentException($"{nameof(formFile)} can't be larger than 20.0 MB.");
             }
 
+            if (!currentTime.HasValue)
+            {
+                currentTime = DateTime.UtcNow;
+            }
+
             // Construct unique file name
             string fileName = Path.GetFileNameWithoutExtension(formFile.FileName);
             string extension = Path.GetExtension(formFile.FileName);
-            string timestamp = currentTime.ToString("yyyyMMddHHmmss"); // Create a file-safe timestamp
+            string timestamp = currentTime.Value.ToString("yyyyMMddHHmmss"); // Create a file-safe timestamp
             var newFileName = $"{fileName}_{timestamp}{extension}"; // New unique file name, format : fileName_yyyyMMddmmss.ext
 
-            string objectKey = $"{ConstructFolderPath(pathEnum, seperationId)}{newFileName}"; // new bucket's object key
+            string objectKey = $"{ConstructFolderPath(pathEnum)}/{newFileName}"; // new bucket's object key
 
             // Upload file to AWS
             await using var stream = formFile.OpenReadStream();
@@ -123,29 +128,7 @@ namespace CollabSphere.Application.Common
             var putObjectResponse = await s3Client.PutObjectAsync(putRequest);
 
             // Generate pre-signed URL for file download
-
-            var preSignResponse = await s3Client.GetPresignedUrlFromS3Async(objectKey, currentTime);
-
-            return new UploadResponse()
-            {
-                FileName = newFileName,
-                ObjectKey = objectKey,
-                PresignedUrl = preSignResponse.url,
-                UrlExpireTime = preSignResponse.expireTime,
-            };
-        }
-
-        /// <summary>
-        /// Get a temporally pre-signed URL <see cref="string"/> for other clients <br/>
-        /// to access the AWS S3 object file mapped with the <paramref name="objectKey"/>
-        /// </summary>
-        /// <param name="objectKey">The key <see cref="string"/> for the AWS S3 object file to get a pre-signed URL</param>
-        /// <param name="startTime">The time 5 hours from which the URL path expires</param>
-        /// <returns>An pre-signed URL <see cref="string"/> and it's <see cref="DateTime"/> expire time</returns>
-        public static async Task<(string url, DateTime expireTime)> GetPresignedUrlFromS3Async(this IAmazonS3 s3Client, string objectKey, DateTime startTime)
-        {
-            // Generate pre-signed URL for file download
-            var expireTime = startTime.AddHours(EXPIRATION_COUNT_DOWN);
+            var expireTime = currentTime.Value.AddHours(EXPIRATION_COUNT_DOWN);
             var preSignedRequest = new GetPreSignedUrlRequest()
             {
                 BucketName = BUCKET_NAME,
@@ -154,33 +137,34 @@ namespace CollabSphere.Application.Common
             };
 
             var preSignedUrl = await s3Client.GetPreSignedURLAsync(preSignedRequest);
-            return (preSignedUrl, expireTime);
+
+            return new UploadResponse()
+            {
+                FileName = newFileName,
+                ObjectKey = objectKey,
+                PresignedUrl = preSignedUrl,
+                UrlExpireTime = expireTime,
+            };
         }
 
-        /// <summary>
-        /// Delete the AWS S3 object file mappead with the <paramref name="objectKey"/>
-        /// </summary>
-        /// <param name="objectKey">The key <see cref="string"/> for the AWS S3 object file to delete</param>
+        private static async Task<string> GetPresignedUrlFromS3Async(this IAmazonS3 s3Client, string objectKey)
+        {
+            // Generate pre-signed URL for file download
+            var expireTime = DateTime.Now.AddHours(EXPIRATION_COUNT_DOWN);
+            var preSignedRequest = new GetPreSignedUrlRequest()
+            {
+                BucketName = BUCKET_NAME,
+                Key = objectKey,
+                Expires = expireTime,
+            };
+
+            var preSignedUrl = await s3Client.GetPreSignedURLAsync(preSignedRequest);
+            return preSignedUrl;
+        }
+
         public static async Task DeleteFileFromS3Async(this IAmazonS3 s3Client, string objectKey)
         {
             await s3Client.DeleteObjectAsync(BUCKET_NAME, objectKey);
-        }
-
-        public static async Task<DeleteObjectsResponse> DeleteFilesFromS3Async(this IAmazonS3 s3Client, IEnumerable<string> objectKeys)
-        {
-            var deleteRequest = new DeleteObjectsRequest()
-            {
-                BucketName = BUCKET_NAME,
-                Objects = objectKeys
-                    .Select(x => new KeyVersion()
-                    {
-                        Key = x,
-                    }).ToList()
-            };
-
-            var response = await s3Client.DeleteObjectsAsync(deleteRequest);
-
-            return response;
         }
     }
 }
