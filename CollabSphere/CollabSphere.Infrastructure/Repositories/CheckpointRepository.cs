@@ -21,14 +21,23 @@ namespace CollabSphere.Infrastructure.Repositories
         {
             var checkpoint = await _context.Checkpoints
                 .AsNoTracking()
-                .Include(x => x.CheckpointFiles)
-                .Include(x => x.CheckpointAssignments)
+                // Lecturer Info
+                .Include(e => e.CheckpointFiles)
+                    .ThenInclude(file => file.User)
+                        .ThenInclude(user => user.Lecturer)
+                // Student Info
+                .Include(e => e.CheckpointFiles)
+                    .ThenInclude(file => file.User)
+                        .ThenInclude(user => user.Student)
+                // Assignments Info
+                .Include(e => e.CheckpointAssignments)
                     .ThenInclude(assign => assign.ClassMember)
                         .ThenInclude(member => member.Student)
-                .Include(x => x.TeamMilestone)
+                // TeamMilestone Info
+                .Include(e => e.TeamMilestone)
                     .ThenInclude(mls => mls.Team)
                         .ThenInclude(team => team.ClassMembers)
-                .FirstOrDefaultAsync(x => x.CheckpointId == checkpontId);
+                .FirstOrDefaultAsync(e => e.CheckpointId == checkpontId);
 
             return checkpoint;
         }
