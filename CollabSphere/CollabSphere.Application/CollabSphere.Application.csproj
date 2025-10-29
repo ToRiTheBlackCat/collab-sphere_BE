@@ -20,4 +20,8 @@
     <ProjectReference Include="..\CollabSphere.Domain\CollabSphere.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\MilestoneQues\Queries\" />
+  </ItemGroup>
+
 </Project>
