@@ -56,7 +56,7 @@ namespace CollabSphere.Application.Common
         /// </summary>aaaaa
         private static string ConstructFolderPath(AwsS3HelperPaths pathEnum, int sepertationId, string prefix = "uploads/")
         {
-            var sepertationString = sepertationId != 0 ? $"{sepertationId}" : "";
+            var sepertationString = sepertationId != 0 ? $"{sepertationId}/" : "";
             return $"{prefix}{_enumPath[pathEnum]}{sepertationString}";
         }
 
@@ -94,25 +94,20 @@ namespace CollabSphere.Application.Common
         /// If <see cref="null"/> then defaults to <see cref="DateTime.UtcNow"/>
         /// </param>
         /// <returns></returns>
-        public static async Task<UploadResponse> UploadFileToS3Async(this IAmazonS3 s3Client, IFormFile formFile, AwsS3HelperPaths pathEnum, int seperationId = 0, DateTime? currentTime = null)
+        public static async Task<UploadResponse> UploadFileToS3Async(this IAmazonS3 s3Client, IFormFile formFile, AwsS3HelperPaths pathEnum, int seperationId, DateTime currentTime)
         {
             if (formFile.Length > FILE_SIZE_LIMIT)
             {
                 throw new ArgumentException($"{nameof(formFile)} can't be larger than 20.0 MB.");
             }
 
-            if (!currentTime.HasValue)
-            {
-                currentTime = DateTime.UtcNow;
-            }
-
             // Construct unique file name
             string fileName = Path.GetFileNameWithoutExtension(formFile.FileName);
             string extension = Path.GetExtension(formFile.FileName);
-            string timestamp = currentTime.Value.ToString("yyyyMMddHHmmss"); // Create a file-safe timestamp
+            string timestamp = currentTime.ToString("yyyyMMddHHmmss"); // Create a file-safe timestamp
             var newFileName = $"{fileName}_{timestamp}{extension}"; // New unique file name, format : fileName_yyyyMMddmmss.ext
 
-            string objectKey = $"{ConstructFolderPath(pathEnum)}/{newFileName}"; // new bucket's object key
+            string objectKey = $"{ConstructFolderPath(pathEnum, seperationId)}{newFileName}"; // new bucket's object key
 
             // Upload file to AWS
             await using var stream = formFile.OpenReadStream();
@@ -129,7 +124,7 @@ namespace CollabSphere.Application.Common
 
             // Generate pre-signed URL for file download
 
-            var preSignResponse = await s3Client.GetPresignedUrlFromS3Async(objectKey, currentTime.Value);
+            var preSignResponse = await s3Client.GetPresignedUrlFromS3Async(objectKey, currentTime);
 
             return new UploadResponse()
             {
