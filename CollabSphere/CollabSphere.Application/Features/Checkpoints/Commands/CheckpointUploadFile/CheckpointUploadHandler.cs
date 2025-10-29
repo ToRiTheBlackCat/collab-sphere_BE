@@ -55,11 +55,11 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUploa
                     UserId = request.UserId,
                     FileName = uploadResponse.FileName,
                     Type = request.File.ContentType,
-                    FilePath = uploadResponse.PresignedUrl,
+                    FileUrl = uploadResponse.PresignedUrl,
                     FileSize = request.File.Length,
                     ObjectKey = uploadResponse.ObjectKey,
                     CreatedAt = currentTime,
-                    PathExpireTime = currentTime.AddHours(5),
+                    UrlExpireTime = uploadResponse.UrlExpireTime,
                 };
 
                 await _unitOfWork.CheckpointFileRepo.Create(checkFile);
