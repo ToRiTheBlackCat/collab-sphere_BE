@@ -159,5 +159,22 @@ namespace CollabSphere.Application.Common
         {
             await s3Client.DeleteObjectAsync(BUCKET_NAME, objectKey);
         }
+
+        public static async Task<DeleteObjectsResponse> DeleteFilesFromS3Async(this IAmazonS3 s3Client, IEnumerable<string> objectKeys)
+        {
+            var deleteRequest = new DeleteObjectsRequest()
+            {
+                BucketName = BUCKET_NAME,
+                Objects = objectKeys
+                    .Select(x => new KeyVersion()
+                    {
+                        Key = x,
+                    }).ToList()
+            };
+
+            var response = await s3Client.DeleteObjectsAsync(deleteRequest);
+
+            return response;
+        }
     }
 }
