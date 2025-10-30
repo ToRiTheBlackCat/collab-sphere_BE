@@ -87,7 +87,7 @@ namespace CollabSphere.Test.TeamMilestones
                 EndDate = new DateOnly(),
                 Status = (int)TeamMilestoneStatuses.NOT_DONE,
             };
-            _teamMilestoneRepoMock.Setup(x => x.GetById(10)).ReturnsAsync(milestone);
+            _teamMilestoneRepoMock.Setup(x => x.GetDetailsById(10)).ReturnsAsync(milestone);
 
             // Act
             var result = await _handler.Handle(query, CancellationToken.None);
@@ -175,7 +175,7 @@ namespace CollabSphere.Test.TeamMilestones
                 EndDate = new DateOnly(),
                 Status = (int)TeamMilestoneStatuses.NOT_DONE,
             };
-            _teamMilestoneRepoMock.Setup(x => x.GetById(10)).ReturnsAsync(milestone);
+            _teamMilestoneRepoMock.Setup(x => x.GetDetailsById(10)).ReturnsAsync(milestone);
 
             // Act
             var result = await _handler.Handle(query, CancellationToken.None);
@@ -238,7 +238,7 @@ namespace CollabSphere.Test.TeamMilestones
                 EndDate = new DateOnly(),
                 Status = (int)TeamMilestoneStatuses.NOT_DONE,
             };
-            _teamMilestoneRepoMock.Setup(x => x.GetById(10)).ReturnsAsync(milestone);
+            _teamMilestoneRepoMock.Setup(x => x.GetDetailsById(10)).ReturnsAsync(milestone);
 
             // Act
             var result = await _handler.Handle(query, CancellationToken.None);

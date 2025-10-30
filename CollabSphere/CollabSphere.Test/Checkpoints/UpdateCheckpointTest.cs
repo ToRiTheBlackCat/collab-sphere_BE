@@ -66,6 +66,7 @@ namespace CollabSphere.Test.Checkpoints
             };
 
             _teamMilestoneMock.Setup(x => x.GetById(10)).ReturnsAsync(milestone);
+            _teamMilestoneMock.Setup(x => x.GetDetailsById(10)).ReturnsAsync(milestone);
         }
 
         [Fact]

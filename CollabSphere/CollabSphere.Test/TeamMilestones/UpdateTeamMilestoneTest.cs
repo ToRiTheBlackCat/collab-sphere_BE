@@ -106,6 +106,7 @@ namespace CollabSphere.Test.TeamMilestones
                 Status = (int)TeamMilestoneStatuses.NOT_DONE,
             };
             _teamMilestoneRepoMock.Setup(x => x.GetById(10)).ReturnsAsync(milestone);
+            _teamMilestoneRepoMock.Setup(x => x.GetDetailsById(10)).ReturnsAsync(milestone);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -187,6 +188,7 @@ namespace CollabSphere.Test.TeamMilestones
                 Status = (int)TeamMilestoneStatuses.NOT_DONE,
             };
             _teamMilestoneRepoMock.Setup(x => x.GetById(10)).ReturnsAsync(milestone);
+            _teamMilestoneRepoMock.Setup(x => x.GetDetailsById(10)).ReturnsAsync(milestone);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -270,6 +272,7 @@ namespace CollabSphere.Test.TeamMilestones
                 Status = (int)TeamMilestoneStatuses.NOT_DONE,
             };
             _teamMilestoneRepoMock.Setup(x => x.GetById(10)).ReturnsAsync(milestone);
+            _teamMilestoneRepoMock.Setup(x => x.GetDetailsById(10)).ReturnsAsync(milestone);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -353,6 +356,7 @@ namespace CollabSphere.Test.TeamMilestones
                 Status = (int)TeamMilestoneStatuses.NOT_DONE,
             };
             _teamMilestoneRepoMock.Setup(x => x.GetById(10)).ReturnsAsync(milestone);
+            _teamMilestoneRepoMock.Setup(x => x.GetDetailsById(10)).ReturnsAsync(milestone);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -436,6 +440,7 @@ namespace CollabSphere.Test.TeamMilestones
                 Status = (int)TeamMilestoneStatuses.NOT_DONE,
             };
             _teamMilestoneRepoMock.Setup(x => x.GetById(10)).ReturnsAsync(milestone);
+            _teamMilestoneRepoMock.Setup(x => x.GetDetailsById(10)).ReturnsAsync(milestone);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -519,6 +524,7 @@ namespace CollabSphere.Test.TeamMilestones
                 Status = (int)TeamMilestoneStatuses.NOT_DONE,
             };
             _teamMilestoneRepoMock.Setup(x => x.GetById(10)).ReturnsAsync(milestone);
+            _teamMilestoneRepoMock.Setup(x => x.GetDetailsById(10)).ReturnsAsync(milestone);
             _teamMilestoneRepoMock.Setup(x => x.Update(It.IsAny<TeamMilestone>())).Throws(new Exception("DB Exception"));
 
             // Act

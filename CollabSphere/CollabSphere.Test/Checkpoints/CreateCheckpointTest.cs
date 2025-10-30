@@ -68,7 +68,7 @@ namespace CollabSphere.Test.Checkpoints
                     },
                 },
             };
-            _teamMilestoneMock.Setup(x => x.GetById(10)).ReturnsAsync(milestone);
+            _teamMilestoneMock.Setup(x => x.GetDetailsById(10)).ReturnsAsync(milestone);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -131,7 +131,7 @@ namespace CollabSphere.Test.Checkpoints
                     },
                 },
             };
-            _teamMilestoneMock.Setup(x => x.GetById(10)).ReturnsAsync(milestone);
+            _teamMilestoneMock.Setup(x => x.GetDetailsById(10)).ReturnsAsync(milestone);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -178,7 +178,7 @@ namespace CollabSphere.Test.Checkpoints
                     },
                 },
             };
-            _teamMilestoneMock.Setup(x => x.GetById(10)).ReturnsAsync(milestone);
+            _teamMilestoneMock.Setup(x => x.GetDetailsById(10)).ReturnsAsync(milestone);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -225,7 +225,7 @@ namespace CollabSphere.Test.Checkpoints
                     },
                 },
             };
-            _teamMilestoneMock.Setup(x => x.GetById(10)).ReturnsAsync(milestone);
+            _teamMilestoneMock.Setup(x => x.GetDetailsById(10)).ReturnsAsync(milestone);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -272,7 +272,7 @@ namespace CollabSphere.Test.Checkpoints
                     },
                 },
             };
-            _teamMilestoneMock.Setup(x => x.GetById(10)).ReturnsAsync(milestone);
+            _teamMilestoneMock.Setup(x => x.GetDetailsById(10)).ReturnsAsync(milestone);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
@@ -319,7 +319,7 @@ namespace CollabSphere.Test.Checkpoints
                     },
                 },
             };
-            _teamMilestoneMock.Setup(x => x.GetById(10)).ReturnsAsync(milestone);
+            _teamMilestoneMock.Setup(x => x.GetDetailsById(10)).ReturnsAsync(milestone);
             _checkpointRepoMock.Setup(x => x.Create(It.IsAny<Checkpoint>())).Throws(new Exception("DB Exception"));
 
             // Act
