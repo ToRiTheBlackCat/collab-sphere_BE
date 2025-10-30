@@ -6,17 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.MilestoneQues.Commands.UpdateMilestoneQuestion
+namespace CollabSphere.Application.Features.MilestoneQues.Commands.DeleteMilestoneQuestion
 {
-    public class UpdateMilestoneQuestionHandler : CommandHandler<UpdateMilestoneQuestionCommand>
+    public class DeleteMilestoneQuestionHandler : CommandHandler<DeleteMilestoneQuestionCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
-        public UpdateMilestoneQuestionHandler(IUnitOfWork unitOfWork)
+        public DeleteMilestoneQuestionHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        protected override async Task<CommandResult> HandleCommand(UpdateMilestoneQuestionCommand request, CancellationToken cancellationToken)
+        protected override async Task<CommandResult> HandleCommand(DeleteMilestoneQuestionCommand request, CancellationToken cancellationToken)
         {
             var result = new CommandResult()
             {
@@ -28,30 +28,27 @@ namespace CollabSphere.Application.Features.MilestoneQues.Commands.UpdateMilesto
             {
                 await _unitOfWork.BeginTransactionAsync();
 
-                var foundMileQues = await _unitOfWork.MilestoneQuestionRepo.GetById(request.QuestionId);
-                if (foundMileQues != null)
+                var foundMilestoneQues = await _unitOfWork.MilestoneQuestionRepo.GetById(request.QuestionId);
+                if (foundMilestoneQues != null)
                 {
-                    foundMileQues.Question = request.Question.Trim();
-                    foundMileQues.CreatedTime = DateTime.UtcNow;
-                    _unitOfWork.MilestoneQuestionRepo.Update(foundMileQues);
-
+                    _unitOfWork.MilestoneQuestionRepo.Delete(foundMilestoneQues);
                     await _unitOfWork.SaveChangesAsync();
                     await _unitOfWork.CommitTransactionAsync();
 
                     result.IsSuccess = true;
-                    result.Message = $"Update milestone question with ID: {request.QuestionId} successfully";
+                    result.Message = $"Delete Milestone question with ID: {request.QuestionId} successfully";
                 }
             }
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackTransactionAsync();
-                result.Message = ex.Message;
+                result.Message = ex.ToString();
             }
 
             return result;
         }
 
-        protected override async Task ValidateRequest(List<OperationError> errors, UpdateMilestoneQuestionCommand request)
+        protected override async Task ValidateRequest(List<OperationError> errors, DeleteMilestoneQuestionCommand request)
         {
             //Find existed milestone question
             var foundQues = await _unitOfWork.MilestoneQuestionRepo.GetById(request.QuestionId);
@@ -74,6 +71,18 @@ namespace CollabSphere.Application.Features.MilestoneQues.Commands.UpdateMilesto
                     {
                         Field = nameof(request.UserId),
                         Message = $"You are not the lecturer of this team with ID: {request.UserId}. Cannot use this function"
+                    });
+                    return;
+                }
+
+                //Check answer of milestone question
+                var foundAnswers = await _unitOfWork.MilestoneQuestionAnsRepo.GetAnswersOfQuestionByIdAsync(request.QuestionId);
+                if(foundAnswers != null && ( foundAnswers.Any() || foundAnswers.Count() > 0))
+                {
+                    errors.Add(new OperationError
+                    {
+                        Field = "Question Answer",
+                        Message = $"This question with ID: {request.QuestionId} already have answers. Cannot delete this question"
                     });
                     return;
                 }

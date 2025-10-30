@@ -46,6 +46,7 @@ namespace CollabSphere.Application.Features.MilestoneQues.Commands.CreateMilesto
             }
             catch (Exception ex)
             {
+                await _unitOfWork.RollbackTransactionAsync();
                 result.Message = ex.Message;
             }
 
