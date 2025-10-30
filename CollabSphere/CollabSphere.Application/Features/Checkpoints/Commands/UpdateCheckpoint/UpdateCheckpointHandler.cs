@@ -79,7 +79,7 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.UpdateCheckpoin
             }
 
             // Check teamMilesotneId
-            var teamMilestone = await _unitOfWork.TeamMilestoneRepo.GetById(dto.TeamMilestoneId);
+            var teamMilestone = await _unitOfWork.TeamMilestoneRepo.GetDetailsById(dto.TeamMilestoneId);
             if (teamMilestone == null)
             {
                 errors.Add(new OperationError()
