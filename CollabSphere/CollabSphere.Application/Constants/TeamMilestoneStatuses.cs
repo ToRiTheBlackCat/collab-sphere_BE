@@ -10,5 +10,6 @@ namespace CollabSphere.Application.Constants
     {
         NOT_DONE = 0,
         DONE = 1,
+        SOFT_DELETED = -1
     }
 }
