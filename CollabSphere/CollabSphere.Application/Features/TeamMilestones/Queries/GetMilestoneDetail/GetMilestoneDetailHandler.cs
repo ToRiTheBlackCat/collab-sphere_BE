@@ -30,7 +30,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestoneD
 
             try
             {
-                var milestone = await _unitOfWork.TeamMilestoneRepo.GetById(request.TeamMilestoneId);
+                var milestone = await _unitOfWork.TeamMilestoneRepo.GetDetailsById(request.TeamMilestoneId);
                 if (milestone != null)
                 {
                     // Checking viewer is Teacher of class/ Member of the team

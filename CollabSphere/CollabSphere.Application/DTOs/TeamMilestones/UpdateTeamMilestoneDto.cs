@@ -15,10 +15,10 @@ namespace CollabSphere.Application.DTOs.TeamMilestones
 
         public DateOnly EndDate { get; set; }
 
-        [StringLength(150, MinimumLength = 3)]
+        [Length(3, 150)]
         public string? Tile { get; set; }
 
-        [StringLength(150, MinimumLength = 3)]
+        [Length(3, 700)]
         public string? Description { get; set; }
     }
 }
