@@ -36,10 +36,17 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMi
                 milestone!.Team = null;
                 milestone!.Checkpoints = null;
                 
-
                 // Update milestone
                 milestone!.StartDate = request.TeamMilestoneDto.StartDate;
                 milestone.StartDate = request.TeamMilestoneDto.EndDate;
+
+                // Update other fields if is not original milestone
+                if (!milestone.ObjectiveMilestoneId.HasValue)
+                {
+                    milestone.Title = request.TeamMilestoneDto.Tile;
+                    milestone.Description = request.TeamMilestoneDto.Description;
+                }
+
                 _unitOfWork.TeamMilestoneRepo.Update(milestone);
                 await _unitOfWork.SaveChangesAsync();
                 #endregion
@@ -84,6 +91,31 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMi
                 return;
             }
 
+            // Check if is updating valid fields
+            if (milestone.ObjectiveMilestoneId.HasValue)
+            {
+                if (!string.IsNullOrWhiteSpace(dto.Tile))
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = nameof(dto.Tile),
+                        Message = $"Can't change the Title of a original milestone.",
+                    });
+                }
+                if (!string.IsNullOrWhiteSpace(dto.Description))
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = nameof(dto.Description),
+                        Message = $"Can't change the Description of a original milestone.",
+                    });
+                }
+                if (errors.Any())
+                {
+                    return;
+                }
+            }
+
             // Check new start date & end date
             if (dto.StartDate > dto.EndDate)
             {
@@ -96,11 +128,10 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMi
             }
 
             // Get checkpoints in milestone
-            var milestoneCheckpoints = milestone.Checkpoints.OrderBy(mls => mls.StartDate);
-            if (milestoneCheckpoints.Any())
+            if (milestone.Checkpoints.Any())
             {
                 // Check StartDate
-                var earliestStartDate = milestoneCheckpoints.Min(x => x.StartDate);
+                var earliestStartDate = milestone.Checkpoints.Min(x => x.StartDate);
                 if (earliestStartDate.HasValue && dto.StartDate > earliestStartDate)
                 {
                     errors.Add(new OperationError()
@@ -111,7 +142,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMi
                 }
 
                 // Check EndDate
-                var latestDueDate = milestoneCheckpoints.Max(x => x.DueDate);
+                var latestDueDate = milestone.Checkpoints.Max(x => x.DueDate);
                 if (dto.EndDate < latestDueDate)
                 {   
                     errors.Add(new OperationError()
