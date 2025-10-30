@@ -16,7 +16,7 @@ namespace CollabSphere.Application.DTOs.TeamMilestones
         public DateOnly EndDate { get; set; }
 
         [Length(3, 150)]
-        public string? Tile { get; set; }
+        public string? Title { get; set; }
 
         [Length(3, 700)]
         public string? Description { get; set; }
