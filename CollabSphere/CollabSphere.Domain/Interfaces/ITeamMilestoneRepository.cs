@@ -12,5 +12,6 @@ namespace CollabSphere.Domain.Intefaces
     {
         Task<List<TeamMilestone>> GetMilestonesByTeamId(int teamId);
         Task<TeamMilestone?> GetDetailsById(int teamMilestoneId);
+        Task<TeamMilestone?> GetTeamMilestoneById (int teamMilestoneId);
     }
 }

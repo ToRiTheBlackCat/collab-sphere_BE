@@ -35,6 +35,9 @@ namespace CollabSphere.Application
         IEvaluationDetailRepository EvaluationDetailRepo { get; }
         IMemberEvaluationRepository MemberEvaluationRepo { get; }
 
+        IMilestoneQuestionRepository MilestoneQuestionRepo { get; }
+
+        IMilestoneQuestionAnsRepository MilestoneQuestionAnsRepo { get; }
         //More IRepo below
 
         Task BeginTransactionAsync();
