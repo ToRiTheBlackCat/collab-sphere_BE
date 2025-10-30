@@ -1,23 +1,21 @@
 ﻿using CollabSphere.Application.Base;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Evaluate.Queries.GetOtherEvaluationsForOwnInTeam
+namespace CollabSphere.Application.Features.MilestoneQues.Commands.DeleteMilestoneQuestion
 {
-    public class GetOtherEvaluationsForOwnInTeamQuery : IQuery<GetOwnEvaluationsForOtherInTeamResult>
+    public class DeleteMilestoneQuestionCommand : ICommand
     {
-        [FromRoute(Name = "teamId")]
-        public int TeamId { get; set; }
-
         [JsonIgnore]
         public int UserId = -1;
-
         [JsonIgnore]
         public int UserRole = -1;
+        [JsonIgnore]
+        public int QuestionId { get; set; }
     }
 }

@@ -6,10 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Evaluate.Queries.GetOtherEvaluationsForOwnInTeam
+namespace CollabSphere.Application.Features.Evaluate.Queries.GetOwnEvaluationsForOtherInTeam
 {
     public class GetOwnEvaluationsForOtherInTeamResult : QueryResult
     {
-        public List<OtherEvaluationsForOwnInTeamDto> OtherEvaluations { get; set; } = new List<OtherEvaluationsForOwnInTeamDto>();
+        public List<GetOwnEvaluationsForOtherInTeamDto> OwnEvaluations { get; set; } = new List<GetOwnEvaluationsForOtherInTeamDto>();
     }
 }
