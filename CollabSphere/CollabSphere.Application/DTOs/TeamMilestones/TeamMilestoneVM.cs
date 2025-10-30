@@ -1,6 +1,7 @@
 ﻿using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Checkpoints;
 using CollabSphere.Application.DTOs.MilestoneQuestions;
+using CollabSphere.Application.DTOs.TeamMilestones;
 using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace CollabSphere.Application.DTOs.TeamMilestones
     {
         public int TeamMilestoneId { get; set; }
 
-        public int ObjectiveMilestoneId { get; set; }
+        public int? ObjectiveMilestoneId { get; set; }
 
         public int TeamId { get; set; }
 
@@ -35,5 +36,39 @@ namespace CollabSphere.Application.DTOs.TeamMilestones
         public int CheckpointCount { get; set; }
 
         public int MilestoneQuestionCount { get; set; }
+    }
+}
+
+namespace CollabSphere.Application.Mappings.TeamMilestones
+{
+    public static partial class TeamMilestoneMappings
+    {
+        public static TeamMilestoneVM ToTeamMilestoneVM(this TeamMilestone entity)
+        {
+            return new TeamMilestoneVM()
+            {
+                TeamMilestoneId = entity.TeamMilestoneId,
+                ObjectiveMilestoneId = entity.ObjectiveMilestoneId,
+                TeamId = entity.TeamId,
+                Title = entity.Title,
+                Description = entity.Description,
+                StartDate = entity.StartDate,
+                EndDate = entity.EndDate,
+                Progress = entity.Progress,
+                Status = entity.Status,
+                CheckpointCount = entity.Checkpoints.Count,
+                MilestoneQuestionCount = entity.MilestoneQuestions.Count,
+            };
+        }
+
+        public static List<TeamMilestoneVM> ToTeamMilestoneVM(this IEnumerable<TeamMilestone> entityList)
+        {
+            if (entityList == null || !entityList.Any())
+            {
+                return new List<TeamMilestoneVM>();
+            }
+
+            return entityList.Select(mile => mile.ToTeamMilestoneVM()).ToList();
+        }
     }
 }

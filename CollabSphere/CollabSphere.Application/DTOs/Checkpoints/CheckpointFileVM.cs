@@ -1,4 +1,5 @@
-﻿using CollabSphere.Domain.Entities;
+﻿using CollabSphere.Application.DTOs.Checkpoints;
+using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,23 +10,68 @@ namespace CollabSphere.Application.DTOs.Checkpoints
 {
     public class CheckpointFileVM
     {
-        public int FileId { get; set; }
+        public required int FileId { get; set; }
 
-        public int CheckpointId { get; set; }
+        public required int CheckpointId { get; set; }
 
-        public string FilePath { get; set; }
+        public required int UserId { get; set; }
 
-        public string Type { get; set; }
+        public required string UserName { get; set; }
 
-        public static explicit operator CheckpointFileVM(CheckpointFile file)
+        public required string AvatarImg { get; set; }
+
+        public required string FileName { get; set; }
+
+        public required string Type { get; set; }
+
+        public required string FileUrl { get; set; }
+
+        public required long FileSize { get; set; }
+
+        public required DateTime CreatedAt { get; set; }
+
+        public required DateTime UrlExpireTime { get; set; }
+    }
+}
+
+namespace CollabSphere.Application.Mappings
+{
+    public static partial class CheckpointFileMappings
+    {
+        public static CheckpointFileVM ToViewModel(this CheckpointFile file)
         {
+            var userName = "NOT FOUND";
+            var avatarImg = "NOT FOUND";
+
+            if (file.User != null)
+            {
+                userName = file.User.IsTeacher ?
+                    file.User.Lecturer?.Fullname ?? userName :
+                    file.User.Student?.Fullname ?? userName;
+                avatarImg = file.User.IsTeacher ?
+                    file.User.Lecturer?.AvatarImg ?? avatarImg :
+                    file.User.Student?.AvatarImg ?? avatarImg;
+            }
+
             return new CheckpointFileVM()
             {
-                CheckpointId = file.CheckpointId,
-                FilePath = file.FilePath,
-                Type = file.Type,
                 FileId = file.FileId,
+                CheckpointId = file.CheckpointId,
+                UserId = file.UserId,
+                UserName = userName,
+                AvatarImg = avatarImg,
+                FileName = file.FileName,
+                FileUrl = file.FileUrl,
+                FileSize = file.FileSize,
+                Type = file.Type,
+                CreatedAt = file.CreatedAt,
+                UrlExpireTime = file.UrlExpireTime,
             };
+        }
+
+        public static List<CheckpointFileVM> ToViewModel(this IEnumerable<CheckpointFile> fileList)
+        {
+            return fileList.Select(x => x.ToViewModel()).ToList();
         }
     }
 }

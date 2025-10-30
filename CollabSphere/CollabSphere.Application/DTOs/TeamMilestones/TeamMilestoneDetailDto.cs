@@ -16,7 +16,7 @@ namespace CollabSphere.Application.DTOs.TeamMilestones
     {
         public int TeamMilestoneId { get; set; }
 
-        public int ObjectiveMilestoneId { get; set; }
+        public int? ObjectiveMilestoneId { get; set; }
 
         public string Title { get; set; }
 

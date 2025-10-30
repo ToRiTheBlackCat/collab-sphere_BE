@@ -311,17 +311,38 @@ public partial class collab_sphereContext : DbContext
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("file_id");
             entity.Property(e => e.CheckpointId).HasColumnName("checkpoint_id");
-            entity.Property(e => e.FilePath)
-                .IsRequired()
-                .HasColumnName("file_path");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.FileName)
+                .HasMaxLength(200)
+                .HasColumnName("file_name");
             entity.Property(e => e.Type)
-                .HasMaxLength(50)
+                .HasMaxLength(150)
                 .HasColumnName("type");
+            entity.Property(e => e.FileUrl)
+                .IsRequired()
+                .HasColumnName("file_url");
+            entity.Property(e => e.FileSize)
+                .IsRequired()
+                .HasColumnType("bigint")
+                .HasColumnName("file_size");
+            entity.Property(e => e.ObjectKey)
+                .IsRequired()
+                .HasColumnName("object_key");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("created_at");
+            entity.Property(e => e.UrlExpireTime)
+                .IsRequired()
+                .HasColumnName("url_expire_time");
 
             entity.HasOne(d => d.Checkpoint).WithMany(p => p.CheckpointFiles)
                 .HasForeignKey(d => d.CheckpointId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("checkpoint_file_checkpoint_fk");
+            entity.HasOne(d => d.User).WithMany(p => p.CheckpointFiles)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("checkpoint_file_user_fk");
         });
 
         modelBuilder.Entity<Class>(entity =>
@@ -1204,7 +1225,9 @@ public partial class collab_sphereContext : DbContext
                 .HasColumnName("team_milestone_id");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.EndDate).HasColumnName("end_date");
-            entity.Property(e => e.ObjectiveMilestoneId).HasColumnName("objective_milestone_id");
+            entity.Property(e => e.ObjectiveMilestoneId)
+                .IsRequired(false)
+                .HasColumnName("objective_milestone_id");
             entity.Property(e => e.Progress).HasColumnName("progress");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
             entity.Property(e => e.Status)
@@ -1218,7 +1241,8 @@ public partial class collab_sphereContext : DbContext
 
             entity.HasOne(d => d.ObjectiveMilestone).WithMany(p => p.TeamMilestones)
                 .HasForeignKey(d => d.ObjectiveMilestoneId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("team_milestone_objective_milestone_fk");
 
             entity.HasOne(d => d.Team).WithMany(p => p.TeamMilestones)

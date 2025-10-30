@@ -11,6 +11,7 @@ namespace CollabSphere.Application.Features.Auth.Commands
         private readonly IUnitOfWork _unitOfWork;
         private readonly IConfiguration _configure;
         private readonly ILogger<LoginHandler> _logger;
+        private readonly CloudinaryService _cloudinaryService;
 
         private readonly JWTAuthentication _jwtAuth;
 
@@ -19,12 +20,14 @@ namespace CollabSphere.Application.Features.Auth.Commands
         public LoginHandler(IUnitOfWork unitOfWork,
                             IConfiguration configure,
                             JWTAuthentication jwtAuth,
-                            ILogger<LoginHandler> logger)
+                            ILogger<LoginHandler> logger,
+                            CloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
             _configure = configure;
             _jwtAuth = jwtAuth;
             _logger = logger;
+            _cloudinaryService = cloudinaryService;
         }
 
         public async Task<LoginResponseDTO> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -70,6 +73,22 @@ namespace CollabSphere.Application.Features.Auth.Commands
                     responseDto.AccessToken = accessToken;
                     responseDto.RefreshToken = refreshToken;
                     responseDto.RefreshTokenExpiryTime = foundUser.RefreshTokenExpiryTime;
+
+                    var fullName = "";
+                    var avatar = "";
+                    if (foundUser.IsTeacher)
+                    {
+                        fullName = foundUser.Lecturer.Fullname;
+                        avatar = await _cloudinaryService.GetImageUrl(foundUser.Lecturer.AvatarImg);
+                    }
+                    else
+                    {
+                        fullName = foundUser.Student?.Fullname;
+                        avatar = await _cloudinaryService.GetImageUrl(foundUser.Student.AvatarImg);
+                    }
+
+                    responseDto.FullName = fullName;
+                    responseDto.Avatar = avatar;
 
                     return responseDto;
                 }
