@@ -15,7 +15,6 @@ namespace CollabSphere.Test.TeamMilestones
 {
     public class CreateTeamMilestoneTest
     {
-
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<ITeamRepository> _teamRepoMock;
         private readonly Mock<ITeamMilestoneRepository> _teamMilestoneRepoMock;
