@@ -87,5 +87,12 @@ namespace CollabSphere.Infrastructure.Repositories
 
             return milestones;
         }
+
+        public async Task<TeamMilestone?> GetTeamMilestoneById(int teamMilestoneId)
+        {
+            return await _context.TeamMilestones
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.TeamMilestoneId == teamMilestoneId);
+        }
     }
 }
