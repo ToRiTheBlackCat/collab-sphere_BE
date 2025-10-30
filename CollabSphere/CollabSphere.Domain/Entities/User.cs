@@ -33,6 +33,8 @@ public partial class User
 
     public virtual ICollection<NotificationRecipient> NotificationRecipients { get; set; } = new List<NotificationRecipient>();
 
+    public virtual ICollection<CheckpointFile> CheckpointFiles { get; set; } = new List<CheckpointFile>();
+
     public virtual Role Role { get; set; }
 
     public virtual Student Student { get; set; }

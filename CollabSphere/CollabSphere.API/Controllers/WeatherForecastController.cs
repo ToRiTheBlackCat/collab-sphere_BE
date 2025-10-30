@@ -1,3 +1,4 @@
+using Amazon.S3;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CollabSphere.API.Controllers
@@ -12,10 +13,12 @@ namespace CollabSphere.API.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IAmazonS3 _s3Client;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IAmazonS3 s3Client)
         {
             _logger = logger;
+            _s3Client = s3Client;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -28,6 +31,21 @@ namespace CollabSphere.API.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet("buckets")]
+        public async Task<IActionResult> GetBuckets()
+        {
+            try
+            {
+                var response = await _s3Client.ListBucketsAsync();
+
+                return Ok(response.Buckets);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
         }
     }
 }
