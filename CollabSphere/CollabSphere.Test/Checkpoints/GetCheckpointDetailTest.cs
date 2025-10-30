@@ -258,7 +258,7 @@ namespace CollabSphere.Test.Checkpoints
                     {
                         FileId = 2,
                         CheckpointId = 15,
-                        FilePath = "file/path_2.docx",
+                        FileUrl = "file/path_2.docx",
                         Type = "Word Doc"
                     }
                 },
@@ -290,7 +290,7 @@ namespace CollabSphere.Test.Checkpoints
             var file = castedCheckpoint.CheckpointFiles.First();
             Assert.Equal(2, file.FileId);
             Assert.Equal(15, file.CheckpointId);
-            Assert.Equal("file/path_2.docx", file.FilePath);
+            Assert.Equal("file/path_2.docx", file.FileUrl);
             Assert.Equal("Word Doc", file.Type);
         }
     }

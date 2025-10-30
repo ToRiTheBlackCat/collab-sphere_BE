@@ -1,4 +1,5 @@
-﻿using CollabSphere.Application;
+﻿using Amazon.S3;
+using CollabSphere.Application;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.Features.Checkpoints.Commands.AssignMembersToCheckpoint;
 using CollabSphere.Application.Features.Checkpoints.Commands.DeleteCheckpoint;
@@ -15,6 +16,7 @@ namespace CollabSphere.Test.Checkpoints
 {
     public class DeleteCheckpointTest
     {
+        private readonly Mock<IAmazonS3> _s3ClientMock;
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<ICheckpointRepository> _checkpointRepoMock;
         private readonly Mock<ITeamMilestoneRepository> _teamMilestoneMock;
@@ -25,6 +27,7 @@ namespace CollabSphere.Test.Checkpoints
 
         public DeleteCheckpointTest()
         {
+            _s3ClientMock = new Mock<IAmazonS3>();
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _checkpointRepoMock = new Mock<ICheckpointRepository>();
             _teamMilestoneMock = new Mock<ITeamMilestoneRepository>();
@@ -36,7 +39,7 @@ namespace CollabSphere.Test.Checkpoints
             _unitOfWorkMock.Setup(x => x.CheckpointAssignmentRepo).Returns(_assignmentRepoMock.Object);
             _unitOfWorkMock.Setup(x => x.CheckpointFileRepo).Returns(_fileRepoMock.Object);
 
-            _handler = new DeleteCheckpointHandler(_unitOfWorkMock.Object);
+            _handler = new DeleteCheckpointHandler(_unitOfWorkMock.Object, _s3ClientMock.Object);
         }
 
         private void SetupMocks()
@@ -91,14 +94,14 @@ namespace CollabSphere.Test.Checkpoints
                 {
                     FileId = 1,
                     CheckpointId = 15,
-                    FilePath = Path.Combine("files", "docs", "report1.docx"),
+                    FileUrl = Path.Combine("files", "docs", "report1.docx"),
                     Type = "Word Doc",
                 },
                 new CheckpointFile()
                 {
                     FileId = 2,
                     CheckpointId = 15,
-                    FilePath = Path.Combine("files", "docs", "report2.docx"),
+                    FileUrl = Path.Combine("files", "docs", "report2.docx"),
                     Type = "Word Doc",
                 },
             };
