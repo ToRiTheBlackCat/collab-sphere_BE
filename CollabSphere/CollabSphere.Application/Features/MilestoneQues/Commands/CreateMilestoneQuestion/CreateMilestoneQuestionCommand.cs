@@ -8,7 +8,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.MilestoneQues.Commands
+namespace CollabSphere.Application.Features.MilestoneQues.Commands.CreateMilestoneQuestion
 {
     public class CreateMilestoneQuestionCommand : ICommand
     {

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.MilestoneQues.Commands
+namespace CollabSphere.Application.Features.MilestoneQues.Commands.CreateMilestoneQuestion
 {
     public class CreateMilestoneQuestionHandler : CommandHandler<CreateMilestoneQuestionCommand>
     {
