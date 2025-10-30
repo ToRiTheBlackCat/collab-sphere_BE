@@ -1,4 +1,6 @@
-﻿using CollabSphere.Application.Base;
+﻿using Amazon.S3;
+using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
 using Serilog.Parsing;
@@ -13,10 +15,12 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.DeleteCheckpoin
     public class DeleteCheckpointHandler : CommandHandler<DeleteCheckpointCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAmazonS3 _s3Client;
 
-        public DeleteCheckpointHandler(IUnitOfWork unitOfWork)
+        public DeleteCheckpointHandler(IUnitOfWork unitOfWork, IAmazonS3 s3Client)
         {
             _unitOfWork = unitOfWork;
+            _s3Client = s3Client;
         }
 
         protected override async Task<CommandResult> HandleCommand(DeleteCheckpointCommand request, CancellationToken cancellationToken)
@@ -49,6 +53,8 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.DeleteCheckpoin
                 }
                 await _unitOfWork.SaveChangesAsync();
 
+                var deleteResponse = await _s3Client.DeleteFilesFromS3Async(files.Select(x => x.ObjectKey));
+
                 // Remove checkpoint
                 var checkpoint = (await _unitOfWork.CheckpointRepo.GetById(request.CheckpointId))!;
                 _unitOfWork.CheckpointRepo.Delete(checkpoint);
@@ -59,6 +65,13 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.DeleteCheckpoin
 
                 result.Message = $"Deleted successfully checkpoint '{checkpoint.Title}' with ID: {checkpoint.CheckpointId}";
                 result.IsSuccess = true;
+            }
+            catch (AmazonS3Exception ex)
+            {
+                await _unitOfWork.RollbackTransactionAsync();
+
+                // Handle cases like the object key not being found
+                result.Message = $"S3 Error: {ex.Message}";
             }
             catch (Exception ex)
             {
