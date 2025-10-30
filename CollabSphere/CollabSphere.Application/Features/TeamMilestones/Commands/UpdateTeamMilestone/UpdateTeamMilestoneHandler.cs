@@ -32,19 +32,26 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMi
 
                 #region Data Operation
                 // Get milestone
-                var milestone = await _unitOfWork.TeamMilestoneRepo.GetById(request.TeamMilestoneDto.TeamMilestoneId);
-                milestone!.Team = null;
-                milestone!.Checkpoints = null;
-                
+                var milestone = (await _unitOfWork.TeamMilestoneRepo.GetById(request.TeamMilestoneDto.TeamMilestoneId))!;
+                milestone.Team = null;
+                milestone.Checkpoints = null;
+
                 // Update milestone
-                milestone!.StartDate = request.TeamMilestoneDto.StartDate;
+                milestone.StartDate = request.TeamMilestoneDto.StartDate;
                 milestone.StartDate = request.TeamMilestoneDto.EndDate;
 
                 // Update other fields if is not original milestone
                 if (!milestone.ObjectiveMilestoneId.HasValue)
                 {
-                    milestone.Title = request.TeamMilestoneDto.Tile;
-                    milestone.Description = request.TeamMilestoneDto.Description;
+                    if (!string.IsNullOrWhiteSpace(request.TeamMilestoneDto.Title))
+                    {
+                        milestone.Title = request.TeamMilestoneDto.Title;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(request.TeamMilestoneDto.Description))
+                    {
+                        milestone.Description = request.TeamMilestoneDto.Description; 
+                    }
                 }
 
                 _unitOfWork.TeamMilestoneRepo.Update(milestone);
@@ -94,11 +101,11 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMi
             // Check if is updating valid fields
             if (milestone.ObjectiveMilestoneId.HasValue)
             {
-                if (!string.IsNullOrWhiteSpace(dto.Tile))
+                if (!string.IsNullOrWhiteSpace(dto.Title))
                 {
                     errors.Add(new OperationError()
                     {
-                        Field = nameof(dto.Tile),
+                        Field = nameof(dto.Title),
                         Message = $"Can't change the Title of a original milestone.",
                     });
                 }
@@ -144,7 +151,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMi
                 // Check EndDate
                 var latestDueDate = milestone.Checkpoints.Max(x => x.DueDate);
                 if (dto.EndDate < latestDueDate)
-                {   
+                {
                     errors.Add(new OperationError()
                     {
                         Field = nameof(dto.EndDate),
