@@ -1,8 +1,11 @@
 ﻿using CollabSphere.Application.DTOs.TeamMilestones;
 using CollabSphere.Application.Features.TeamMilestones.Commands.CheckTeamMilestone;
+using CollabSphere.Application.Features.TeamMilestones.Commands.CreateCustomTeamMilestone;
+using CollabSphere.Application.Features.TeamMilestones.Commands.DeleteCustomTeamMilestone;
 using CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMilestone;
 using CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestoneDetail;
 using CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestonesByTeam;
+using CollabSphere.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -88,7 +91,44 @@ namespace CollabSphere.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
             }
 
-            return Ok(result.TeamMilestone);
+            return result.TeamMilestone != null ? Ok(result.TeamMilestone) : NotFound();
+        }
+
+        // Roles: Lecturer
+        [Authorize(Roles = "4")]
+        [HttpPost]
+        public async Task<IActionResult> LecturerCreateCustomeMilestone(CreateTeamMilestoneDto milestoneDto, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+
+            // Construct command
+            var command = new CreateCustomTeamMilestoneCommand()
+            {
+                MilestoneDto = milestoneDto,
+                UserId = int.Parse(UIdClaim.Value),
+                UserRole = int.Parse(roleClaim.Value),
+            };
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return CreatedAtAction(
+                actionName: nameof(GetMilestoneDetail),
+                routeValues: new { result.TeamMilestoneId },
+                value: result.Message
+            ); ;
         }
 
         // Roles: Lecturer
@@ -106,6 +146,39 @@ namespace CollabSphere.API.Controllers
             var command = new UpdateTeamMilestoneCommand()
             {
                 TeamMilestoneDto = teamMilestoneDto,
+                UserId = int.Parse(UIdClaim.Value),
+                UserRole = int.Parse(roleClaim.Value),
+            };
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result.Message);
+        }
+
+        // Roles: Lecturer
+        [Authorize(Roles = "4")]
+        [HttpDelete("{teamMilestoneId}")]
+        public async Task<IActionResult> LecturerDeleteTeamMilestone(int teamMilestoneId, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+
+            // Construct command
+            var command = new DeleteCustomTeamMilestoneCommand()
+            {
+                TeamMilestoneId = teamMilestoneId,
                 UserId = int.Parse(UIdClaim.Value),
                 UserRole = int.Parse(roleClaim.Value),
             };

@@ -1225,7 +1225,9 @@ public partial class collab_sphereContext : DbContext
                 .HasColumnName("team_milestone_id");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.EndDate).HasColumnName("end_date");
-            entity.Property(e => e.ObjectiveMilestoneId).HasColumnName("objective_milestone_id");
+            entity.Property(e => e.ObjectiveMilestoneId)
+                .IsRequired(false)
+                .HasColumnName("objective_milestone_id");
             entity.Property(e => e.Progress).HasColumnName("progress");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
             entity.Property(e => e.Status)
@@ -1239,7 +1241,8 @@ public partial class collab_sphereContext : DbContext
 
             entity.HasOne(d => d.ObjectiveMilestone).WithMany(p => p.TeamMilestones)
                 .HasForeignKey(d => d.ObjectiveMilestoneId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("team_milestone_objective_milestone_fk");
 
             entity.HasOne(d => d.Team).WithMany(p => p.TeamMilestones)

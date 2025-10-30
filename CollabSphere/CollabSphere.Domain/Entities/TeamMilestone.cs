@@ -9,7 +9,7 @@ public partial class TeamMilestone
 {
     public int TeamMilestoneId { get; set; }
 
-    public int ObjectiveMilestoneId { get; set; }
+    public int? ObjectiveMilestoneId { get; set; }
 
     public string Title { get; set; }
 
