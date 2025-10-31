@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Evaluate;
 using CollabSphere.Application.DTOs.Validation;
@@ -15,9 +16,11 @@ namespace CollabSphere.Application.Features.Evaluate.Queries.GetOtherEvaluations
     public class GetOtherEvaluationsForOwnInTeamHandler : QueryHandler<GetOtherEvaluationsForOwnInTeamQuery, GetOwnEvaluationsForOtherInTeamResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        public GetOtherEvaluationsForOwnInTeamHandler(IUnitOfWork unitOfWork)
+        private readonly CloudinaryService _cloudinaryService;
+        public GetOtherEvaluationsForOwnInTeamHandler(IUnitOfWork unitOfWork, CloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
+            _cloudinaryService = cloudinaryService;
         }
 
         protected override async Task<GetOwnEvaluationsForOtherInTeamResult> HandleCommand(GetOtherEvaluationsForOwnInTeamQuery request, CancellationToken cancellationToken)
@@ -43,11 +46,16 @@ namespace CollabSphere.Application.Features.Evaluate.Queries.GetOtherEvaluations
                         {
                             var raterUser = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(x.Key);
                             var raterName = raterUser?.Student?.Fullname ?? "";
+                            var raterAvatar = (await _cloudinaryService.GetImageUrl(raterUser?.Student.AvatarImg));
+                            var foundClasMem = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByTeamIdAndStudentId(foundTeam.TeamId, x.Key);
 
                             var dto = new OtherEvaluationsForOwnInTeamDto
                             {
                                 RaterId = x.Key,
                                 RaterName = raterName,
+                                RaterAvatar = raterAvatar,
+                                RaterCode = raterUser.Student.StudentCode,
+                                RaterTeamRole = foundClasMem?.TeamRole,
                                 ScoreDetails = x.Value.Select(e => new ScoreDetail
                                 {
                                     ScoreDetailName = e.Comment ?? string.Empty,

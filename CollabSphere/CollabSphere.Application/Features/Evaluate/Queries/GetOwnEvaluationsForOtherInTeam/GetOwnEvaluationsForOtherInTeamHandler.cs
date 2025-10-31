@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Evaluate;
 using CollabSphere.Application.DTOs.Validation;
@@ -15,9 +16,11 @@ namespace CollabSphere.Application.Features.Evaluate.Queries.GetOwnEvaluationsFo
     public class GetOwnEvaluationsForOtherInTeamHandler : QueryHandler<GetOwnEvaluationsForOtherInTeamQuery, GetOwnEvaluationsForOtherInTeamResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        public GetOwnEvaluationsForOtherInTeamHandler(IUnitOfWork unitOfWork)
+        private readonly CloudinaryService _cloudinaryService;
+        public GetOwnEvaluationsForOtherInTeamHandler(IUnitOfWork unitOfWork, CloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
+            _cloudinaryService = cloudinaryService;
         }
         protected override async Task<GetOwnEvaluationsForOtherInTeamResult> HandleCommand(GetOwnEvaluationsForOtherInTeamQuery request, CancellationToken cancellationToken)
         {
@@ -41,10 +44,17 @@ namespace CollabSphere.Application.Features.Evaluate.Queries.GetOwnEvaluationsFo
                         foreach (var x in ownEvaluations)
                         {
                             var user = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(x.Key);
+                            var userAva = await _cloudinaryService.GetImageUrl(user.Student.AvatarImg);
+                            var foundClasMem = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByTeamIdAndStudentId(foundTeam.TeamId, x.Key);
+
+
                             dtoList.Add(new GetOwnEvaluationsForOtherInTeamDto
                             {
                                 ReceiverId = x.Key,
                                 ReceiverName = user?.Student.Fullname,
+                                ReceiverAvatar = userAva,
+                                ReceiverCode = user.Student.StudentCode,
+                                ReceiverTeamRole = foundClasMem?.TeamRole,
                                 ScoreDetails = x.Value.Select(e => new ScoreDetail
                                 {
                                     ScoreDetailName = e.Comment,
