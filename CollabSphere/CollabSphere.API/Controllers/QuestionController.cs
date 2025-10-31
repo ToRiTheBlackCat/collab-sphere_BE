@@ -4,6 +4,7 @@ using CollabSphere.Application.Features.MilestoneQues.Commands.UpdateMilestoneQu
 using CollabSphere.Application.Features.MilestoneQuesAns.Commands.CreateQuestionAnswer;
 using CollabSphere.Application.Features.MilestoneQuesAns.Commands.DeleteQuestionAnswer;
 using CollabSphere.Application.Features.MilestoneQuesAns.Commands.UpdateQuestionAnswer;
+using CollabSphere.Application.Features.MilestoneQuesAns.Queries.GetQuestionAnswer;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -206,6 +207,26 @@ namespace CollabSphere.API.Controllers
             {
                 return BadRequest(result);
             }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "4,5")]
+        [HttpGet("{questionId}/answer")]
+        public async Task<IActionResult> GetQuestionAnswer(GetQuestionAnswerQuery query, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            query.UserId = int.Parse(UIdClaim.Value);
+            query.UserRole = int.Parse(roleClaim.Value);
+
+            var result = await _mediator.Send(query, cancellationToken);
 
             if (!result.IsSuccess)
             {

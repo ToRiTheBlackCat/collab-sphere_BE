@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\MilestoneQuesAns\Queries\" />
     <Folder Include="Features\MilestoneQues\Queries\" />
   </ItemGroup>
 
