@@ -62,6 +62,8 @@ namespace CollabSphere.Infrastructure.Repositories
         {
             return await _context.Users
                 .Include(x => x.Role)
+                .Include(x => x.Student)
+                .Include(x => x.Lecturer)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Email.Equals(email)
                     && x.Password == password

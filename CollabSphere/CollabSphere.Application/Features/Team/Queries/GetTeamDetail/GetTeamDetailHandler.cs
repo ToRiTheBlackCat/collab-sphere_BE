@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Teams;
 using CollabSphere.Application.DTOs.Validation;
@@ -16,12 +17,15 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<GetTeamDetailHandler> _logger;
+        private readonly CloudinaryService _cloudinaryService;
 
         public GetTeamDetailHandler(IUnitOfWork unitOfWork,
-                                 ILogger<GetTeamDetailHandler> logger)
+                                 ILogger<GetTeamDetailHandler> logger,
+                                 CloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
+            _cloudinaryService = cloudinaryService;
         }
 
         protected override async Task<GetTeamDetailResult> HandleCommand(GetTeamDetailQuery request, CancellationToken cancellationToken)
@@ -42,7 +46,7 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                 {
                     TeamId = foundTeam.TeamId,
                     TeamName = foundTeam.TeamName,
-                    TeamImage = foundTeam.TeamImage ?? string.Empty,
+                    TeamImage = await _cloudinaryService.GetImageUrl(foundTeam.TeamImage),
                     EnrolKey = foundTeam.EnrolKey ?? string.Empty,
                     Description = foundTeam.Description ?? string.Empty,
                     GitLink = foundTeam.GitLink ?? string.Empty,
@@ -98,7 +102,7 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                 var totalCheckpoints = checkpoints.Count;
                 var completedCheckpoints = checkpoints.Count(c => c.Status == 1);
 
-              
+
 
                 dto.TeamProgress = new TeamProgress
                 {

@@ -3,24 +3,23 @@ using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Evaluate;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Application.Features.Evaluate.Commands.StudentEvaluateOtherInTeam;
-using CollabSphere.Application.Features.Evaluate.Queries.GetLecturerEvaluationForTeam;
+using CollabSphere.Application.Features.Evaluate.Queries.GetOtherEvaluationsForOwnInTeam;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Evaluate.Queries.GetOtherEvaluationsForOwnInTeam
+namespace CollabSphere.Application.Features.Evaluate.Queries.GetOwnEvaluationsForOtherInTeam
 {
-    public class GetOtherEvaluationsForOwnInTeamHandler : QueryHandler<GetOtherEvaluationsForOwnInTeamQuery, GetOwnEvaluationsForOtherInTeamResult>
+    public class GetOwnEvaluationsForOtherInTeamHandler : QueryHandler<GetOwnEvaluationsForOtherInTeamQuery, GetOwnEvaluationsForOtherInTeamResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        public GetOtherEvaluationsForOwnInTeamHandler(IUnitOfWork unitOfWork)
+        public GetOwnEvaluationsForOtherInTeamHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
-
-        protected override async Task<GetOwnEvaluationsForOtherInTeamResult> HandleCommand(GetOtherEvaluationsForOwnInTeamQuery request, CancellationToken cancellationToken)
+        protected override async Task<GetOwnEvaluationsForOtherInTeamResult> HandleCommand(GetOwnEvaluationsForOtherInTeamQuery request, CancellationToken cancellationToken)
         {
             var result = new GetOwnEvaluationsForOtherInTeamResult()
             {
@@ -34,38 +33,30 @@ namespace CollabSphere.Application.Features.Evaluate.Queries.GetOtherEvaluations
                 var foundTeam = await _unitOfWork.TeamRepo.GetById(request.TeamId);
                 if (foundTeam != null)
                 {
-                    var otherEvaluations = await _unitOfWork.MemberEvaluationRepo.GetEvaluationsForReceiver(request.TeamId, request.UserId);
-                    if (otherEvaluations != null)
+                    var ownEvaluations = await _unitOfWork.MemberEvaluationRepo.GetEvaluationsOfOwnByUser(request.TeamId, request.UserId);
+                    if (ownEvaluations != null)
                     {
-                        var dtoList = new List<OtherEvaluationsForOwnInTeamDto>();
+                        var dtoList = new List<GetOwnEvaluationsForOtherInTeamDto>();
 
-                        foreach (var x in otherEvaluations)
+                        foreach (var x in ownEvaluations)
                         {
-                            var raterUser = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(x.Key);
-                            var raterName = raterUser?.Student?.Fullname ?? "";
-
-                            var dto = new OtherEvaluationsForOwnInTeamDto
+                            var user = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(x.Key);
+                            dtoList.Add(new GetOwnEvaluationsForOtherInTeamDto
                             {
-                                RaterId = x.Key,
-                                RaterName = raterName,
+                                ReceiverId = x.Key,
+                                ReceiverName = user?.Student.Fullname,
                                 ScoreDetails = x.Value.Select(e => new ScoreDetail
                                 {
-                                    ScoreDetailName = e.Comment ?? string.Empty,
+                                    ScoreDetailName = e.Comment,
                                     Score = (int)e.Score
                                 }).ToList()
-                            };
-
-                            dtoList.Add(dto);
+                            });
                         }
 
 
-                        result.OtherEvaluations = dtoList;
+                        result.OwnEvaluations = dtoList;
                         result.IsSuccess = true;
-                        result.Message = $"Get evaluations and feedback for user with ID: {request.UserId} successfully";
-                    }
-                    else
-                    {
-                        result.Message = $"Not found any evaluation for this user with ID: {request.UserId} yet";
+                        result.Message = $"Get evaluations and feedback for own with ID: {request.UserId} for others successfully";
                     }
                 }
             }
@@ -73,10 +64,11 @@ namespace CollabSphere.Application.Features.Evaluate.Queries.GetOtherEvaluations
             {
                 result.Message = ex.ToString();
             }
+
             return result;
         }
 
-        protected override async Task ValidateRequest(List<OperationError> errors, GetOtherEvaluationsForOwnInTeamQuery request)
+        protected override async Task ValidateRequest(List<OperationError> errors, GetOwnEvaluationsForOtherInTeamQuery request)
         {
             var bypassRoles = new int[] { RoleConstants.STUDENT };
 

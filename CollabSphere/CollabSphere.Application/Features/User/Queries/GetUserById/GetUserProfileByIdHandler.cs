@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Application.Features.Classes.Queries.GetClassById;
@@ -14,10 +15,12 @@ namespace CollabSphere.Application.Features.User.Queries.GetUserById
     public class GetUserProfileByIdHandler : QueryHandler<GetUserProfileByIdQuery, GetUserProfileByIdResult>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly CloudinaryService _cloudinaryService;
 
-        public GetUserProfileByIdHandler(IUnitOfWork unitOfWork)
+        public GetUserProfileByIdHandler(IUnitOfWork unitOfWork, CloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
+            _cloudinaryService = cloudinaryService;
         }
 
         protected override async Task<GetUserProfileByIdResult> HandleCommand(GetUserProfileByIdQuery request, CancellationToken cancellationToken)
@@ -41,11 +44,13 @@ namespace CollabSphere.Application.Features.User.Queries.GetUserById
                     if (foundUser.IsTeacher)
                     {
                         var lecturerProfile = foundUser.Lecturer_To_UserProfileDto();
+                        lecturerProfile.AvatarImg = await _cloudinaryService.GetImageUrl(lecturerProfile.AvatarImg);
                         result.User = lecturerProfile;
                     }
                     else
                     {
                         var studentProfile = foundUser.Student_To_UserProfileDto();
+                        studentProfile.AvatarImg = await _cloudinaryService.GetImageUrl(studentProfile.AvatarImg);
                         result.User = studentProfile;
                     }
                     result.IsSuccess = true;
