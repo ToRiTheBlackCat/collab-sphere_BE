@@ -2,6 +2,7 @@
 using CollabSphere.Application.DTOs.ClassMembers;
 using CollabSphere.Application.DTOs.ProjectAssignments;
 using CollabSphere.Application.DTOs.Teams;
+using CollabSphere.Application.Mappings.ClassFiles;
 using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -74,7 +75,7 @@ namespace CollabSphere.Application.DTOs.Classes
                 TeamCount = classEntity.TeamCount,
                 CreatedDate = classEntity.CreatedDate,
                 IsActive = classEntity.IsActive,
-                ClassFiles = classEntity.ClassFiles.Select(x => (ClassFileVM)x).ToList(),
+                ClassFiles = classEntity.ClassFiles.ToViewModel(),
                 ClassMembers = classEntity.ClassMembers.Select(x => (ClassMemberVM)x).ToList(),
                 ProjectAssignments = classEntity.ProjectAssignments.Select(x => (ProjectAssignmentVM)x).ToList(),
                 Teams = classEntity.Teams.Select(x => (TeamVM)x).ToList(),

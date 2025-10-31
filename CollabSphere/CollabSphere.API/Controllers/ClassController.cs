@@ -10,6 +10,10 @@ using CollabSphere.Application.Features.Classes.Queries.GetAllClasses;
 using CollabSphere.Application.Features.Classes.Queries.GetClassById;
 using CollabSphere.Application.Features.Classes.Queries.GetLecturerClasses;
 using CollabSphere.Application.Features.Classes.Queries.GetStudentClasses;
+using CollabSphere.Application.Features.ClassFiles.Commands.DeleteClassFile;
+using CollabSphere.Application.Features.ClassFiles.Commands.GenerateClassFileUrl;
+using CollabSphere.Application.Features.ClassFiles.Commands.UploadClassFile;
+using CollabSphere.Application.Features.MilestoneFiles.Commands.UploadMilestoneFile;
 using CollabSphere.Application.Features.ProjectAssignments.Commands.AssignProjectsToClass;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -279,6 +283,112 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result.Message);
+        }
+
+        // Roles: Lecturer
+        [Authorize(Roles = "4")]
+        [HttpPost("{classId}/files")]
+        public async Task<IActionResult> LecturerUploadFile(int classId, IFormFile formFile, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+
+            // Construct command
+            var command = new UploadClassFileCommand()
+            {
+                ClassId = classId,
+                File = formFile,
+                UserId = int.Parse(UIdClaim.Value),
+                UserRole = int.Parse(roleClaim.Value),
+            };
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result.Message);
+        }
+
+        // Roles: Lecturer
+        [Authorize(Roles = "4")]
+        [HttpDelete("{classId}/files")]
+        public async Task<IActionResult> LecturerDeleteFile(int classId, int fileId, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+
+            // Construct command
+            var command = new DeleteClassFileCommand()
+            {
+                ClassId = classId,
+                FileId = fileId,
+                UserId = int.Parse(UIdClaim.Value),
+                UserRole = int.Parse(roleClaim.Value),
+            };
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result.Message);
+        }
+
+        // Roles: Lecturer, Student
+        [Authorize(Roles = "4, 5")]
+        [HttpPatch("{classId}/files/new-url")]
+        public async Task<IActionResult> GenerateNewFileUrl(int classId, int fileId, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+
+            // Construct command
+            var command = new GenerateClassFileUrlCommand()
+            {
+                ClassId = classId,
+                FileId = fileId,
+                UserId = int.Parse(UIdClaim.Value),
+                UserRole = int.Parse(roleClaim.Value),
+            };
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(new
+            {
+                result.FileUrl,
+                result.UrlExpireTime
+            });
         }
     }
 }
