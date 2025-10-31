@@ -16,6 +16,7 @@ namespace CollabSphere.Application
         ICheckpointAssignmentRepository CheckpointAssignmentRepo { get; }
         ICheckpointFileRepository CheckpointFileRepo { get; }
         ICheckpointRepository CheckpointRepo { get; }
+        IClassFileRepository ClassFileRepo { get; }
         IClassMemberRepository ClassMemberRepo { get; }
         IClassRepository ClassRepo { get; }
         ILecturerRepository LecturerRepo { get; }

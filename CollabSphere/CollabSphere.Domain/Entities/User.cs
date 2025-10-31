@@ -35,6 +35,8 @@ public partial class User
 
     public virtual ICollection<CheckpointFile> CheckpointFiles { get; set; } = new List<CheckpointFile>();
 
+    public virtual ICollection<ClassFile> ClassFiles { get; set; } = new List<ClassFile>();
+
     public virtual ICollection<MilestoneFile> MilestoneFiles { get; set; } = new List<MilestoneFile>();
 
     public virtual Role Role { get; set; }
