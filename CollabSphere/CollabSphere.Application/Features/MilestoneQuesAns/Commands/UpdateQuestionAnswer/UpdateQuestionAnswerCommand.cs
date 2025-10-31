@@ -7,17 +7,18 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.MilestoneQuesAns.Commands.CreateQuestionAnswer
+namespace CollabSphere.Application.Features.MilestoneQuesAns.Commands.UpdateQuestionAnswer
 {
-    public class CreateQuestionAnswerCommand : ICommand
+    public class UpdateQuestionAnswerCommand : ICommand
     {
         [JsonIgnore]
         public int UserId = -1;
         [JsonIgnore]
         public int UserRole = -1;
-
         [JsonIgnore]
         public int QuestionId { get; set; }
+        [JsonIgnore]
+        public int AnswerId { get; set; }
         [Required]
         public string Answer { get; set; } = string.Empty;
     }

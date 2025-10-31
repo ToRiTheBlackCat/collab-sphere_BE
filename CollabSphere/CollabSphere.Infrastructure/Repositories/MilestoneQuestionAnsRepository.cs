@@ -24,5 +24,11 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Where(x => x.MilestoneQuestionId == questionId)
                 .ToListAsync();
         }
+
+        public async Task<MilestoneQuestionAn?> GetAnswerById(int answerId)
+        {
+            return await _context.MilestoneQuestionAns
+                .SingleOrDefaultAsync(x => x.MilestoneQuestionAnsId == answerId);
+        }
     }
 }
