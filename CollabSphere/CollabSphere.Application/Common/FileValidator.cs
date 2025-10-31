@@ -84,6 +84,14 @@ namespace CollabSphere.Application.Common
                 return false;
             }
 
+            // Check file size
+            long maxFileSizeBytes = (long)(maxFileSize * 1024L * 1024L);
+            if (file.Length > maxFileSizeBytes)
+            {
+                errorMessage = $"File too large. Maximum allowed size is {maxFileSize} MB.";
+                return false;
+            }
+
             // Name length
             if (file.FileName.Length > maxNameLength)
             {
@@ -118,14 +126,6 @@ namespace CollabSphere.Application.Common
                     errorMessage = $"File signature mismatch for '{ext}'.";
                     return false;
                 }
-            }
-
-            // Check file size
-            long maxFileSizeBytes = (long)(maxFileSize * 1024L * 1024L);
-            if (file.Length > maxFileSizeBytes)
-            {
-                errorMessage = $"File too large. Maximum allowed size is {maxFileSize} MB.";
-                return false;
             }
 
             return true;
