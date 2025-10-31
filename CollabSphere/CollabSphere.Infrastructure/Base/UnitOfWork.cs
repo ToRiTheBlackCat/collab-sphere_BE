@@ -22,6 +22,7 @@ namespace CollabSphere.Infrastructure.Base
         public ICheckpointAssignmentRepository CheckpointAssignmentRepo { get; }
         public ICheckpointFileRepository CheckpointFileRepo { get; }
         public ICheckpointRepository CheckpointRepo { get; }
+        public IClassFileRepository ClassFileRepo { get; }
         public IClassMemberRepository ClassMemberRepo { get; }
         public IClassRepository ClassRepo { get; }
         public ILecturerRepository LecturerRepo { get; }
@@ -57,6 +58,7 @@ namespace CollabSphere.Infrastructure.Base
             CheckpointAssignmentRepo = new CheckpointAssignmentRepository(_context);
             CheckpointFileRepo = new CheckpointFileRepository(_context);
             CheckpointRepo = new CheckpointRepository(_context);
+            ClassFileRepo = new ClassFileRepository(_context);
             ClassMemberRepo = new ClassMemberRepositiory(_context);
             ClassRepo = new ClassRepository(_context);
             LecturerRepo = new LecturerRepository(_context);
