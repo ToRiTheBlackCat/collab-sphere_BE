@@ -46,12 +46,6 @@ namespace CollabSphere.Application.Common
         private const int EXPIRATION_COUNT_DOWN = 5; // (Hours)
 
         /// <summary>
-        /// Construct a S3 bucket folder path based on the <paramref name="pathEnum"/> and <paramref name="prefix"/>.
-        /// </summary>
-        private static string ConstructFolderPath(AwsS3HelperPaths pathEnum, string prefix = "uploads/")
-            => ConstructFolderPath(pathEnum, 0, prefix);
-
-        /// <summary>
         /// Construct a S3 bucket folder path based on the <paramref name="pathEnum"/>, <paramref name="sepertationId"/> and <paramref name="prefix"/>.
         /// </summary>aaaaa
         private static string ConstructFolderPath(AwsS3HelperPaths pathEnum, int sepertationId, string prefix = "uploads/")

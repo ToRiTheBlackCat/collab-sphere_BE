@@ -40,7 +40,7 @@ namespace CollabSphere.Infrastructure.Base
         public ITeamEvaluationRepository TeamEvaluationRepo { get; }
         public IEvaluationDetailRepository EvaluationDetailRepo { get; }
         public IMemberEvaluationRepository MemberEvaluationRepo { get; }
-
+        public IMilestoneFileRepository MilestoneFileRepo { get; }
         public IMilestoneQuestionRepository MilestoneQuestionRepo { get; }
 
         public IMilestoneQuestionAnsRepository MilestoneQuestionAnsRepo { get; }
@@ -76,6 +76,7 @@ namespace CollabSphere.Infrastructure.Base
             TeamEvaluationRepo = new TeamEvaluationRepository(_context);
             EvaluationDetailRepo = new EvaluationDetailRepository(_context);
             MemberEvaluationRepo = new MemberEvaluationRepository(_context);
+            MilestoneFileRepo = new MilestoneFileRepository(_context);
             MilestoneQuestionRepo = new MilestoneQuestionRepository(_context);
             MilestoneQuestionAnsRepo = new MilestoneQuestionAnsRepository(_context);
             AnswerEvaluationRepo = new AnswerEvaluationRepository(_context);
