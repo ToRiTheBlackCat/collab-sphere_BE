@@ -11,5 +11,6 @@ namespace CollabSphere.Domain.Intefaces
     public interface IMilestoneQuestionAnsRepository : IGenericRepository<MilestoneQuestionAn>
     {
         Task<List<MilestoneQuestionAn>?> GetAnswersOfQuestionByIdAsync(int questionId);
+        Task<MilestoneQuestionAn?> GetAnswerById(int answerId);
     }
 }

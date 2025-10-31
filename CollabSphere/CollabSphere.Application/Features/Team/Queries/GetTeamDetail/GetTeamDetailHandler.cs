@@ -75,23 +75,32 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                         ProjectId = foundTeam.ProjectAssignment?.Project?.ProjectId,
                         ProjectName = foundTeam.ProjectAssignment?.Project?.ProjectName ?? string.Empty,
                         ProjectDescription = foundTeam.ProjectAssignment?.Project?.Description ?? string.Empty
-                    },
-
-                    // Member Info
-                    MemberInfo = new MemberInfo
-                    {
-                        MemberCount = foundTeam.ClassMembers?.Count ?? 0,
-                        Members = foundTeam.ClassMembers?
-                            .Select(cm => new TeamMemberInfo
-                            {
-                                StudentId = cm.Student.StudentId,
-                                StudentName = cm.Student.Fullname,
-                                Avatar = cm.Student.AvatarImg ?? string.Empty,
-                                TeamRole = cm.TeamRole,
-                                MemberContributionPercentage = 0 //Pending for logic checking contribution
-                            }).ToList() ?? new List<TeamMemberInfo>()
                     }
+
                 };
+                //Member Info
+                var members = foundTeam.ClassMembers?
+                    .Select(cm => new TeamMemberInfo
+                    {
+                        StudentId = cm.Student.StudentId,
+                        StudentName = cm.Student.Fullname,
+                        Avatar = cm.Student.AvatarImg, // store temp image path
+                        TeamRole = cm.TeamRole,
+                        MemberContributionPercentage = 0
+                    }).ToList() ?? new List<TeamMemberInfo>();
+
+                // Resolve avatar URLs in parallel safely
+                foreach (var member in members)
+                {
+                    member.Avatar = await _cloudinaryService.GetImageUrl(member.Avatar);
+                }
+
+                dto.MemberInfo = new MemberInfo
+                {
+                    MemberCount = members.Count,
+                    Members = members
+                };
+
 
                 // Calculate Progress Info 
                 var milestones = foundTeam.TeamMilestones?.ToList() ?? new List<Domain.Entities.TeamMilestone>();
