@@ -3,6 +3,7 @@ using CollabSphere.Application.DTOs.MilestoneEvaluations;
 using CollabSphere.Application.DTOs.MilestoneFiles;
 using CollabSphere.Application.DTOs.MilestoneQuestions;
 using CollabSphere.Application.DTOs.MilestoneReturns;
+using CollabSphere.Application.Mappings.MilestoneFiles;
 using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -57,7 +58,7 @@ namespace CollabSphere.Application.DTOs.TeamMilestones
                 Status = teamMilestone.Status,
                 Checkpoints = teamMilestone.Checkpoints.Select(cpoint => (CheckpointVM)cpoint).ToList(),
                 MilestoneQuestions = teamMilestone.MilestoneQuestions.Select(mQuest => (TeamMilestoneQuestionVM)mQuest).ToList(),
-                MilestoneFiles = teamMilestone.MilestoneFiles.Select(mFile => (TeamMilestoneFileVM)mFile).ToList(),
+                MilestoneFiles = teamMilestone.MilestoneFiles.ToViewModel(),
                 MilestoneReturns = teamMilestone.MilestoneReturns.Select(mReturn => (TeamMilestoneReturnVM)mReturn).ToList(),
                 MilestoneEvaluation = teamMilestone.MilestoneEvaluation != null ? (TeamMilestoneEvaluationVM)teamMilestone.MilestoneEvaluation : null,
             };

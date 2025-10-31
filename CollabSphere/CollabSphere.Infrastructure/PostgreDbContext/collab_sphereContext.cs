@@ -645,16 +645,36 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.FileId)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("file_id");
-            entity.Property(e => e.FilePath).HasColumnName("file_path");
+            entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+            entity.Property(e => e.FileName)
+                .HasMaxLength(200)
+                .HasColumnName("file_name");
+            entity.Property(e => e.FileSize).HasColumnName("file_size");
+            entity.Property(e => e.FileUrl)
+                .HasComment("The path for front-end client to download file")
+                .HasColumnName("file_url");
+            entity.Property(e => e.ObjectKey)
+                .HasComment("AWS S3 object file's key")
+                .HasColumnName("object_key");
             entity.Property(e => e.TeamMilstoneId).HasColumnName("team_milstone_id");
             entity.Property(e => e.Type)
-                .HasMaxLength(50)
+                .HasMaxLength(150)
                 .HasColumnName("type");
+            entity.Property(e => e.UrlExpireTime)
+                .HasComment("The time before which the file path is usable")
+                .HasColumnName("url_expire_time");
+            entity.Property(e => e.UserId)
+                .HasComment("ID of lecturer")
+                .HasColumnName("user_id");
 
             entity.HasOne(d => d.TeamMilstone).WithMany(p => p.MilestoneFiles)
                 .HasForeignKey(d => d.TeamMilstoneId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("milestone_file_team_milestone_fk");
+            entity.HasOne(d => d.User).WithMany(p => p.MilestoneFiles)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("milestone_file_user_fk");
         });
 
         modelBuilder.Entity<MilestoneQuestion>(entity =>

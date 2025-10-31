@@ -1,30 +1,28 @@
 ﻿using Amazon.S3;
-using Amazon.S3.Model;
 using CollabSphere.Application.Base;
 using CollabSphere.Application.Common;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Domain.Entities;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUploadFile
+namespace CollabSphere.Application.Features.MilestoneFiles.Commands.UploadMilestoneFile
 {
-    public class CheckpointUploadHandler : CommandHandler<CheckpointUploadCommand>
+    public class UploadMilestoneFileHandler : CommandHandler<UploadMilestoneFileCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAmazonS3 _s3Client;
 
-        public CheckpointUploadHandler(IUnitOfWork unitOfWork, IAmazonS3 s3Client)
+        public UploadMilestoneFileHandler(IUnitOfWork unitOfWork, IAmazonS3 s3Client)
         {
             _unitOfWork = unitOfWork;
             _s3Client = s3Client;
         }
 
-        protected override async Task<CommandResult> HandleCommand(CheckpointUploadCommand request, CancellationToken cancellationToken)
+        protected override async Task<CommandResult> HandleCommand(UploadMilestoneFileCommand request, CancellationToken cancellationToken)
         {
             var result = new CommandResult()
             {
@@ -43,47 +41,38 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUploa
 
                 var uploadResponse = await _s3Client.UploadFileToS3Async(
                     request.File,
-                    AwsS3HelperPaths.Checkpoint,
-                    request.CheckpointId,
+                    AwsS3HelperPaths.Milestone,
+                    request.TeamMilestoneId,
                     currentTime
                 );
 
                 // Create database entry
-                var checkFile = new CheckpointFile()
+                var newMilestoneFile = new MilestoneFile()
                 {
-                    CheckpointId = request.CheckpointId,
+                    TeamMilstoneId = request.TeamMilestoneId,
                     UserId = request.UserId,
                     FileName = uploadResponse.FileName,
                     Type = request.File.ContentType,
-                    FileUrl = uploadResponse.PresignedUrl,
                     FileSize = request.File.Length,
-                    ObjectKey = uploadResponse.ObjectKey,
                     CreatedAt = currentTime,
+                    ObjectKey = uploadResponse.ObjectKey,
+                    FileUrl = uploadResponse.PresignedUrl,
                     UrlExpireTime = uploadResponse.UrlExpireTime,
                 };
 
-                await _unitOfWork.CheckpointFileRepo.Create(checkFile);
+                await _unitOfWork.MilestoneFileRepo.Create(newMilestoneFile);
                 await _unitOfWork.SaveChangesAsync();
                 #endregion
 
                 await _unitOfWork.CommitTransactionAsync();
 
-                result.Message = $"Uploaded file \"{uploadResponse.FileName}\" successfully.";
+                result.Message = $"Uploaded file '{newMilestoneFile.FileName}' ({newMilestoneFile.FileId}) to milestone with ID '{request.TeamMilestoneId}'.";
                 result.IsSuccess = true;
             }
             catch (AmazonS3Exception ex)
             {
                 await _unitOfWork.RollbackTransactionAsync();
-
-                // Handle cases like the object key not being found
-                if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    result.Message = $"S3 Error: {ex.Message}";
-                }
-                else
-                {
-                    result.Message = $"S3 Error: {ex.Message}";
-                }
+                result.Message = $"S3 Error: {ex.Message}";
             }
             catch (Exception ex)
             {
@@ -94,35 +83,33 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUploa
             return result;
         }
 
-        protected override async Task ValidateRequest(List<OperationError> errors, CheckpointUploadCommand request)
+        protected override async Task ValidateRequest(List<OperationError> errors, UploadMilestoneFileCommand request)
         {
-            // Check checkpointId
-            var checkpoint = await _unitOfWork.CheckpointRepo.GetCheckpointDetail(request.CheckpointId);
-            if (checkpoint == null)
+            // Check team milestone
+            var tMilestone = await _unitOfWork.TeamMilestoneRepo.GetDetailsById(request.TeamMilestoneId);
+            if (tMilestone == null)
             {
                 errors.Add(new OperationError()
                 {
-                    Field = nameof(request.CheckpointId),
-                    Message = $"No checkpoint with ID: {request.CheckpointId}",
+                    Field = nameof(request.TeamMilestoneId),
+                    Message = $"No team milestone with ID '{request.TeamMilestoneId}'.",
                 });
                 return;
             }
 
-            // Check if is student in team
-            var member = checkpoint.TeamMilestone.Team.ClassMembers
-                .FirstOrDefault(mem => mem.StudentId == request.UserId);
-            if (member == null)
+            // Check is class's assigned lecturer
+            if (request.UserId != tMilestone.Team.Class.LecturerId)
             {
                 errors.Add(new OperationError()
                 {
                     Field = nameof(request.UserId),
-                    Message = $"You ({request.UserId}) are not a member of the team with ID: {checkpoint.TeamMilestone.Team.TeamId}"
+                    Message = $"You ({request.UserId}) are not the assigned lecturer of the class with ID '{tMilestone.Team.Class.ClassId}'.",
                 });
                 return;
             }
 
-            // Check file
-            if (!FileValidator.ValidateFile(request.File, out var errorMessage, maxFileSize: 15))
+            // Validate file
+            if (!FileValidator.ValidateFile(request.File, out var errorMessage, 15))
             {
                 errors.Add(new OperationError()
                 {

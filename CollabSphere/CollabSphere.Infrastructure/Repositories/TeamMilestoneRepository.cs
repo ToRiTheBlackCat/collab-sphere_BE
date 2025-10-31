@@ -41,8 +41,10 @@ namespace CollabSphere.Infrastructure.Repositories
                 // Return Info
                 .Include(mst => mst.MilestoneEvaluation)
                     .ThenInclude(eval => eval.Lecturer)
-                // File Info
+                // File Info (For Lecturer)
                 .Include(mst => mst.MilestoneFiles)
+                    .ThenInclude(file => file.User)
+                        .ThenInclude(user => user.Lecturer)
                 // Return Info
                 .Include(mst => mst.MilestoneReturns)
                     .ThenInclude(rtrn => rtrn.ClassMember)
