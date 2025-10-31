@@ -1,7 +1,7 @@
 ﻿using CollabSphere.Application.Features.MilestoneQues.Commands.CreateMilestoneQuestion;
 using CollabSphere.Application.Features.MilestoneQues.Commands.DeleteMilestoneQuestion;
 using CollabSphere.Application.Features.MilestoneQues.Commands.UpdateMilestoneQuestion;
-using CollabSphere.Application.Features.MilestoneQuesAns.Commands;
+using CollabSphere.Application.Features.MilestoneQuesAns.Commands.CreateQuestionAnswer;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

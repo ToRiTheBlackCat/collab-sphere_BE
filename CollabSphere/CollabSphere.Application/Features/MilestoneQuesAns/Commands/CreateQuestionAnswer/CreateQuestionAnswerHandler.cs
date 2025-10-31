@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.MilestoneQuesAns.Commands
+namespace CollabSphere.Application.Features.MilestoneQuesAns.Commands.CreateQuestionAnswer
 {
     public class CreateQuestionAnswerHandler : CommandHandler<CreateQuestionAnswerCommand>
     {
@@ -83,7 +83,7 @@ namespace CollabSphere.Application.Features.MilestoneQuesAns.Commands
                 var foundTeamMem = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByTeamIdAndStudentId(foundMileQues.TeamId, request.UserId);
 
                 if (foundTeamMem == null ||
-                    (foundTeamMem != null && foundTeamMem.TeamId != foundMileQues.TeamId))
+                    foundTeamMem != null && foundTeamMem.TeamId != foundMileQues.TeamId)
                 {
                     errors.Add(new OperationError
                     {
