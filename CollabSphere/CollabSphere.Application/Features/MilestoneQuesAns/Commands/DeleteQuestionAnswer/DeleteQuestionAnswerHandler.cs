@@ -6,16 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.MilestoneQuesAns.Commands.UpdateQuestionAnswer
+namespace CollabSphere.Application.Features.MilestoneQuesAns.Commands.DeleteQuestionAnswer
 {
-    public class UpdateQuestionAnswerHandler : CommandHandler<UpdateQuestionAnswerCommand>
+    public class DeleteQuestionAnswerHandler : CommandHandler<DeleteQuestionAnswerCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
-        public UpdateQuestionAnswerHandler(IUnitOfWork unitOfWork)
+        public DeleteQuestionAnswerHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
-        protected override async Task<CommandResult> HandleCommand(UpdateQuestionAnswerCommand request, CancellationToken cancellationToken)
+        protected override async Task<CommandResult> HandleCommand(DeleteQuestionAnswerCommand request, CancellationToken cancellationToken)
         {
             var result = new CommandResult()
             {
@@ -30,15 +30,24 @@ namespace CollabSphere.Application.Features.MilestoneQuesAns.Commands.UpdateQues
                 var foundAnswer = await _unitOfWork.MilestoneQuestionAnsRepo.GetAnswerById(request.AnswerId);
                 if (foundAnswer != null)
                 {
-                    foundAnswer.Answer = request.Answer.Trim();
-                    foundAnswer.CreatedTime = DateTime.UtcNow;
+                    //Find Answer Evaluation
+                    var answerEvaluations = await _unitOfWork.AnswerEvaluationRepo.GetAnswerEvaluationsOfAnswer(request.AnswerId);
+                    if (answerEvaluations != null || answerEvaluations?.Count > 0)
+                    {
+                        foreach (var evaluation in answerEvaluations)
+                        {
+                            _unitOfWork.AnswerEvaluationRepo.Delete(evaluation);
+                            await _unitOfWork.SaveChangesAsync();
+                        }
+                    }
 
-                    _unitOfWork.MilestoneQuestionAnsRepo.Update(foundAnswer);
+                    //Delete the answer
+                    _unitOfWork.MilestoneQuestionAnsRepo.Delete(foundAnswer);
                     await _unitOfWork.SaveChangesAsync();
                     await _unitOfWork.CommitTransactionAsync();
 
                     result.IsSuccess = true;
-                    result.Message = $"Update question answer with ID: {request.AnswerId} successfully";
+                    result.Message = $"Delete question answer with ID: {request.AnswerId} successfully";
                 }
 
             }
@@ -50,7 +59,7 @@ namespace CollabSphere.Application.Features.MilestoneQuesAns.Commands.UpdateQues
             return result;
         }
 
-        protected override async Task ValidateRequest(List<OperationError> errors, UpdateQuestionAnswerCommand request)
+        protected override async Task ValidateRequest(List<OperationError> errors, DeleteQuestionAnswerCommand request)
         {
             //Find existed milestone question
             var foundMileQues = await _unitOfWork.MilestoneQuestionRepo.GetById(request.QuestionId);
@@ -94,7 +103,7 @@ namespace CollabSphere.Application.Features.MilestoneQuesAns.Commands.UpdateQues
                     errors.Add(new OperationError
                     {
                         Field = nameof(request.UserId),
-                        Message = $"You are not the owner of this answer. Cannot update this answer"
+                        Message = $"You are not the owner of this answer. Cannot delete this answer"
                     });
                     return;
                 }
