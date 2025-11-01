@@ -13,21 +13,21 @@ public partial class ClassFile
 
     public int UserId { get; set; }
 
-    public string FileName { get; set; } = null!;
+    public string FileName { get; set; }
 
-    public string Type { get; set; } = null!;
+    public string Type { get; set; }
 
     public long FileSize { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
-    public string ObjectKey { get; set; } = null!;
+    public string ObjectKey { get; set; }
 
-    public string FileUrl { get; set; } = null!;
+    public string FileUrl { get; set; }
 
     public DateTime UrlExpireTime { get; set; }
 
-    public virtual Class Class { get; set; } = null!;
+    public virtual Class Class { get; set; }
 
-    public virtual User User { get; set; } = null!;
+    public virtual User User { get; set; }
 }
