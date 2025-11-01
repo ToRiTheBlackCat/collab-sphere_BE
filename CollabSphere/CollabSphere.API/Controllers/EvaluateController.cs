@@ -1,4 +1,5 @@
-﻿using CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam;
+﻿using CollabSphere.Application.Features.Evaluate.Commands.EvaluateMileQuestionAns;
+using CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam;
 using CollabSphere.Application.Features.Evaluate.Commands.StudentEvaluateOtherInTeam;
 using CollabSphere.Application.Features.Evaluate.Queries.GetLecturerEvaluationForTeam;
 using CollabSphere.Application.Features.Evaluate.Queries.GetOtherEvaluationsForOwnInTeam;
@@ -7,6 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace CollabSphere.API.Controllers
 {
@@ -96,7 +98,7 @@ namespace CollabSphere.API.Controllers
 
         [Authorize]
         [HttpGet("member/team/{teamId}")]
-        public async Task<IActionResult> GetOtherEvaluationsForOwnInTeam (GetOtherEvaluationsForOwnInTeamQuery query, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetOtherEvaluationsForOwnInTeam(GetOtherEvaluationsForOwnInTeamQuery query, CancellationToken cancellationToken = default)
         {
             // Get UserId & Role of requester
             var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
@@ -130,6 +132,38 @@ namespace CollabSphere.API.Controllers
             command.RaterId = int.Parse(UIdClaim.Value);
             command.RaterRole = int.Parse(roleClaim.Value);
             command.TeamId = teamId;
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "5")]
+        [HttpPost("answer/{answerId}")]
+        public async Task<IActionResult> EvaluateMilestoneQuestionAnswer(int answerId, [FromBody] EvaluateMilestoneQuestionAnswerCommand command)
+        {
+            if (!ModelState.IsValid)
+
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            command.EvaluatorId = int.Parse(UIdClaim.Value);
+            command.EvaluatorRole = int.Parse(roleClaim.Value);
+            command.AnswerId = answerId;
 
             var result = await _mediator.Send(command);
 

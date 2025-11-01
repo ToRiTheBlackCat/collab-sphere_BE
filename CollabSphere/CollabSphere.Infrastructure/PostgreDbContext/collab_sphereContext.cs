@@ -37,6 +37,8 @@ public partial class collab_sphereContext : DbContext
 
     public virtual DbSet<ClassMember> ClassMembers { get; set; }
 
+    public virtual DbSet<DocumentState> DocumentStates { get; set; }
+
     public virtual DbSet<EvaluationDetail> EvaluationDetails { get; set; }
 
     public virtual DbSet<Lecturer> Lecturers { get; set; }
@@ -129,12 +131,7 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.Score).HasColumnName("score");
             entity.Property(e => e.TeamId).HasColumnName("team_id");
 
-            entity.HasOne(d => d.Evaluator).WithMany(p => p.AnswerEvaluations)
-                .HasForeignKey(d => d.EvaluatorId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("answer_evaluation_lecturer_fk");
-
-            entity.HasOne(d => d.EvaluatorNavigation).WithMany(p => p.AnswerEvaluationEvaluatorNavigations)
+            entity.HasOne(d => d.Evaluator).WithMany(p => p.AnswerEvaluationEvaluators)
                 .HasForeignKey(d => d.EvaluatorId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("answer_evaluator_evaluation_student_FK");
@@ -311,34 +308,40 @@ public partial class collab_sphereContext : DbContext
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("file_id");
             entity.Property(e => e.CheckpointId).HasColumnName("checkpoint_id");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
-            entity.Property(e => e.FileName)
-                .HasMaxLength(200)
-                .HasColumnName("file_name");
-            entity.Property(e => e.Type)
-                .HasMaxLength(150)
-                .HasColumnName("type");
-            entity.Property(e => e.FileUrl)
-                .IsRequired()
-                .HasColumnName("file_url");
-            entity.Property(e => e.FileSize)
-                .IsRequired()
-                .HasColumnType("bigint")
-                .HasColumnName("file_size");
-            entity.Property(e => e.ObjectKey)
-                .IsRequired()
-                .HasColumnName("object_key");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("created_at");
-            entity.Property(e => e.UrlExpireTime)
+            entity.Property(e => e.FileName)
                 .IsRequired()
+                .HasMaxLength(200)
+                .HasColumnName("file_name");
+            entity.Property(e => e.FileSize)
+                .HasDefaultValue(0L)
+                .HasColumnName("file_size");
+            entity.Property(e => e.FileUrl)
+                .IsRequired()
+                .HasComment("The path for front-end client to download file")
+                .HasColumnName("file_url");
+            entity.Property(e => e.ObjectKey)
+                .IsRequired()
+                .HasComment("AWS S3 object file's key")
+                .HasColumnName("object_key");
+            entity.Property(e => e.Type)
+                .IsRequired()
+                .HasMaxLength(150)
+                .HasColumnName("type");
+            entity.Property(e => e.UrlExpireTime)
+                .HasComment("The time before which the file path is usable")
                 .HasColumnName("url_expire_time");
+            entity.Property(e => e.UserId)
+                .HasDefaultValue(1)
+                .HasColumnName("user_id");
 
             entity.HasOne(d => d.Checkpoint).WithMany(p => p.CheckpointFiles)
                 .HasForeignKey(d => d.CheckpointId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("checkpoint_file_checkpoint_fk");
+
             entity.HasOne(d => d.User).WithMany(p => p.CheckpointFiles)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -373,23 +376,23 @@ public partial class collab_sphereContext : DbContext
                 .HasMaxLength(150)
                 .HasColumnName("lecturer_name");
             entity.Property(e => e.MemberCount).HasColumnName("member_count");
-            entity.Property(e => e.SubjectId).HasColumnName("subject_id");
             entity.Property(e => e.SemesterId).HasColumnName("semester_id");
+            entity.Property(e => e.SubjectId).HasColumnName("subject_id");
             entity.Property(e => e.TeamCount).HasColumnName("team_count");
 
             entity.HasOne(d => d.Lecturer).WithMany(p => p.Classes)
                 .HasForeignKey(d => d.LecturerId)
                 .HasConstraintName("class_lecturer_fk");
 
-            entity.HasOne(d => d.Subject).WithMany(p => p.Classes)
-                .HasForeignKey(d => d.SubjectId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("class_subject_fk");
-
             entity.HasOne(d => d.Semester).WithMany(p => p.Classes)
                 .HasForeignKey(d => d.SemesterId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("class_semester_fk");
+
+            entity.HasOne(d => d.Subject).WithMany(p => p.Classes)
+                .HasForeignKey(d => d.SubjectId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("class_subject_fk");
         });
 
         modelBuilder.Entity<ClassFile>(entity =>
@@ -404,12 +407,18 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.ClassId).HasColumnName("class_id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.FileName)
+                .IsRequired()
                 .HasMaxLength(200)
                 .HasColumnName("file_name");
             entity.Property(e => e.FileSize).HasColumnName("file_size");
-            entity.Property(e => e.FileUrl).HasColumnName("file_url");
-            entity.Property(e => e.ObjectKey).HasColumnName("object_key");
+            entity.Property(e => e.FileUrl)
+                .IsRequired()
+                .HasColumnName("file_url");
+            entity.Property(e => e.ObjectKey)
+                .IsRequired()
+                .HasColumnName("object_key");
             entity.Property(e => e.Type)
+                .IsRequired()
                 .HasMaxLength(150)
                 .HasColumnName("type");
             entity.Property(e => e.UrlExpireTime).HasColumnName("url_expire_time");
@@ -461,6 +470,25 @@ public partial class collab_sphereContext : DbContext
             entity.HasOne(d => d.Team).WithMany(p => p.ClassMembers)
                 .HasForeignKey(d => d.TeamId)
                 .HasConstraintName("class_member_team_fk");
+        });
+
+        modelBuilder.Entity<DocumentState>(entity =>
+        {
+            entity.HasKey(e => e.DocStateId).HasName("document_state_pk");
+
+            entity.ToTable("document_state");
+
+            entity.Property(e => e.DocStateId)
+                .UseIdentityAlwaysColumn()
+                .HasColumnName("doc_state_id");
+            entity.Property(e => e.CreatedTime).HasColumnName("created_time");
+            entity.Property(e => e.RoomId)
+                .IsRequired()
+                .HasColumnType("character varying")
+                .HasColumnName("room_id");
+            entity.Property(e => e.UpdateData)
+                .IsRequired()
+                .HasColumnName("update_data");
         });
 
         modelBuilder.Entity<EvaluationDetail>(entity =>
@@ -639,7 +667,6 @@ public partial class collab_sphereContext : DbContext
                 .HasConstraintName("milestone_evaluation_lecturer_fk");
 
             entity.HasOne(d => d.Milestone).WithOne(p => p.MilestoneEvaluation)
-                .HasForeignKey<MilestoneEvaluation>(d => d.MilestoneId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("milestone_evaluation_team_milestone_fk");
 
@@ -660,17 +687,21 @@ public partial class collab_sphereContext : DbContext
                 .HasColumnName("file_id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.FileName)
+                .IsRequired()
                 .HasMaxLength(200)
                 .HasColumnName("file_name");
             entity.Property(e => e.FileSize).HasColumnName("file_size");
             entity.Property(e => e.FileUrl)
+                .IsRequired()
                 .HasComment("The path for front-end client to download file")
                 .HasColumnName("file_url");
             entity.Property(e => e.ObjectKey)
+                .IsRequired()
                 .HasComment("AWS S3 object file's key")
                 .HasColumnName("object_key");
             entity.Property(e => e.TeamMilstoneId).HasColumnName("team_milstone_id");
             entity.Property(e => e.Type)
+                .IsRequired()
                 .HasMaxLength(150)
                 .HasColumnName("type");
             entity.Property(e => e.UrlExpireTime)
@@ -684,6 +715,7 @@ public partial class collab_sphereContext : DbContext
                 .HasForeignKey(d => d.TeamMilstoneId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("milestone_file_team_milestone_fk");
+
             entity.HasOne(d => d.User).WithMany(p => p.MilestoneFiles)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -959,16 +991,17 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.SemesterId)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("semester_id");
+            entity.Property(e => e.EndDate).HasColumnName("end_date");
+            entity.Property(e => e.SemesterCode)
+                .IsRequired()
+                .HasMaxLength(50)
+                .HasDefaultValueSql("'\"NOT FOUND\"'::character varying")
+                .HasColumnName("semester_code");
             entity.Property(e => e.SemesterName)
                 .IsRequired()
                 .HasMaxLength(100)
                 .HasColumnName("semester_name");
-            entity.Property(e => e.SemesterCode)
-                .IsRequired()
-                .HasMaxLength(50)
-                .HasColumnName("semester_code");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
-            entity.Property(e => e.EndDate).HasColumnName("end_date");
         });
 
         modelBuilder.Entity<Shape>(entity =>
@@ -1258,9 +1291,7 @@ public partial class collab_sphereContext : DbContext
                 .HasColumnName("team_milestone_id");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.EndDate).HasColumnName("end_date");
-            entity.Property(e => e.ObjectiveMilestoneId)
-                .IsRequired(false)
-                .HasColumnName("objective_milestone_id");
+            entity.Property(e => e.ObjectiveMilestoneId).HasColumnName("objective_milestone_id");
             entity.Property(e => e.Progress).HasColumnName("progress");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
             entity.Property(e => e.Status)
@@ -1274,8 +1305,6 @@ public partial class collab_sphereContext : DbContext
 
             entity.HasOne(d => d.ObjectiveMilestone).WithMany(p => p.TeamMilestones)
                 .HasForeignKey(d => d.ObjectiveMilestoneId)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("team_milestone_objective_milestone_fk");
 
             entity.HasOne(d => d.Team).WithMany(p => p.TeamMilestones)
@@ -1316,6 +1345,8 @@ public partial class collab_sphereContext : DbContext
             entity.HasKey(e => e.UId).HasName("user_pk");
 
             entity.ToTable("user");
+
+            entity.HasIndex(e => new { e.Email, e.Password }, "ix_user_email_password_is_active").HasFilter("(is_active = true)");
 
             entity.Property(e => e.UId)
                 .UseIdentityAlwaysColumn()

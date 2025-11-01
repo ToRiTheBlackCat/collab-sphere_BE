@@ -2,6 +2,7 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CollabSphere.Domain.Entities;
 
@@ -23,9 +24,7 @@ public partial class AnswerEvaluation
 
     public DateTime CreatedDate { get; set; }
 
-    public virtual Lecturer Evaluator { get; set; }
-
-    public virtual Student EvaluatorNavigation { get; set; }
+    public virtual Student Evaluator { get; set; }
 
     public virtual MilestoneQuestionAn MilestoneQuestionAns { get; set; }
 
