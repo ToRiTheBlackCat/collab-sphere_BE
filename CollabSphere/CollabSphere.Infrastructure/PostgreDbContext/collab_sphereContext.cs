@@ -37,8 +37,6 @@ public partial class collab_sphereContext : DbContext
 
     public virtual DbSet<ClassMember> ClassMembers { get; set; }
 
-    public virtual DbSet<DocumentState> DocumentStates { get; set; }
-
     public virtual DbSet<EvaluationDetail> EvaluationDetails { get; set; }
 
     public virtual DbSet<Lecturer> Lecturers { get; set; }
@@ -470,25 +468,6 @@ public partial class collab_sphereContext : DbContext
             entity.HasOne(d => d.Team).WithMany(p => p.ClassMembers)
                 .HasForeignKey(d => d.TeamId)
                 .HasConstraintName("class_member_team_fk");
-        });
-
-        modelBuilder.Entity<DocumentState>(entity =>
-        {
-            entity.HasKey(e => e.DocStateId).HasName("document_state_pk");
-
-            entity.ToTable("document_state");
-
-            entity.Property(e => e.DocStateId)
-                .UseIdentityAlwaysColumn()
-                .HasColumnName("doc_state_id");
-            entity.Property(e => e.CreatedTime).HasColumnName("created_time");
-            entity.Property(e => e.RoomId)
-                .IsRequired()
-                .HasColumnType("character varying")
-                .HasColumnName("room_id");
-            entity.Property(e => e.UpdateData)
-                .IsRequired()
-                .HasColumnName("update_data");
         });
 
         modelBuilder.Entity<EvaluationDetail>(entity =>
