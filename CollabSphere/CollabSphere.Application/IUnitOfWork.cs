@@ -16,6 +16,7 @@ namespace CollabSphere.Application
         ICheckpointAssignmentRepository CheckpointAssignmentRepo { get; }
         ICheckpointFileRepository CheckpointFileRepo { get; }
         ICheckpointRepository CheckpointRepo { get; }
+        IClassFileRepository ClassFileRepo { get; }
         IClassMemberRepository ClassMemberRepo { get; }
         IClassRepository ClassRepo { get; }
         ILecturerRepository LecturerRepo { get; }
@@ -34,11 +35,12 @@ namespace CollabSphere.Application
         ITeamEvaluationRepository TeamEvaluationRepo { get; }
         IEvaluationDetailRepository EvaluationDetailRepo { get; }
         IMemberEvaluationRepository MemberEvaluationRepo { get; }
-
+        IMilestoneFileRepository MilestoneFileRepo { get; }
         IMilestoneQuestionRepository MilestoneQuestionRepo { get; }
 
         IMilestoneQuestionAnsRepository MilestoneQuestionAnsRepo { get; }
         IAnswerEvaluationRepository AnswerEvaluationRepo { get; }
+        IMilestoneEvaluationRepository MilestoneEvaluationRepo { get; }
          //More IRepo below
 
          Task BeginTransactionAsync();

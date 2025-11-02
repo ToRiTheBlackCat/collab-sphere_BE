@@ -9,6 +9,9 @@ namespace CollabSphere.Application.Common
 {
     public static class FileValidator
     {
+        private const int FILE_NAME_LIMIT = 200;
+        private const double FILE_SIZE_LIMIT = 20.0d;
+
         // Allowed extensions (whitelist)
         private static readonly HashSet<string> _allowedExtensions = new(StringComparer.OrdinalIgnoreCase)
         {
@@ -69,15 +72,30 @@ namespace CollabSphere.Application.Common
         /// </summary>
         /// <param name="file"></param>
         /// <param name="errorMessage"></param>
-        /// <param name="maxFilSize">Maximum size of file in MB</param>
+        /// <param name="maxFileSize">Maximum size of file in MB</param>
         /// <returns></returns>
-        public static bool ValidateFile(IFormFile file, out string errorMessage, long maxFilSize = 10)
+        public static bool ValidateFile(IFormFile file, out string errorMessage, double maxFileSize = FILE_SIZE_LIMIT, int maxNameLength = FILE_NAME_LIMIT)
         {
             errorMessage = "";
 
             if (file == null || file.Length == 0)
             {
                 errorMessage = "No file uploaded.";
+                return false;
+            }
+
+            // Check file size
+            long maxFileSizeBytes = (long)(maxFileSize * 1024L * 1024L);
+            if (file.Length > maxFileSizeBytes)
+            {
+                errorMessage = $"File too large. Maximum allowed size is {maxFileSize} MB.";
+                return false;
+            }
+
+            // Name length
+            if (file.FileName.Length > maxNameLength)
+            {
+                errorMessage = $"File name can't have more than {maxNameLength} characters.";
                 return false;
             }
 
@@ -108,14 +126,6 @@ namespace CollabSphere.Application.Common
                     errorMessage = $"File signature mismatch for '{ext}'.";
                     return false;
                 }
-            }
-
-            // Check file size
-            long maxFileSizeBytes = maxFilSize * 1024 * 1024;
-            if (file.Length > maxFileSizeBytes)
-            {
-                errorMessage = $"File too large. Maximum allowed size is {maxFilSize} MB.";
-                return false;
             }
 
             return true;

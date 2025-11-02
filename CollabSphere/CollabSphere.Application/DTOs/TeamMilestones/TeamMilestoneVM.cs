@@ -19,9 +19,9 @@ namespace CollabSphere.Application.DTOs.TeamMilestones
 
         public int TeamId { get; set; }
 
-        public string Title { get; set; }
+        public string Title { get; set; } = null!;
 
-        public string Description { get; set; }
+        public string Description { get; set; } = null!;
         
         public DateOnly? StartDate { get; set; }
 
