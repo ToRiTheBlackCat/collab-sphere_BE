@@ -2,6 +2,7 @@
 using CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam;
 using CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeamMilestone;
 using CollabSphere.Application.Features.Evaluate.Commands.StudentEvaluateOtherInTeam;
+using CollabSphere.Application.Features.Evaluate.Queries.GetLecturerEvaluateTeamMilestone;
 using CollabSphere.Application.Features.Evaluate.Queries.GetLecturerEvaluationForTeam;
 using CollabSphere.Application.Features.Evaluate.Queries.GetOtherEvaluationsForOwnInTeam;
 using CollabSphere.Application.Features.Evaluate.Queries.GetOwnEvaluationsForOtherInTeam;
@@ -9,6 +10,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Threading;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace CollabSphere.API.Controllers
@@ -204,6 +206,32 @@ namespace CollabSphere.API.Controllers
             {
                 return BadRequest(result);
             }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "4,5")]
+        [HttpGet("milestone/{teamMilestoneId}")]
+        public async Task<IActionResult> GetLecturerEvaluateTeamMilestone(int teamMilestoneId, GetLecturerEvaluateTeamMilestoneQuery query, CancellationToken cancellationToken = default)
+        {
+            if (!ModelState.IsValid)
+
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            query.UserId = int.Parse(UIdClaim.Value);
+            query.UserRole = int.Parse(roleClaim.Value);
+
+            var result = await _mediator.Send(query, cancellationToken);
 
             if (!result.IsSuccess)
             {

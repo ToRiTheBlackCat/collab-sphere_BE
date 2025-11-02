@@ -68,7 +68,7 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeamMil
                         }
 
                     }
-
+                    await _unitOfWork.CommitTransactionAsync();
                     result.IsSuccess = true;
                 }
             }
