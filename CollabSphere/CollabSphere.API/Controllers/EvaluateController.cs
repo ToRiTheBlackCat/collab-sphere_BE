@@ -1,5 +1,6 @@
 ﻿using CollabSphere.Application.Features.Evaluate.Commands.EvaluateMileQuestionAns;
 using CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam;
+using CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeamMilestone;
 using CollabSphere.Application.Features.Evaluate.Commands.StudentEvaluateOtherInTeam;
 using CollabSphere.Application.Features.Evaluate.Queries.GetLecturerEvaluationForTeam;
 using CollabSphere.Application.Features.Evaluate.Queries.GetOtherEvaluationsForOwnInTeam;
@@ -164,6 +165,38 @@ namespace CollabSphere.API.Controllers
             command.EvaluatorId = int.Parse(UIdClaim.Value);
             command.EvaluatorRole = int.Parse(roleClaim.Value);
             command.AnswerId = answerId;
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "4")]
+        [HttpPost("milestone/{teamMilestoneId}")]
+        public async Task<IActionResult> LecturerEvaluateTeamMilestone(int teamMilestoneId, [FromBody] LecturerEvaluateTeamMilestoneCommand command)
+        {
+            if (!ModelState.IsValid)
+
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            command.EvaluatorId = int.Parse(UIdClaim.Value);
+            command.EvaluatorRole = int.Parse(roleClaim.Value);
+            command.TeamMilestoneId = teamMilestoneId;
 
             var result = await _mediator.Send(command);
 

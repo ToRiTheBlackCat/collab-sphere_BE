@@ -40,6 +40,7 @@ namespace CollabSphere.Application
 
         IMilestoneQuestionAnsRepository MilestoneQuestionAnsRepo { get; }
         IAnswerEvaluationRepository AnswerEvaluationRepo { get; }
+        IMilestoneEvaluationRepository MilestoneEvaluationRepo { get; }
          //More IRepo below
 
          Task BeginTransactionAsync();
