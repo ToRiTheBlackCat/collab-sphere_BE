@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Common;
+using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.User;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -54,6 +55,16 @@ namespace CollabSphere.Application.Features.Auth.Commands
                 }
                 else
                 {
+                    //If admin
+                    if(foundUser.RoleId == RoleConstants.ADMIN)
+                    {
+                        responseDto.IsAuthenticated = true;
+                        responseDto.FullName = "COLLABSPHERE_ADMIN";
+
+                        return responseDto;
+                    }
+
+
                     //Generate both access & refresh token
                     var (accessToken, refreshToken) = await _jwtAuth.GenerateToken(foundUser);
 
