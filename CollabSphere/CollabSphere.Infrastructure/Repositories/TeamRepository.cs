@@ -15,12 +15,13 @@ namespace CollabSphere.Infrastructure.Repositories
     {
         public TeamRepository(collab_sphereContext context) : base(context) { }
 
-        public async Task<List<Team>?> GetListTeamOfStudent(int studentId, string? teamName, int? classId)
+        public async Task<List<Team>?> GetListTeamOfStudent(int studentId, string? teamName, int? classId, int? semesterId)
         {
             var teamQuery = _context.Teams
                 .Include(x => x.Class)
+                    .ThenInclude(x => x.Semester)
                 .Include(x => x.ProjectAssignment)
-                .ThenInclude(x => x.Project)
+                    .ThenInclude(x => x.Project)
                 .AsNoTracking()
                 .AsQueryable();
 
@@ -41,6 +42,12 @@ namespace CollabSphere.Infrastructure.Repositories
                 classList = classList.Where(x => x.ClassId == classId.Value);
             }
 
+            //Filter by semesterId
+            if (semesterId.HasValue)
+            {
+                classList = classList.Where(x => x.Class.SemesterId == semesterId.Value);
+            }
+
             //Get teams of student
             teamQuery = from team in teamQuery
                         join cls in classList
@@ -51,12 +58,14 @@ namespace CollabSphere.Infrastructure.Repositories
             return result;
         }
 
-        public async Task<List<Team>?> SearchTeam(int classId, string? teamName, int? projectId , DateOnly? fromDate, DateOnly? endDate, bool isDesc)
+        public async Task<List<Team>?> SearchTeam(int classId, string? teamName, int? projectId, DateOnly? fromDate, DateOnly? endDate, bool isDesc)
         {
             var query = _context.Teams
                 .Where(x => x.ClassId == classId)
+                .Include(x => x.Class)
+                    .ThenInclude(x => x.Semester)
                 .Include(x => x.ProjectAssignment)
-                .ThenInclude(x => x.Project)
+                    .ThenInclude(x => x.Project)
                 .Include(x => x.ClassMembers)
                 .AsQueryable();
 
@@ -65,7 +74,7 @@ namespace CollabSphere.Infrastructure.Repositories
                 query = query.Where(x => x.TeamName.ToLower().Contains(teamName.ToLower().Trim()));
             }
 
-            if(projectId != 0)
+            if (projectId != 0)
             {
                 query = query.Where(x => x.ProjectAssignment.ProjectId == projectId);
             }

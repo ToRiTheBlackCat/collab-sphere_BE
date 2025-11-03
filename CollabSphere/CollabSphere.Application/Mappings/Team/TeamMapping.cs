@@ -31,6 +31,7 @@ namespace CollabSphere.Application.Mappings.Team
                     TeamName = team.TeamName,
                     TeamImage = team.TeamImage,
                     Description = team.Description,
+                    SemesterName = team.Class.Semester.SemesterName,
                     ProjectId = team.ProjectAssignment?.ProjectId,
                     ProjectName = team.ProjectAssignment?.Project?.ProjectName ?? "",
                     CreatedDate = team.CreatedDate,
@@ -69,6 +70,7 @@ namespace CollabSphere.Application.Mappings.Team
                     ClassName = team.Class?.ClassName ?? "",
                     LecturerId = team.LecturerId,
                     LecturerName = team.LecturerName,
+                    SemesterName = team.Class?.Semester.SemesterName ?? "",
                     ProjectId = team.ProjectAssignment.ProjectId,
                     ProjectName = team.ProjectAssignment.Project.ProjectName ?? "",
                     Progress = team.Progress
