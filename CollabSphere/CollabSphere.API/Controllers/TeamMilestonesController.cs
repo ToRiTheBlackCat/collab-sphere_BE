@@ -2,6 +2,9 @@
 using CollabSphere.Application.Features.MilestoneFiles.Commands.DeleteMilestoneFile;
 using CollabSphere.Application.Features.MilestoneFiles.Commands.GenerateMilestoneFileUrl;
 using CollabSphere.Application.Features.MilestoneFiles.Commands.UploadMilestoneFile;
+using CollabSphere.Application.Features.MilestoneReturns.Commands.CreateMilestoneReturn;
+using CollabSphere.Application.Features.MilestoneReturns.Commands.DeleteMilestoneReturn;
+using CollabSphere.Application.Features.MilestoneReturns.Commands.GenerateMilestoneReturnUrl;
 using CollabSphere.Application.Features.TeamMilestones.Commands.CheckTeamMilestone;
 using CollabSphere.Application.Features.TeamMilestones.Commands.CreateCustomTeamMilestone;
 using CollabSphere.Application.Features.TeamMilestones.Commands.DeleteCustomTeamMilestone;
@@ -312,6 +315,112 @@ namespace CollabSphere.API.Controllers
             {
                 TeamMilestoneId = teamMilestoneId,
                 FileId = fileId,
+                UserId = int.Parse(UIdClaim.Value),
+                UserRole = int.Parse(roleClaim.Value),
+            };
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(new
+            {
+                result.FileUrl,
+                result.UrlExpireTime
+            });
+        }
+
+        // Roles: Student
+        [Authorize(Roles = "5")]
+        [HttpPost("{teamMilestoneId}/returns")]
+        public async Task<IActionResult> StudentSubmitReturn(int teamMilestoneId, IFormFile formFile, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+
+            // Construct command
+            var command = new CreateMilestoneReturnCommand()
+            {
+                TeamMilestoneId = teamMilestoneId,
+                File = formFile,
+                UserId = int.Parse(UIdClaim.Value),
+                UserRole = int.Parse(roleClaim.Value),
+            };
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result.Message);
+        }
+
+        // Roles: Student
+        [Authorize(Roles = "5")]
+        [HttpDelete("{teamMilestoneId}/returns/{mileReturnId}")]
+        public async Task<IActionResult> StudentDeleteReturn(int teamMilestoneId, int mileReturnId, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+
+            // Construct command
+            var command = new DeleteMilestoneReturnCommand()
+            {
+                TeamMilestoneId = teamMilestoneId,
+                MileReturnId = mileReturnId,
+                UserId = int.Parse(UIdClaim.Value),
+                UserRole = int.Parse(roleClaim.Value),
+            };
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result.Message);
+        }
+
+        // Roles: Lecturer, Student
+        [Authorize(Roles = "4, 5")]
+        [HttpPatch("{teamMilestoneId}/returns/{mileReturnId}/new-url")]
+        public async Task<IActionResult> GenerateNewReturnUrl(int teamMilestoneId, int mileReturnId, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+
+            // Construct command
+            var command = new GenerateMilestoneReturnUrlCommand()
+            {
+                TeamMilestoneId = teamMilestoneId,
+                MileReturnId = mileReturnId,
                 UserId = int.Parse(UIdClaim.Value),
                 UserRole = int.Parse(roleClaim.Value),
             };

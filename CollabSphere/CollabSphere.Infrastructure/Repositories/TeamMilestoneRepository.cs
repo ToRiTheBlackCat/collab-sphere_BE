@@ -38,7 +38,7 @@ namespace CollabSphere.Infrastructure.Repositories
                             .ThenInclude(member => member.Student)
                 .Include(mst => mst.Checkpoints)
                     .ThenInclude(check => check.CheckpointFiles)
-                // Return Info
+                // Evaluation Info
                 .Include(mst => mst.MilestoneEvaluation)
                     .ThenInclude(eval => eval.Lecturer)
                 // File Info (For Lecturer)
