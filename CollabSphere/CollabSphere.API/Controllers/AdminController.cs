@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.DTOs.User;
+using CollabSphere.Application.Features.Admin.Commands;
 using CollabSphere.Application.Features.Admin.Queries;
 using CollabSphere.Application.Features.User.Commands;
 using CollabSphere.Application.Features.User.Commands.SignUpHead_Staff;
@@ -40,6 +41,13 @@ namespace CollabSphere.API.Controllers
             var result = await _mediator.Send(new AdminGetAllUsersQuery());
 
             return Ok(result);
+        }
+
+        [HttpPatch("user/{userId}/deactivate")]
+        public async Task<IActionResult> DeactivateUserAcc(DeactivateUserAccountCommand command)
+        {
+
+
         }
     }
 }
