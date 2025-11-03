@@ -327,14 +327,14 @@ namespace CollabSphere.Test.TeamMilestones
                     {
                         FileId = 1,
                         TeamMilstoneId = 10,
-                        FilePath = "files/reports/doc1-example.docx",
+                        FileUrl = "files/reports/doc1-example.docx",
                         Type = "Word Doc"
                     },
                     new MilestoneFile()
                     {
                         FileId = 2,
                         TeamMilstoneId = 10,
-                        FilePath = "files/reports/mvp-checklist.docx",
+                        FileUrl = "files/reports/mvp-checklist.docx",
                         Type = "Word Doc"
                     },
                 },
@@ -440,8 +440,8 @@ namespace CollabSphere.Test.TeamMilestones
             Assert.Equal(2, file2.FileId);
             Assert.Equal(10, file1.TeamMilstoneId);
             Assert.Equal(10, file2.TeamMilstoneId);
-            Assert.Equal("files/reports/doc1-example.docx", file1.FilePath);
-            Assert.Equal("files/reports/mvp-checklist.docx", file2.FilePath);
+            Assert.Equal("files/reports/doc1-example.docx", file1.FileUrl);
+            Assert.Equal("files/reports/mvp-checklist.docx", file2.FileUrl);
             Assert.Equal("Word Doc", file1.Type);
             Assert.Equal("Word Doc", file2.Type);
 

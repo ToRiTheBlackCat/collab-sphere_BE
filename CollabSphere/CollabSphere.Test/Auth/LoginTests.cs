@@ -23,6 +23,7 @@ namespace CollabSphere.Test.Auth
         private readonly Mock<ILogger<LoginHandler>> _mockLogger;
         private readonly JWTAuthentication _jwtAuth;
         private readonly Mock<IDatabase> _mockRedis;
+        private readonly Mock<CloudinaryService> _mockCloud;
         private readonly LoginHandler _handler;
 
         public LoginTests()
@@ -32,9 +33,10 @@ namespace CollabSphere.Test.Auth
             _mockConfig = new Mock<IConfiguration>();
             _mockLogger = new Mock<ILogger<LoginHandler>>();
             _mockRedis = new Mock<IDatabase>();
+            _mockCloud = new Mock<CloudinaryService>();
 
             _jwtAuth = new JWTAuthentication(_mockConfig.Object, _mockRedis.Object);
-            _handler = new LoginHandler(_mockUnitOfWork.Object, _mockConfig.Object, _jwtAuth, _mockLogger.Object);
+            _handler = new LoginHandler(_mockUnitOfWork.Object, _mockConfig.Object, _jwtAuth, _mockLogger.Object, _mockCloud.Object);
 
             //Setup config
             _mockConfig.Setup(c => c["Jwt:Secret"]).Returns("a19f7c3e4b82d6f59e1c0b748aa2de90f3c1a45b6e9d8245c7d9f23ea47b1d6c\r\n");
