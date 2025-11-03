@@ -27,7 +27,7 @@ namespace CollabSphere.Application.Features.Admin.Commands
             {
                 await _unitOfWork.BeginTransactionAsync();
 
-                var foundUser = await _unitOfWork.UserRepo.GetOneByUserIdAsync(request.UserId);
+                var foundUser = await _unitOfWork.UserRepo.GetUserAccountIncludeWithAllStatus(request.UserId);
                 if (foundUser != null)
                 {
                     foundUser.IsActive = !foundUser.IsActive;
@@ -37,7 +37,7 @@ namespace CollabSphere.Application.Features.Admin.Commands
                     await _unitOfWork.CommitTransactionAsync();
 
                     result.IsSuccess = true;
-                    result.Message = $"Deactivate user with ID: {request.UserId} successfully";
+                    result.Message = $"Activate/Deactivate user with ID: {request.UserId} successfully";
                 }
             }
             catch (Exception ex)
@@ -51,7 +51,7 @@ namespace CollabSphere.Application.Features.Admin.Commands
         protected override async Task ValidateRequest(List<OperationError> errors, DeactivateUserAccountCommand request)
         {
             //Find existed User
-            var foundUser = await _unitOfWork.UserRepo.GetOneByUserIdAsync(request.UserId);
+            var foundUser = await _unitOfWork.UserRepo.GetUserAccountIncludeWithAllStatus(request.UserId);
             if (foundUser == null)
             {
                 errors.Add(new OperationError()
