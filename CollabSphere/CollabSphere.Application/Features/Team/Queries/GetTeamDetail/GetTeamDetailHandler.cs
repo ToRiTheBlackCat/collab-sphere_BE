@@ -41,12 +41,14 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                 await _unitOfWork.BeginTransactionAsync();
 
                 var foundTeam = await _unitOfWork.TeamRepo.GetTeamDetail(request.TeamId);
+                var foundSemester = await _unitOfWork.SemesterRepo.GetById(foundTeam.Class.SemesterId);
                 #region Map to DTO
                 var dto = new TeamDetailDto
                 {
                     TeamId = foundTeam.TeamId,
                     TeamName = foundTeam.TeamName,
                     TeamImage = await _cloudinaryService.GetImageUrl(foundTeam.TeamImage),
+                    SemesterName = foundSemester.SemesterName,
                     EnrolKey = foundTeam.EnrolKey ?? string.Empty,
                     Description = foundTeam.Description ?? string.Empty,
                     GitLink = foundTeam.GitLink ?? string.Empty,

@@ -39,8 +39,8 @@ namespace CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignC
 
             try
             {
-                var foundTeam = await _unitOfWork.TeamRepo.GetListTeamOfStudent(request.UserId, null, request.ClassId);
-                if(foundTeam == null || foundTeam.Count == 0)
+                var foundTeam = await _unitOfWork.TeamRepo.GetListTeamOfStudent(request.UserId, null, request.ClassId, null);
+                if (foundTeam == null || foundTeam.Count == 0)
                 {
                     result.Message = $"Not found any team for student ID {request.UserId} in class ID {request.ClassId}";
                     return result;
@@ -101,7 +101,7 @@ namespace CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignC
                     else
                     {
                         //Check if student has team in this class
-                        if(classmember.TeamId == null)
+                        if (classmember.TeamId == null)
                         {
                             errors.Add(new OperationError
                             {

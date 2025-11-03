@@ -12,6 +12,7 @@ namespace CollabSphere.Application.DTOs.Teams
         public int TeamId { get; set; }
         public string TeamName { get; set; } = string.Empty;
         public string TeamImage { get; set; } = string.Empty;
+        public string SemesterName { get; set; } = string.Empty;
         public string EnrolKey { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string GitLink { get; set; } = string.Empty;
