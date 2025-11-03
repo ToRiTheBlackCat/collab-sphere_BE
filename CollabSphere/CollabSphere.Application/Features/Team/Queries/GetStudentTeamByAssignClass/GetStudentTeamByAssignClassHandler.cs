@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Application.Features.Team.Queries.GetAllTeamByAssignClass;
@@ -16,12 +17,15 @@ namespace CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignC
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<GetStudentTeamByAssignClassHandler> _logger;
+        private readonly CloudinaryService _cloudinaryService;
 
         public GetStudentTeamByAssignClassHandler(IUnitOfWork unitOfWork,
-                                              ILogger<GetStudentTeamByAssignClassHandler> logger)
+                                              ILogger<GetStudentTeamByAssignClassHandler> logger,
+                                              CloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
+            _cloudinaryService = cloudinaryService;
         }
 
         protected override async Task<GetStudentTeamByAssignClassResult> HandleCommand(GetStudentTeamByAssignClassQuery request, CancellationToken cancellationToken)
@@ -43,6 +47,8 @@ namespace CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignC
                 }
 
                 var mapppedTeam = (foundTeam.FirstOrDefault()).Team_To_StudentTeamByAssignClassDto();
+                mapppedTeam.TeamImage = await _cloudinaryService.GetImageUrl(foundTeam.FirstOrDefault().TeamImage);
+
 
                 result.StudentTeam = mapppedTeam;
                 result.IsSuccess = true;
