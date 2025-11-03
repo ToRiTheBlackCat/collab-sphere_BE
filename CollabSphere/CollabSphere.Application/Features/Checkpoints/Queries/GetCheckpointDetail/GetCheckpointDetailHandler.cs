@@ -24,7 +24,7 @@ namespace CollabSphere.Application.Features.Checkpoints.Queries.GetCheckpointDet
             var result = new GetCheckpointDetailResult()
             {
                 IsSuccess = false,
-                IsValidInput = false,
+                IsValidInput = true,
                 Message = string.Empty,
             };
 

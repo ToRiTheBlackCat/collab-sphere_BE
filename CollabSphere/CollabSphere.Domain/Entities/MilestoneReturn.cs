@@ -11,15 +11,23 @@ public partial class MilestoneReturn
 
     public int TeamMilestoneId { get; set; }
 
-    public int ClassMemberId { get; set; }
+    public int UserId { get; set; }
 
-    public string FilePath { get; set; }
+    public string FileName { get; set; } = null!;
 
-    public string Type { get; set; }
+    public string Type { get; set; } = null!;
+
+    public long FileSize { get; set; }
 
     public DateTime SubmitedDate { get; set; }
 
-    public virtual ClassMember ClassMember { get; set; }
+    public string ObjectKey { get; set; } = null!;
 
-    public virtual TeamMilestone TeamMilestone { get; set; }
+    public string FileUrl { get; set; } = null!;
+
+    public DateTime UrlExpireTime { get; set; }
+
+    public virtual TeamMilestone TeamMilestone { get; set; } = null!;
+
+    public virtual User User { get; set; } = null!;
 }

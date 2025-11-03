@@ -39,6 +39,8 @@ public partial class User
 
     public virtual ICollection<MilestoneFile> MilestoneFiles { get; set; } = new List<MilestoneFile>();
 
+    public virtual ICollection<MilestoneReturn> MilestoneReturns { get; set; } = new List<MilestoneReturn>();
+
     public virtual Role Role { get; set; }
 
     public virtual Student Student { get; set; }
