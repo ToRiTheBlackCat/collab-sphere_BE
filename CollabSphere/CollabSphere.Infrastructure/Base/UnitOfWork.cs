@@ -46,6 +46,7 @@ namespace CollabSphere.Infrastructure.Base
         public IMilestoneQuestionAnsRepository MilestoneQuestionAnsRepo { get; }
         public IAnswerEvaluationRepository AnswerEvaluationRepo { get; }
         public IMilestoneEvaluationRepository MilestoneEvaluationRepo { get; }
+        public IMilestoneReturnRepository MilestoneReturnRepo { get; }
         #endregion
 
         public UnitOfWork(collab_sphereContext context)
@@ -82,6 +83,7 @@ namespace CollabSphere.Infrastructure.Base
             MilestoneQuestionAnsRepo = new MilestoneQuestionAnsRepository(_context);
             AnswerEvaluationRepo = new AnswerEvaluationRepository(_context);
             MilestoneEvaluationRepo = new MilestoneEvaluationRepository(_context);
+            MilestoneReturnRepo = new MilestoneReturnRepository(_context);
             #endregion
         }
 

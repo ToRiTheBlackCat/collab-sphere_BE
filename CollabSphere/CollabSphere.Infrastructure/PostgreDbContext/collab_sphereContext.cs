@@ -765,25 +765,31 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.MileReturnId)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("mile_return_id");
-            entity.Property(e => e.ClassMemberId).HasColumnName("class_member_id");
-            entity.Property(e => e.FilePath).HasColumnName("file_path");
+            entity.Property(e => e.FileName)
+                .HasMaxLength(200)
+                .HasColumnName("file_name");
+            entity.Property(e => e.FileSize).HasColumnName("file_size");
+            entity.Property(e => e.FileUrl).HasColumnName("file_url");
+            entity.Property(e => e.ObjectKey).HasColumnName("object_key");
             entity.Property(e => e.SubmitedDate)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("submited_date");
             entity.Property(e => e.TeamMilestoneId).HasColumnName("team_milestone_id");
             entity.Property(e => e.Type)
-                .HasMaxLength(50)
+                .HasMaxLength(150)
                 .HasColumnName("type");
-
-            entity.HasOne(d => d.ClassMember).WithMany(p => p.MilestoneReturns)
-                .HasForeignKey(d => d.ClassMemberId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("milestone_return_class_member_fk");
+            entity.Property(e => e.UrlExpireTime).HasColumnName("url_expire_time");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.TeamMilestone).WithMany(p => p.MilestoneReturns)
                 .HasForeignKey(d => d.TeamMilestoneId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("milestone_return_team_milestone_fk");
+
+            entity.HasOne(d => d.User).WithMany(p => p.MilestoneReturns)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("milestone_return_user_fk");
         });
 
         modelBuilder.Entity<Notification>(entity =>

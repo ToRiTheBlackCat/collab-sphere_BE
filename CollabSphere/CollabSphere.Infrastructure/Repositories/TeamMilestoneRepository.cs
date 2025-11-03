@@ -45,9 +45,9 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(mst => mst.MilestoneFiles)
                     .ThenInclude(file => file.User)
                         .ThenInclude(user => user.Lecturer)
-                // Return Info
+                // Return Info (For Student)
                 .Include(mst => mst.MilestoneReturns)
-                    .ThenInclude(rtrn => rtrn.ClassMember)
+                    .ThenInclude(rtrn => rtrn.User)
                         .ThenInclude(member => member.Student)
                 .FirstOrDefaultAsync(mst => 
                     mst.TeamMilestoneId == teamMilestoneId &&
