@@ -55,14 +55,7 @@ namespace CollabSphere.Application.Features.Auth.Commands
                 }
                 else
                 {
-                    //If admin
-                    if(foundUser.RoleId == RoleConstants.ADMIN)
-                    {
-                        responseDto.IsAuthenticated = true;
-                        responseDto.FullName = "COLLABSPHERE_ADMIN";
 
-                        return responseDto;
-                    }
 
 
                     //Generate both access & refresh token
@@ -84,6 +77,14 @@ namespace CollabSphere.Application.Features.Auth.Commands
                     responseDto.AccessToken = accessToken;
                     responseDto.RefreshToken = refreshToken;
                     responseDto.RefreshTokenExpiryTime = foundUser.RefreshTokenExpiryTime;
+                    //If admin
+                    if (foundUser.RoleId == RoleConstants.ADMIN)
+                    {
+                        responseDto.IsAuthenticated = true;
+                        responseDto.FullName = "COLLABSPHERE_ADMIN";
+
+                        return responseDto;
+                    }
 
                     var fullName = "";
                     var avatar = "";
