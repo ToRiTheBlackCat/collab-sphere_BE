@@ -55,9 +55,6 @@ namespace CollabSphere.Application.Features.Auth.Commands
                 }
                 else
                 {
-
-
-
                     //Generate both access & refresh token
                     var (accessToken, refreshToken) = await _jwtAuth.GenerateToken(foundUser);
 
@@ -82,6 +79,24 @@ namespace CollabSphere.Application.Features.Auth.Commands
                     {
                         responseDto.IsAuthenticated = true;
                         responseDto.FullName = "COLLABSPHERE_ADMIN";
+
+                        return responseDto;
+                    }
+
+                    //If staff 
+                    if (foundUser.RoleId == RoleConstants.STAFF)
+                    {
+                        responseDto.IsAuthenticated = true;
+                        responseDto.FullName = "COLLABSPHERE_Staff";
+
+                        return responseDto;
+                    }
+
+                    //If Head Department 
+                    if (foundUser.RoleId == RoleConstants.HEAD_DEPARTMENT)
+                    {
+                        responseDto.IsAuthenticated = true;
+                        responseDto.FullName = "COLLABSPHERE_Head Department";
 
                         return responseDto;
                     }
