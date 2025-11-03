@@ -15,12 +15,13 @@ namespace CollabSphere.Infrastructure.Repositories
     {
         public TeamRepository(collab_sphereContext context) : base(context) { }
 
-        public async Task<List<Team>?> GetListTeamOfStudent(int studentId, string? teamName, int? classId)
+        public async Task<List<Team>?> GetListTeamOfStudent(int studentId, string? teamName, int? classId, int? semesterId)
         {
             var teamQuery = _context.Teams
                 .Include(x => x.Class)
+                    .ThenInclude(x => x.Semester)
                 .Include(x => x.ProjectAssignment)
-                .ThenInclude(x => x.Project)
+                    .ThenInclude(x => x.Project)
                 .AsNoTracking()
                 .AsQueryable();
 
@@ -39,6 +40,12 @@ namespace CollabSphere.Infrastructure.Repositories
             if (classId.HasValue)
             {
                 classList = classList.Where(x => x.ClassId == classId.Value);
+            }
+
+            //Filter by semesterId
+            if (semesterId.HasValue)
+            {
+                classList = classList.Where(x => x.Class.SemesterId == semesterId.Value);
             }
 
             //Get teams of student
