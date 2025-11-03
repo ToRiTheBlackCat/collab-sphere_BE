@@ -13,6 +13,7 @@ namespace CollabSphere.Application.Common
     {
         Checkpoint,
         Milestone,
+        MilestoneReturn,
         Class,
     }
 
@@ -50,8 +51,14 @@ namespace CollabSphere.Application.Common
         /// </summary>aaaaa
         private static string ConstructFolderPath(AwsS3HelperPaths pathEnum, int sepertationId, string prefix = "uploads/")
         {
+            var hasPath = _enumPath.TryGetValue(pathEnum, out var enumPathString);
+            if (!hasPath)
+            {
+                throw new ArgumentException($"No path definition for {nameof(pathEnum)} of value {pathEnum.ToString()}");
+            }
+
             var sepertationString = sepertationId != 0 ? $"{sepertationId}/" : "";
-            return $"{prefix}{_enumPath[pathEnum]}{sepertationString}";
+            return $"{prefix}{enumPathString}{sepertationString}";
         }
 
         /// <summary>
@@ -71,6 +78,10 @@ namespace CollabSphere.Application.Common
                 AwsS3HelperPaths.Class,
                 "classes/"
             },
+            {
+               AwsS3HelperPaths.MilestoneReturn,
+               "milestone-returns/"
+            }
         };
 
         /// <summary>
