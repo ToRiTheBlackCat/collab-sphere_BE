@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Classes;
 using CollabSphere.Application.DTOs.Validation;
@@ -13,10 +14,12 @@ namespace CollabSphere.Application.Features.Classes.Queries.GetClassById
     public class GetClassByIdHandler : QueryHandler<GetClassByIdQuery, GetClassByIdResult>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly CloudinaryService _cloudinaryService;
 
-        public GetClassByIdHandler(IUnitOfWork unitOfWork)
+        public GetClassByIdHandler(IUnitOfWork unitOfWork, CloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
+            _cloudinaryService = cloudinaryService;
         }
 
         protected override async Task<GetClassByIdResult> HandleCommand(GetClassByIdQuery request, CancellationToken cancellationToken)
@@ -47,6 +50,26 @@ namespace CollabSphere.Application.Features.Classes.Queries.GetClassById
                     }
                     else
                     {
+                        // Generate Class File's User Avatar Img URL
+                        foreach (var classFile in classEntity.ClassFiles)
+                        {
+                            if (classFile.User?.Lecturer != null)
+                            {
+                                var url = await _cloudinaryService.GetImageUrl(classFile.User.Lecturer.AvatarImg);
+                                classFile.User.Lecturer.AvatarImg = url;
+                            }
+                        }
+
+                        // Generate Class Members' User Avatar Img URL
+                        foreach (var member in classEntity.ClassMembers)
+                        {
+                            if (member.Student != null)
+                            {
+                                var url = await _cloudinaryService.GetImageUrl(member.Student.AvatarImg);
+                                member.Student.AvatarImg = url;
+                            }
+                        }
+
                         result.Class = (ClassDetailDto)classEntity;
                         result.Class.EnrolKey = request.ViewerRole == RoleConstants.STUDENT ? "" : result.Class.EnrolKey;
                     }
