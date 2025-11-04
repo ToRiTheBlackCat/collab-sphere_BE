@@ -81,15 +81,25 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
 
                 };
                 //Member Info
-                var members = foundTeam.ClassMembers?
-                    .Select(cm => new TeamMemberInfo
+                var memberTasks = foundTeam.ClassMembers?
+                    .Select(async cm =>
                     {
-                        StudentId = cm.Student.StudentId,
-                        StudentName = cm.Student.Fullname,
-                        Avatar = cm.Student.AvatarImg, // store temp image path
-                        TeamRole = cm.TeamRole,
-                        MemberContributionPercentage = 0
-                    }).ToList() ?? new List<TeamMemberInfo>();
+                        var classMember = await _unitOfWork.ClassMemberRepo
+                            .GetClassMemberAsyncByTeamIdAndStudentId(foundTeam.TeamId, cm.StudentId);
+
+                        return new TeamMemberInfo
+                        {
+                            ClassMemberId = classMember?.ClassMemberId ?? 0,
+                            StudentId = cm.Student.StudentId,
+                            StudentName = cm.Student.Fullname,
+                            Avatar = cm.Student.AvatarImg,
+                            TeamRole = cm.TeamRole,
+                            MemberContributionPercentage = 0
+                        };
+                    }).ToList() ?? new List<Task<TeamMemberInfo>>();
+
+                // Await all tasks to get actual TeamMemberInfo list
+                var members = (await Task.WhenAll(memberTasks)).ToList();
 
                 // Resolve avatar URLs in parallel safely
                 foreach (var member in members)
