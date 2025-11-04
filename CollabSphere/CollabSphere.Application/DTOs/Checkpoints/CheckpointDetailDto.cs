@@ -1,5 +1,7 @@
 ﻿using CollabSphere.Application.Constants;
+using CollabSphere.Application.DTOs.Checkpoints;
 using CollabSphere.Application.Mappings;
+using CollabSphere.Application.Mappings.CheckpointAssginments;
 using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -35,8 +37,14 @@ namespace CollabSphere.Application.DTOs.Checkpoints
         public List<CheckpointAssignmentVM> CheckpointAssignments { get; set; } = new List<CheckpointAssignmentVM>();
 
         public List<CheckpointFileVM> CheckpointFiles { get; set; } = new List<CheckpointFileVM>();
+    }
+}
 
-        public static explicit operator CheckpointDetailDto(Checkpoint checkpoint)
+namespace CollabSphere.Application.Mappings.Checkpoints
+{
+    public static partial class CheckpointMappings
+    {
+        public static CheckpointDetailDto ToDetailDto(this Checkpoint checkpoint)
         {
             return new CheckpointDetailDto()
             {
@@ -48,7 +56,7 @@ namespace CollabSphere.Application.DTOs.Checkpoints
                 StartDate = checkpoint.StartDate,
                 DueDate = checkpoint.DueDate,
                 Status = checkpoint.Status,
-                CheckpointAssignments = checkpoint.CheckpointAssignments.Select(x => (CheckpointAssignmentVM)x).ToList(),
+                CheckpointAssignments = checkpoint.CheckpointAssignments.ToViewModel(),
                 CheckpointFiles = checkpoint.CheckpointFiles.ToViewModel(),
             };
         }
