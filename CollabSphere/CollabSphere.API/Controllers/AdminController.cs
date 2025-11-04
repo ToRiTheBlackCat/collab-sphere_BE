@@ -1,10 +1,13 @@
 ﻿using CollabSphere.Application.DTOs.User;
+using CollabSphere.Application.Features.Admin.Commands;
 using CollabSphere.Application.Features.Admin.Queries;
 using CollabSphere.Application.Features.User.Commands;
 using CollabSphere.Application.Features.User.Commands.SignUpHead_Staff;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace CollabSphere.API.Controllers
 {
@@ -40,6 +43,20 @@ namespace CollabSphere.API.Controllers
             var result = await _mediator.Send(new AdminGetAllUsersQuery());
 
             return Ok(result);
+        }
+
+        [HttpPatch("user/{userId}/deactivate")]
+        public async Task<IActionResult> DeactivateUserAcc(DeactivateUserAccountCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Teams;
 using CollabSphere.Application.DTOs.Validation;
@@ -16,12 +17,15 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<GetTeamDetailHandler> _logger;
+        private readonly CloudinaryService _cloudinaryService;
 
         public GetTeamDetailHandler(IUnitOfWork unitOfWork,
-                                 ILogger<GetTeamDetailHandler> logger)
+                                 ILogger<GetTeamDetailHandler> logger,
+                                 CloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
+            _cloudinaryService = cloudinaryService;
         }
 
         protected override async Task<GetTeamDetailResult> HandleCommand(GetTeamDetailQuery request, CancellationToken cancellationToken)
@@ -37,12 +41,14 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                 await _unitOfWork.BeginTransactionAsync();
 
                 var foundTeam = await _unitOfWork.TeamRepo.GetTeamDetail(request.TeamId);
+                var foundSemester = await _unitOfWork.SemesterRepo.GetById(foundTeam.Class.SemesterId);
                 #region Map to DTO
                 var dto = new TeamDetailDto
                 {
                     TeamId = foundTeam.TeamId,
                     TeamName = foundTeam.TeamName,
-                    TeamImage = foundTeam.TeamImage ?? string.Empty,
+                    TeamImage = await _cloudinaryService.GetImageUrl(foundTeam.TeamImage),
+                    SemesterName = foundSemester.SemesterName,
                     EnrolKey = foundTeam.EnrolKey ?? string.Empty,
                     Description = foundTeam.Description ?? string.Empty,
                     GitLink = foundTeam.GitLink ?? string.Empty,
@@ -71,22 +77,48 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                         ProjectId = foundTeam.ProjectAssignment?.Project?.ProjectId,
                         ProjectName = foundTeam.ProjectAssignment?.Project?.ProjectName ?? string.Empty,
                         ProjectDescription = foundTeam.ProjectAssignment?.Project?.Description ?? string.Empty
-                    },
-
-                    // Member Info
-                    MemberInfo = new MemberInfo
-                    {
-                        MemberCount = foundTeam.ClassMembers?.Count ?? 0,
-                        Members = foundTeam.ClassMembers?
-                            .Select(cm => new TeamMemberInfo
-                            {
-                                StudentId = cm.Student.StudentId,
-                                StudentName = cm.Student.Fullname,
-                                Avatar = cm.Student.AvatarImg ?? string.Empty,
-                                TeamRole = cm.TeamRole
-                            }).ToList() ?? new List<TeamMemberInfo>()
                     }
+
                 };
+                //Member Info
+                var members = new List<TeamMemberInfo>();
+
+                if (foundTeam.ClassMembers != null)
+                {
+                    foreach (var cm in foundTeam.ClassMembers)
+                    {
+                        // safely query one by one using the same DbContext
+                        var classMember = await _unitOfWork.ClassMemberRepo
+                            .GetClassMemberAsyncByTeamIdAndStudentId(foundTeam.TeamId, cm.StudentId);
+
+                        // build the member info
+                        var member = new TeamMemberInfo
+                        {
+                            ClassMemberId = classMember?.ClassMemberId ?? 0,
+                            StudentId = cm.Student.StudentId,
+                            StudentName = cm.Student.Fullname,
+                            Avatar = await _cloudinaryService.GetImageUrl(cm.Student.AvatarImg),
+                            TeamRole = cm.TeamRole,
+                            MemberContributionPercentage = 0
+                        };
+
+                        members.Add(member);
+                    }
+                }
+
+
+                // Resolve avatar URLs in parallel safely
+                foreach (var member in members)
+                {
+                    member.Avatar = await _cloudinaryService.GetImageUrl(member.Avatar);
+                }
+
+                dto.MemberInfo = new MemberInfo
+                {
+                    MemberCount = members.Count,
+                    Members = members
+                };
+
 
                 // Calculate Progress Info 
                 var milestones = foundTeam.TeamMilestones?.ToList() ?? new List<Domain.Entities.TeamMilestone>();
@@ -97,15 +129,28 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                 var totalCheckpoints = checkpoints.Count;
                 var completedCheckpoints = checkpoints.Count(c => c.Status == 1);
 
+
+
                 dto.TeamProgress = new TeamProgress
                 {
-                    MilestonesComplete = completedMilestones,
-                    OverallProgress = totalMilestones > 0
+                    //Total progress
+                    OverallProgress = (totalMilestones + totalCheckpoints) > 0
+                        ? (float)Math.Round(
+                            ((completedMilestones + completedCheckpoints) * 100f) /
+                            (totalMilestones + totalCheckpoints), 2)
+                        : 0,
+                    //Milestone
+                    MilestonesProgress = totalMilestones > 0
                         ? (float)Math.Round((completedMilestones * 100f / totalMilestones), 2)
                         : 0,
+                    TotalMilestones = totalMilestones,
+                    MilestonesComplete = completedMilestones,
+                    //Checkpoint
                     CheckPointProgress = totalCheckpoints > 0
                         ? (float)Math.Round((completedCheckpoints * 100f / totalCheckpoints), 2)
-                        : 0
+                        : 0,
+                    TotalCheckpoints = totalCheckpoints,
+                    CheckpointsComplete = completedCheckpoints,
                 };
                 #endregion
 

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.DTOs.MilestoneQuestionAnswers
+namespace CollabSphere.Application.Features.Checkpoints.Commands
 {
-    public class MilestoneQuestionAnDto
+    public class GenerateCheckpointFileTokenQuery
     {
+
     }
 }

@@ -26,5 +26,7 @@ namespace CollabSphere.Application.Features.Team.Queries.GetAllTeamOfStudent
 
         [FromQuery]
         public int? ClassId { get; set; }
+        [FromQuery]
+        public int? SemesterId { get; set; }
     }
 }

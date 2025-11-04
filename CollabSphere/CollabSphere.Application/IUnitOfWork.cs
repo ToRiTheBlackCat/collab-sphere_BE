@@ -18,6 +18,7 @@ namespace CollabSphere.Application
         ICheckpointAssignmentRepository CheckpointAssignmentRepo { get; }
         ICheckpointFileRepository CheckpointFileRepo { get; }
         ICheckpointRepository CheckpointRepo { get; }
+        IClassFileRepository ClassFileRepo { get; }
         IClassMemberRepository ClassMemberRepo { get; }
         IClassRepository ClassRepo { get; }
         IDocumentStateRepository DocStateRepo { get; }
@@ -38,10 +39,16 @@ namespace CollabSphere.Application
         ITeamRepository TeamRepo { get; }
         ITeamEvaluationRepository TeamEvaluationRepo { get; }
         IEvaluationDetailRepository EvaluationDetailRepo { get; }
+        IMemberEvaluationRepository MemberEvaluationRepo { get; }
+        IMilestoneFileRepository MilestoneFileRepo { get; }
+        IMilestoneQuestionRepository MilestoneQuestionRepo { get; }
+        IMilestoneQuestionAnsRepository MilestoneQuestionAnsRepo { get; }
+        IAnswerEvaluationRepository AnswerEvaluationRepo { get; }
+        IMilestoneEvaluationRepository MilestoneEvaluationRepo { get; }
+        IMilestoneReturnRepository MilestoneReturnRepo { get; }
+         //More IRepo below
 
-        //More IRepo below
-
-        Task BeginTransactionAsync();
+         Task BeginTransactionAsync();
         Task CommitTransactionAsync();
         Task RollbackTransactionAsync();
         Task<int> SaveChangesAsync();

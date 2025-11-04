@@ -26,6 +26,7 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam
         [Required]
         public int SubjectGradeComponentId { get; set; }
         [Required]
+        [Range(0, 10)]
         public decimal Score { get; set; }
         public string? DetailComment { get; set; }
     }

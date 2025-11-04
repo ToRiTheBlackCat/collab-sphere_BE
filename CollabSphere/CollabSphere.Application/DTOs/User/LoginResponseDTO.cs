@@ -10,6 +10,8 @@ namespace CollabSphere.Application.DTOs.User
     {
         public bool IsAuthenticated { get; set; }
         public string? UserId { get; set; }
+        public string? FullName { get; set; }
+        public string? Avatar { get; set; }
         public int RoleId { get; set; }
         public string? RoleName { get; set; }
         public string? AccessToken { get; set; }

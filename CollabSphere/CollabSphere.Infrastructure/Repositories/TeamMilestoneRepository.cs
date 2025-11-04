@@ -1,4 +1,5 @@
-﻿using CollabSphere.Domain.Entities;
+﻿using CollabSphere.Application.Constants;
+using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
 using CollabSphere.Infrastructure.Base;
 using CollabSphere.Infrastructure.PostgreDbContext;
@@ -17,7 +18,7 @@ namespace CollabSphere.Infrastructure.Repositories
         {
         }
 
-        public override async Task<TeamMilestone?> GetById(int id)
+        public async Task<TeamMilestone?> GetDetailsById(int teamMilestoneId)
         {
             var milestone = await _context.TeamMilestones
                 .AsNoTracking()
@@ -37,16 +38,20 @@ namespace CollabSphere.Infrastructure.Repositories
                             .ThenInclude(member => member.Student)
                 .Include(mst => mst.Checkpoints)
                     .ThenInclude(check => check.CheckpointFiles)
-                // Return Info
+                // Evaluation Info
                 .Include(mst => mst.MilestoneEvaluation)
                     .ThenInclude(eval => eval.Lecturer)
-                // File Info
+                // File Info (For Lecturer)
                 .Include(mst => mst.MilestoneFiles)
-                // Return Info
+                    .ThenInclude(file => file.User)
+                        .ThenInclude(user => user.Lecturer)
+                // Return Info (For Student)
                 .Include(mst => mst.MilestoneReturns)
-                    .ThenInclude(rtrn => rtrn.ClassMember)
+                    .ThenInclude(rtrn => rtrn.User)
                         .ThenInclude(member => member.Student)
-                .FirstOrDefaultAsync(mst => mst.TeamMilestoneId == id);
+                .FirstOrDefaultAsync(mst => 
+                    mst.TeamMilestoneId == teamMilestoneId &&
+                    mst.Status != (int)TeamMilestoneStatuses.SOFT_DELETED);
 
             if (milestone != null)
             {
@@ -60,7 +65,9 @@ namespace CollabSphere.Infrastructure.Repositories
         {
             var query = _context.TeamMilestones
                 .AsNoTracking()
-                .Where(x => x.TeamId == teamId)
+                .Where(x => 
+                    x.TeamId == teamId &&
+                    x.Status != (int)TeamMilestoneStatuses.SOFT_DELETED)
                 .Include(x => x.Checkpoints)
                     .ThenInclude(x => x.CheckpointAssignments)
                         .ThenInclude(x => x.ClassMember)
@@ -81,6 +88,13 @@ namespace CollabSphere.Infrastructure.Repositories
             }
 
             return milestones;
+        }
+
+        public async Task<TeamMilestone?> GetTeamMilestoneById(int teamMilestoneId)
+        {
+            return await _context.TeamMilestones
+                .AsNoTracking()
+                .SingleOrDefaultAsync(x => x.TeamMilestoneId == teamMilestoneId);
         }
     }
 }

@@ -11,9 +11,35 @@ public partial class MilestoneFile
 
     public int TeamMilstoneId { get; set; }
 
-    public string FilePath { get; set; }
+    /// <summary>
+    /// ID of lecturer
+    /// </summary>
+    public int UserId { get; set; }
 
-    public string Type { get; set; }
+    public string FileName { get; set; } = null!;
 
-    public virtual TeamMilestone TeamMilstone { get; set; }
+    public string Type { get; set; } = null!;
+
+    public long FileSize { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    /// <summary>
+    /// AWS S3 object file&apos;s key
+    /// </summary>
+    public string ObjectKey { get; set; } = null!;
+
+    /// <summary>
+    /// The path for front-end client to download file
+    /// </summary>
+    public string FileUrl { get; set; } = null!;
+
+    /// <summary>
+    /// The time before which the file path is usable
+    /// </summary>
+    public DateTime UrlExpireTime { get; set; }
+
+    public virtual TeamMilestone TeamMilstone { get; set; } = null!;
+
+    public virtual User User { get; set; } = null!;
 }

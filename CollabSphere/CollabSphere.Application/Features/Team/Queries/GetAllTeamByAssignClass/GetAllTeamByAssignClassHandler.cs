@@ -12,12 +12,15 @@ namespace CollabSphere.Application.Features.Team.Queries.GetAllTeamByAssignClass
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<GetAllTeamByAssignClassHandler> _logger;
+        private readonly CloudinaryService _cloudinaryService;
 
         public GetAllTeamByAssignClassHandler(IUnitOfWork unitOfWork,
-                                              ILogger<GetAllTeamByAssignClassHandler> logger)
+                                              ILogger<GetAllTeamByAssignClassHandler> logger,
+                                              CloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
+            _cloudinaryService = cloudinaryService;
         }
         protected override async Task<GetAllTeamByAssignClassResult> HandleCommand(GetAllTeamByAssignClassQuery request, CancellationToken cancellationToken)
         {
@@ -33,11 +36,16 @@ namespace CollabSphere.Application.Features.Team.Queries.GetAllTeamByAssignClass
                 var teams = await _unitOfWork.TeamRepo.SearchTeam(
                     classId: request.ClassId,
                     teamName: request.TeamName,
+                    projectId: request.ProjectId,
                     fromDate: request.FromDate,
                     endDate: request.EndDate,
                     isDesc: request.IsDesc);
 
                 var mappedTeams = teams.ListTeam_To_ListTeamByAssignClassDto();
+                foreach (var team in mappedTeams)
+                {
+                    team.TeamImage = await _cloudinaryService.GetImageUrl(team.TeamImage);
+                }
 
                 result.PaginatedTeams = new PagedList<AllTeamByAssignClassDto>(
                     list: mappedTeams,

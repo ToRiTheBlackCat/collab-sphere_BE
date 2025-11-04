@@ -11,9 +11,32 @@ public partial class CheckpointFile
 
     public int CheckpointId { get; set; }
 
-    public string FilePath { get; set; }
+    public int UserId { get; set; }
+
+    public string FileName { get; set; }
 
     public string Type { get; set; }
 
+    /// <summary>
+    /// The path for front-end client to download file
+    /// </summary>
+    public string FileUrl { get; set; }
+
+    public long FileSize { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    /// <summary>
+    /// The time before which the file path is usable
+    /// </summary>
+    public DateTime UrlExpireTime { get; set; }
+
+    /// <summary>
+    /// AWS S3 object file&apos;s key
+    /// </summary>
+    public string ObjectKey { get; set; }
+
     public virtual Checkpoint Checkpoint { get; set; }
+
+    public virtual User User { get; set; }
 }

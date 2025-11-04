@@ -1,7 +1,11 @@
-﻿using CollabSphere.Application.Base;
+﻿using CloudinaryDotNet.Core;
+using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Checkpoints;
 using CollabSphere.Application.DTOs.Validation;
+using CollabSphere.Application.Mappings.Checkpoints;
+using Serilog.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +17,12 @@ namespace CollabSphere.Application.Features.Checkpoints.Queries.GetCheckpointDet
     public class GetCheckpointDetailHandler : QueryHandler<GetCheckpointDetailQuery, GetCheckpointDetailResult>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly CloudinaryService _cloudinaryService;
 
-        public GetCheckpointDetailHandler(IUnitOfWork unitOfWork)
+        public GetCheckpointDetailHandler(IUnitOfWork unitOfWork, CloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
+            _cloudinaryService = cloudinaryService;
         }
 
         protected override async Task<GetCheckpointDetailResult> HandleCommand(GetCheckpointDetailQuery request, CancellationToken cancellationToken)
@@ -24,7 +30,7 @@ namespace CollabSphere.Application.Features.Checkpoints.Queries.GetCheckpointDet
             var result = new GetCheckpointDetailResult()
             {
                 IsSuccess = false,
-                IsValidInput = false,
+                IsValidInput = true,
                 Message = string.Empty,
             };
 
@@ -58,9 +64,33 @@ namespace CollabSphere.Application.Features.Checkpoints.Queries.GetCheckpointDet
                         }
                     }
 
-                    result.Checkpoint = (CheckpointDetailDto)checkpoint;
-                }
+                    // Generate Assignment User Image URL
+                    foreach (var assignment in checkpoint.CheckpointAssignments)
+                    {
+                        if (assignment.ClassMember?.Student != null)
+                        {
+                            var url = await _cloudinaryService.GetImageUrl(assignment.ClassMember.Student.AvatarImg);
+                            assignment.ClassMember.Student.AvatarImg = url;
+                        }
+                    }
 
+                    // Generate Files' User Imgage URL
+                    foreach (var checkFile in checkpoint.CheckpointFiles)
+                    {
+                        if (checkFile.User?.Student != null)
+                        {
+                            var url = await _cloudinaryService.GetImageUrl(checkFile.User.Student.AvatarImg);
+                            checkFile.User.Student.AvatarImg = url;
+                        }
+                        else if (checkFile.User?.Lecturer != null)
+                        {
+                            var url = await _cloudinaryService.GetImageUrl(checkFile.User.Lecturer.AvatarImg);
+                            checkFile.User.Lecturer.AvatarImg = url;
+                        }
+                    }
+
+                    result.Checkpoint = checkpoint.ToDetailDto();
+                }
                 result.IsValidInput = true;
                 result.IsSuccess = true;
             }

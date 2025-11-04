@@ -24,6 +24,7 @@ namespace CollabSphere.Infrastructure.Base
         public ICheckpointAssignmentRepository CheckpointAssignmentRepo { get; }
         public ICheckpointFileRepository CheckpointFileRepo { get; }
         public ICheckpointRepository CheckpointRepo { get; }
+        public IClassFileRepository ClassFileRepo { get; }
         public IClassMemberRepository ClassMemberRepo { get; }
         public IClassRepository ClassRepo { get; }
         public IDocumentStateRepository DocStateRepo { get; }
@@ -44,7 +45,13 @@ namespace CollabSphere.Infrastructure.Base
         public ITeamRepository TeamRepo { get; }
         public ITeamEvaluationRepository TeamEvaluationRepo { get; }
         public IEvaluationDetailRepository EvaluationDetailRepo { get; }
-
+        public IMemberEvaluationRepository MemberEvaluationRepo { get; }
+        public IMilestoneFileRepository MilestoneFileRepo { get; }
+        public IMilestoneQuestionRepository MilestoneQuestionRepo { get; }
+        public IMilestoneQuestionAnsRepository MilestoneQuestionAnsRepo { get; }
+        public IAnswerEvaluationRepository AnswerEvaluationRepo { get; }
+        public IMilestoneEvaluationRepository MilestoneEvaluationRepo { get; }
+        public IMilestoneReturnRepository MilestoneReturnRepo { get; }
         #endregion
 
         public UnitOfWork(collab_sphereContext context)
@@ -58,6 +65,7 @@ namespace CollabSphere.Infrastructure.Base
             CheckpointAssignmentRepo = new CheckpointAssignmentRepository(_context);
             CheckpointFileRepo = new CheckpointFileRepository(_context);
             CheckpointRepo = new CheckpointRepository(_context);
+            ClassFileRepo = new ClassFileRepository(_context);
             ClassMemberRepo = new ClassMemberRepositiory(_context);
             ClassRepo = new ClassRepository(_context);
             DocStateRepo = new DocumentStateRepository(_context);
@@ -79,6 +87,13 @@ namespace CollabSphere.Infrastructure.Base
             TeamMilestoneRepo = new TeamMilestoneRepository(_context);
             TeamEvaluationRepo = new TeamEvaluationRepository(_context);
             EvaluationDetailRepo = new EvaluationDetailRepository(_context);
+            MemberEvaluationRepo = new MemberEvaluationRepository(_context);
+            MilestoneFileRepo = new MilestoneFileRepository(_context);
+            MilestoneQuestionRepo = new MilestoneQuestionRepository(_context);
+            MilestoneQuestionAnsRepo = new MilestoneQuestionAnsRepository(_context);
+            AnswerEvaluationRepo = new AnswerEvaluationRepository(_context);
+            MilestoneEvaluationRepo = new MilestoneEvaluationRepository(_context);
+            MilestoneReturnRepo = new MilestoneReturnRepository(_context);
             #endregion
         }
 

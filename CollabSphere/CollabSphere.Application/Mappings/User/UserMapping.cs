@@ -46,6 +46,7 @@ namespace CollabSphere.Application.Mappings.User
             {
                 var mappedDto = new Admin_AllLecturerDto
                 {
+                    LecturerId = user.Lecturer.LecturerId,
                     Email = user.Email,
                     RoleName = user.Role.RoleName,
                     IsTeacher = user.IsTeacher,
@@ -78,6 +79,7 @@ namespace CollabSphere.Application.Mappings.User
             {
                 var mappedDto = new Admin_AllStudentDto
                 {
+                    StudentId = user.Student.StudentId,
                     Email = user.Email,
                     RoleName = user.Role.RoleName,
                     IsTeacher = user.IsTeacher,

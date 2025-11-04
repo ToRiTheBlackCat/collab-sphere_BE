@@ -6,7 +6,7 @@
    "IncludeConnectionString": true,
    "ModelNamespace": null,
    "OutputContextPath": null,
-   "OutputPath": "Models",
+   "OutputPath": "Models99999",
    "PreserveCasingWithRegex": true,
    "ProjectRootNamespace": "CollabSphere.Infrastructure",
    "Schemas": null,
@@ -16,6 +16,14 @@
    "Tables": [
       {
          "Name": "public.answer_evaluation",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.card",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.card_assignment",
          "ObjectType": 0
       },
       {
@@ -35,15 +43,7 @@
          "ObjectType": 0
       },
       {
-         "Name": "public.checkpoint_evaluation",
-         "ObjectType": 0
-      },
-      {
          "Name": "public.checkpoint_file",
-         "ObjectType": 0
-      },
-      {
-         "Name": "public.checkpoint_submit",
          "ObjectType": 0
       },
       {
@@ -59,11 +59,19 @@
          "ObjectType": 0
       },
       {
+         "Name": "public.document_state",
+         "ObjectType": 0
+      },
+      {
          "Name": "public.evaluation_detail",
          "ObjectType": 0
       },
       {
          "Name": "public.lecturer",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.list",
          "ObjectType": 0
       },
       {
@@ -79,11 +87,23 @@
          "ObjectType": 0
       },
       {
+         "Name": "public.milestone_evaluation",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.milestone_file",
+         "ObjectType": 0
+      },
+      {
          "Name": "public.milestone_question",
          "ObjectType": 0
       },
       {
          "Name": "public.milestone_question_ans",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.milestone_return",
          "ObjectType": 0
       },
       {
@@ -115,7 +135,19 @@
          "ObjectType": 0
       },
       {
+         "Name": "public.semester",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.shape",
+         "ObjectType": 0
+      },
+      {
          "Name": "public.student",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.sub_task",
          "ObjectType": 0
       },
       {
@@ -135,6 +167,10 @@
          "ObjectType": 0
       },
       {
+         "Name": "public.task",
+         "ObjectType": 0
+      },
+      {
          "Name": "public.team",
          "ObjectType": 0
       },
@@ -151,7 +187,19 @@
          "ObjectType": 0
       },
       {
+         "Name": "public.team_whiteboard",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.team_workspace",
+         "ObjectType": 0
+      },
+      {
          "Name": "public.user",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.whiteboard_page",
          "ObjectType": 0
       }
    ],

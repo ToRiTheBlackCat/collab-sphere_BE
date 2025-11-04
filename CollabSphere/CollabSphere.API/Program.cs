@@ -1,3 +1,4 @@
+using Amazon.S3;
 using CloudinaryDotNet;
 using CollabSphere.API.Hubs;
 using CollabSphere.Application;
@@ -167,6 +168,11 @@ builder.Services.AddScoped<IDatabase>(sp =>
     var multiplexer = sp.GetRequiredService<IConnectionMultiplexer>();
     return multiplexer.GetDatabase();
 });
+#endregion
+
+#region Register Aws S3 Client
+builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
+builder.Services.AddAWSService<IAmazonS3>();
 #endregion
 
 builder.Services.AddSignalR(options =>

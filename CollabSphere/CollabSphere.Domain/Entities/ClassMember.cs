@@ -33,8 +33,6 @@ public partial class ClassMember
 
     public virtual ICollection<MilestoneQuestionAn> MilestoneQuestionAns { get; set; } = new List<MilestoneQuestionAn>();
 
-    public virtual ICollection<MilestoneReturn> MilestoneReturns { get; set; } = new List<MilestoneReturn>();
-
     public virtual Student Student { get; set; }
 
     public virtual Team Team { get; set; }

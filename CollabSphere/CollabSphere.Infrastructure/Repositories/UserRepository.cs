@@ -62,6 +62,8 @@ namespace CollabSphere.Infrastructure.Repositories
         {
             return await _context.Users
                 .Include(x => x.Role)
+                .Include(x => x.Student)
+                .Include(x => x.Lecturer)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Email.Equals(email)
                     && x.Password == password
@@ -126,6 +128,14 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(x => x.Lecturer)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Lecturer.LecturerCode.ToLower().Equals(lecturerCode.ToLower().Trim()) && x.IsActive);
+        }
+
+        public async Task<User?> GetUserAccountIncludeWithAllStatus(int userId)
+        {
+            return await _context.Users
+                .Include(x => x.Student)
+                .Include(x => x.Lecturer)
+                .FirstOrDefaultAsync(x => x.UId == userId);
         }
     }
 }
