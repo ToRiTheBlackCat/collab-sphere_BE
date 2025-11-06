@@ -5,6 +5,7 @@ using CollabSphere.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using Task = CollabSphere.Domain.Models.Task;
 
 namespace CollabSphere.Infrastructure.PostgreDbContext;
 
@@ -36,6 +37,8 @@ public partial class collab_sphereContext : DbContext
     public virtual DbSet<ClassFile> ClassFiles { get; set; }
 
     public virtual DbSet<ClassMember> ClassMembers { get; set; }
+
+    public virtual DbSet<DocumentState> DocumentStates { get; set; }
 
     public virtual DbSet<EvaluationDetail> EvaluationDetails { get; set; }
 
@@ -71,6 +74,8 @@ public partial class collab_sphereContext : DbContext
 
     public virtual DbSet<ProjectAssignment> ProjectAssignments { get; set; }
 
+    public virtual DbSet<ProjectRepository> ProjectRepositories { get; set; }
+
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<Semester> Semesters { get; set; }
@@ -89,7 +94,7 @@ public partial class collab_sphereContext : DbContext
 
     public virtual DbSet<SubjectSyllabus> SubjectSyllabi { get; set; }
 
-    public virtual DbSet<Domain.Models.Task> Tasks { get; set; }
+    public virtual DbSet<Task> Tasks { get; set; }
 
     public virtual DbSet<Team> Teams { get; set; }
 
@@ -160,12 +165,8 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.IsCompleted).HasColumnName("is_completed");
             entity.Property(e => e.Labels).HasColumnName("labels");
             entity.Property(e => e.ListId).HasColumnName("list_id");
-            entity.Property(e => e.RiskLevel)
-                .IsRequired()
-                .HasColumnName("risk_level");
-            entity.Property(e => e.Title)
-                .IsRequired()
-                .HasColumnName("title");
+            entity.Property(e => e.RiskLevel).HasColumnName("risk_level");
+            entity.Property(e => e.Title).HasColumnName("title");
 
             entity.HasOne(d => d.List).WithMany(p => p.Cards)
                 .HasForeignKey(d => d.ListId)
@@ -200,7 +201,6 @@ public partial class collab_sphereContext : DbContext
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("conversation_id");
             entity.Property(e => e.ConversationName)
-                .IsRequired()
                 .HasMaxLength(100)
                 .HasColumnName("conversation_name");
             entity.Property(e => e.CreatedAt)
@@ -260,7 +260,6 @@ public partial class collab_sphereContext : DbContext
                 .HasColumnName("status");
             entity.Property(e => e.TeamMilestoneId).HasColumnName("team_milestone_id");
             entity.Property(e => e.Title)
-                .IsRequired()
                 .HasMaxLength(150)
                 .HasColumnName("title");
 
@@ -310,22 +309,18 @@ public partial class collab_sphereContext : DbContext
                 .HasDefaultValueSql("now()")
                 .HasColumnName("created_at");
             entity.Property(e => e.FileName)
-                .IsRequired()
                 .HasMaxLength(200)
                 .HasColumnName("file_name");
             entity.Property(e => e.FileSize)
                 .HasDefaultValue(0L)
                 .HasColumnName("file_size");
             entity.Property(e => e.FileUrl)
-                .IsRequired()
                 .HasComment("The path for front-end client to download file")
                 .HasColumnName("file_url");
             entity.Property(e => e.ObjectKey)
-                .IsRequired()
                 .HasComment("AWS S3 object file's key")
                 .HasColumnName("object_key");
             entity.Property(e => e.Type)
-                .IsRequired()
                 .HasMaxLength(150)
                 .HasColumnName("type");
             entity.Property(e => e.UrlExpireTime)
@@ -356,14 +351,12 @@ public partial class collab_sphereContext : DbContext
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("class_id");
             entity.Property(e => e.ClassName)
-                .IsRequired()
                 .HasMaxLength(100)
                 .HasColumnName("class_name");
             entity.Property(e => e.CreatedDate)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("created_date");
             entity.Property(e => e.EnrolKey)
-                .IsRequired()
                 .HasMaxLength(20)
                 .HasColumnName("enrol_key");
             entity.Property(e => e.IsActive)
@@ -405,18 +398,12 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.ClassId).HasColumnName("class_id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.FileName)
-                .IsRequired()
                 .HasMaxLength(200)
                 .HasColumnName("file_name");
             entity.Property(e => e.FileSize).HasColumnName("file_size");
-            entity.Property(e => e.FileUrl)
-                .IsRequired()
-                .HasColumnName("file_url");
-            entity.Property(e => e.ObjectKey)
-                .IsRequired()
-                .HasColumnName("object_key");
+            entity.Property(e => e.FileUrl).HasColumnName("file_url");
+            entity.Property(e => e.ObjectKey).HasColumnName("object_key");
             entity.Property(e => e.Type)
-                .IsRequired()
                 .HasMaxLength(150)
                 .HasColumnName("type");
             entity.Property(e => e.UrlExpireTime).HasColumnName("url_expire_time");
@@ -444,7 +431,6 @@ public partial class collab_sphereContext : DbContext
                 .HasColumnName("class_member_id");
             entity.Property(e => e.ClassId).HasColumnName("class_id");
             entity.Property(e => e.Fullname)
-                .IsRequired()
                 .HasMaxLength(150)
                 .HasColumnName("fullname");
             entity.Property(e => e.IsGrouped)
@@ -468,6 +454,22 @@ public partial class collab_sphereContext : DbContext
             entity.HasOne(d => d.Team).WithMany(p => p.ClassMembers)
                 .HasForeignKey(d => d.TeamId)
                 .HasConstraintName("class_member_team_fk");
+        });
+
+        modelBuilder.Entity<DocumentState>(entity =>
+        {
+            entity.HasKey(e => e.DocStateId).HasName("document_state_pk");
+
+            entity.ToTable("document_state");
+
+            entity.Property(e => e.DocStateId)
+                .UseIdentityAlwaysColumn()
+                .HasColumnName("doc_state_id");
+            entity.Property(e => e.CreatedTime).HasColumnName("created_time");
+            entity.Property(e => e.RoomId)
+                .HasColumnType("character varying")
+                .HasColumnName("room_id");
+            entity.Property(e => e.UpdateData).HasColumnName("update_data");
         });
 
         modelBuilder.Entity<EvaluationDetail>(entity =>
@@ -503,11 +505,9 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.Address).HasColumnName("address");
             entity.Property(e => e.AvatarImg).HasColumnName("avatar_img");
             entity.Property(e => e.Fullname)
-                .IsRequired()
                 .HasMaxLength(150)
                 .HasColumnName("fullname");
             entity.Property(e => e.LecturerCode)
-                .IsRequired()
                 .HasMaxLength(30)
                 .HasColumnName("lecturer_code");
             entity.Property(e => e.Major).HasColumnName("major");
@@ -557,7 +557,6 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.TeamId).HasColumnName("team_id");
             entity.Property(e => e.Title)
-                .IsRequired()
                 .HasMaxLength(150)
                 .HasColumnName("title");
 
@@ -666,21 +665,17 @@ public partial class collab_sphereContext : DbContext
                 .HasColumnName("file_id");
             entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             entity.Property(e => e.FileName)
-                .IsRequired()
                 .HasMaxLength(200)
                 .HasColumnName("file_name");
             entity.Property(e => e.FileSize).HasColumnName("file_size");
             entity.Property(e => e.FileUrl)
-                .IsRequired()
                 .HasComment("The path for front-end client to download file")
                 .HasColumnName("file_url");
             entity.Property(e => e.ObjectKey)
-                .IsRequired()
                 .HasComment("AWS S3 object file's key")
                 .HasColumnName("object_key");
             entity.Property(e => e.TeamMilstoneId).HasColumnName("team_milstone_id");
             entity.Property(e => e.Type)
-                .IsRequired()
                 .HasMaxLength(150)
                 .HasColumnName("type");
             entity.Property(e => e.UrlExpireTime)
@@ -714,9 +709,7 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.CreatedTime)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("created_time");
-            entity.Property(e => e.Question)
-                .IsRequired()
-                .HasColumnName("question");
+            entity.Property(e => e.Question).HasColumnName("question");
             entity.Property(e => e.TeamId).HasColumnName("team_id");
             entity.Property(e => e.TeamMilestoneId).HasColumnName("team_milestone_id");
 
@@ -735,9 +728,7 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.MilestoneQuestionAnsId)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("milestone_question_ans_id");
-            entity.Property(e => e.Answer)
-                .IsRequired()
-                .HasColumnName("answer");
+            entity.Property(e => e.Answer).HasColumnName("answer");
             entity.Property(e => e.ClassMemberId).HasColumnName("class_member_id");
             entity.Property(e => e.CreatedTime)
                 .HasDefaultValueSql("now()")
@@ -812,7 +803,6 @@ public partial class collab_sphereContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("reference_type");
             entity.Property(e => e.Title)
-                .IsRequired()
                 .HasMaxLength(100)
                 .HasColumnName("title");
         });
@@ -877,7 +867,6 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.ObjectiveId).HasColumnName("objective_id");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
             entity.Property(e => e.Title)
-                .IsRequired()
                 .HasMaxLength(150)
                 .HasColumnName("title");
 
@@ -902,7 +891,6 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.LecturerId).HasColumnName("lecturer_id");
             entity.Property(e => e.ProjectName)
-                .IsRequired()
                 .HasMaxLength(150)
                 .HasColumnName("project_name");
             entity.Property(e => e.Status)
@@ -952,6 +940,39 @@ public partial class collab_sphereContext : DbContext
                 .HasConstraintName("project_assignment_project_fk");
         });
 
+        modelBuilder.Entity<ProjectRepository>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("project_repository_pk");
+
+            entity.ToTable("project_repository");
+
+            entity.HasIndex(e => new { e.ProjectId, e.GithubRepoId }, "uq_project_repository_projectid_githubrepoid").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.ConnectedAt)
+                .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                .HasColumnName("connected_at");
+            entity.Property(e => e.ConnectedByUserId).HasColumnName("connected_by_user_id");
+            entity.Property(e => e.GithubRepoId).HasColumnName("github_repo_id");
+            entity.Property(e => e.ProjectId).HasColumnName("project_id");
+            entity.Property(e => e.RepositoryName)
+                .HasMaxLength(255)
+                .HasColumnName("repository_name");
+            entity.Property(e => e.RepositoryUrl)
+                .HasMaxLength(512)
+                .HasColumnName("repository_url");
+            entity.Property(e => e.WebhookId).HasColumnName("webhook_id");
+
+            entity.HasOne(d => d.ConnectedByUser).WithMany(p => p.ProjectRepositories)
+                .HasForeignKey(d => d.ConnectedByUserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("project_repository_user_fk");
+
+            entity.HasOne(d => d.Project).WithMany(p => p.ProjectRepositories)
+                .HasForeignKey(d => d.ProjectId)
+                .HasConstraintName("project_repository_project_fk");
+        });
+
         modelBuilder.Entity<Role>(entity =>
         {
             entity.HasKey(e => e.RoleId).HasName("role_pk");
@@ -962,7 +983,6 @@ public partial class collab_sphereContext : DbContext
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("role_id");
             entity.Property(e => e.RoleName)
-                .IsRequired()
                 .HasMaxLength(30)
                 .HasColumnName("role_name");
         });
@@ -978,12 +998,10 @@ public partial class collab_sphereContext : DbContext
                 .HasColumnName("semester_id");
             entity.Property(e => e.EndDate).HasColumnName("end_date");
             entity.Property(e => e.SemesterCode)
-                .IsRequired()
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'\"NOT FOUND\"'::character varying")
                 .HasColumnName("semester_code");
             entity.Property(e => e.SemesterName)
-                .IsRequired()
                 .HasMaxLength(100)
                 .HasColumnName("semester_name");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
@@ -1021,14 +1039,12 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.Address).HasColumnName("address");
             entity.Property(e => e.AvatarImg).HasColumnName("avatar_img");
             entity.Property(e => e.Fullname)
-                .IsRequired()
                 .HasMaxLength(150)
                 .HasColumnName("fullname");
             entity.Property(e => e.Major).HasColumnName("major");
             entity.Property(e => e.PhoneNumber).HasColumnName("phone_number");
             entity.Property(e => e.School).HasColumnName("school");
             entity.Property(e => e.StudentCode)
-                .IsRequired()
                 .HasMaxLength(30)
                 .HasColumnName("student_code");
             entity.Property(e => e.Yob).HasColumnName("yob");
@@ -1071,11 +1087,9 @@ public partial class collab_sphereContext : DbContext
                 .HasDefaultValue(true)
                 .HasColumnName("is_active");
             entity.Property(e => e.SubjectCode)
-                .IsRequired()
                 .HasMaxLength(40)
                 .HasColumnName("subject_code");
             entity.Property(e => e.SubjectName)
-                .IsRequired()
                 .HasMaxLength(150)
                 .HasColumnName("subject_name");
         });
@@ -1090,7 +1104,6 @@ public partial class collab_sphereContext : DbContext
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("subject_grade_component_id");
             entity.Property(e => e.ComponentName)
-                .IsRequired()
                 .HasMaxLength(80)
                 .HasColumnName("component_name");
             entity.Property(e => e.ReferencePercentage).HasColumnName("reference_percentage");
@@ -1111,9 +1124,7 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.SubjectOutcomeId)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("subject_outcome_id");
-            entity.Property(e => e.OutcomeDetail)
-                .IsRequired()
-                .HasColumnName("outcome_detail");
+            entity.Property(e => e.OutcomeDetail).HasColumnName("outcome_detail");
             entity.Property(e => e.SyllabusId).HasColumnName("syllabus_id");
 
             entity.HasOne(d => d.Syllabus).WithMany(p => p.SubjectOutcomes)
@@ -1139,13 +1150,10 @@ public partial class collab_sphereContext : DbContext
                 .HasColumnName("is_active");
             entity.Property(e => e.NoCredit).HasColumnName("no_credit");
             entity.Property(e => e.SubjectCode)
-                .IsRequired()
                 .HasMaxLength(40)
                 .HasColumnName("subject_code");
             entity.Property(e => e.SubjectId).HasColumnName("subject_id");
-            entity.Property(e => e.SyllabusName)
-                .IsRequired()
-                .HasColumnName("syllabus_name");
+            entity.Property(e => e.SyllabusName).HasColumnName("syllabus_name");
 
             entity.HasOne(d => d.Subject).WithMany(p => p.SubjectSyllabi)
                 .HasForeignKey(d => d.SubjectId)
@@ -1153,7 +1161,7 @@ public partial class collab_sphereContext : DbContext
                 .HasConstraintName("subject_syllabus_subject_fk");
         });
 
-        modelBuilder.Entity<Domain.Models.Task>(entity =>
+        modelBuilder.Entity<Task>(entity =>
         {
             entity.HasKey(e => e.TaskId).HasName("task_pk");
 
@@ -1187,7 +1195,6 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.EndDate).HasColumnName("end_date");
             entity.Property(e => e.EnrolKey)
-                .IsRequired()
                 .HasMaxLength(20)
                 .HasColumnName("enrol_key");
             entity.Property(e => e.GitLink).HasColumnName("git_link");
@@ -1203,7 +1210,6 @@ public partial class collab_sphereContext : DbContext
                 .HasColumnName("status");
             entity.Property(e => e.TeamImage).HasColumnName("team_image");
             entity.Property(e => e.TeamName)
-                .IsRequired()
                 .HasMaxLength(200)
                 .HasColumnName("team_name");
 
@@ -1251,9 +1257,7 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.FileId)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("file_id");
-            entity.Property(e => e.FilePath)
-                .IsRequired()
-                .HasColumnName("file_path");
+            entity.Property(e => e.FilePath).HasColumnName("file_path");
             entity.Property(e => e.TeamId).HasColumnName("team_id");
             entity.Property(e => e.Type)
                 .HasMaxLength(50)
@@ -1284,7 +1288,6 @@ public partial class collab_sphereContext : DbContext
                 .HasColumnName("status");
             entity.Property(e => e.TeamId).HasColumnName("team_id");
             entity.Property(e => e.Title)
-                .IsRequired()
                 .HasMaxLength(150)
                 .HasColumnName("title");
 
@@ -1340,7 +1343,6 @@ public partial class collab_sphereContext : DbContext
                 .HasDefaultValueSql("now()")
                 .HasColumnName("created_date");
             entity.Property(e => e.Email)
-                .IsRequired()
                 .HasMaxLength(254)
                 .HasColumnName("email");
             entity.Property(e => e.IsActive)
@@ -1349,9 +1351,7 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.IsTeacher)
                 .HasDefaultValue(false)
                 .HasColumnName("is_teacher");
-            entity.Property(e => e.Password)
-                .IsRequired()
-                .HasColumnName("password");
+            entity.Property(e => e.Password).HasColumnName("password");
             entity.Property(e => e.RefreshToken).HasColumnName("refresh_token");
             entity.Property(e => e.RefreshTokenExpiryTime).HasColumnName("refresh_token_expiry_time");
             entity.Property(e => e.RoleId).HasColumnName("role_id");
