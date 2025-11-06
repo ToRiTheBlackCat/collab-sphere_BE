@@ -1,4 +1,5 @@
-﻿using CollabSphere.Application.Features.ProjectRepo.Queries.GetReposOfProject;
+﻿using CollabSphere.Application.Features.ProjectRepo.Commands.CreateRepoForProject;
+using CollabSphere.Application.Features.ProjectRepo.Queries.GetReposOfProject;
 using CollabSphere.Application.Features.Team.Commands.CreateTeam;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -33,18 +34,13 @@ namespace CollabSphere.API.Controllers
         }
 
         [HttpPost("/api/internal/project-repositories")]
-        public async Task<IActionResult> CreateRepoForProject([FromBody] CreateTeamCommand command)
+        public async Task<IActionResult> CreateRepoForProject([FromBody] CreateRepoForProjectCommand command)
         {
             if (!ModelState.IsValid)
 
             {
                 return BadRequest(ModelState);
             }
-            // Get UserId & Role of requester
-            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
-            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
-            command.UserId = int.Parse(UIdClaim.Value);
-            command.UserRole = int.Parse(roleClaim.Value);
 
             var result = await _mediator.Send(command);
 

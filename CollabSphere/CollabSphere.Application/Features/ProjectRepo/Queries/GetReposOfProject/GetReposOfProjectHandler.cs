@@ -32,8 +32,6 @@ namespace CollabSphere.Application.Features.ProjectRepo.Queries.GetReposOfProjec
 
             try
             {
-                await _unitOfWork.BeginTransactionAsync();
-
                 var repos = await _unitOfWork.ProjectRepo_Repo.SearchReposOfProject(request.ProjectId, request.RepositoryName, request.RepositoryUrl, request.ConnectedUserId, request.FromDate, request.IsDesc);
 
                 if (repos != null || repos.Count() > 0)
