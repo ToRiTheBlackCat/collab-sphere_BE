@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Features\MilestoneQues\Queries\" />
+    <Folder Include="Features\ProjectRepo\Commands\" />
   </ItemGroup>
 
 </Project>
