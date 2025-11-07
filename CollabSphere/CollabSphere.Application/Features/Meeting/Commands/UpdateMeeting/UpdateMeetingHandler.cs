@@ -85,7 +85,7 @@ namespace CollabSphere.Application.Features.Meeting.Commands.UpdateMeeting
             }
             var foundTeam = await _unitOfWork.TeamRepo.GetById(foundMeeting.TeamId);
 
-            //Check if role is valid to delete team
+            //Check if role is valid to update meeting
             if (bypassRoles.Contains(request.UserRole))
             {
                 //find user

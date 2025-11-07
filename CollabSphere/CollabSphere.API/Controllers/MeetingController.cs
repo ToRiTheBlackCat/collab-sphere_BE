@@ -1,6 +1,7 @@
 ﻿using CollabSphere.Application.Features.Meeting.Commands.CreateMeeting;
 using CollabSphere.Application.Features.Meeting.Commands.DeleteMeeting;
 using CollabSphere.Application.Features.Meeting.Commands.UpdateMeeting;
+using CollabSphere.Application.Features.Meeting.Queries.GetListMeeting;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -109,5 +110,31 @@ namespace CollabSphere.API.Controllers
 
             return Ok(result);
         }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetListMeeting(GetListMeetingQuery query, CancellationToken cancellationToken = default!)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            query.UserId = int.Parse(UIdClaim.Value);
+            query.UserRole = int.Parse(roleClaim.Value);
+
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+        
     }
 }
