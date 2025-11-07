@@ -54,6 +54,8 @@ namespace CollabSphere.Application.Features.Meeting.Commands.CreateMeeting
                             Title = request.Title.Trim(),
                             Description = request.Description?.Trim(),
                             CreatedBy = request.UserId,
+                            CreatorName = foundUser.IsTeacher ? foundUser.Lecturer.Fullname : foundUser.Student.Fullname,
+                            MeetingUrl = request.MeetingUrl,
                             ScheduleTime = request.ScheduleTime,
                             CreatedAt = DateTime.UtcNow,
                             Status = (int)((request.ScheduleTime == DateTime.UtcNow) ? MeetingStatus.ACTIVE : MeetingStatus.UPCOMING),
