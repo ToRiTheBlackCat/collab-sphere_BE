@@ -51,6 +51,10 @@ namespace CollabSphere.Application.Features.Meeting.Commands.UpdateMeeting
                     {
                         foundMeeting.RecordUrl = request.RecordUrl;
                     }
+                    if (request.Status != null)
+                    {
+                        foundMeeting.Status = (int)request.Status;
+                    }
 
                     _unitOfWork.MeetingRepo.Update(foundMeeting);
                     await _unitOfWork.SaveChangesAsync();
