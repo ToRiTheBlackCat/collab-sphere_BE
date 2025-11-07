@@ -3,7 +3,9 @@ using CollabSphere.Application.DTOs.MilestoneEvaluations;
 using CollabSphere.Application.DTOs.MilestoneFiles;
 using CollabSphere.Application.DTOs.MilestoneQuestions;
 using CollabSphere.Application.DTOs.MilestoneReturns;
+using CollabSphere.Application.DTOs.TeamMilestones;
 using CollabSphere.Application.Mappings.MilestoneFiles;
+using CollabSphere.Application.Mappings.MilestoneReturns;
 using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -42,8 +44,14 @@ namespace CollabSphere.Application.DTOs.TeamMilestones
         public List<TeamMilestoneReturnVM> MilestoneReturns { get; set; } = new List<TeamMilestoneReturnVM>();
 
         public TeamMilestoneEvaluationVM? MilestoneEvaluation { get; set; }
+    }
+}
 
-        public static explicit operator TeamMilestoneDetailDto(TeamMilestone teamMilestone)
+namespace CollabSphere.Application.Mappings.TeamMilestones
+{
+    public static partial class TeamMilestoneMappings
+    {
+        public static TeamMilestoneDetailDto ToDetailDto(this TeamMilestone teamMilestone)
         {
             return new TeamMilestoneDetailDto()
             {
@@ -59,7 +67,7 @@ namespace CollabSphere.Application.DTOs.TeamMilestones
                 Checkpoints = teamMilestone.Checkpoints.Select(cpoint => (CheckpointVM)cpoint).ToList(),
                 MilestoneQuestions = teamMilestone.MilestoneQuestions.Select(mQuest => (TeamMilestoneQuestionVM)mQuest).ToList(),
                 MilestoneFiles = teamMilestone.MilestoneFiles.ToViewModel(),
-                MilestoneReturns = teamMilestone.MilestoneReturns.Select(mReturn => (TeamMilestoneReturnVM)mReturn).ToList(),
+                MilestoneReturns = teamMilestone.MilestoneReturns.ToViewModel(),
                 MilestoneEvaluation = teamMilestone.MilestoneEvaluation != null ? (TeamMilestoneEvaluationVM)teamMilestone.MilestoneEvaluation : null,
             };
         }

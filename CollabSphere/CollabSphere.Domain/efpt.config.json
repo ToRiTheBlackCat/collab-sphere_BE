@@ -4,10 +4,9 @@
    "ContextNamespace": null,
    "FilterSchemas": false,
    "IncludeConnectionString": false,
-   "MinimumProductVersion": "2.6.1186",
    "ModelNamespace": null,
    "OutputContextPath": null,
-   "OutputPath": "TempDB",
+   "OutputPath": "TempMODELS",
    "PreserveCasingWithRegex": true,
    "ProjectRootNamespace": "CollabSphere.Domain",
    "Schemas": null,
@@ -16,11 +15,7 @@
    "T4TemplatePath": null,
    "Tables": [
       {
-         "Name": "public.milestone_file",
-         "ObjectType": 0
-      },
-      {
-         "Name": "public.team_milestone",
+         "Name": "public.meeting",
          "ObjectType": 0
       }
    ],

@@ -12,6 +12,7 @@ namespace CollabSphere.Application.DTOs.Teams
         public int TeamId { get; set; }
         public string TeamName { get; set; } = string.Empty;
         public string TeamImage { get; set; } = string.Empty;
+        public string SemesterName { get; set; } = string.Empty;
         public string EnrolKey { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public string GitLink { get; set; } = string.Empty;
@@ -68,6 +69,7 @@ namespace CollabSphere.Application.DTOs.Teams
     }
     public class TeamMemberInfo
     {
+        public int ClassMemberId { get; set; }
         public int StudentId { get; set; }
         public string StudentName { get; set; } = string.Empty;
         public string Avatar { get; set; } = string.Empty;

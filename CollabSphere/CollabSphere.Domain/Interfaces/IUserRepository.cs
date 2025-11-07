@@ -23,5 +23,6 @@ namespace CollabSphere.Domain.Intefaces
         void UpdateUser(User user);
         Task<User?> GetStudentByStudentCodeAsync(string? studentCode);
         Task<User?> GetLecturerByLecturerCodeAsync(string? lecturerCode);
+        Task<User?> GetUserAccountIncludeWithAllStatus(int userId);
     }
 }

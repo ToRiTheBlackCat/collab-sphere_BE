@@ -15,6 +15,7 @@ namespace CollabSphere.Application.DTOs.Teams
         public string ClassName { get; set; }
         public int LecturerId { get; set; }
         public string LecturerName { get; set; }
+        public string SemesterName { get; set; }
         public int ProjectId { get; set; }
         public string ProjectName { get; set; }
         public float? Progress { get; set; }

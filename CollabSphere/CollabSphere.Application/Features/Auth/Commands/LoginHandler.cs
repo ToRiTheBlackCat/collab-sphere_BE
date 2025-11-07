@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Common;
+using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.User;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -73,6 +74,32 @@ namespace CollabSphere.Application.Features.Auth.Commands
                     responseDto.AccessToken = accessToken;
                     responseDto.RefreshToken = refreshToken;
                     responseDto.RefreshTokenExpiryTime = foundUser.RefreshTokenExpiryTime;
+                    //If admin
+                    if (foundUser.RoleId == RoleConstants.ADMIN)
+                    {
+                        responseDto.IsAuthenticated = true;
+                        responseDto.FullName = "COLLABSPHERE_ADMIN";
+
+                        return responseDto;
+                    }
+
+                    //If staff 
+                    if (foundUser.RoleId == RoleConstants.STAFF)
+                    {
+                        responseDto.IsAuthenticated = true;
+                        responseDto.FullName = "COLLABSPHERE_Staff";
+
+                        return responseDto;
+                    }
+
+                    //If Head Department 
+                    if (foundUser.RoleId == RoleConstants.HEAD_DEPARTMENT)
+                    {
+                        responseDto.IsAuthenticated = true;
+                        responseDto.FullName = "COLLABSPHERE_Head Department";
+
+                        return responseDto;
+                    }
 
                     var fullName = "";
                     var avatar = "";

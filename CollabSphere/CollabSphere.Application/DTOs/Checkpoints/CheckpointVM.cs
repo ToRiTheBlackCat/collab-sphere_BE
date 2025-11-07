@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Constants;
+using CollabSphere.Application.Mappings.CheckpointAssginments;
 using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -49,7 +50,7 @@ namespace CollabSphere.Application.DTOs.Checkpoints
                  DueDate = checkpoint.DueDate,
                  Status = checkpoint.Status,
                  FileCount = checkpoint.CheckpointFiles.Count,
-                 CheckpointAssignments = checkpoint.CheckpointAssignments.Select(assign => (CheckpointAssignmentVM)assign).ToList()
+                 CheckpointAssignments = checkpoint.CheckpointAssignments.ToViewModel()
             };
         }
     }
