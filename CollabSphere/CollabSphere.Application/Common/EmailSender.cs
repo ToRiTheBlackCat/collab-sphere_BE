@@ -98,7 +98,7 @@ namespace CollabSphere.Application.Common
         </div>
         <p>This code will expire in 15 minutes. If you did not request this, please ignore this email.</p>
         <div class='footer'>
-          &copy; 2025 COLLABSPHERE. All rights reserved.
+          &copy; © 2025 COLLABSPHERE. All rights reserved.
         </div>
       </div>
     </div>
@@ -150,7 +150,7 @@ namespace CollabSphere.Application.Common
             return new string(result);
         }
 
-        public void SendScheduleMeetingMails(List<string> toEmails, Domain.Entities.Meeting meeting, string meetingUrl)
+        public void SendScheduleMeetingMails(List<string> toEmails, Domain.Entities.Meeting meeting, string meetingUrl, string senderName)
         {
             var email = _configure["SMTPSettings:Email"] ?? "";
             var password = _configure["SMTPSettings:AppPassword"] ?? "";
@@ -267,19 +267,18 @@ namespace CollabSphere.Application.Common
           <div class='schedule-box'>
             <p><strong>🧭 Title:</strong> {meeting.Title}</p>
             <p><strong>📆 Date & Time:</strong> {meeting.ScheduleTime}</p>
-            <p><strong>👤 Created By:</strong> {meeting.CreatedBy}</p>
+            <p><strong>👤 Created By:</strong> {senderName}</p>
             <p><strong>📝 Description:</strong> {meeting.Description}</p>
           </div>
 
-          <a href='http://52.221.106.143/' class='btn'>🔗 Join meeting now</a>
+          <a href='{meetingUrl}' class='btn'>🔗 Join meeting now</a>
 
           <p style='margin-top: 30px;'>
             Please make sure to join on time. You can view the full agenda in your meeting dashboard.
           </p>
         </div>
         <div class='footer'>
-          <img src='cid:LogoImage' alt='CollabSphere Logo' width='40' style='vertical-align:middle; margin-right:8px;' />
-          © 2025 CollabSphere — Empowering Team Collaboration.
+          © 2025 COLLABSPHERE. All rights reserved.
         </div>
       </div>
     </div>

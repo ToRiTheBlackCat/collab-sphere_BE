@@ -22,8 +22,8 @@ namespace CollabSphere.Application.Features.Meeting.Commands.CreateMeeting
         public string Title { get; set; } = string.Empty;
         public string? Description { get; set; }
         [Required]
-        public DateTime ScheduleTime { get; set; }
+        public string MeetingUrl { get; set; } = string.Empty;
         [Required]
-        public bool IsCallNow { get; set; }
+        public DateTime ScheduleTime { get; set; } = DateTime.Now;
     }
 }
