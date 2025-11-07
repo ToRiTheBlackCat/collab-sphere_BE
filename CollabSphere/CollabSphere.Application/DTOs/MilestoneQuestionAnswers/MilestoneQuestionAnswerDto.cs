@@ -14,6 +14,8 @@ namespace CollabSphere.Application.DTOs.MilestoneQuestionAnswers
         public int StudentId { get; set; }
         public string? StudentName { get; set; }
         public string? StudentCode { get; set; }
+        public string? StudentAvatar { get; set; }
+
         public string? Answer { get; set; }
         public DateTime CreateTime { get; set; }
         public List<AnswerEvaluationDto> AnswerEvaluations { get; set; } = new List<AnswerEvaluationDto>();
@@ -23,6 +25,9 @@ namespace CollabSphere.Application.DTOs.MilestoneQuestionAnswers
         public int AnswerEvaluationId { get; set; }
         public int EvaluatorId { get; set; }
         public string? EvaluatorName { get; set; }
+        public string? EvaluatorCode { get; set; }
+        public string? EvaluatorAvatar { get; set; }
+
         public decimal Score { get; set; }
         public string? Comment { get; set; }
         public DateTime? CreateTime { get; set; }

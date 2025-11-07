@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.MilestoneQuestionAnswers;
 using CollabSphere.Application.DTOs.Validation;
@@ -16,10 +17,12 @@ namespace CollabSphere.Application.Features.MilestoneQuesAns.Queries.GetQuestion
     public class GetQuestionAnswerHandler : QueryHandler<GetQuestionAnswerQuery, GetQuestionAnswerResult>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly CloudinaryService _cloudinaryService;
 
-        public GetQuestionAnswerHandler(IUnitOfWork unitOfWork)
+        public GetQuestionAnswerHandler(IUnitOfWork unitOfWork, CloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
+            _cloudinaryService = cloudinaryService;
         }
 
         protected override async Task<GetQuestionAnswerResult> HandleCommand(GetQuestionAnswerQuery request, CancellationToken cancellationToken)
@@ -50,6 +53,7 @@ namespace CollabSphere.Application.Features.MilestoneQuesAns.Queries.GetQuestion
                                 StudentId = -1,
                                 StudentName = "",
                                 StudentCode = "",
+                                StudentAvatar = "",
                                 Answer = ans.Answer,
                                 CreateTime = ans.CreatedTime,
                             };
@@ -61,22 +65,27 @@ namespace CollabSphere.Application.Features.MilestoneQuesAns.Queries.GetQuestion
                             answerDto.StudentId = foundStudent.UId;
                             answerDto.StudentName = foundStudent.Student.Fullname;
                             answerDto.StudentCode = foundStudent.Student.StudentCode;
+                            answerDto.StudentAvatar = await _cloudinaryService.GetImageUrl(foundStudent.Student.AvatarImg);
 
                             //Get Evaluations of answer
                             var answerEvaluations = await _unitOfWork.AnswerEvaluationRepo.GetAnswerEvaluationsOfAnswer(ans.MilestoneQuestionAnsId);
                             if (answerEvaluations.Any() && answerEvaluations.Count > 0)
                             {
                                 var evaluationList = new List<AnswerEvaluationDto>();
-                                foreach (var evaluate in evaluationList)
+                                foreach (var evaluate in answerEvaluations)
                                 {
+                                    var foundUser = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(evaluate.EvaluatorId);
+                                    var foundEvaluatorAva = await _cloudinaryService.GetImageUrl(foundUser.Student.AvatarImg);
                                     var evaluateDto = new AnswerEvaluationDto
                                     {
                                         AnswerEvaluationId = evaluate.AnswerEvaluationId,
                                         EvaluatorId = evaluate.EvaluatorId,
-                                        EvaluatorName = evaluate.EvaluatorName,
+                                        EvaluatorName = foundUser.Student.Fullname,
+                                        EvaluatorCode = foundUser.Student.StudentCode,
+                                        EvaluatorAvatar = foundEvaluatorAva,
                                         Score = evaluate.Score,
                                         Comment = evaluate.Comment,
-                                        CreateTime = evaluate.CreateTime,
+                                        CreateTime = evaluate.CreatedDate,
                                     };
 
                                     evaluationList.Add(evaluateDto);

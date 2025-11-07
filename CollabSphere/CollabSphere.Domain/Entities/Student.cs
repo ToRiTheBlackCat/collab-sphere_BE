@@ -26,7 +26,7 @@ public partial class Student
 
     public string Major { get; set; }
 
-    public virtual ICollection<AnswerEvaluation> AnswerEvaluationEvaluatorNavigations { get; set; } = new List<AnswerEvaluation>();
+    public virtual ICollection<AnswerEvaluation> AnswerEvaluationEvaluators { get; set; } = new List<AnswerEvaluation>();
 
     public virtual ICollection<AnswerEvaluation> AnswerEvaluationReceivers { get; set; } = new List<AnswerEvaluation>();
 

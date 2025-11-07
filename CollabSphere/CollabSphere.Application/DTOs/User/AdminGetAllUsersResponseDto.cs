@@ -34,6 +34,7 @@ namespace CollabSphere.Application.DTOs.User
 
     public class Admin_AllLecturerDto
     {
+        public int LecturerId { get; set; }
         public string Email { get; set; } = string.Empty;
 
         public string RoleName { get; set; } = string.Empty;
@@ -63,6 +64,8 @@ namespace CollabSphere.Application.DTOs.User
 
     public class Admin_AllStudentDto
     {
+        public int StudentId { get; set; }
+
         public string Email { get; set; } = string.Empty;
 
         public string RoleName { get; set; } = string.Empty;

@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Meeting\Queries\" />
     <Folder Include="Features\MilestoneQues\Queries\" />
   </ItemGroup>
 

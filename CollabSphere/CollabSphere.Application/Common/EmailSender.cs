@@ -98,7 +98,7 @@ namespace CollabSphere.Application.Common
         </div>
         <p>This code will expire in 15 minutes. If you did not request this, please ignore this email.</p>
         <div class='footer'>
-          &copy; 2025 COLLABSPHERE. All rights reserved.
+          &copy; © 2025 COLLABSPHERE. All rights reserved.
         </div>
       </div>
     </div>
@@ -149,5 +149,159 @@ namespace CollabSphere.Application.Common
 
             return new string(result);
         }
+
+        public void SendScheduleMeetingMails(List<string> toEmails, Domain.Entities.Meeting meeting, string meetingUrl, string senderName)
+        {
+            var email = _configure["SMTPSettings:Email"] ?? "";
+            var password = _configure["SMTPSettings:AppPassword"] ?? "";
+
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(email, password),
+                EnableSsl = true,
+            };
+
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(email),
+                Subject = "📅 COLLAB-SPHERE | Team Meeting Notification",
+                IsBodyHtml = true
+            };
+
+            foreach (var mail in toEmails)
+            {
+                if (!string.IsNullOrWhiteSpace(mail))
+                    mailMessage.To.Add(mail);
+            }
+
+            string liveBadge = meeting.Status == 1
+                ? "<span style='background:#28a745; color:#fff; padding:4px 10px; border-radius:5px; font-size:12px;'>🟢 LIVE</span>"
+                : "<span style='background:#f0ad4e; color:#fff; padding:4px 10px; border-radius:5px; font-size:12px;'>⏳ UPCOMING</span>";
+
+            string htmlBody = $@"
+<html>
+  <head>
+    <style>
+      body {{
+        background-color: #f4f7fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+      }}
+      .container {{
+        width: 100%;
+        padding: 40px 0;
+        display: flex;
+        justify-content: center;
+      }}
+      .card {{
+        width: 600px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }}
+      .header {{
+        background: linear-gradient(135deg, #2b5876, #4e4376);
+        color: #ffffff;
+        text-align: center;
+        padding: 30px 20px;
+      }}
+      .header h2 {{
+        margin: 0;
+        font-size: 22px;
+        font-weight: 600;
+      }}
+      .content {{
+        padding: 30px 40px;
+        color: #333;
+      }}
+      .content p {{
+        margin: 8px 0;
+        line-height: 1.5;
+      }}
+      .schedule-box {{
+        margin: 25px 0;
+        background-color: #f0f4f8;
+        border-left: 5px solid #4e4376;
+        padding: 15px 20px;
+        border-radius: 6px;
+      }}
+      .schedule-box p {{
+        margin: 5px 0;
+      }}
+      .btn {{
+        display: inline-block;
+        background-color: #4e4376;
+        color: white !important;
+        text-decoration: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        margin-top: 15px;
+        font-weight: 500;
+      }}
+      .btn:hover {{
+        background-color: #2b5876;
+      }}
+      .footer {{
+        background-color: #fafafa;
+        color: #888;
+        text-align: center;
+        font-size: 12px;
+        padding: 15px;
+      }}
+    </style>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='card'>
+        <div class='header'>
+          <h2>📅 CollabSphere Team Meeting Scheduled</h2>
+          {liveBadge}
+        </div>
+        <div class='content'>
+          <p>Hello Team Member,</p>
+          <p>A new meeting has been scheduled. Please check the details below:</p>
+
+          <div class='schedule-box'>
+            <p><strong>🧭 Title:</strong> {meeting.Title}</p>
+            <p><strong>📆 Date & Time:</strong> {meeting.ScheduleTime}</p>
+            <p><strong>👤 Created By:</strong> {senderName}</p>
+            <p><strong>📝 Description:</strong> {meeting.Description}</p>
+          </div>
+
+          <a href='{meetingUrl}' class='btn'>🔗 Join meeting now</a>
+
+          <p style='margin-top: 30px;'>
+            Please make sure to join on time. You can view the full agenda in your meeting dashboard.
+          </p>
+        </div>
+        <div class='footer'>
+          © 2025 COLLABSPHERE. All rights reserved.
+        </div>
+      </div>
+    </div>
+  </body>
+</html>";
+
+            AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
+
+            // --- Logo Section ---
+            string imagePath = Path.Combine("wwwroot", "images", "logo", "logo.jpg");
+            if (File.Exists(imagePath))
+            {
+                LinkedResource inlineLogo = new LinkedResource(imagePath, MediaTypeNames.Image.Jpeg)
+                {
+                    ContentId = "LogoImage",
+                    TransferEncoding = TransferEncoding.Base64
+                };
+                avHtml.LinkedResources.Add(inlineLogo);
+            }
+
+            mailMessage.AlternateViews.Add(avHtml);
+            smtpClient.Send(mailMessage);
+        }
+
     }
 }

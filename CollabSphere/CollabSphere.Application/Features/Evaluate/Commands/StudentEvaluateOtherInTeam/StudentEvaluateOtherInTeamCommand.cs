@@ -29,6 +29,7 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.StudentEvaluateOth
         public string ScoreDetailName { get; set; } = string.Empty;
 
         [Required]
+        [Range(0, 5)]
         public int Score { get; set; } = 0;
 
     }

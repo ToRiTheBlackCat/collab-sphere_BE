@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Application.Features.Team.Queries.GetAllTeamByAssignClass;
@@ -16,12 +17,15 @@ namespace CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignC
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<GetStudentTeamByAssignClassHandler> _logger;
+        private readonly CloudinaryService _cloudinaryService;
 
         public GetStudentTeamByAssignClassHandler(IUnitOfWork unitOfWork,
-                                              ILogger<GetStudentTeamByAssignClassHandler> logger)
+                                              ILogger<GetStudentTeamByAssignClassHandler> logger,
+                                              CloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
+            _cloudinaryService = cloudinaryService;
         }
 
         protected override async Task<GetStudentTeamByAssignClassResult> HandleCommand(GetStudentTeamByAssignClassQuery request, CancellationToken cancellationToken)
@@ -35,14 +39,16 @@ namespace CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignC
 
             try
             {
-                var foundTeam = await _unitOfWork.TeamRepo.GetListTeamOfStudent(request.UserId, null, request.ClassId);
-                if(foundTeam == null || foundTeam.Count == 0)
+                var foundTeam = await _unitOfWork.TeamRepo.GetListTeamOfStudent(request.UserId, null, request.ClassId, null);
+                if (foundTeam == null || foundTeam.Count == 0)
                 {
                     result.Message = $"Not found any team for student ID {request.UserId} in class ID {request.ClassId}";
                     return result;
                 }
 
                 var mapppedTeam = (foundTeam.FirstOrDefault()).Team_To_StudentTeamByAssignClassDto();
+                mapppedTeam.TeamImage = await _cloudinaryService.GetImageUrl(foundTeam.FirstOrDefault().TeamImage);
+
 
                 result.StudentTeam = mapppedTeam;
                 result.IsSuccess = true;
@@ -95,7 +101,7 @@ namespace CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignC
                     else
                     {
                         //Check if student has team in this class
-                        if(classmember.TeamId == null)
+                        if (classmember.TeamId == null)
                         {
                             errors.Add(new OperationError
                             {

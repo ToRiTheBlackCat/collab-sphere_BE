@@ -25,8 +25,6 @@ public partial class Lecturer
 
     public string Major { get; set; }
 
-    public virtual ICollection<AnswerEvaluation> AnswerEvaluations { get; set; } = new List<AnswerEvaluation>();
-
     public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
 
     public virtual User LecturerNavigation { get; set; }
