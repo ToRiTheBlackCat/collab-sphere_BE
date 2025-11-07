@@ -51,6 +51,10 @@ namespace CollabSphere.Application.Features.Meeting.Commands.UpdateMeeting
                     {
                         foundMeeting.RecordUrl = request.RecordUrl;
                     }
+                    if (request.Status != null)
+                    {
+                        foundMeeting.Status = (int)request.Status;
+                    }
 
                     _unitOfWork.MeetingRepo.Update(foundMeeting);
                     await _unitOfWork.SaveChangesAsync();
@@ -85,7 +89,7 @@ namespace CollabSphere.Application.Features.Meeting.Commands.UpdateMeeting
             }
             var foundTeam = await _unitOfWork.TeamRepo.GetById(foundMeeting.TeamId);
 
-            //Check if role is valid to delete team
+            //Check if role is valid to update meeting
             if (bypassRoles.Contains(request.UserRole))
             {
                 //find user

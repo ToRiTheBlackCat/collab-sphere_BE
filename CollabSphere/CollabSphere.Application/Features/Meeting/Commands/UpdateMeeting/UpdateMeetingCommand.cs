@@ -24,5 +24,6 @@ namespace CollabSphere.Application.Features.Meeting.Commands.UpdateMeeting
         public string? Description { get; set; }
         public string? RecordUrl { get; set; }
         public DateTime? ScheduleTime { get; set; }
+        public int? Status { get; set; }
     }
 }
