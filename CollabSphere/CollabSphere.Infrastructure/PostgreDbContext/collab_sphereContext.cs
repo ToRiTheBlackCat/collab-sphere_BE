@@ -552,18 +552,18 @@ public partial class collab_sphereContext : DbContext
                 .HasDefaultValueSql("now()")
                 .HasColumnName("created_at");
             entity.Property(e => e.CreatedBy).HasColumnName("created_by");
+            entity.Property(e => e.CreatorName)
+                .HasMaxLength(150)
+                .HasColumnName("creator_name");
             entity.Property(e => e.Description).HasColumnName("description");
+            entity.Property(e => e.MeetingUrl).HasColumnName("meeting_url");
+            entity.Property(e => e.RecordUrl).HasColumnName("record_url");
             entity.Property(e => e.ScheduleTime).HasColumnName("schedule_time");
             entity.Property(e => e.Status).HasColumnName("status");
             entity.Property(e => e.TeamId).HasColumnName("team_id");
             entity.Property(e => e.Title)
                 .HasMaxLength(150)
                 .HasColumnName("title");
-
-            entity.HasOne(d => d.Team).WithMany(p => p.Meetings)
-                .HasForeignKey(d => d.TeamId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("meeting_team_fk");
         });
 
         modelBuilder.Entity<MemberEvaluation>(entity =>
