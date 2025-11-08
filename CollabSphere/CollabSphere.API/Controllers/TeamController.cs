@@ -103,11 +103,6 @@ namespace CollabSphere.API.Controllers
 
             var result = await _mediator.Send(command);
 
-            if (!result.IsSuccess)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, result);
-            }
-
             if (!result.IsValidInput)
             {
                 return BadRequest(result);
