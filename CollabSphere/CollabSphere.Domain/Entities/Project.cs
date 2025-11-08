@@ -36,7 +36,7 @@ public partial class Project
 
     public virtual ICollection<ProjectAssignment> ProjectAssignments { get; set; } = new List<ProjectAssignment>();
 
-    public virtual ICollection<ProjectRepository> ProjectRepositories { get; set; } = new List<ProjectRepository>();
+    public virtual ICollection<ProjectInstallation> ProjectInstallations { get; set; } = new List<ProjectInstallation>();
 
     public virtual Subject Subject { get; set; }
 }

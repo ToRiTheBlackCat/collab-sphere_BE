@@ -28,4 +28,5 @@ public partial class Meeting
     public string? MeetingUrl { get; set; }
 
     public string? RecordUrl { get; set; }
+    public virtual Team Team { get; set; } = null!;
 }

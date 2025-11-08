@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.ProjectRepo.Queries.GetReposOfProject
 {
-    public class GetReposOfProjectResult : QueryResult
+    public class GetInstallationsOfProjectResult : QueryResult
     {
-        public PagedList<AllReposOfProjectDto>? PaginatedRepos {  get; set; }
+        public PagedList<AllInstallationsOfProjectDto>? PaginatedInstalls {  get; set; }
     }
 }
