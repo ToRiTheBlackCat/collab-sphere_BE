@@ -74,7 +74,7 @@ public partial class collab_sphereContext : DbContext
 
     public virtual DbSet<ProjectAssignment> ProjectAssignments { get; set; }
 
-    public virtual DbSet<ProjectRepository> ProjectRepositories { get; set; }
+    public virtual DbSet<ProjectInstallation> ProjectInstallations { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
@@ -564,6 +564,11 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.Title)
                 .HasMaxLength(150)
                 .HasColumnName("title");
+
+            entity.HasOne(d => d.Team).WithMany(p => p.Meetings)
+                .HasForeignKey(d => d.TeamId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("meeting_team_fk");
         });
 
         modelBuilder.Entity<MemberEvaluation>(entity =>
@@ -943,37 +948,32 @@ public partial class collab_sphereContext : DbContext
                 .HasConstraintName("project_assignment_project_fk");
         });
 
-        modelBuilder.Entity<ProjectRepository>(entity =>
+        modelBuilder.Entity<ProjectInstallation>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("project_repository_pk");
+            entity.HasKey(e => e.Id).HasName("project_installation_pk");
 
-            entity.ToTable("project_repository");
+            entity.ToTable("project_installation");
 
-            entity.HasIndex(e => new { e.ProjectId, e.GithubRepoId }, "uq_project_repository_projectid_githubrepoid").IsUnique();
+            entity.HasIndex(e => new { e.ProjectId, e.GithubInstallationId }, "uq_project_installation_projectid_githubinstallationid").IsUnique();
 
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.ConnectedAt)
+            entity.Property(e => e.Id)
+                .HasDefaultValueSql("nextval('project_repository_id_seq'::regclass)")
+                .HasColumnName("id");
+            entity.Property(e => e.GithubInstallationId).HasColumnName("github_installation_id");
+            entity.Property(e => e.InstalledAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnName("connected_at");
-            entity.Property(e => e.ConnectedByUserId).HasColumnName("connected_by_user_id");
-            entity.Property(e => e.GithubRepoId).HasColumnName("github_repo_id");
+                .HasColumnName("installed_at");
+            entity.Property(e => e.InstalledByUserId).HasColumnName("installed_by_user_id");
             entity.Property(e => e.ProjectId).HasColumnName("project_id");
-            entity.Property(e => e.RepositoryName)
-                .HasMaxLength(255)
-                .HasColumnName("repository_name");
-            entity.Property(e => e.RepositoryUrl)
-                .HasMaxLength(512)
-                .HasColumnName("repository_url");
-            entity.Property(e => e.WebhookId).HasColumnName("webhook_id");
 
-            entity.HasOne(d => d.ConnectedByUser).WithMany(p => p.ProjectRepositories)
-                .HasForeignKey(d => d.ConnectedByUserId)
+            entity.HasOne(d => d.InstalledByUser).WithMany(p => p.ProjectInstallations)
+                .HasForeignKey(d => d.InstalledByUserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("project_repository_user_fk");
+                .HasConstraintName("project_installation_user_fk");
 
-            entity.HasOne(d => d.Project).WithMany(p => p.ProjectRepositories)
+            entity.HasOne(d => d.Project).WithMany(p => p.ProjectInstallations)
                 .HasForeignKey(d => d.ProjectId)
-                .HasConstraintName("project_repository_project_fk");
+                .HasConstraintName("project_installation_project_fk");
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -1388,6 +1388,5 @@ public partial class collab_sphereContext : DbContext
 
         OnModelCreatingPartial(modelBuilder);
     }
-
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
