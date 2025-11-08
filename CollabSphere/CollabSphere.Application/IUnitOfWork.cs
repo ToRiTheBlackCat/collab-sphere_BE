@@ -41,7 +41,7 @@ namespace CollabSphere.Application
         IAnswerEvaluationRepository AnswerEvaluationRepo { get; }
         IMilestoneEvaluationRepository MilestoneEvaluationRepo { get; }
         IMilestoneReturnRepository MilestoneReturnRepo { get; }
-        IProjectInstallationRepository ProjectRepo_Repo { get; }
+        IProjectInstallationRepository ProjectInstallationRepo { get; }
         IMeetingRepository MeetingRepo { get; }
          //More IRepo below
 

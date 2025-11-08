@@ -9,6 +9,6 @@ namespace CollabSphere.Domain.Interfaces
 {
     public interface IProjectInstallationRepository : IGenericRepository<ProjectInstallation>
     {
-        Task<List<ProjectInstallation>?> SearchInstallationsOfProject (int projectId, string? repoName, string? repoUrl, int connectedUserId, DateTime? fromDate, bool isDesc);
+        Task<List<ProjectInstallation>?> SearchInstallationsOfProject(int projectId, int installedUserId, DateTime? fromDate, bool isDesc);
     }
 }
