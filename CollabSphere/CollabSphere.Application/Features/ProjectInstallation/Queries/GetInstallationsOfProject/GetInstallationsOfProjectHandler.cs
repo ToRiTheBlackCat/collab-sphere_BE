@@ -34,7 +34,7 @@ namespace CollabSphere.Application.Features.ProjectRepo.Queries.GetReposOfProjec
 
             try
             {
-                var installations = await _unitOfWork.ProjectInstallationRepo.SearchInstallationsOfProject(request.ProjectId, request.ConnectedUserId, request.FromDate, request.IsDesc);
+                var installations = await _unitOfWork.ProjectInstallationRepo.SearchInstallationsOfProject(request.ProjectId, request.ConnectedUserId, request.TeamId, request.FromDate, request.IsDesc);
 
                 if (installations != null || installations.Count() > 0)
                 {
@@ -76,6 +76,22 @@ namespace CollabSphere.Application.Features.ProjectRepo.Queries.GetReposOfProjec
                     });
                     return;
                 }
+
+                if (request.TeamId != 0)
+                {
+                    var foundTeam = await _unitOfWork.TeamRepo.GetById(request.TeamId);
+
+                    if (foundTeam == null)
+                    {
+                        errors.Add(new OperationError
+                        {
+                            Field = nameof(request.TeamId),
+                            Message = $"Not found any team with that Id: {request.TeamId}"
+                        });
+                        return;
+                    }
+                }
+
                 if (request.ConnectedUserId != 0)
                 {
                     var foundUser = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(request.ConnectedUserId);

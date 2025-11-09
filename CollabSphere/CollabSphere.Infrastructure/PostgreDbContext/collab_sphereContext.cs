@@ -962,6 +962,7 @@ public partial class collab_sphereContext : DbContext
                 .HasColumnName("installed_at");
             entity.Property(e => e.InstalledByUserId).HasColumnName("installed_by_user_id");
             entity.Property(e => e.ProjectId).HasColumnName("project_id");
+            entity.Property(e => e.TeamId).HasColumnName("team_id");
 
             entity.HasOne(d => d.InstalledByUser).WithMany(p => p.ProjectInstallations)
                 .HasForeignKey(d => d.InstalledByUserId)
@@ -971,6 +972,11 @@ public partial class collab_sphereContext : DbContext
             entity.HasOne(d => d.Project).WithMany(p => p.ProjectInstallations)
                 .HasForeignKey(d => d.ProjectId)
                 .HasConstraintName("project_installation_project_fk");
+
+            entity.HasOne(d => d.Team).WithMany(p => p.ProjectInstallations)
+                .HasForeignKey(d => d.TeamId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("project_installation_team_fk");
         });
 
         modelBuilder.Entity<Role>(entity =>

@@ -19,6 +19,8 @@ namespace CollabSphere.Application.Features.ProjectRepo.Queries.GetReposOfProjec
         public int UserRole = -1;
 
         [FromQuery]
+        public int TeamId { get; set; } = 0;
+        [FromQuery]
         public int ConnectedUserId { get; set; } = 0;
         [FromQuery]
         public DateTime? FromDate { get; set; }

@@ -21,5 +21,8 @@ namespace CollabSphere.Application.Features.ProjectRepo.Commands.CreateRepoForPr
         [Required]
         [JsonPropertyName("installationId")]
         public long InstallationId { get; set; }
+        [Required]
+        [JsonPropertyName("teamId")]
+        public int TeamId { get; set; }
     }
 }
