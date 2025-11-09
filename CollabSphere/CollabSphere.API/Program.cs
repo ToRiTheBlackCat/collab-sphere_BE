@@ -165,6 +165,9 @@ builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
 builder.Services.AddAWSService<IAmazonS3>();
 #endregion
 
+#region Configure Hubs
+builder.Services.AddSignalR();
+#endregion
 
 var app = builder.Build();
 
@@ -183,6 +186,8 @@ app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
+//Hubs
+app.MapHub<KanbanHub>("/KanbanServiceHub");
 app.MapControllers();
 
 app.Run();
