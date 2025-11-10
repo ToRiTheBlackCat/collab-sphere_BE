@@ -1,4 +1,6 @@
-﻿using CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.CreateList;
+﻿using CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.CreateCardAndAssignMember;
+using CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.MoveCard;
+using CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.CreateList;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.MoveList;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.RenameList;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.WorkSpaceCommands.JoinWorkspace;
@@ -100,7 +102,7 @@ namespace CollabSphere.API.Hubs
                 var result = await _mediator.Send(command);
 
                 //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveListCreated", result.newListDto);
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveListCreated", result.NewListDto);
             }
             catch (Exception)
             {
@@ -156,8 +158,6 @@ namespace CollabSphere.API.Hubs
             {
                 throw new HubException("Fail to move the list");
             }
-
-
         }
         #endregion
 
@@ -188,12 +188,30 @@ namespace CollabSphere.API.Hubs
             }
         }
 
-        //public async Task MoveCard(string workspaceId, MoveCardCommand command)
-        //{
-        //    //Handle logic 
+        public async Task MoveCard(int workspaceId, int listId, int cardId, MoveCardCommand command)
+        {
+            try
+            {
+                //Get Requester Info
+                var userId = GetUserId();
 
-        //    await Clients.OthersInGroup(workspaceId).SendAsync("ReceiveCardMoved", cardId, newListId, newPosition);
-        //}
+                //Bind to command
+                command.RequesterId = userId;
+                command.WorkSpaceId = workspaceId;
+                command.ListId = listId;
+                command.CardId = cardId;
+
+                //Send command
+                var result = await _mediator.Send(command);
+
+                //Broadcase to other 
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardMoved", command.CardId, command.NewListId, command.NewPosition);
+            }
+            catch (Exception)
+            {
+                throw new HubException("Fail to move the list");
+            }
+        }
 
 
         //public async Task UpdateCardDetails(string workspaceId, UpdateCardDetailCommand command)
