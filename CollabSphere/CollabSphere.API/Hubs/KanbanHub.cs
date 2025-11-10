@@ -266,10 +266,63 @@ namespace CollabSphere.API.Hubs
             }
             catch (Exception)
             {
-                throw new HubException("Fail to create new list");
+                throw new HubException("Fail to create new task");
             }
         }
 
+        //Rename Task
+        public async Task RenameTask(int workspaceId, int listId, int cardId, int taskId, RenameTaskCommand command)
+        {
+            try
+            {
+                //Get Requester Info
+                var userId = GetUserId();
+
+                //Bind to command
+                command.RequesterId = userId;
+                command.WorkSpaceId = workspaceId;
+                command.ListId = listId;
+                command.CardId = cardId;
+                command.TaskId = taskId;
+
+                //Send command
+                var result = await _mediator.Send(command);
+
+                //Broadcase to other 
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveTaskRenamed", command.ListId, command.CardId, command.TaskId, command.NewTitle);
+            }
+            catch (Exception)
+            {
+                throw new HubException("Fail to rename the task");
+            }
+        }
+
+        //Delete Task
+        public async Task DeleteTask(int workspaceId, int listId, int cardId, int taskId, DeleteTaskCommand command)
+        {
+            try
+            {
+                //Get Requester Info
+                var userId = GetUserId();
+
+                //Bind to command
+                command.RequesterId = userId;
+                command.WorkSpaceId = workspaceId;
+                command.ListId = listId;
+                command.CardId = cardId;
+                command.TaskId = taskId;
+
+                //Send command
+                var result = await _mediator.Send(command);
+
+                //Broadcase to other 
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveTaskDeleted", command.ListId, command.CardId, command.TaskId);
+            }
+            catch (Exception)
+            {
+                throw new HubException("Fail to delete the task");
+            }
+        }
         #endregion
 
         #region Sub-Task

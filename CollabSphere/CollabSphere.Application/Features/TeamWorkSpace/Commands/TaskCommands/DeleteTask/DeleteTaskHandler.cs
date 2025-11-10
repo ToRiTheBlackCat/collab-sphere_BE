@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.TaskCommands
+namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.TaskCommands.DeleteTask
 {
-    public class CreateTaskHandler
+    public class DeleteTaskHandler
     {
     }
 }

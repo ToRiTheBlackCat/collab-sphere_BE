@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.TaskCommands
+namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.TaskCommands.DeleteTask
 {
-    public class CreateTaskCommand
+    public class DeleteTaskCommand
     {
         [JsonIgnore]
         public int WorkSpaceId { get; set; }
@@ -18,10 +17,7 @@ namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.TaskCommands
         public int ListId { get; set; }
         [JsonIgnore]
         public int CardId { get; set; }
-
-        [Required]
-        public string CardTitle { get; set; } = string.Empty;
-        [Required]
-        public int CardOrder { get; set; }
+        [JsonIgnore]
+        public int TaskId { get; set; }
     }
 }
