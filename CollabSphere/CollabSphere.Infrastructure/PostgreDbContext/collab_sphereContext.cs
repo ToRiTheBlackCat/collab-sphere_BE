@@ -163,7 +163,6 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.DueAt).HasColumnName("due_at");
             entity.Property(e => e.IsCompleted).HasColumnName("is_completed");
-            entity.Property(e => e.Labels).HasColumnName("labels");
             entity.Property(e => e.ListId).HasColumnName("list_id");
             entity.Property(e => e.Position).HasColumnName("position");
             entity.Property(e => e.RiskLevel).HasColumnName("risk_level");

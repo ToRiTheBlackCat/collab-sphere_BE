@@ -15,8 +15,6 @@ public partial class Card
 
     public string Description { get; set; }
 
-    public string Labels { get; set; }
-
     public string RiskLevel { get; set; }
 
     public float Position { get; set; }
