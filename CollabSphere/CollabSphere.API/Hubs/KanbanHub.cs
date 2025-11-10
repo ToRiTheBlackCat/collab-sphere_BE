@@ -162,12 +162,31 @@ namespace CollabSphere.API.Hubs
         #endregion
 
         #region CARD
-        //public async Task CreateCard(string workspaceId, CreateCardCommand command)
-        //{
-        //    //Handle logic 
 
-        //    await Clients.OthersInGroup(workspaceId).SendAsync("ReceiveCardCreated", newCard);
-        //}
+        //Create Card and assign member to card
+        public async Task CreateCardAndAssignMember(int workspaceId, int listId, CreateCardCommand command)
+        {
+            try
+            {
+                //Get Requester Info
+                var userId = GetUserId();
+
+                //Bind to command
+                command.RequesterId = userId;
+                command.WorkSpaceId = workspaceId;
+                command.ListId = listId;
+
+                //Send command
+                var result = await _mediator.Send(command);
+
+                //Broadcase to other 
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardCreated", result.NewCardDto);
+            }
+            catch (Exception)
+            {
+                throw new HubException("Fail to create new list");
+            }
+        }
 
         //public async Task MoveCard(string workspaceId, MoveCardCommand command)
         //{
