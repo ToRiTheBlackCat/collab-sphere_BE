@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.JoinWorkspace
+namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.WorkSpaceCommands.JoinWorkspace
 {
     public class JoinWorkspaceCommand
     {

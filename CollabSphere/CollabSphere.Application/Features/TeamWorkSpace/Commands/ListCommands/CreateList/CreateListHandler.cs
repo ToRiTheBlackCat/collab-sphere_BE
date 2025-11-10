@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.CreateList
+namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.CreateList
 {
     public class CreateListHandler
     {

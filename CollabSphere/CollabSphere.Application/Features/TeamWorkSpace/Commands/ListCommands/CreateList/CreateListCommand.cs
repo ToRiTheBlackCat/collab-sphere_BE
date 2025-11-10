@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.CreateList
+namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.CreateList
 {
     public class CreateListCommand
     {
