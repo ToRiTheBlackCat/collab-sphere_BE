@@ -1,9 +1,12 @@
-﻿using CollabSphere.Application;
-using CollabSphere.Application.Constants;
-using CollabSphere.Application.Features.TeamWorkSpace.Commands.JoinWorkspace;
+﻿using CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.CreateList;
+using CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.MoveList;
+using CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.RenameList;
+using CollabSphere.Application.Features.TeamWorkSpace.Commands.WorkSpaceCommands.JoinWorkspace;
+using CollabSphere.Application.Features.TeamWorkSpace.Commands.WorkSpaceCommands.LeaveWorkspace;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using StackExchange.Redis;
 
 namespace CollabSphere.API.Hubs
 {
@@ -26,6 +29,8 @@ namespace CollabSphere.API.Hubs
         {
             return int.Parse(Context.UserIdentifier!);
         }
+
+
         #region WORKSPACE
         //Join in workspace
         public async Task JoinWorkspace(int workspaceId)
@@ -46,7 +51,7 @@ namespace CollabSphere.API.Hubs
                 //Connect requester
                 await Groups.AddToGroupAsync(Context.ConnectionId, workspaceId.ToString());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new HubException("Failed to join workspace!");
             }
@@ -71,14 +76,15 @@ namespace CollabSphere.API.Hubs
                 //Remove requester
                 await Groups.RemoveFromGroupAsync(Context.ConnectionId, workspaceId.ToString());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new HubException("Failed to join workspace!");
+                throw new HubException("Failed to leave workspace!");
             }
         }
         #endregion
 
         #region LIST
+        //Create new List
         public async Task CreateList(int workspaceId, CreateListCommand command)
         {
             try
@@ -96,12 +102,13 @@ namespace CollabSphere.API.Hubs
                 //Broadcase to other 
                 await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveListCreated", result.newListDto);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new HubException("Fail to create new list");
             }
         }
 
+        //Move List
         public async Task MoveList(int workspaceId, int listId, MoveListCommand command)
         {
             try
@@ -120,18 +127,38 @@ namespace CollabSphere.API.Hubs
                 //Broadcase to other 
                 await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveListMoved", command.ListId, command.NewPosition);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw new HubException("Fail to move the list");
             }
         }
 
-        //public async Task RenameList(string workspaceId, int listId, RenameListCommand command)
-        //{
-        //    //Handle logic 
+        //Rename List
+        public async Task RenameList(int workspaceId, int listId, RenameListCommand command)
+        {
+            try
+            {
+                //Get Requester Info
+                var userId = GetUserId();
 
-        //    await Clients.OthersInGroup(workspaceId).SendAsync("ReceiveListRenamed", listId, newTitle);
-        //}
+                //Bind to command
+                command.RequesterId = userId;
+                command.WorkSpaceId = workspaceId;
+                command.ListId = listId;
+
+                //Send command
+                var result = await _mediator.Send(command);
+
+                //Broadcase to other 
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveListRenamed", command.ListId, command.NewTitle);
+            }
+            catch (Exception)
+            {
+                throw new HubException("Fail to move the list");
+            }
+
+
+        }
         #endregion
 
         #region CARD
