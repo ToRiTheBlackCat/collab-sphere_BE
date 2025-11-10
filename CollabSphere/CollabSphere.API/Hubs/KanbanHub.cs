@@ -4,6 +4,7 @@ using CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.Upda
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.CreateList;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.MoveList;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.RenameList;
+using CollabSphere.Application.Features.TeamWorkSpace.Commands.TaskCommands;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.WorkSpaceCommands.JoinWorkspace;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.WorkSpaceCommands.LeaveWorkspace;
 using MediatR;
@@ -215,7 +216,7 @@ namespace CollabSphere.API.Hubs
             }
         }
 
-
+        //Update Cart Details
         public async Task UpdateCardDetails(int workspaceId, int listId, int cardId, UpdateCardDetailsCommand command)
         {
             try
@@ -240,6 +241,39 @@ namespace CollabSphere.API.Hubs
                 throw new HubException("Fail to move the list");
             }
         }
+        #endregion
+
+        #region Task
+        //Create new Task
+        public async Task CreateTask(int workspaceId, int listId, int cardId, CreateTaskCommand command)
+        {
+            try
+            {
+                //Get Requester Info
+                var userId = GetUserId();
+
+                //Bind to command
+                command.RequesterId = userId;
+                command.WorkSpaceId = workspaceId;
+                command.ListId = listId;
+                command.CardId = cardId;
+
+                //Send command
+                var result = await _mediator.Send(command);
+
+                //Broadcase to other 
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveTaskCreated", result.CreatedTaskDto);
+            }
+            catch (Exception)
+            {
+                throw new HubException("Fail to create new list");
+            }
+        }
+
+        #endregion
+
+        #region Sub-Task
+
         #endregion
     }
 }
