@@ -79,51 +79,66 @@ namespace CollabSphere.API.Hubs
         #endregion
 
         #region LIST
-        public async Task CreateList(string workspaceId, CreateListCommand command)
+        public async Task CreateList(int workspaceId, CreateListCommand command)
         {
-            //Handle logic 
+            try
+            {
+                //Get Requester Info
+                var userId = GetUserId();
 
+                //Bind to command
+                command.RequesterId = userId;
+                command.WorkSpaceId = workspaceId;
 
-            await Clients.OthersInGroup(workspaceId).SendAsync("ReceiveListCreated", newList);
+                //Send command
+                var result = await _mediator.Send(command);
+
+                //Broadcase to other 
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveListCreated", result.newListDto);
+            }
+            catch (Exception ex)
+            {
+                throw new HubException("Fail to create new list");
+            }
         }
 
-        public async Task MoveList(string workspaceId, int listId, MoveListCommand command)
-        {
-            //Handle logic 
+        //public async Task MoveList(string workspaceId, int listId, MoveListCommand command)
+        //{
+        //    //Handle logic 
 
-            await Clients.OthersInGroup(workspaceId).SendAsync("ReceiveListMoved", listId, newPosition);
-        }
+        //    await Clients.OthersInGroup(workspaceId).SendAsync("ReceiveListMoved", listId, newPosition);
+        //}
 
-        public async Task RenameList(string workspaceId, int listId, RenameListCommand command)
-        {
-            //Handle logic 
+        //public async Task RenameList(string workspaceId, int listId, RenameListCommand command)
+        //{
+        //    //Handle logic 
 
-            await Clients.OthersInGroup(workspaceId).SendAsync("ReceiveListRenamed", listId, newTitle);
-        }
+        //    await Clients.OthersInGroup(workspaceId).SendAsync("ReceiveListRenamed", listId, newTitle);
+        //}
         #endregion
 
         #region CARD
-        public async Task CreateCard(string workspaceId, CreateCardCommand command)
-        {
-            //Handle logic 
+        //public async Task CreateCard(string workspaceId, CreateCardCommand command)
+        //{
+        //    //Handle logic 
 
-            await Clients.OthersInGroup(workspaceId).SendAsync("ReceiveCardCreated", newCard);
-        }
+        //    await Clients.OthersInGroup(workspaceId).SendAsync("ReceiveCardCreated", newCard);
+        //}
 
-        public async Task MoveCard(string workspaceId, int cardId, int newListId, int newPosition)
-        {
-            //Handle logic 
+        //public async Task MoveCard(string workspaceId, MoveCardCommand command)
+        //{
+        //    //Handle logic 
 
-            await Clients.OthersInGroup(workspaceId).SendAsync("ReceiveCardMoved", cardId, newListId, newPosition);
-        }
+        //    await Clients.OthersInGroup(workspaceId).SendAsync("ReceiveCardMoved", cardId, newListId, newPosition);
+        //}
 
-     
-        public async Task UpdateCardDetails(string workspaceId, Card updatedCard)
-        {
-            //Handle logic 
 
-            await Clients.OthersInGroup(workspaceId).SendAsync("ReceiveCardUpdated", updatedCard);
-        }
+        //public async Task UpdateCardDetails(string workspaceId, UpdateCardDetailCommand command)
+        //{
+        //    //Handle logic 
+
+        //    await Clients.OthersInGroup(workspaceId).SendAsync("ReceiveCardUpdated", updatedCard);
+        //}
         #endregion
     }
 }
