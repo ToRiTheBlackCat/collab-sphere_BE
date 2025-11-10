@@ -326,6 +326,31 @@ namespace CollabSphere.API.Hubs
         #endregion
 
         #region Sub-Task
+        //Create new Sub-Task
+        public async Task CreateSubTask(int workspaceId, int listId, int cardId, CreateSubTaskCommand command)
+        {
+            try
+            {
+                //Get Requester Info
+                var userId = GetUserId();
+
+                //Bind to command
+                command.RequesterId = userId;
+                command.WorkSpaceId = workspaceId;
+                command.ListId = listId;
+                command.CardId = cardId;
+
+                //Send command
+                var result = await _mediator.Send(command);
+
+                //Broadcase to other 
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveSubTaskCreated", result.CreatedSubTaskDto);
+            }
+            catch (Exception)
+            {
+                throw new HubException("Fail to create new subtask");
+            }
+        }
 
         #endregion
     }
