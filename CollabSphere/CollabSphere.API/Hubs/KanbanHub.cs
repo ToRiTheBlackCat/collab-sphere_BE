@@ -352,6 +352,33 @@ namespace CollabSphere.API.Hubs
             }
         }
 
+        //Rename Task
+        public async Task RenameSubTask(int workspaceId, int listId, int cardId, int taskId, int subtaskId, RenameSubTaskCommand command)
+        {
+            try
+            {
+                //Get Requester Info
+                var userId = GetUserId();
+
+                //Bind to command
+                command.RequesterId = userId;
+                command.WorkSpaceId = workspaceId;
+                command.ListId = listId;
+                command.CardId = cardId;
+                command.TaskId = taskId;
+                command.SubTaskId = subtaskId;
+
+                //Send command
+                var result = await _mediator.Send(command);
+
+                //Broadcase to other 
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveSubTaskRenamed", command.ListId, command.CardId, command.TaskId,command.SubTaskId, command.NewTitle);
+            }
+            catch (Exception)
+            {
+                throw new HubException("Fail to rename subtask");
+            }
+        }
         #endregion
     }
 }
