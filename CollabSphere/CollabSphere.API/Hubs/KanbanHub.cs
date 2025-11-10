@@ -53,9 +53,28 @@ namespace CollabSphere.API.Hubs
         }
 
         //Leave workspace
-        public async Task LeaveWorkspace(string workspaceId)
+        public async Task LeaveWorkspace(int workspaceId)
         {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, workspaceId);
+            try
+            {
+                //Get Requester Info
+                var userId = GetUserId();
+
+                //Send command
+                var command = new LeaveWorkspaceCommand
+                {
+                    WorkspaceId = workspaceId,
+                    UserId = userId
+                };
+                var result = await _mediator.Send(command);
+
+                //Remove requester
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, workspaceId.ToString());
+            }
+            catch (Exception ex)
+            {
+                throw new HubException("Failed to join workspace!");
+            }
         }
         #endregion
 
