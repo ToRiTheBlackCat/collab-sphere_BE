@@ -102,12 +102,29 @@ namespace CollabSphere.API.Hubs
             }
         }
 
-        //public async Task MoveList(string workspaceId, int listId, MoveListCommand command)
-        //{
-        //    //Handle logic 
+        public async Task MoveList(int workspaceId, int listId, MoveListCommand command)
+        {
+            try
+            {
+                //Get Requester Info
+                var userId = GetUserId();
 
-        //    await Clients.OthersInGroup(workspaceId).SendAsync("ReceiveListMoved", listId, newPosition);
-        //}
+                //Bind to command
+                command.RequesterId = userId;
+                command.WorkSpaceId = workspaceId;
+                command.ListId = listId;
+
+                //Send command
+                var result = await _mediator.Send(command);
+
+                //Broadcase to other 
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveListMoved", command.ListId, command.NewPosition);
+            }
+            catch (Exception ex)
+            {
+                throw new HubException("Fail to move the list");
+            }
+        }
 
         //public async Task RenameList(string workspaceId, int listId, RenameListCommand command)
         //{
