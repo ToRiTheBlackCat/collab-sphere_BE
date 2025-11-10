@@ -12,6 +12,7 @@ public partial class List
     public int WorkspaceId { get; set; }
 
     public string Title { get; set; }
+    public float Position { get; set; }
 
     public virtual ICollection<Card> Cards { get; set; } = new List<Card>();
 

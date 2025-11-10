@@ -165,6 +165,7 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.IsCompleted).HasColumnName("is_completed");
             entity.Property(e => e.Labels).HasColumnName("labels");
             entity.Property(e => e.ListId).HasColumnName("list_id");
+            entity.Property(e => e.Position).HasColumnName("position");
             entity.Property(e => e.RiskLevel).HasColumnName("risk_level");
             entity.Property(e => e.Title).HasColumnName("title");
 
@@ -530,6 +531,7 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.ListId)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("list_id");
+            entity.Property(e => e.Position).HasColumnName("position");
             entity.Property(e => e.Title).HasColumnName("title");
             entity.Property(e => e.WorkspaceId).HasColumnName("workspace_id");
 
@@ -1065,6 +1067,7 @@ public partial class collab_sphereContext : DbContext
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("sub_task_id");
             entity.Property(e => e.IsDone).HasColumnName("is_done");
+            entity.Property(e => e.Order).HasColumnName("order");
             entity.Property(e => e.SubTaskTitle).HasColumnName("sub_task_title");
             entity.Property(e => e.TaskId).HasColumnName("task_id");
 
@@ -1171,6 +1174,7 @@ public partial class collab_sphereContext : DbContext
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("task_id");
             entity.Property(e => e.CardId).HasColumnName("card_id");
+            entity.Property(e => e.Order).HasColumnName("order");
             entity.Property(e => e.TaskTitle).HasColumnName("task_title");
 
             entity.HasOne(d => d.Card).WithMany(p => p.Tasks)

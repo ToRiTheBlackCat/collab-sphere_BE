@@ -19,6 +19,8 @@ public partial class Card
 
     public string RiskLevel { get; set; }
 
+    public float Position { get; set; }
+
     public DateTime CreatedAt { get; set; }
 
     public DateTime? DueAt { get; set; }

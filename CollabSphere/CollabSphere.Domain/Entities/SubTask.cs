@@ -11,6 +11,8 @@ public partial class SubTask
 
     public string SubTaskTitle { get; set; }
 
+    public int Order { get; set; }
+
     public bool? IsDone { get; set; }
 
     public int TaskId { get; set; }

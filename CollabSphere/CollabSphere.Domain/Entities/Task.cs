@@ -14,6 +14,8 @@ public partial class Task
 
     public int CardId { get; set; }
 
+    public int Order { get; set; }
+
     public virtual Card Card { get; set; }
 
     public virtual ICollection<SubTask> SubTasks { get; set; } = new List<SubTask>();
