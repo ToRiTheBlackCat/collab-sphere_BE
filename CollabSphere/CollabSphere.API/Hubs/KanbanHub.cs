@@ -7,6 +7,7 @@ using CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.Rena
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.SubTaskCommands.CreateSubTask;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.SubTaskCommands.DeleteSubTask;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.SubTaskCommands.RenameSubTask;
+using CollabSphere.Application.Features.TeamWorkSpace.Commands.SubTaskCommands.UpdateSubTaskDetails;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.TaskCommands.CreateTask;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.TaskCommands.DeleteTask;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.TaskCommands.RenameTask;
@@ -15,7 +16,6 @@ using CollabSphere.Application.Features.TeamWorkSpace.Commands.WorkSpaceCommands
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using StackExchange.Redis;
 
 namespace CollabSphere.API.Hubs
 {
@@ -360,7 +360,7 @@ namespace CollabSphere.API.Hubs
             }
         }
 
-        //Rename Task
+        //Rename SubTask
         public async Task RenameSubTask(int workspaceId, int listId, int cardId, int taskId, int subtaskId, RenameSubTaskCommand command)
         {
             try
@@ -388,7 +388,7 @@ namespace CollabSphere.API.Hubs
             }
         }
 
-        //Delete Task
+        //Update SubTask
         public async Task DeleteSubTask(int workspaceId, int listId, int cardId, int taskId, int subtaskId, DeleteSubTaskCommand command)
         {
             try
@@ -413,6 +413,34 @@ namespace CollabSphere.API.Hubs
             catch (Exception)
             {
                 throw new HubException("Fail to delete subtask");
+            }
+        }
+
+        //Update SubTask
+        public async Task UpdateSubTaskDetails(int workspaceId, int listId, int cardId, int taskId, int subtaskId, UpdateSubTaskDetailsCommand command)
+        {
+            try
+            {
+                //Get Requester Info
+                var userId = GetUserId();
+
+                //Bind to command
+                command.RequesterId = userId;
+                command.WorkSpaceId = workspaceId;
+                command.ListId = listId;
+                command.CardId = cardId;
+                command.TaskId = taskId;
+                command.SubTaskId = subtaskId;
+
+                //Send command
+                var result = await _mediator.Send(command);
+
+                //Broadcase to other 
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveSubTaskUpdated", result.UpdatedSubTaskDto);
+            }
+            catch (Exception)
+            {
+                throw new HubException("Fail to update subtask");
             }
         }
         #endregion
