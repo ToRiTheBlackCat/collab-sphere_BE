@@ -165,6 +165,13 @@ builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
 builder.Services.AddAWSService<IAmazonS3>();
 #endregion
 
+#region Configure GoogleDrive-Storing Video
+builder.Services.Configure<GgDriveSettings>(
+    builder.Configuration.GetSection("GoogleDrive"));
+
+builder.Services.AddSingleton<GgDriveVideoService>();
+#endregion
+
 
 var app = builder.Build();
 

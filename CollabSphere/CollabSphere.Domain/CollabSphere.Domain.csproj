@@ -7,6 +7,8 @@
   </PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="CloudinaryDotNet" Version="1.27.7" />
+		<PackageReference Include="Google.Apis.Auth" Version="1.72.0" />
+		<PackageReference Include="Google.Apis.Drive.v3" Version="1.72.0.3944" />
 		<PackageReference Include="Npgsql" Version="9.0.3" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
