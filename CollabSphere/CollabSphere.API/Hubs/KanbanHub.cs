@@ -4,7 +4,12 @@ using CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.Upda
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.CreateList;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.MoveList;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.RenameList;
-using CollabSphere.Application.Features.TeamWorkSpace.Commands.TaskCommands;
+using CollabSphere.Application.Features.TeamWorkSpace.Commands.SubTaskCommands.CreateSubTask;
+using CollabSphere.Application.Features.TeamWorkSpace.Commands.SubTaskCommands.DeleteSubTask;
+using CollabSphere.Application.Features.TeamWorkSpace.Commands.SubTaskCommands.RenameSubTask;
+using CollabSphere.Application.Features.TeamWorkSpace.Commands.TaskCommands.CreateTask;
+using CollabSphere.Application.Features.TeamWorkSpace.Commands.TaskCommands.DeleteTask;
+using CollabSphere.Application.Features.TeamWorkSpace.Commands.TaskCommands.RenameTask;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.WorkSpaceCommands.JoinWorkspace;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.WorkSpaceCommands.LeaveWorkspace;
 using MediatR;
@@ -216,7 +221,7 @@ namespace CollabSphere.API.Hubs
             }
         }
 
-        //Update Cart Details
+        //Update Card Details
         public async Task UpdateCardDetails(int workspaceId, int listId, int cardId, UpdateCardDetailsCommand command)
         {
             try
@@ -238,9 +243,12 @@ namespace CollabSphere.API.Hubs
             }
             catch (Exception)
             {
-                throw new HubException("Fail to move the list");
+                throw new HubException("Fail to update card");
             }
         }
+
+        //Delete Card (PENDING - Bổ sung thêm logic tự xóa mấy cái liên quan trong DB)
+
         #endregion
 
         #region Task
@@ -372,11 +380,39 @@ namespace CollabSphere.API.Hubs
                 var result = await _mediator.Send(command);
 
                 //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveSubTaskRenamed", command.ListId, command.CardId, command.TaskId,command.SubTaskId, command.NewTitle);
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveSubTaskRenamed", command.ListId, command.CardId, command.TaskId, command.SubTaskId, command.NewTitle);
             }
             catch (Exception)
             {
                 throw new HubException("Fail to rename subtask");
+            }
+        }
+
+        //Delete Task
+        public async Task DeleteSubTask(int workspaceId, int listId, int cardId, int taskId, int subtaskId, DeleteSubTaskCommand command)
+        {
+            try
+            {
+                //Get Requester Info
+                var userId = GetUserId();
+
+                //Bind to command
+                command.RequesterId = userId;
+                command.WorkSpaceId = workspaceId;
+                command.ListId = listId;
+                command.CardId = cardId;
+                command.TaskId = taskId;
+                command.SubTaskId = subtaskId;
+
+                //Send command
+                var result = await _mediator.Send(command);
+
+                //Broadcase to other 
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveSubTaskDeleted", command.ListId, command.CardId, command.TaskId, command.SubTaskId);
+            }
+            catch (Exception)
+            {
+                throw new HubException("Fail to delete subtask");
             }
         }
         #endregion
