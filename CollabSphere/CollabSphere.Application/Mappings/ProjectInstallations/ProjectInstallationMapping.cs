@@ -32,6 +32,7 @@ namespace CollabSphere.Application.Mappings.ProjectRepos
                     Id = install.Id,
                     ProjectId = install.Id,
                     GithubInstallationId = install.GithubInstallationId,
+                    TeamId = install.TeamId,
                     InstallatedByUserId = install.InstalledByUserId,
                     InstalledAt = install.InstalledAt
                 };

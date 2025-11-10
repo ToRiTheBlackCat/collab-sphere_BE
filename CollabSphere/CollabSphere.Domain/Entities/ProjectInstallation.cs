@@ -16,8 +16,11 @@ public partial class ProjectInstallation
     public int InstalledByUserId { get; set; }
 
     public DateTime? InstalledAt { get; set; }
+    public int TeamId { get; set; }
 
     public virtual User InstalledByUser { get; set; } = null!;
 
     public virtual Project Project { get; set; } = null!;
+
+    public virtual Team Team { get; set; } = null!;
 }

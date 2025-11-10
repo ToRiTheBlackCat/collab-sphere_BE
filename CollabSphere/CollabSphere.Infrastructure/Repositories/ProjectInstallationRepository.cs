@@ -17,7 +17,7 @@ namespace CollabSphere.Infrastructure.Repositories
         {
         }
 
-        public async Task<List<ProjectInstallation>?> SearchInstallationsOfProject(int projectId, int installedUserId, DateTime? fromDate, bool isDesc)
+        public async Task<List<ProjectInstallation>?> SearchInstallationsOfProject(int projectId, int installedUserId, int teamId, DateTime? fromDate, bool isDesc)
         {
             var query = _context.ProjectInstallations
               .Where(x => x.ProjectId == projectId)
@@ -28,6 +28,11 @@ namespace CollabSphere.Infrastructure.Repositories
             if (installedUserId != 0)
             {
                 query = query.Where(x => x.InstalledByUserId == installedUserId);
+            }
+
+            if (teamId != 0)
+            {
+                query = query.Where(x => x.TeamId == teamId);
             }
 
             if (fromDate.HasValue)

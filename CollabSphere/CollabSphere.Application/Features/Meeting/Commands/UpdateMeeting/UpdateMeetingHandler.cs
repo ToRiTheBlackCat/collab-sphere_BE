@@ -139,7 +139,7 @@ namespace CollabSphere.Application.Features.Meeting.Commands.UpdateMeeting
                     errors.Add(new OperationError
                     {
                         Field = nameof(request.ScheduleTime),
-                        Message = $"Invalid time. Please create schedule start for now"
+                        Message = $"Invalid time. Please create meeting that start from now"
                     });
                     return;
                 }

@@ -39,6 +39,7 @@ namespace CollabSphere.Application.Features.ProjectRepo.Commands.CreateRepoForPr
                     {
                         ProjectId = request.ProjectId,
                         GithubInstallationId = request.InstallationId,
+                        TeamId = request.TeamId,
                         InstalledByUserId = request.UserId,
                         InstalledAt = DateTime.UtcNow
                     };
@@ -77,13 +78,56 @@ namespace CollabSphere.Application.Features.ProjectRepo.Commands.CreateRepoForPr
                     });
                     return;
                 }
+
+                //Find team
+                var foundTeam = await _unitOfWork.TeamRepo.GetById(request.TeamId);
+                if (foundTeam == null)
+                {
+                    errors.Add(new OperationError
+                    {
+                        Field = nameof(request.ProjectId),
+                        Message = $"Not found any project with that Id: {request.TeamId}"
+                    });
+                    return;
+                }
+                else
+                {
+                    //If student
+                    if (request.UserRole == RoleConstants.STUDENT)
+                    {
+                        //Check if team member
+                        var foundTeamMem = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByTeamIdAndStudentId(foundTeam.TeamId, request.UserId);
+                        if (foundTeamMem == null)
+                        {
+                            errors.Add(new OperationError
+                            {
+                                Field = nameof(request.UserId),
+                                Message = $"You are not the member of this team. Cannot create project installation for this team"
+                            });
+                            return;
+                        }
+                    }
+                    //If Lec
+                    else
+                    {
+                        if (request.UserId != foundTeam.LecturerId)
+                        {
+                            errors.Add(new OperationError
+                            {
+                                Field = nameof(request.UserId),
+                                Message = $"You are not the lecturer of this team. Cannot create meeting for this team"
+                            });
+                            return;
+                        }
+                    }
+                }
             }
             else
             {
                 errors.Add(new OperationError
                 {
                     Field = nameof(request.UserRole),
-                    Message = $"Your role do not have permisison to use this function"
+                    Message = $"You do not have permission to use this function"
                 });
                 return;
             }
