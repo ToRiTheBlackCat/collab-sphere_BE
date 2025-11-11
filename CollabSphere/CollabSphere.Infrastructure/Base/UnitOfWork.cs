@@ -49,6 +49,13 @@ namespace CollabSphere.Infrastructure.Base
         public IMilestoneReturnRepository MilestoneReturnRepo { get; }
         public IProjectInstallationRepository ProjectInstallationRepo { get; }
         public IMeetingRepository MeetingRepo { get; }
+        public ITeamWorkspaceRepository TeamWorkspaceRepo { get; }
+        public IListRepository ListRepo { get; }
+        public ICardRepository CardRepo { get; }
+        public ICardAssignmentRepository CardAssignmentRepo { get; }
+        public ITaskRepository TaskRepo { get; }
+        public ISubTaskRepository SubTaskRepo { get; }
+
         #endregion
 
         public UnitOfWork(collab_sphereContext context)
@@ -88,6 +95,9 @@ namespace CollabSphere.Infrastructure.Base
             MilestoneReturnRepo = new MilestoneReturnRepository(_context);
             ProjectInstallationRepo = new ProjectInstallationRepository(_context);
             MeetingRepo = new MeetingRepository(_context);
+            TeamWorkspaceRepo = new TeamWorkspaceRepository(_context);
+            ListRepo = new ListRepository(_context);
+            CardRepo = new CardRepository(_context);
             #endregion
         }
 
