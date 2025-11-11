@@ -4,6 +4,7 @@ using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Application.Features.Student.Commands;
 using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
+using CollabSphere.Domain.Models;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.Logging;
 using System;
@@ -134,7 +135,7 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                 }
                 #endregion
 
-                #region Add team members
+                #region Add team memberss
                 foreach (var student in request.StudentList)
                 {
                     if (maxAdded > 0)
@@ -188,6 +189,18 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                         rawMessage.Append($"Reach the max members of team, cannot add anymore. Fail to added student with id: {student.StudentId} into team with id: {newTeam.TeamId}| ");
                     }
                 }
+                #endregion
+
+                #region Create Team WorkSpace
+                var newTeamWkSpace = new TeamWorkspace
+                {
+                    TeamId = newTeam.TeamId,
+                    Title = $"{newTeam.TeamName}'s WorkSpace",
+                    CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow),
+                };
+
+                await _unitOfWork.TeamWorkspaceRepo.Create(newTeamWkSpace);
+                await _unitOfWork.SaveChangesAsync();
                 #endregion
             }
             catch (Exception ex)
