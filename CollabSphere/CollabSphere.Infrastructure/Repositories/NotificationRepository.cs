@@ -1,4 +1,5 @@
-﻿using CollabSphere.Domain.Entities;
+﻿using CollabSphere.Application.Constants;
+using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
 using CollabSphere.Infrastructure.Base;
 using CollabSphere.Infrastructure.PostgreDbContext;
@@ -17,12 +18,14 @@ namespace CollabSphere.Infrastructure.Repositories
         {
         }
 
-        public async Task<List<Notification>> GetNotificationsOfUser(int userId)
+        public async Task<List<Notification>> GetChatNotificationsOfUser(int userId)
         {
             var notifications = await _context.NotificationRecipients
                 .AsNoTracking()
                 .Include(x => x.Notification)
-                .Where(x => x.ReceiverId == userId)
+                .Where(x => 
+                    x.ReceiverId == userId
+                )
                 .Select(x => x.Notification)
                 .OrderBy(x => x.CreatedAt)
                 .ToListAsync();

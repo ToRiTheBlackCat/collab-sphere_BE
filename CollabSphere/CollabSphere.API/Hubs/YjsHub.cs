@@ -1,7 +1,9 @@
 ﻿using CollabSphere.Application;
+using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.ChatMessages;
 using CollabSphere.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Concurrent;
@@ -32,8 +34,8 @@ namespace CollabSphere.API.Hubs
         // Dictionary<connectionId, userId>
         private static readonly ConcurrentDictionary<string, int> UserConnectionIds = new();
 
-        // Tracks which rooms a specific connection is in for proper disconnect notifications.
-        private static readonly ConcurrentDictionary<string, HashSet<string>> ConnectionRooms = new();
+        // Dictionary<room, ConnectionIds>
+        private static readonly ConcurrentDictionary<string, HashSet<string>> RoomConnections = new();
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<YjsHub> _logger; // ADDED: For logging
@@ -55,8 +57,8 @@ namespace CollabSphere.API.Hubs
                 // Track connection ID to User ID
                 UserConnectionIds.TryAdd(Context.ConnectionId, userId);
 
-                // ADDED: Track that this connection is in this room
-                ConnectionRooms.GetOrAdd(Context.ConnectionId, _ => new HashSet<string>()).Add(room);
+                // Add connection to Room's connections list for tracking
+                RoomConnections.GetOrAdd(room, _ => new HashSet<string>()).Add(Context.ConnectionId);
 
                 await Groups.AddToGroupAsync(Context.ConnectionId, room);
 
@@ -64,9 +66,6 @@ namespace CollabSphere.API.Hubs
                 var latestUpdates = docStates.Select(x => x.UpdateData).ToArray();
 
                 await Clients.Caller.ReceiveDocState(latestUpdates);
-
-                // 3. Notify others of the new connection
-                // ... (notify and return)
             }
             catch (Exception ex)
             {
@@ -82,7 +81,7 @@ namespace CollabSphere.API.Hubs
         {
             try
             {
-                // CRITICAL - Persist the new update to the database
+                // Persist the new update to the database
                 var newDocState = new DocumentState 
                 {
                     RoomId = room,
@@ -91,14 +90,14 @@ namespace CollabSphere.API.Hubs
                 };
                 await _unitOfWork.DocStateRepo.Create(newDocState);
                 await _unitOfWork.SaveChangesAsync();
-
-                // Forward to others in the room
-                await Clients.OthersInGroup(room).ReceiveUpdate(update);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in BroadcastUpdate for room {Room}", room);
             }
+
+            // Forward to others in the room
+            var broadcastUpdate = Clients.OthersInGroup(room).ReceiveUpdate(update);
         }
 
         // Replace updates in DB with snapshot
@@ -138,11 +137,11 @@ namespace CollabSphere.API.Hubs
         }
 
         // Broadcast Yjs awareness updates (cursor positions, selections, etc.)
-        public async Task BroadcastAwareness(string room, string updateBase64)
+        public void BroadcastAwareness(string room, string updateBase64)
         {
             try
             {
-                await Clients.OthersInGroup(room).ReceiveAwareness(updateBase64);
+                Clients.OthersInGroup(room).ReceiveAwareness(updateBase64);
             }
             catch (Exception ex)
             {
@@ -157,9 +156,9 @@ namespace CollabSphere.API.Hubs
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, room);
 
             // Remove this room from the connection's tracking
-            if (ConnectionRooms.TryGetValue(Context.ConnectionId, out var rooms))
+            if (RoomConnections.TryGetValue(room, out var connections))
             {
-                rooms.Remove(room);
+                connections.Remove(Context.ConnectionId);
             }
 
             // Notify the *specific room* that the user left
@@ -167,17 +166,7 @@ namespace CollabSphere.API.Hubs
             {
                 await Clients.Group(room).UserDisconnected(userId);
             }
-
-            // DO NOT call OnDisconnectedAsync manually.
         }
-
-        // Optional: return a snapshot if requested
-        //public async Task<string?> RequestSnapshot(string room, string stateVectorBase64)
-        //{
-        //    // TODO: you can store snapshots in Redis or memory
-        //    // For now return null (no snapshot stored)
-        //    return null;
-        //}
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
@@ -185,13 +174,13 @@ namespace CollabSphere.API.Hubs
             if (UserConnectionIds.TryRemove(Context.ConnectionId, out var userId))
             {
                 // Try to get the list of rooms the user was in
-                if (ConnectionRooms.TryRemove(Context.ConnectionId, out var rooms))
+                if (RoomConnections.TryRemove(Context.ConnectionId, out var rooms))
                 {
-                    // Create a task to notify each room
-                    var notificationTasks = rooms.Select(room =>
-                        Clients.Group(room).UserDisconnected(userId)
-                    );
-                    await Task.WhenAll(notificationTasks);
+                    //// Create a task to notify each room ()
+                    //var notificationTasks = rooms.Select(room =>
+                    //    Clients.Group(room).UserDisconnected(userId)
+                    //);
+                    //await Task.WhenAll(notificationTasks);
                 }
 
                 _logger.LogInformation("User {UserId} (Connection {ConnectionId}) disconnected.", userId, Context.ConnectionId);

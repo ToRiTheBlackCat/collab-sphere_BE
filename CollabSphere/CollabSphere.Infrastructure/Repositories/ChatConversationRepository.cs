@@ -29,6 +29,8 @@ namespace CollabSphere.Infrastructure.Repositories
                         .ThenInclude(x => x.Lecturer)
                 .Include(x => x.Team)
                     .ThenInclude(x => x.ClassMembers)
+                .Include(x => x.Team)
+                    .ThenInclude(x => x.Class)
                 .FirstOrDefaultAsync(x => x.ConversationId == conversationId);
 
             if (conversation != null)
