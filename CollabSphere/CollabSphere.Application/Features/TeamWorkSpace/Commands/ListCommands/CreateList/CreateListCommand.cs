@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CollabSphere.Application.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.CreateList
 {
-    public class CreateListCommand
+    public class CreateListCommand : ICommand
     {
         [JsonIgnore]
         public int WorkSpaceId { get; set; }
