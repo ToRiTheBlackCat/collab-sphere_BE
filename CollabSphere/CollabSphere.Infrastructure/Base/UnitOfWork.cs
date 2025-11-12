@@ -47,7 +47,7 @@ namespace CollabSphere.Infrastructure.Base
         public IAnswerEvaluationRepository AnswerEvaluationRepo { get; }
         public IMilestoneEvaluationRepository MilestoneEvaluationRepo { get; }
         public IMilestoneReturnRepository MilestoneReturnRepo { get; }
-        public IProjectInstallationRepository ProjectInstallationRepo { get; }
+        public IProjectRepoMappingRepository ProjectRepoMappingRepo { get; }
         public IMeetingRepository MeetingRepo { get; }
         #endregion
 
@@ -86,7 +86,7 @@ namespace CollabSphere.Infrastructure.Base
             AnswerEvaluationRepo = new AnswerEvaluationRepository(_context);
             MilestoneEvaluationRepo = new MilestoneEvaluationRepository(_context);
             MilestoneReturnRepo = new MilestoneReturnRepository(_context);
-            ProjectInstallationRepo = new ProjectInstallationRepository(_context);
+            ProjectRepoMappingRepo = new ProjectRepoMappingRepository(_context);
             MeetingRepo = new MeetingRepository(_context);
             #endregion
         }

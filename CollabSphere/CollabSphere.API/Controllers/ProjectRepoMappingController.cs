@@ -10,20 +10,20 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace CollabSphere.API.Controllers
 {
-    [Route("api/project-installation")]
+    [Route("api/project")]
     [ApiController]
-    public class ProjectInstallationController : ControllerBase
+    public class ProjectRepoMappingController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public ProjectInstallationController(IMediator mediator)
+        public ProjectRepoMappingController(IMediator mediator)
         {
             _mediator = mediator;
         }
 
         [Authorize]
-        [HttpGet("/api/project/{projectId}/installation")]
-        public async Task<IActionResult> GetInstallationsOfProject(GetInstallationsOfProjectQuery query, CancellationToken cancellationToken = default!)
+        [HttpGet("{projectId}/installation")]
+        public async Task<IActionResult> GetReposOfProject(GetReposOfProjectQuery query, CancellationToken cancellationToken = default!)
         {
             // Get UserId & Role of requester
             var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
@@ -42,8 +42,8 @@ namespace CollabSphere.API.Controllers
         }
 
         [Authorize]
-        [HttpPost("/api/project/{projectId}/installation")]
-        public async Task<IActionResult> CreateInstallationForProject(int projectId, [FromBody] CreateInstallationForProjectCommand command)
+        [HttpPost("{projectId}/installation")]
+        public async Task<IActionResult> CreateProjectRepoMapping(int projectId, [FromBody] CreateProjectRepoMappingCommand command)
         {
             if (!ModelState.IsValid)
             {
