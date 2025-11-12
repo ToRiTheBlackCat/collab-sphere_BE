@@ -21,21 +21,11 @@ namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.WorkSpaceComm
         {
             var result = new CommandResult
             {
-                IsSuccess = false,
+                IsSuccess = true,
                 IsValidInput = true,
                 Message = string.Empty,
             };
-            try
-            {
-                await _unitOfWork.BeginTransactionAsync();
-
-
-            }
-            catch (Exception ex)
-            {
-
-            }
-
+            
             return result;
         }
 
