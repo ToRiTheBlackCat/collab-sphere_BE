@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CollabSphere.Application.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.RenameList
 {
-    public class RenameListCommand
+    public class RenameListCommand : ICommand
     {
         [JsonIgnore]
-        public int WorkSpaceId { get; set; }
+        public int WorkspaceId { get; set; }
         [JsonIgnore]
         public int ListId { get; set; }
         [JsonIgnore]
         public int RequesterId { get; set; }
         [Required]
-        public float NewTitle { get; set; }
+        public string NewTitle { get; set; }
     }
 }
