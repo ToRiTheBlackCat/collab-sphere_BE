@@ -70,9 +70,9 @@ namespace CollabSphere.API.Hubs
 
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new HubException(ex.Message);
+                throw;
             }
         }
 
@@ -92,12 +92,20 @@ namespace CollabSphere.API.Hubs
                 };
                 var result = await _mediator.Send(command);
 
-                //Remove requester
-                await Groups.RemoveFromGroupAsync(Context.ConnectionId, workspaceId.ToString());
+                if (result.IsSuccess)
+                {
+                    //Remove requester
+                    await Groups.RemoveFromGroupAsync(Context.ConnectionId, workspaceId.ToString());
+                }
+                else
+                {
+                    throw new HubException(result.ErrorList.ToString());
+                }
+
             }
             catch (Exception)
             {
-                throw new HubException("Failed to leave workspace!");
+                throw;
             }
         }
         #endregion
