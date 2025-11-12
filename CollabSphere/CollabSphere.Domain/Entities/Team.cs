@@ -54,7 +54,9 @@ public partial class Team
 
     public virtual ProjectAssignment ProjectAssignment { get; set; }
 
-    public virtual ICollection<ProjectInstallation> ProjectInstallations { get; set; } = new List<ProjectInstallation>();
+    public virtual ICollection<PrAnalysis> PrAnalyses { get; set; } = new List<PrAnalysis>();
+
+    public virtual ICollection<ProjectRepoMapping> ProjectRepoMappings { get; set; } = new List<ProjectRepoMapping>();
 
     public virtual ICollection<TeamEvaluation> TeamEvaluations { get; set; } = new List<TeamEvaluation>();
 
