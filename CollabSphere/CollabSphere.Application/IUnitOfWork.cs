@@ -48,6 +48,7 @@ namespace CollabSphere.Application
         ICardRepository CardRepo { get; }
         ITaskRepository TaskRepo { get; }
         ISubTaskRepository SubTaskRepo { get; }
+        ICardAssignmentRepository CardAssignmentRepo { get; }
         //More IRepo below
 
         Task BeginTransactionAsync();
