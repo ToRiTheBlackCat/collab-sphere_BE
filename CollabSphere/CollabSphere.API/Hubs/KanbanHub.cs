@@ -184,18 +184,25 @@ namespace CollabSphere.API.Hubs
 
                 //Bind to command
                 command.RequesterId = userId;
-                command.WorkSpaceId = workspaceId;
+                command.WorkspaceId = workspaceId;
                 command.ListId = listId;
 
                 //Send command
                 var result = await _mediator.Send(command);
 
-                //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveListRenamed", command.ListId, command.NewTitle);
+                if (result.IsSuccess)
+                {
+                    //Broadcase to other 
+                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveListRenamed", command.ListId, command.NewTitle);
+                }
+                else
+                {
+                    throw new HubException(result.ErrorList.ToString());
+                }
             }
             catch (Exception)
             {
-                throw new HubException("Fail to move the list");
+                throw;
             }
         }
         #endregion
