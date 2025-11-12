@@ -63,6 +63,12 @@ namespace CollabSphere.API.Hubs
                     //Connect requester
                     await Groups.AddToGroupAsync(Context.ConnectionId, workspaceId.ToString());
                 }
+                else
+                {
+                    throw new HubException(result.ErrorList.ToString());
+                }
+
+
             }
             catch (Exception ex)
             {
@@ -111,9 +117,16 @@ namespace CollabSphere.API.Hubs
 
                 //Send command
                 var result = await _mediator.Send(command);
+                if (result.IsSuccess)
+                {
+                    //Broadcase to other 
+                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveListCreated", result.Message);
+                }
+                else
+                {
+                    throw new HubException("Fail to create new List");
+                }
 
-                //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveListCreated", result.NewListDto);
             }
             catch (Exception)
             {
