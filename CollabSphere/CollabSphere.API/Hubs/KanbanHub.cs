@@ -40,7 +40,7 @@ namespace CollabSphere.API.Hubs
         }
 
 
-        #region WORKSPACE
+        #region WORKSPACE - DONE
         //Join in workspace
         public async Task JoinWorkspace(int workspaceId)
         {
@@ -57,12 +57,16 @@ namespace CollabSphere.API.Hubs
                 };
                 var result = await _mediator.Send(command);
 
-                //Connect requester
-                await Groups.AddToGroupAsync(Context.ConnectionId, workspaceId.ToString());
+                //If validate success
+                if (result.IsSuccess)
+                {
+                    //Connect requester
+                    await Groups.AddToGroupAsync(Context.ConnectionId, workspaceId.ToString());
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new HubException("Failed to join workspace!");
+                throw new HubException(ex.Message);
             }
         }
 
