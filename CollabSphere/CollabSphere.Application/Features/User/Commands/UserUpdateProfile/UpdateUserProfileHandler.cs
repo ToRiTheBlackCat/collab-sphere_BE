@@ -214,7 +214,6 @@ namespace CollabSphere.Application.Features.User.Commands.UserUpdateProfile
                         Field = nameof(request.OldPassword),
                         Message = $"Not match with found old password. Try again!"
                     });
-                    return;
                 }
             }
             else
