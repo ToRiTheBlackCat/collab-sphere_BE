@@ -64,12 +64,13 @@ namespace CollabSphere.Application.Features.Evaluate.Queries.GetLecturerEvaluati
                 }
                 else
                 {
+                    result.IsSuccess = true;
                     result.LecturerEvaluateTeam = null;
                 }
             }
             catch (Exception ex)
             {
-
+                result.Message = $"Fail to get Evaluation and feedback of Lecturer for team with ID: {request.TeamId}";
             }
             return result;
         }
