@@ -98,9 +98,13 @@ namespace CollabSphere.Infrastructure.Base
             TeamWorkspaceRepo = new TeamWorkspaceRepository(_context);
             ListRepo = new ListRepository(_context);
             CardRepo = new CardRepository(_context);
+            CardAssignmentRepo = new CardAssignmentRepository(_context);
+            TaskRepo = new TaskRepository(_context);
+            SubTaskRepo = new SubTaskRepository(_context);
+
             #endregion
         }
-
+        
         public async Task BeginTransactionAsync()
         {
             if (_transaction == null)

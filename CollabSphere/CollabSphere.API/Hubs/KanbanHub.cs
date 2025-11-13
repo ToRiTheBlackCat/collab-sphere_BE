@@ -219,18 +219,24 @@ namespace CollabSphere.API.Hubs
 
                 //Bind to command
                 command.RequesterId = userId;
-                command.WorkSpaceId = workspaceId;
+                command.WorkspaceId = workspaceId;
                 command.ListId = listId;
 
                 //Send command
                 var result = await _mediator.Send(command);
-
-                //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardCreated", result.CreatedCardDto);
+                if (result.IsSuccess)
+                {
+                    //Broadcase to other 
+                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardCreated", listId, result.Message);
+                }
+                else
+                {
+                    throw new HubException("Fail to create new List");
+                }
             }
             catch (Exception)
             {
-                throw new HubException("Fail to create new card or assign members to card");
+                throw new HubException("Fail to create new list");
             }
         }
 

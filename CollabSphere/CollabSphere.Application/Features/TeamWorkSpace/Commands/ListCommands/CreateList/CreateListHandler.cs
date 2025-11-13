@@ -1,6 +1,6 @@
 ﻿using CollabSphere.Application.Base;
 using CollabSphere.Application.DTOs.Validation;
-using CollabSphere.Domain.Models;
+using CollabSphere.Domain.Entities;
 using Serilog.Formatting.Json;
 using System;
 using System.Collections.Generic;

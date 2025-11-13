@@ -24,7 +24,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.Never;
+    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.Always;
 });
 #endregion
 
@@ -66,9 +66,14 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins", policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins(
+                "null",
+                "http://127.0.0.1:5500",
+                "http://52.221.106.143/"
+              )
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
@@ -94,6 +99,24 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         ClockSkew = TimeSpan.Zero,
         RoleClaimType = ClaimTypes.Role
+    };
+
+    //Configure using for Hubs
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+
+            var path = context.HttpContext.Request.Path;
+
+            if (!string.IsNullOrEmpty(accessToken) &&
+                (path.StartsWithSegments("/KanbanServiceHub")))
+            {
+                context.Token = accessToken;
+            }
+            return Task.CompletedTask;
+        }
     };
 });
 #endregion
@@ -148,7 +171,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
     var redisUrl = redisSection["RedisUrl"] ?? "";
 
     var options = ConfigurationOptions.Parse(redisUrl);
-    options.AbortOnConnectFail = false; 
+    options.AbortOnConnectFail = false;
 
     return ConnectionMultiplexer.Connect(options);
 });
@@ -183,7 +206,8 @@ app.UseSwaggerUI(c =>
 
 
 app.UseHttpsRedirection();
-app.UseCors();
+app.UseCors("AllowAllOrigins");
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
