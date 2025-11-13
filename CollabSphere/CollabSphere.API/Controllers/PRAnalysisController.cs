@@ -1,5 +1,7 @@
 ﻿using CollabSphere.Application.Features.PrAnalysis.Commands.UpsertPrAnalysis;
+using CollabSphere.Application.Features.PrAnalysis.Queries.GetDetailOfAnalysis;
 using CollabSphere.Application.Features.ProjectRepo.Commands.CreateRepoForProject;
+using CollabSphere.Application.Features.ProjectRepo.Queries.GetReposOfProject;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -44,6 +46,26 @@ namespace CollabSphere.API.Controllers
             if (!result.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize]
+        [HttpGet("{analysisId}")]
+        public async Task<IActionResult> GetDetailOfAnalysis(GetDetailOfAnalysisQuery query, CancellationToken cancellationToken = default!)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            query.UserId = int.Parse(UIdClaim.Value);
+            query.UserRole = int.Parse(roleClaim.Value);
+
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
             }
 
             return Ok(result);
