@@ -1,9 +1,11 @@
 ﻿using CollabSphere.Application;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.TeamMilestones;
 using CollabSphere.Application.DTOs.Teams;
 using CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestoneDetail;
 using CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestonesByTeam;
+using CollabSphere.Application.Mappings.TeamMilestones;
 using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
 using Moq;
@@ -18,6 +20,7 @@ namespace CollabSphere.Test.TeamMilestones
 {
     public class GetMilestoneDetailTest
     {
+        private readonly Mock<CloudinaryService> _cloudinary;
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<ITeamRepository> _teamRepoMock;
         private readonly Mock<ITeamMilestoneRepository> _teamMilestoneRepoMock;
@@ -26,6 +29,7 @@ namespace CollabSphere.Test.TeamMilestones
 
         public GetMilestoneDetailTest()
         {
+            _cloudinary = new Mock<CloudinaryService>();
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _teamRepoMock = new Mock<ITeamRepository>();
             _teamMilestoneRepoMock = new Mock<ITeamMilestoneRepository>();
@@ -33,7 +37,7 @@ namespace CollabSphere.Test.TeamMilestones
             _unitOfWorkMock.Setup(x => x.TeamRepo).Returns(_teamRepoMock.Object);
             _unitOfWorkMock.Setup(x => x.TeamMilestoneRepo).Returns(_teamMilestoneRepoMock.Object);
 
-            _handler = new GetMilestoneDetailHandler(_unitOfWorkMock.Object);
+            _handler = new GetMilestoneDetailHandler(_unitOfWorkMock.Object, _cloudinary.Object);
         }
 
         [Fact]
@@ -343,14 +347,13 @@ namespace CollabSphere.Test.TeamMilestones
                     new MilestoneReturn()
                     {
                         MileReturnId = 1,
-                        ClassMemberId = 3,
-                        FilePath = "files/return/mile1-context.xlse",
+                        UserId = 3,
+                        FileUrl = "files/return/mile1-context.xlse",
                         Type = "Excel Doc",
                         SubmitedDate = new DateTime(2022, 1, 12),
-                        ClassMember = new ClassMember()
+                        User = new User()
                         {
-                            ClassMemberId= 3,
-                            TeamRole = (int)TeamRole.MEMBER,
+                            UId = 3,
                             Student = new Student()
                             {
                                 StudentId = 3,
@@ -364,14 +367,13 @@ namespace CollabSphere.Test.TeamMilestones
                     new MilestoneReturn()
                     {
                         MileReturnId = 2,
-                        ClassMemberId = 2,
-                        FilePath = "files/return/mile1-doc-assign.xlse",
+                        UserId = 2,
+                        FileUrl = "files/return/mile1-doc-assign.xlse",
                         Type = "Word Doc",
                         SubmitedDate = new DateTime(2022, 2, 27),
-                        ClassMember = new ClassMember()
+                        User = new User()
                         {
-                            ClassMemberId = 2,
-                            TeamRole = (int)TeamRole.LEADER,
+                            UId = 2,
                             Student = new Student()
                             {
                                 StudentId = 1,
@@ -390,7 +392,7 @@ namespace CollabSphere.Test.TeamMilestones
             };
 
             // Act
-            var castedMilestoneDetail = (TeamMilestoneDetailDto)milestone;
+            var castedMilestoneDetail = milestone.ToDetailDto();
 
             // Assert
             Assert.Equal(10, castedMilestoneDetail.TeamMilestoneId);
@@ -450,16 +452,14 @@ namespace CollabSphere.Test.TeamMilestones
             var return2 = castedMilestoneDetail.MilestoneReturns[1];
             Assert.Equal(1, return1.MileReturnId);
             Assert.Equal(2, return2.MileReturnId);
-            Assert.Equal(3, return1.ClassMemberId);
-            Assert.Equal(2, return2.ClassMemberId);
-            Assert.Equal("files/return/mile1-context.xlse", return1.FilePath);
-            Assert.Equal("files/return/mile1-doc-assign.xlse", return2.FilePath);
+            Assert.Equal(3, return1.UserId);
+            Assert.Equal(2, return2.UserId);
+            Assert.Equal("files/return/mile1-context.xlse", return1.FileUrl);
+            Assert.Equal("files/return/mile1-doc-assign.xlse", return2.FileUrl);
             Assert.Equal(new DateTime(2022, 1, 12), return1.SubmitedDate);
             Assert.Equal(new DateTime(2022, 2, 27), return2.SubmitedDate);
-            Assert.Equal(3, return1.StudentId);
-            Assert.Equal(1, return2.StudentId);
-            Assert.Equal("Stu3", return1.Fullname);
-            Assert.Equal("Stu1", return2.Fullname);
+            Assert.Equal("Stu3", return1.StudentName);
+            Assert.Equal("Stu1", return2.StudentName);
             Assert.Equal("SE1333", return1.StudentCode);
             Assert.Equal("SE1234", return2.StudentCode);
             Assert.Equal("avatar/student/avat_3.png", return1.AvatarImg);

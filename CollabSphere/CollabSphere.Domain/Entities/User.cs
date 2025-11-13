@@ -43,6 +43,8 @@ public partial class User
 
     public virtual ICollection<ProjectInstallation> ProjectInstallations { get; set; } = new List<ProjectInstallation>();
 
+    public virtual ICollection<TeamFile> TeamFiles { get; set; } = new List<TeamFile>();
+
     public virtual Role Role { get; set; }
 
     public virtual Student Student { get; set; }

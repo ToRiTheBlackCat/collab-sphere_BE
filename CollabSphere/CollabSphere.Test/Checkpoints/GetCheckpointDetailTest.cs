@@ -1,10 +1,13 @@
 ﻿using CollabSphere.Application;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Checkpoints;
 using CollabSphere.Application.Features.Checkpoints.Queries.GetCheckpointDetail;
 using CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestoneDetail;
+using CollabSphere.Application.Mappings.Checkpoints;
 using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
+using Microsoft.Extensions.Options;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -16,6 +19,7 @@ namespace CollabSphere.Test.Checkpoints
 {
     public class GetCheckpointDetailTest
     {
+        private readonly Mock<CloudinaryService> _cloudinary;
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
         private readonly Mock<ICheckpointRepository> _checkpointRepoMock;
 
@@ -23,12 +27,20 @@ namespace CollabSphere.Test.Checkpoints
 
         public GetCheckpointDetailTest()
         {
+            var settings = Options.Create(new CloudinarySettings
+            {
+                CloudName = "demo",
+                ApiKey = "key",
+                ApiSecret = "secret"
+            });
+
+            _cloudinary = new Mock<CloudinaryService>(settings);
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _checkpointRepoMock = new Mock<ICheckpointRepository>();
 
             _unitOfWorkMock.Setup(x => x.CheckpointRepo).Returns(_checkpointRepoMock.Object);
 
-            _handler = new GetCheckpointDetailHandler(_unitOfWorkMock.Object);
+            _handler = new GetCheckpointDetailHandler(_unitOfWorkMock.Object, _cloudinary.Object);
         }
 
         [Fact]
@@ -265,7 +277,7 @@ namespace CollabSphere.Test.Checkpoints
             };
 
             // Act
-            var castedCheckpoint = (CheckpointDetailDto)checkpoint;
+            var castedCheckpoint = checkpoint.ToDetailDto();
 
             // Assert
             Assert.Equal(15, castedCheckpoint.CheckpointId);
