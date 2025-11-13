@@ -40,7 +40,10 @@ public partial class User
     public virtual ICollection<MilestoneFile> MilestoneFiles { get; set; } = new List<MilestoneFile>();
 
     public virtual ICollection<MilestoneReturn> MilestoneReturns { get; set; } = new List<MilestoneReturn>();
+
     public virtual ICollection<ProjectRepoMapping> ProjectRepoMappings { get; set; } = new List<ProjectRepoMapping>();
+
+    public virtual ICollection<TeamFile> TeamFiles { get; set; } = new List<TeamFile>();
 
 
     public virtual Role Role { get; set; }

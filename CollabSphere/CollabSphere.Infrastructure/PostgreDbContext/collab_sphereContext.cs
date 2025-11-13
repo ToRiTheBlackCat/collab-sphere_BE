@@ -1318,16 +1318,38 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.FileId)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("file_id");
-            entity.Property(e => e.FilePath).HasColumnName("file_path");
+            entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+            entity.Property(e => e.FileName)
+                .IsRequired()
+                .HasMaxLength(200)
+                .HasColumnName("file_name");
+            entity.Property(e => e.FilePath)
+                .IsRequired()
+                .HasColumnName("file_path");
+            entity.Property(e => e.FileSize).HasColumnName("file_size");
+            entity.Property(e => e.FileUrl)
+                .IsRequired()
+                .HasColumnName("file_url");
+            entity.Property(e => e.ObjectKey)
+                .IsRequired()
+                .HasColumnName("object_key");
             entity.Property(e => e.TeamId).HasColumnName("team_id");
             entity.Property(e => e.Type)
-                .HasMaxLength(50)
+                .IsRequired()
+                .HasMaxLength(150)
                 .HasColumnName("type");
+            entity.Property(e => e.UrlExpireTime).HasColumnName("url_expire_time");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Team).WithMany(p => p.TeamFiles)
                 .HasForeignKey(d => d.TeamId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("team_file_team_fk");
+
+            entity.HasOne(d => d.User).WithMany(p => p.TeamFiles)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("team_file_user_fk");
         });
 
         modelBuilder.Entity<TeamMilestone>(entity =>
