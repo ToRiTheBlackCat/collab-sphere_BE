@@ -4,7 +4,6 @@ using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Application.Features.Student.Commands;
 using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
-using CollabSphere.Domain.Models;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using Microsoft.Extensions.Logging;
 using System;

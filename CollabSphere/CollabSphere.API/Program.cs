@@ -1,5 +1,6 @@
 using Amazon.S3;
 using CloudinaryDotNet;
+using CollabSphere.API.Hubs;
 using CollabSphere.Application;
 using CollabSphere.Application.Common;
 using CollabSphere.Domain;
