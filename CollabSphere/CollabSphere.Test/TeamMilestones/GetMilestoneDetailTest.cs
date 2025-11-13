@@ -8,6 +8,7 @@ using CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestonesByTe
 using CollabSphere.Application.Mappings.TeamMilestones;
 using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
+using Microsoft.Extensions.Options;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,14 @@ namespace CollabSphere.Test.TeamMilestones
 
         public GetMilestoneDetailTest()
         {
-            _cloudinary = new Mock<CloudinaryService>();
+            var settings = Options.Create(new CloudinarySettings
+            {
+                CloudName = "demo",
+                ApiKey = "key",
+                ApiSecret = "secret"
+            });
+
+            _cloudinary = new Mock<CloudinaryService>(settings);
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _teamRepoMock = new Mock<ITeamRepository>();
             _teamMilestoneRepoMock = new Mock<ITeamMilestoneRepository>();
