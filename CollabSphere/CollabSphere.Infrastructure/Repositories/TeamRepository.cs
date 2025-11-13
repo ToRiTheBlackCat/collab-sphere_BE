@@ -112,7 +112,8 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(x => x.ClassMembers)
                     .ThenInclude(x => x.Student)
                 .Include(x => x.ProjectAssignment)
-                .ThenInclude(x => x.Project)
+                    .ThenInclude(x => x.Project)
+                .Include(x => x.TeamFiles)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
 

@@ -68,6 +68,12 @@ namespace CollabSphere.Application.Features.Evaluate.Queries.GetOwnEvaluationsFo
                         result.IsSuccess = true;
                         result.Message = $"Get evaluations and feedback for own with ID: {request.UserId} for others successfully";
                     }
+                    else
+                    {
+                        result.OwnEvaluations = null;
+                        result.IsSuccess = true;
+                        result.Message = $"Not found any own evaluations and feedbacks for others";
+                    }
                 }
             }
             catch (Exception ex)

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.ProjectRepo.Commands.CreateRepoForProject
 {
-    public class CreateInstallationForProjectCommand : ICommand
+    public class CreateProjectRepoMappingCommand : ICommand
     {
         [JsonIgnore]
         public int ProjectId { get; set; }
@@ -18,11 +18,22 @@ namespace CollabSphere.Application.Features.ProjectRepo.Commands.CreateRepoForPr
         public int UserId = -1;
         [JsonIgnore]
         public int UserRole = -1;
+
         [Required]
         [JsonPropertyName("installationId")]
         public long InstallationId { get; set; }
         [Required]
         [JsonPropertyName("teamId")]
         public int TeamId { get; set; }
+        public List<RepoDto> Repositories { get; set; } = new List<RepoDto>();
+    }
+    public class RepoDto
+    {
+        [Required]
+        [JsonPropertyName("repositoryFullName")]
+        public string RepositoryFullName { get; set; } = string.Empty;
+        [Required]
+        [JsonPropertyName("repositoryId")]
+        public long RepositoryId { get; set; } 
     }
 }

@@ -1,54 +1,62 @@
-﻿using Amazon.S3.Model.Internal.MarshallTransformations;
-using CollabSphere.Application.Base;
+﻿using CollabSphere.Application.Base;
 using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.ProjectRepo;
-using CollabSphere.Application.DTOs.Teams;
 using CollabSphere.Application.DTOs.Validation;
-using CollabSphere.Application.Features.Team.Queries.GetAllTeamByAssignClass;
-using CollabSphere.Application.Mappings.ProjectRepos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.ProjectRepo.Queries.GetReposOfProject
 {
-    public class GetInstallationsOfProjectHandler : QueryHandler<GetInstallationsOfProjectQuery, GetInstallationsOfProjectResult>
+    public class GetReposOfProjectHandler : QueryHandler<GetReposOfProjectQuery, GetReposOfProjectResult>
     {
         private readonly IUnitOfWork _unitOfWork;
-        public GetInstallationsOfProjectHandler(IUnitOfWork unitOfWork)
+        public GetReposOfProjectHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        protected override async Task<GetInstallationsOfProjectResult> HandleCommand(GetInstallationsOfProjectQuery request, CancellationToken cancellationToken)
+        protected override async Task<GetReposOfProjectResult> HandleCommand(GetReposOfProjectQuery request, CancellationToken cancellationToken)
         {
-            var result = new GetInstallationsOfProjectResult()
+            var result = new GetReposOfProjectResult()
             {
                 IsSuccess = false,
                 IsValidInput = true,
-                Message = string.Empty
+                Message = string.Empty,
+                Installations = new List<AllReposOfProjectDto>()
             };
 
             try
             {
-                var installations = await _unitOfWork.ProjectInstallationRepo.SearchInstallationsOfProject(request.ProjectId, request.ConnectedUserId, request.TeamId, request.FromDate, request.IsDesc);
+                var installations = await _unitOfWork.ProjectRepoMappingRepo.SearchInstallationsOfProject(request.ProjectId, request.ConnectedUserId, request.TeamId, request.FromDate, request.IsDesc);
 
-                if (installations != null || installations.Count() > 0)
+                if (installations != null && installations.Any())
                 {
-                    var mappedInstalls = installations.ListInstallations_To_ListAllInstallationsOfProjectDto();
+                    foreach (var teamGroup in installations)
+                    {
+                        var firstItem = teamGroup.Value.FirstOrDefault();
+                        if (firstItem == null) continue; // Skip  team if its repo list is empty
 
-                    result.PaginatedInstalls = new PagedList<AllInstallationsOfProjectDto>(
-                    list: mappedInstalls,
-                    pageNum: request.PageNum,
-                    pageSize: request.PageSize,
-                    viewAll: request.ViewAll
-                    );
+                        var teamDto = new AllReposOfProjectDto
+                        {
+                            TeamId = teamGroup.Key,
+                            TeamName = firstItem.Team.TeamName,
+
+                            Repositories = teamGroup.Value.Select(repo => new RepoResponseDto
+                            {
+                                RepositoryFullName = repo.RepositoryFullName,
+                                RepositoryId = repo.RepositoryId
+                            }).ToList()
+                        };
+
+                        result.Installations.Add(teamDto);
+                    }
 
                     result.IsSuccess = true;
-                    result.Message = $"Get installations of project with ID: {request.ProjectId} sucessfully";
+                    result.Message = $"Get installations of project with ID: {request.ProjectId} successfully";
+                }
+                else
+                {
+                    result.Message = $"No installations found for project with ID: {request.ProjectId}";
+                    result.IsSuccess = true; 
                 }
             }
             catch (Exception ex)
@@ -59,7 +67,7 @@ namespace CollabSphere.Application.Features.ProjectRepo.Queries.GetReposOfProjec
             return result;
         }
 
-        protected override async Task ValidateRequest(List<OperationError> errors, GetInstallationsOfProjectQuery request)
+        protected override async Task ValidateRequest(List<OperationError> errors, GetReposOfProjectQuery request)
         {
             var bypassRoles = new int[] { RoleConstants.LECTURER, RoleConstants.STUDENT };
 

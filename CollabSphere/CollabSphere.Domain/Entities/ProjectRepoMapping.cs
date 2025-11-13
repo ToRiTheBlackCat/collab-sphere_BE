@@ -5,22 +5,26 @@ using System.Collections.Generic;
 
 namespace CollabSphere.Domain.Entities;
 
-public partial class ProjectInstallation
+public partial class ProjectRepoMapping
 {
     public int Id { get; set; }
 
     public int ProjectId { get; set; }
 
-    public long GithubInstallationId { get; set; }
-
-    public int InstalledByUserId { get; set; }
-
-    public DateTime? InstalledAt { get; set; }
     public int TeamId { get; set; }
 
-    public virtual User InstalledByUser { get; set; } = null!;
+    public long GithubInstallationId { get; set; }
+
+    public string RepositoryFullName { get; set; } = null!;
+
+    public long RepositoryId { get; set; }
+
+    public int InstalledByUserid { get; set; }
+
+    public DateTime? InstalledAt { get; set; }
 
     public virtual Project Project { get; set; } = null!;
 
     public virtual Team Team { get; set; } = null!;
+    public virtual User InstalledByUser { get; set; } = null!;
 }

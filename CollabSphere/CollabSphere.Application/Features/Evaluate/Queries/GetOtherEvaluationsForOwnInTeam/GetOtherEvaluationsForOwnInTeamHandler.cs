@@ -73,6 +73,8 @@ namespace CollabSphere.Application.Features.Evaluate.Queries.GetOtherEvaluations
                     }
                     else
                     {
+                        result.OtherEvaluations = null;
+                        result.IsSuccess = true;
                         result.Message = $"Not found any evaluation for this user with ID: {request.UserId} yet";
                     }
                 }

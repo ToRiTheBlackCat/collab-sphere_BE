@@ -204,6 +204,18 @@ namespace CollabSphere.Application.Features.User.Commands.UserUpdateProfile
                         Message = $"Your are not allowed to update this user profile."
                     });
                 }
+
+                //Check match old password
+                var oldPassword = SHA256Encoding.ComputeSHA256Hash(request.OldPassword + _configure["SecretString"]);
+                if (foundUser.Password != oldPassword)
+                {
+                    errors.Add(new OperationError
+                    {
+                        Field = nameof(request.OldPassword),
+                        Message = $"Not match with found old password. Try again!"
+                    });
+                    return;
+                }
             }
             else
             {
