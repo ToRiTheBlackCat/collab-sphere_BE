@@ -7,6 +7,11 @@ using CollabSphere.Application.Features.Team.Queries.GetAllTeamByAssignClass;
 using CollabSphere.Application.Features.Team.Queries.GetAllTeamOfStudent;
 using CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass;
 using CollabSphere.Application.Features.Team.Queries.GetTeamDetail;
+using CollabSphere.Application.Features.TeamFiles.Commands.DeleteTeamFile;
+using CollabSphere.Application.Features.TeamFiles.Commands.GenerateTeamFileUrl;
+using CollabSphere.Application.Features.TeamFiles.Commands.MoveTeamFile;
+using CollabSphere.Application.Features.TeamFiles.Commands.UploadTeamFile;
+using CollabSphere.Application.Features.TeamFiles.Queries.GetTeamFiles;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -245,6 +250,181 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result);
+        }
+
+        // Roles: Student, Lecturer
+        [Authorize(Roles = "4, 5")]
+        [HttpGet("{teamId}/files")]
+        public async Task<IActionResult> GetTeamFiles(int teamId, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            int userId = int.Parse(UIdClaim.Value);
+            int userRole = int.Parse(roleClaim.Value);
+
+            var query = new GetTeamFilesQuery()
+            {
+                TeamId = teamId,
+                UserId = userId,
+                UserRole = userRole,
+            };
+
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+
+        // Roles: Student, Lecturer
+        [Authorize(Roles = "4, 5")]
+        [HttpPost("{teamId}/files")]
+        public async Task<IActionResult> UploadTeamFile(int teamId, [FromForm] string? pathPrefix, IFormFile file, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            int userId = int.Parse(UIdClaim.Value);
+            int userRole = int.Parse(roleClaim.Value);
+
+            var command = new UploadTeamFileCommand()
+            {
+                TeamId = teamId,
+                FilePathPrefix = pathPrefix ?? "",
+                File = file,
+                UserId = userId,
+                UserRole = userRole,
+            };
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+
+        // Roles: Student, Lecturer
+        [Authorize(Roles = "4, 5")]
+        [HttpPatch("{teamId}/files/{fileId}/file-path")]
+        public async Task<IActionResult> MoveTeamFile(int teamId, int fileId, [FromForm] string? pathPrefix, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            int userId = int.Parse(UIdClaim.Value);
+            int userRole = int.Parse(roleClaim.Value);
+
+            var command = new MoveTeamFileCommand()
+            {
+                TeamId = teamId,
+                FileId = fileId,
+                FilePathPrefix = pathPrefix ?? "",
+                UserId = userId,
+                UserRole = userRole,
+            };
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result.Message);
+        }
+
+        // Roles: Student, Lecturer
+        [Authorize(Roles = "4, 5")]
+        [HttpPatch("{teamId}/files/{fileId}/new-url")]
+        public async Task<IActionResult> GenerateTeamFileUrl(int teamId, int fileId, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            int userId = int.Parse(UIdClaim.Value);
+            int userRole = int.Parse(roleClaim.Value);
+
+            var command = new GenerateTeamFileUrlCommand()
+            {
+                TeamId = teamId,
+                FileId = fileId,
+                UserId = userId,
+                UserRole = userRole,
+            };
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(new
+            {
+                result.FileUrl,
+                result.UrlExpireTime
+            });
+        }
+
+        // Roles: Student, Lecturer
+        [Authorize(Roles = "4, 5")]
+        [HttpDelete("{teamId}/files/{fileId}")]
+        public async Task<IActionResult> DeleteTeamFile(int teamId, int fileId, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            int userId = int.Parse(UIdClaim.Value);
+            int userRole = int.Parse(roleClaim.Value);
+
+            var command = new DeleteTeamFileCommand()
+            {
+                TeamId = teamId,
+                FileId = fileId, 
+                UserId = userId,
+                UserRole = userRole,
+            };
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result.Message);
         }
     }
 }

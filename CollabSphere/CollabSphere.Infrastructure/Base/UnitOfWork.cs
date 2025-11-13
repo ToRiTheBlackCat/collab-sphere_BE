@@ -39,6 +39,7 @@ namespace CollabSphere.Infrastructure.Base
         public ITeamMilestoneRepository TeamMilestoneRepo { get; }
         public ITeamRepository TeamRepo { get; }
         public ITeamEvaluationRepository TeamEvaluationRepo { get; }
+        public ITeamFileRepository TeamFileRepo { get; }
         public IEvaluationDetailRepository EvaluationDetailRepo { get; }
         public IMemberEvaluationRepository MemberEvaluationRepo { get; }
         public IMilestoneFileRepository MilestoneFileRepo { get; }
@@ -47,8 +48,9 @@ namespace CollabSphere.Infrastructure.Base
         public IAnswerEvaluationRepository AnswerEvaluationRepo { get; }
         public IMilestoneEvaluationRepository MilestoneEvaluationRepo { get; }
         public IMilestoneReturnRepository MilestoneReturnRepo { get; }
-        public IProjectInstallationRepository ProjectInstallationRepo { get; }
+        public IProjectRepoMappingRepository ProjectRepoMappingRepo { get; }
         public IMeetingRepository MeetingRepo { get; }
+        public IPrAnalysisRepository PrAnalysisRepo { get; }
         #endregion
 
         public UnitOfWork(collab_sphereContext context)
@@ -78,6 +80,7 @@ namespace CollabSphere.Infrastructure.Base
             TeamRepo = new TeamRepository(_context);
             TeamMilestoneRepo = new TeamMilestoneRepository(_context);
             TeamEvaluationRepo = new TeamEvaluationRepository(_context);
+            TeamFileRepo = new TeamFileRepository(_context);
             EvaluationDetailRepo = new EvaluationDetailRepository(_context);
             MemberEvaluationRepo = new MemberEvaluationRepository(_context);
             MilestoneFileRepo = new MilestoneFileRepository(_context);
@@ -86,8 +89,9 @@ namespace CollabSphere.Infrastructure.Base
             AnswerEvaluationRepo = new AnswerEvaluationRepository(_context);
             MilestoneEvaluationRepo = new MilestoneEvaluationRepository(_context);
             MilestoneReturnRepo = new MilestoneReturnRepository(_context);
-            ProjectInstallationRepo = new ProjectInstallationRepository(_context);
+            ProjectRepoMappingRepo = new ProjectRepoMappingRepository(_context);
             MeetingRepo = new MeetingRepository(_context);
+            PrAnalysisRepo = new PrAnalysisRepository(_context);
             #endregion
         }
 

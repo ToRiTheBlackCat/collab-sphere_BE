@@ -30,7 +30,7 @@ namespace CollabSphere.Application.Features.Checkpoints.Queries.GetCheckpointDet
             var result = new GetCheckpointDetailResult()
             {
                 IsSuccess = false,
-                IsValidInput = true,
+                IsValidInput = false,
                 Message = string.Empty,
             };
 

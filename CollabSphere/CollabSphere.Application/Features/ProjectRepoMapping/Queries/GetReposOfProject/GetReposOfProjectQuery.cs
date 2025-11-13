@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.ProjectRepo.Queries.GetReposOfProject
 {
-    public class GetInstallationsOfProjectQuery : PaginationQuery, IQuery<GetInstallationsOfProjectResult>
+    public class GetReposOfProjectQuery :  IQuery<GetReposOfProjectResult>
     {
         [FromRoute(Name = "projectId")]
         public int ProjectId { get; set; }
@@ -19,12 +19,16 @@ namespace CollabSphere.Application.Features.ProjectRepo.Queries.GetReposOfProjec
         public int UserRole = -1;
 
         [FromQuery]
+        [JsonPropertyName("teamId")]
         public int TeamId { get; set; } = 0;
         [FromQuery]
+        [JsonPropertyName("connectedUserId")]
         public int ConnectedUserId { get; set; } = 0;
         [FromQuery]
+        [JsonPropertyName("fromDate")]
         public DateTime? FromDate { get; set; }
         [FromQuery]
+        [JsonPropertyName("isDesc")]
         public bool IsDesc { get; set; } = false;
     }
 }

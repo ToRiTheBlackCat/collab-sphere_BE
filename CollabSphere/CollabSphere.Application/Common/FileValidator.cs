@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -126,6 +127,46 @@ namespace CollabSphere.Application.Common
                     errorMessage = $"File signature mismatch for '{ext}'.";
                     return false;
                 }
+            }
+
+            return true;
+        }
+
+        public static bool IsValidPrefix(string? prefix, out string error, bool allowEmpty = true)
+        {
+            error = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(prefix))
+            {
+                if (allowEmpty)
+                {
+                    return true;
+                }
+
+                error = "Folder path cannot be empty";
+                return false;
+            }
+
+            // Must end with '/'
+            if (!prefix.EndsWith("/"))
+            {
+                error = "Folder path must end with '/'";
+                return false;
+            }
+
+            // No path traversal
+            if (prefix.Contains(".."))
+            {
+                error = "Folder path cannot contain '..'";
+                return false;
+            }
+
+            // Only allowed characters
+            var validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-/";
+            if (prefix.Any(c => !validChars.Contains(c)))
+            {
+                error = "Folder path contains invalid characters. Only letters, numbers, '-', '_' and '/' are allowed";
+                return false;
             }
 
             return true;

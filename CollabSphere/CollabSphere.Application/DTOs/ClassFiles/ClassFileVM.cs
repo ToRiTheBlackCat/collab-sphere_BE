@@ -57,6 +57,7 @@ namespace CollabSphere.Application.Mappings.ClassFiles
 
             return new ClassFileVM()
             {
+                FileId = file.FileId,
                 ClassId = file.ClassId,
                 UserId = file.UserId,
                 UserName = userName,

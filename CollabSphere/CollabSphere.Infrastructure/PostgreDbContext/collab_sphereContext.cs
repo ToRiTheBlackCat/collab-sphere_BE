@@ -74,7 +74,9 @@ public partial class collab_sphereContext : DbContext
 
     public virtual DbSet<ProjectAssignment> ProjectAssignments { get; set; }
 
-    public virtual DbSet<ProjectInstallation> ProjectInstallations { get; set; }
+    public virtual DbSet<ProjectRepoMapping> ProjectRepoMappings { get; set; }
+
+    public virtual DbSet<PrAnalysis> PrAnalyses { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
 
@@ -921,6 +923,92 @@ public partial class collab_sphereContext : DbContext
                 .HasConstraintName("project_subject_fk");
         });
 
+        modelBuilder.Entity<ProjectRepoMapping>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("project_repo_mapping_pk");
+
+            entity.ToTable("project_repo_mapping");
+
+            entity.HasIndex(e => new { e.ProjectId, e.TeamId, e.RepositoryId }, "uq_project_repo_projectId_teamId_repositoryId").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.GithubInstallationId).HasColumnName("github_installation_id");
+            entity.Property(e => e.InstalledAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("installed_at");
+            entity.Property(e => e.InstalledByUserid).HasColumnName("installed_by_userid");
+            entity.Property(e => e.ProjectId).HasColumnName("project_id");
+            entity.Property(e => e.RepositoryFullName)
+                .HasMaxLength(255)
+                .HasColumnName("repository_full_name");
+            entity.Property(e => e.RepositoryId).HasColumnName("repository_id");
+            entity.Property(e => e.TeamId).HasColumnName("team_id");
+
+            entity.HasOne(d => d.Project).WithMany(p => p.ProjectRepoMappings)
+                .HasForeignKey(d => d.ProjectId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("project_repo_mapping_project_fk");
+
+            entity.HasOne(d => d.Team).WithMany(p => p.ProjectRepoMappings)
+                .HasForeignKey(d => d.TeamId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("project_repo_mapping_team_fk");
+
+            entity.HasOne(d => d.InstalledByUser).WithMany(p => p.ProjectRepoMappings)
+                .HasForeignKey(d => d.InstalledByUserid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("project_repo_mapping_user_fk");
+        });
+
+        modelBuilder.Entity<PrAnalysis>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("pr_analysis_pk");
+
+            entity.ToTable("pr_analysis");
+
+            entity.HasIndex(e => new { e.RepositoryId, e.PrNumber }, "uq_repo_pr_number").IsUnique();
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.AiBugCount)
+                .HasDefaultValue(0)
+                .HasColumnName("ai_bug_count");
+            entity.Property(e => e.AiDetailedFeedback).HasColumnName("ai_detailed_feedback");
+            entity.Property(e => e.AiOverallScore).HasColumnName("ai_overall_score");
+            entity.Property(e => e.AiSecurityIssueCount)
+                .HasDefaultValue(0)
+                .HasColumnName("ai_security_issue_count");
+            entity.Property(e => e.AiSuggestionCount)
+                .HasDefaultValue(0)
+                .HasColumnName("ai_suggestion_count");
+            entity.Property(e => e.AiSummary).HasColumnName("ai_summary");
+            entity.Property(e => e.AnalyzedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("analyzed_at");
+            entity.Property(e => e.PrAuthorGithubUsername)
+                .HasMaxLength(100)
+                .HasColumnName("pr_author_github_username");
+            entity.Property(e => e.PrCreatedAt).HasColumnName("pr_created_at");
+            entity.Property(e => e.PrNumber).HasColumnName("pr_number");
+            entity.Property(e => e.PrState)
+                .HasMaxLength(20)
+                .HasColumnName("pr_state");
+            entity.Property(e => e.PrTitle)
+                .HasMaxLength(500)
+                .HasColumnName("pr_title");
+            entity.Property(e => e.PrUrl).HasColumnName("pr_url");
+            entity.Property(e => e.ProjectId).HasColumnName("project_id");
+            entity.Property(e => e.RepositoryId).HasColumnName("repository_id");
+            entity.Property(e => e.TeamId).HasColumnName("team_id");
+
+            entity.HasOne(d => d.Project).WithMany(p => p.PrAnalyses)
+                .HasForeignKey(d => d.ProjectId)
+                .HasConstraintName("pr_analysis_project_fk");
+
+            entity.HasOne(d => d.Team).WithMany(p => p.PrAnalyses)
+                .HasForeignKey(d => d.TeamId)
+                .HasConstraintName("pr_analysis_team_fk");
+        });
+
         modelBuilder.Entity<ProjectAssignment>(entity =>
         {
             entity.HasKey(e => e.ProjectAssignmentId).HasName("project_assignment_pk");
@@ -948,39 +1036,6 @@ public partial class collab_sphereContext : DbContext
                 .HasConstraintName("project_assignment_project_fk");
         });
 
-        modelBuilder.Entity<ProjectInstallation>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("project_installation_pk");
-
-            entity.ToTable("project_installation");
-
-            entity.HasIndex(e => new { e.ProjectId, e.GithubInstallationId }, "uq_project_installation_projectid_githubinstallationid").IsUnique();
-
-            entity.Property(e => e.Id)
-                .HasDefaultValueSql("nextval('project_repository_id_seq'::regclass)")
-                .HasColumnName("id");
-            entity.Property(e => e.GithubInstallationId).HasColumnName("github_installation_id");
-            entity.Property(e => e.InstalledAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnName("installed_at");
-            entity.Property(e => e.InstalledByUserId).HasColumnName("installed_by_user_id");
-            entity.Property(e => e.ProjectId).HasColumnName("project_id");
-            entity.Property(e => e.TeamId).HasColumnName("team_id");
-
-            entity.HasOne(d => d.InstalledByUser).WithMany(p => p.ProjectInstallations)
-                .HasForeignKey(d => d.InstalledByUserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("project_installation_user_fk");
-
-            entity.HasOne(d => d.Project).WithMany(p => p.ProjectInstallations)
-                .HasForeignKey(d => d.ProjectId)
-                .HasConstraintName("project_installation_project_fk");
-
-            entity.HasOne(d => d.Team).WithMany(p => p.ProjectInstallations)
-                .HasForeignKey(d => d.TeamId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("project_installation_team_fk");
-        });
 
         modelBuilder.Entity<Role>(entity =>
         {
@@ -1266,16 +1321,38 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.FileId)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("file_id");
-            entity.Property(e => e.FilePath).HasColumnName("file_path");
+            entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+            entity.Property(e => e.FileName)
+                .IsRequired()
+                .HasMaxLength(200)
+                .HasColumnName("file_name");
+            entity.Property(e => e.FilePathPrefix)
+                .IsRequired()
+                .HasColumnName("file_path_prefix");
+            entity.Property(e => e.FileSize).HasColumnName("file_size");
+            entity.Property(e => e.FileUrl)
+                .IsRequired()
+                .HasColumnName("file_url");
+            entity.Property(e => e.ObjectKey)
+                .IsRequired()
+                .HasColumnName("object_key");
             entity.Property(e => e.TeamId).HasColumnName("team_id");
             entity.Property(e => e.Type)
-                .HasMaxLength(50)
+                .IsRequired()
+                .HasMaxLength(150)
                 .HasColumnName("type");
+            entity.Property(e => e.UrlExpireTime).HasColumnName("url_expire_time");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Team).WithMany(p => p.TeamFiles)
                 .HasForeignKey(d => d.TeamId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("team_file_team_fk");
+
+            entity.HasOne(d => d.User).WithMany(p => p.TeamFiles)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("team_file_user_fk");
         });
 
         modelBuilder.Entity<TeamMilestone>(entity =>

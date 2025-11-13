@@ -12,15 +12,15 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.ProjectRepo.Commands.CreateRepoForProject
 {
-    public class CreateInstallationForProjectHandler : CommandHandler<CreateInstallationForProjectCommand>
+    public class CreateProjectRepoMappingHandler : CommandHandler<CreateProjectRepoMappingCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateInstallationForProjectHandler(IUnitOfWork unitOfWork)
+        public CreateProjectRepoMappingHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
-        protected override async Task<CommandResult> HandleCommand(CreateInstallationForProjectCommand request, CancellationToken cancellationToken)
+        protected override async Task<CommandResult> HandleCommand(CreateProjectRepoMappingCommand request, CancellationToken cancellationToken)
         {
             var result = new CommandResult()
             {
@@ -32,35 +32,41 @@ namespace CollabSphere.Application.Features.ProjectRepo.Commands.CreateRepoForPr
             {
                 await _unitOfWork.BeginTransactionAsync();
 
-                var foundProject = await _unitOfWork.ProjectRepo.GetById(request.ProjectId);
-                if (foundProject != null)
+                //Get the list of repo
+                var requestRepos = request.Repositories;
+                if (requestRepos.Count > 0)
                 {
-                    var newProjectInstallation = new ProjectInstallation
+                    foreach (var repo in requestRepos)
                     {
-                        ProjectId = request.ProjectId,
-                        GithubInstallationId = request.InstallationId,
-                        TeamId = request.TeamId,
-                        InstalledByUserId = request.UserId,
-                        InstalledAt = DateTime.UtcNow
-                    };
+                        //Create new repo
+                        var newRepo = new ProjectRepoMapping
+                        {
+                            ProjectId = request.ProjectId,
+                            TeamId = request.TeamId,
+                            GithubInstallationId = request.InstallationId,
+                            RepositoryFullName = repo.RepositoryFullName,
+                            RepositoryId = repo.RepositoryId,
+                            InstalledByUserid = request.UserId,
+                            InstalledAt = DateTime.UtcNow,
+                        };
 
-                    await _unitOfWork.ProjectInstallationRepo.Create(newProjectInstallation);
-                    await _unitOfWork.SaveChangesAsync();
+                        await _unitOfWork.ProjectRepoMappingRepo.Create(newRepo);
+                        await _unitOfWork.SaveChangesAsync();
+                    }
                     await _unitOfWork.CommitTransactionAsync();
-
                     result.IsSuccess = true;
-                    result.Message = $"Create installation for project with ID: {request.ProjectId} successfully";
+                    result.Message = $"Create {request.Repositories.Count} repos mapping for project with ID: {request.ProjectId} | team with ID: {request.TeamId} successfully";
                 }
             }
             catch (Exception ex)
             {
-                result.Message = ex.Message;
+                result.Message = $"Fail to create project repo mapping. Error detail: {ex.Message}";
             }
 
             return result;
         }
 
-        protected override async Task ValidateRequest(List<OperationError> errors, CreateInstallationForProjectCommand request)
+        protected override async Task ValidateRequest(List<OperationError> errors, CreateProjectRepoMappingCommand request)
         {
             var bypassRoles = new int[] { RoleConstants.LECTURER, RoleConstants.STUDENT };
 
