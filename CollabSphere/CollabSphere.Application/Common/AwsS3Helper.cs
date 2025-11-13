@@ -15,6 +15,7 @@ namespace CollabSphere.Application.Common
         Milestone,
         MilestoneReturn,
         Class,
+        Team
     }
 
     public static class AwsS3Helper
@@ -81,6 +82,10 @@ namespace CollabSphere.Application.Common
             {
                AwsS3HelperPaths.MilestoneReturn,
                "milestone-returns/"
+            },
+            {
+               AwsS3HelperPaths.Team,
+               "teams/"
             }
         };
 
@@ -99,7 +104,7 @@ namespace CollabSphere.Application.Common
         /// If <see cref="null"/> then defaults to <see cref="DateTime.UtcNow"/>
         /// </param>
         /// <returns></returns>
-        public static async Task<UploadResponse> UploadFileToS3Async(this IAmazonS3 s3Client, IFormFile formFile, AwsS3HelperPaths pathEnum, int seperationId, DateTime currentTime)
+        public static async Task<UploadResponse> UploadFileToS3Async(this IAmazonS3 s3Client, IFormFile formFile, AwsS3HelperPaths pathEnum, int seperationId, DateTime? currentTime)
         {
             if (formFile.Length > FILE_SIZE_LIMIT)
             {
@@ -109,8 +114,10 @@ namespace CollabSphere.Application.Common
             // Construct unique file name
             string fileName = Path.GetFileNameWithoutExtension(formFile.FileName);
             string extension = Path.GetExtension(formFile.FileName);
-            string timestamp = currentTime.ToString("yyyyMMddHHmmss"); // Create a file-safe timestamp
-            var newFileName = $"{fileName}_{timestamp}{extension}"; // New unique file name, format : fileName_yyyyMMddmmss.ext
+            string timestamp = currentTime.HasValue ? 
+                currentTime.Value.ToString("yyyyMMddHHmmss") + "__" : 
+                ""; // Create a file-safe timestamp
+            var newFileName = $"{timestamp}{fileName}{extension}"; // New unique file name, format : fileName_yyyyMMddmmss.ext
 
             string objectKey = $"{ConstructFolderPath(pathEnum, seperationId)}{newFileName}"; // new bucket's object key
 
@@ -129,7 +136,7 @@ namespace CollabSphere.Application.Common
 
             // Generate pre-signed URL for file download
 
-            var preSignResponse = await s3Client.GetPresignedUrlFromS3Async(objectKey, currentTime);
+            var preSignResponse = await s3Client.GetPresignedUrlFromS3Async(objectKey, currentTime ?? DateTime.UtcNow);
 
             return new UploadResponse()
             {
