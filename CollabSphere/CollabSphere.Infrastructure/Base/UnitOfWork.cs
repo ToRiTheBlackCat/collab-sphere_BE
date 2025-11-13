@@ -49,6 +49,7 @@ namespace CollabSphere.Infrastructure.Base
         public IMilestoneReturnRepository MilestoneReturnRepo { get; }
         public IProjectRepoMappingRepository ProjectRepoMappingRepo { get; }
         public IMeetingRepository MeetingRepo { get; }
+        public IPrAnalysisRepository PrAnalysisRepo { get; }
         #endregion
 
         public UnitOfWork(collab_sphereContext context)
@@ -88,6 +89,7 @@ namespace CollabSphere.Infrastructure.Base
             MilestoneReturnRepo = new MilestoneReturnRepository(_context);
             ProjectRepoMappingRepo = new ProjectRepoMappingRepository(_context);
             MeetingRepo = new MeetingRepository(_context);
+            PrAnalysisRepo = new PrAnalysisRepository(_context);
             #endregion
         }
 

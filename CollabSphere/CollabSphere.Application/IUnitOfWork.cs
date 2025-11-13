@@ -43,6 +43,7 @@ namespace CollabSphere.Application
         IMilestoneReturnRepository MilestoneReturnRepo { get; }
         IProjectRepoMappingRepository ProjectRepoMappingRepo { get; }
         IMeetingRepository MeetingRepo { get; }
+        IPrAnalysisRepository PrAnalysisRepo { get; }
          //More IRepo below
 
          Task BeginTransactionAsync();
