@@ -10,5 +10,6 @@ namespace CollabSphere.Domain.Interfaces
     public interface IPrAnalysisRepository : IGenericRepository<PrAnalysis>
     {
         Task<PrAnalysis?> SearchPrAnalysis(int projectId, int teamId, long repositoryId, int prNumber);
+        Task<(int,List<PrAnalysis>?)> GetListOfAnalysisByTeamIdAndRepoId(int teamId, long repositoryId, int currentPage, int pageSize, bool isDesc);
     }
 }
