@@ -1323,9 +1323,9 @@ public partial class collab_sphereContext : DbContext
                 .IsRequired()
                 .HasMaxLength(200)
                 .HasColumnName("file_name");
-            entity.Property(e => e.FilePath)
+            entity.Property(e => e.FilePathPrefix)
                 .IsRequired()
-                .HasColumnName("file_path");
+                .HasColumnName("file_path_prefix");
             entity.Property(e => e.FileSize).HasColumnName("file_size");
             entity.Property(e => e.FileUrl)
                 .IsRequired()
