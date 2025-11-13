@@ -55,10 +55,8 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.DeleteCheckpoin
                     }
                     await _unitOfWork.SaveChangesAsync();
 
-                    var deleteResponse = await _s3Client.DeleteFilesFromS3Async(files.Select(x => x.ObjectKey)); 
+                    var deleteResponse = await _s3Client.DeleteFilesFromS3Async(files.Select(x => x.ObjectKey));
                 }
-
-                var deleteResponse = await _s3Client.DeleteFilesFromS3Async(files.Select(x => x.ObjectKey));
 
                 // Remove checkpoint
                 var checkpoint = (await _unitOfWork.CheckpointRepo.GetById(request.CheckpointId))!;
