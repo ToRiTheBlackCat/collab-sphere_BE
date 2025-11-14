@@ -37,12 +37,18 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(x => x.Subject)
                 .Include(x => x.Semester)
                 .Include(x => x.Lecturer)
-                .Include(x => x.ClassMembers).ThenInclude(x => x.Student)
+                .Include(x => x.ClassMembers)
+                    .ThenInclude(x => x.Student)
+                .Include(x => x.ClassMembers)
+                    .ThenInclude(x => x.Team)
                 .Include(x => x.ClassFiles)
                     .ThenInclude(cFiles => cFiles.User)
                         .ThenInclude(user => user.Lecturer)
-                .Include(x => x.ProjectAssignments).ThenInclude(x => x.Project)
-                .Include(x => x.Teams).ThenInclude(x => x.ProjectAssignment).ThenInclude(x => x.Project)
+                .Include(x => x.ProjectAssignments)
+                    .ThenInclude(x => x.Project)
+                .Include(x => x.Teams)
+                    .ThenInclude(x => x.ProjectAssignment)
+                        .ThenInclude(x => x.Project)
                 .FirstOrDefaultAsync(x =>
                     x.ClassId == classId
                 );
