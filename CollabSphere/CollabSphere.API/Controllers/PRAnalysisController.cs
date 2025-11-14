@@ -22,7 +22,6 @@ namespace CollabSphere.API.Controllers
             _mediator = mediator;
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> UpsertPrAnalysis([FromBody] UpsertPrAnalysisCommand command)
         {
@@ -46,7 +45,6 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
-        [Authorize]
         [HttpGet("{analysisId}")]
         public async Task<IActionResult> GetDetailOfAnalysis(GetDetailOfAnalysisQuery query, CancellationToken cancellationToken = default!)
         {
