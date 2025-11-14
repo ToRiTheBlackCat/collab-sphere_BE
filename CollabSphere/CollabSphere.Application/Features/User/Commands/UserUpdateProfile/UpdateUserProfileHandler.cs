@@ -80,7 +80,7 @@ namespace CollabSphere.Application.Features.User.Commands.UserUpdateProfile
                         //Update Phone Number
                         if (!string.IsNullOrEmpty(request.PhoneNumber))
                         {
-                            foundUser.Lecturer.Yob = request.Yob;
+                            foundUser.Lecturer.PhoneNumber = request.PhoneNumber;
                         }
 
                         //Update YOB
