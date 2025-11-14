@@ -276,7 +276,7 @@ namespace CollabSphere.API.Hubs
 
                 //Bind to command
                 command.RequesterId = userId;
-                command.WorkSpaceId = workspaceId;
+                command.WorkspaceId = workspaceId;
                 command.ListId = listId;
                 command.CardId = cardId;
 
@@ -284,7 +284,7 @@ namespace CollabSphere.API.Hubs
                 var result = await _mediator.Send(command);
 
                 //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardUpdated", result.UpdatedCardDto);
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardUpdated", command.CardId, result.Message);
             }
             catch (Exception)
             {
