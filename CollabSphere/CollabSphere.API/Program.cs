@@ -186,7 +186,7 @@ app.UseSwaggerUI(c =>
 
 
 app.UseHttpsRedirection();
-app.UseCors();
+app.UseCors("AllowAllOrigins");
 
 #region Configure Authen for calling from Lambda AWS
 app.Use(async (context, next) =>
@@ -203,7 +203,7 @@ app.Use(async (context, next) =>
         }
 
         // Get secret string from appsettings.json
-        var configuredApiKey = app.Configuration.GetValue<string>("SecretString") ?? "";
+        var configuredApiKey = builder.Configuration["JWT:Secret"] ?? "";
 
         // Compare 2 keys
         if (!configuredApiKey.Equals(receivedApiKey))
