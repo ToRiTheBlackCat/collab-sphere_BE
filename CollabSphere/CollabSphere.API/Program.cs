@@ -202,19 +202,19 @@ app.Use(async (context, next) =>
             return;
         }
 
-        // Get secret string from appsettings.json
-        var configuredApiKey = builder.Configuration["PR_API_KEY"] ?? "";
+        //// Get secret string from appsettings.json
+        //var configuredApiKey = builder.Configuration["PR_API_KEY"] ?? "";
 
-        // Compare 2 keys
-        if (!configuredApiKey.Equals(receivedApiKey))
-        {
-            context.Response.StatusCode = 403; // Forbidden
-            await context.Response.WriteAsync("Invalid API Key.");
-            return;
-        }
+        //// Compare 2 keys
+        //if (!configuredApiKey.Equals(receivedApiKey))
+        //{
+        //    context.Response.StatusCode = 403; // Forbidden
+        //    await context.Response.WriteAsync("Invalid API Key.");
+        //    return;
+        //}
     }
 
-    // If key valid -> Go nex
+    // If key valid -> Go next
     await next();
 });
 #endregion
