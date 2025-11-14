@@ -1,4 +1,5 @@
-﻿using CollabSphere.Domain.Entities;
+﻿using CollabSphere.Application.DTOs.ClassMembers;
+using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,8 +37,14 @@ namespace CollabSphere.Application.DTOs.ClassMembers
         public bool IsGrouped { get; set; }
 
         public int Status { get; set; }
+    }
+}
 
-        public static explicit operator ClassMemberVM(ClassMember classMember)
+namespace CollabSphere.Application.Mappings.ClassMembers
+{
+    public static partial class ClassMappings
+    {
+        public static ClassMemberVM ToViewModel(this ClassMember classMember)
         {
             var team = classMember.Team;
             var student = classMember.Student!;
@@ -53,12 +60,22 @@ namespace CollabSphere.Application.DTOs.ClassMembers
                 StudentCode = student.StudentCode,
                 Yob = student.Yob,
                 TeamId = classMember.TeamId,
-                TeamName = team != null ? team.TeamName : string.Empty,
+                TeamName = team != null ? team.TeamName : "NOT FOUND",
                 ClassId = classMember.ClassId,
                 TeamRole = classMember.TeamRole,
                 IsGrouped = classMember.IsGrouped,
                 Status = classMember.Status,
             };
+        }
+
+        public static List<ClassMemberVM> ToViewModel(this IEnumerable<ClassMember> classMembers)
+        {
+            if (classMembers == null || !classMembers.Any())
+            {
+                return new List<ClassMemberVM>();
+            }
+
+            return classMembers.Select(x => x.ToViewModel()).ToList();
         }
     }
 }

@@ -1,8 +1,10 @@
-﻿using CollabSphere.Application.DTOs.ClassFiles;
+﻿using CollabSphere.Application.DTOs.Classes;
+using CollabSphere.Application.DTOs.ClassFiles;
 using CollabSphere.Application.DTOs.ClassMembers;
 using CollabSphere.Application.DTOs.ProjectAssignments;
 using CollabSphere.Application.DTOs.Teams;
 using CollabSphere.Application.Mappings.ClassFiles;
+using CollabSphere.Application.Mappings.ClassMembers;
 using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -55,9 +57,29 @@ namespace CollabSphere.Application.DTOs.Classes
         public List<ProjectAssignmentVM> ProjectAssignments { get; set; } = new List<ProjectAssignmentVM>();
 
         public List<TeamVM> Teams { get; set; } = new List<TeamVM>();
+    }
+}
 
-        public static explicit operator ClassDetailDto(Class classEntity)
+namespace CollabSphere.Application.Mappings.Classes
+{
+    public static partial class ClassMappings
+    {
+        public static ClassDetailDto ToDetailDto(this Class classEntity, bool showEnrolKey = false)
         {
+            var semesterName = "NOT FOUND";
+            if (classEntity.Semester != null)
+            {
+                semesterName = classEntity.Semester.SemesterName;
+            }
+
+            var lecturerCode = "NOT FOUND";
+            var lecturerName = "NOT FOUND";
+            if (classEntity.Lecturer != null)
+            {
+                lecturerCode = classEntity.Lecturer.LecturerCode;
+                lecturerName = classEntity.Lecturer.Fullname;
+            }
+
             return new ClassDetailDto()
             {
                 ClassId = classEntity.ClassId,
@@ -66,17 +88,17 @@ namespace CollabSphere.Application.DTOs.Classes
                 SubjectCode = classEntity.Subject.SubjectCode,
                 SubjectName = classEntity.Subject.SubjectName,
                 SemesterId = classEntity.SemesterId,
-                SemesterName = classEntity.Semester != null ? classEntity.Semester.SemesterName : "NOT FOUND",
+                SemesterName = semesterName,
                 LecturerId = classEntity.LecturerId ?? -1,
-                LecturerCode = classEntity.Lecturer != null ? classEntity.Lecturer.LecturerCode : "NOT FOUND",
-                LecturerName = classEntity.Lecturer != null ? classEntity.Lecturer.Fullname : "NOT FOUND",
-                EnrolKey = classEntity.EnrolKey,
+                LecturerCode = lecturerCode,
+                LecturerName = lecturerName,
+                EnrolKey = showEnrolKey ? classEntity.EnrolKey : "",
                 MemberCount = classEntity.MemberCount,
                 TeamCount = classEntity.TeamCount,
                 CreatedDate = classEntity.CreatedDate,
                 IsActive = classEntity.IsActive,
                 ClassFiles = classEntity.ClassFiles.ToViewModel(),
-                ClassMembers = classEntity.ClassMembers.Select(x => (ClassMemberVM)x).ToList(),
+                ClassMembers = classEntity.ClassMembers.ToViewModel(),
                 ProjectAssignments = classEntity.ProjectAssignments.Select(x => (ProjectAssignmentVM)x).ToList(),
                 Teams = classEntity.Teams.Select(x => (TeamVM)x).ToList(),
             };
