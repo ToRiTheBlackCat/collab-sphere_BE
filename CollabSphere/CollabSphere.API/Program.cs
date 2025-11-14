@@ -203,7 +203,7 @@ app.Use(async (context, next) =>
         }
 
         // Get secret string from appsettings.json
-        var configuredApiKey = builder.Configuration["JWT:Secret"] ?? "";
+        var configuredApiKey = builder.Configuration["PR_API_KEY"] ?? "";
 
         // Compare 2 keys
         if (!configuredApiKey.Equals(receivedApiKey))
