@@ -9,5 +9,6 @@ namespace CollabSphere.Domain.Interfaces
 {
     public interface ICardRepository : IGenericRepository<Card>
     {
+        Task<Card?> GetCardDetailByIdWithAllRelativeInfo(int cardId);
     }
 }

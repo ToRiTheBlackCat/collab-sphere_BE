@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CollabSphere.Application.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.MoveCard
 {
-    public class MoveCardCommand
+    public class MoveCardCommand : ICommand
     {
         [JsonIgnore]
-        public int WorkSpaceId { get; set; }
+        public int WorkspaceId { get; set; }
         [JsonIgnore]
         public int RequesterId { get; set; }
         [JsonIgnore]

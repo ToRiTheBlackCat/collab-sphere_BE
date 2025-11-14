@@ -110,7 +110,7 @@ namespace CollabSphere.API.Hubs
         }
         #endregion
 
-        #region LIST
+        #region LIST - DONE
         //Create new List
         public async Task CreateList(int workspaceId, CreateListCommand command)
         {
@@ -171,7 +171,7 @@ namespace CollabSphere.API.Hubs
             {
                 throw;
             }
-            
+
         }
 
         //Rename List
@@ -250,7 +250,7 @@ namespace CollabSphere.API.Hubs
 
                 //Bind to command
                 command.RequesterId = userId;
-                command.WorkSpaceId = workspaceId;
+                command.WorkspaceId = workspaceId;
                 command.ListId = listId;
                 command.CardId = cardId;
 
