@@ -11,11 +11,6 @@ namespace CollabSphere.Application.Features.PrAnalysis.Commands.UpsertPrAnalysis
 {
     public class UpsertPrAnalysisCommand : ICommand
     {
-        [JsonIgnore]
-        public int UserId = -1;
-        [JsonIgnore]
-        public int UserRole = -1;
-
         [Required]
         [JsonPropertyName("projectId")]
         public int ProjectId { get; set; }

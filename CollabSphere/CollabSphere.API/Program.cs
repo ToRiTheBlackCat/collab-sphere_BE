@@ -187,6 +187,38 @@ app.UseSwaggerUI(c =>
 
 app.UseHttpsRedirection();
 app.UseCors();
+
+#region Configure Authen for calling from Lambda AWS
+app.Use(async (context, next) =>
+{
+    // Just aplly for this endpoint
+    if (context.Request.Path.StartsWithSegments("/api/pr-analysis"))
+    {
+        // Get key from header of request
+        if (!context.Request.Headers.TryGetValue("X-API-Key", out var receivedApiKey))
+        {
+            context.Response.StatusCode = 401; // Unauthorized
+            await context.Response.WriteAsync("API Key was not provided.");
+            return;
+        }
+
+        // Get secret string from appsettings.json
+        var configuredApiKey = app.Configuration.GetValue<string>("SecretString") ?? "";
+
+        // Compare 2 keys
+        if (!configuredApiKey.Equals(receivedApiKey))
+        {
+            context.Response.StatusCode = 403; // Forbidden
+            await context.Response.WriteAsync("Invalid API Key.");
+            return;
+        }
+    }
+
+    // If key valid -> Go nex
+    await next();
+});
+#endregion
+
 app.UseAuthentication();
 app.UseAuthorization();
 

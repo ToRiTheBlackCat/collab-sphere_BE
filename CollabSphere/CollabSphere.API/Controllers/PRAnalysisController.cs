@@ -31,12 +31,6 @@ namespace CollabSphere.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            // Get UserId & Role of requester
-            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
-            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
-            command.UserId = int.Parse(UIdClaim.Value);
-            command.UserRole = int.Parse(roleClaim.Value);
-
             var result = await _mediator.Send(command);
 
             if (!result.IsValidInput)
