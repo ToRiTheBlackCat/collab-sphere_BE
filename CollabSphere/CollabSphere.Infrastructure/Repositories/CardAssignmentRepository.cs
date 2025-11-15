@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace CollabSphere.Infrastructure.Repositories
 {
@@ -14,6 +15,14 @@ namespace CollabSphere.Infrastructure.Repositories
     {
         public CardAssignmentRepository(collab_sphereContext context) : base(context)
         {
+        }
+
+        public async Task<CardAssignment?> GetOneByCardIdAndStuId(int cardId, int studentId)
+        {
+            return await _context.CardAssignments
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.CardId == cardId && 
+                                          x.StudentId == studentId);
         }
     }
 }
