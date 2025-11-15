@@ -2,6 +2,7 @@
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.DeleteCard;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.MoveCard;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.UpdateCardDetails;
+using CollabSphere.Application.Features.TeamWorkSpace.Commands.CardMemberCommands;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.CreateList;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.MoveList;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.RenameList;
@@ -339,6 +340,31 @@ namespace CollabSphere.API.Hubs
             }
         }
 
+        //Assign member to card
+        public async Task AssignMembersToCard(int workspaceId, int listId, int cardId, AssignMembersToCardCommand command)
+        {
+            try
+            {
+                //Get Requester Info
+                var userId = GetUserId();
+
+                //Bind to command
+                command.RequesterId = userId;
+                command.WorkspaceId = workspaceId;
+                command.ListId = listId;
+                command.CardId = cardId;
+
+                //Send command
+                var result = await _mediator.Send(command);
+
+                //Broadcase to other 
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardAssigned", command.ListId, command.CardId, result.Message);
+            }
+            catch (Exception)
+            {
+                throw new HubException("Fail to assign members to card");
+            }
+        }
         //Delete Task
         public async Task DeleteTask(int workspaceId, int listId, int cardId, int taskId, DeleteTaskCommand command)
         {
