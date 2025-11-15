@@ -16,9 +16,11 @@ namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.
     public class CreateCardHandler : CommandHandler<CreateCardCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
-        public CreateCardHandler(IUnitOfWork unitOfWork)
+        private readonly CloudinaryService _cloudinaryService;
+        public CreateCardHandler(IUnitOfWork unitOfWork, CloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
+            _cloudinaryService = cloudinaryService;
         }
 
         protected override async Task<CommandResult> HandleCommand(CreateCardCommand request, CancellationToken cancellationToken)
@@ -59,15 +61,17 @@ namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.
                         {
                             //Find User
                             var foundStudent = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(assign.StudentId);
+                            
                             if (foundStudent != null)
                             {
+                                var avatarImg = await _cloudinaryService.GetImageUrl(foundStudent.Student.AvatarImg);
                                 //Create new cardAssignment
                                 var newCardAssignment = new CardAssignment
                                 {
                                     CardId = newCard.CardId,
                                     StudentId = foundStudent.UId,
                                     StudentName = foundStudent.Student.Fullname,
-                                    Avatar = foundStudent.Student.AvatarImg
+                                    Avatar = avatarImg
                                 };
 
                                 await _unitOfWork.CardAssignmentRepo.Create(newCardAssignment);
