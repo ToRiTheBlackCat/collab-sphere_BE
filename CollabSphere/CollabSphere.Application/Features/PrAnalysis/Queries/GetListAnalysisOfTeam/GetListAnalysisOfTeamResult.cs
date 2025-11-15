@@ -48,6 +48,7 @@ namespace CollabSphere.Application.Features.PrAnalysis.Queries.GetListOfAnalysis
         public string? PrTitle { get; set; }
         public string? PrAuthor { get; set; }
         public string? PrUrl { get; set; }
+        public string? AiSummary { get; set; }
         public int? AiScore { get; set; }
         public int? BugCount { get; set; }
         public int? SecurityIssueCount { get; set; }

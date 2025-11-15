@@ -81,6 +81,7 @@ namespace CollabSphere.Application.Features.PrAnalysis.Queries.GetListOfAnalysis
                             PrTitle = analysis.PrTitle,
                             PrAuthor = analysis.PrAuthorGithubUsername,
                             PrUrl = analysis.PrUrl,
+                            AiSummary = analysis.AiSummary,
                             AiScore = analysis.AiOverallScore,
                             BugCount = analysis.AiBugCount,
                             SecurityIssueCount = analysis.AiSecurityIssueCount,
