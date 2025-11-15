@@ -303,27 +303,6 @@ namespace CollabSphere.API.Hubs
 
                 //Bind to command
                 command.RequesterId = userId;
-                command.WorkSpaceId = workspaceId;
-                command.ListId = listId;
-                command.CardId = cardId;
-
-                //Send command
-                var result = await _mediator.Send(command);
-
-                //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveTaskCreated", result.CreatedTaskDto);
-            }
-            catch (Exception)
-            {
-                throw new HubException("Fail to create new task");
-            }
-        }
-
-        //Rename Task
-        public async Task RenameTask(int workspaceId, int listId, int cardId, int taskId, RenameTaskCommand command)
-        {
-            try
-            {
                 command.WorkspaceId = workspaceId;
                 command.ListId = listId;
                 command.CardId = cardId;
