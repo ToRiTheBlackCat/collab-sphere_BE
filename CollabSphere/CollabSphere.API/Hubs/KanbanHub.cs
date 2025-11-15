@@ -232,12 +232,12 @@ namespace CollabSphere.API.Hubs
                 }
                 else
                 {
-                    throw new HubException("Fail to create new List");
+                    throw new HubException("Fail to create new card");
                 }
             }
             catch (Exception)
             {
-                throw new HubException("Fail to create new list");
+                throw new HubException("Fail to create new card");
             }
         }
 
@@ -257,13 +257,19 @@ namespace CollabSphere.API.Hubs
 
                 //Send command
                 var result = await _mediator.Send(command);
-
-                //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardMoved", command.CardId, command.NewListId, command.NewPosition);
+                if (result.IsSuccess)
+                {
+                    //Broadcase to other 
+                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardMoved", command.CardId, command.NewListId, command.NewPosition);
+                }
+                else
+                {
+                    throw new HubException("Fail to move card");
+                }
             }
             catch (Exception)
             {
-                throw new HubException("Fail to move the list");
+                throw new HubException("Fail to move card");
             }
         }
 
@@ -284,8 +290,15 @@ namespace CollabSphere.API.Hubs
                 //Send command
                 var result = await _mediator.Send(command);
 
-                //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardUpdated", command.CardId, result.Message);
+                if (result.IsSuccess)
+                {
+                    //Broadcase to other 
+                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardUpdated", command.CardId, result.Message);
+                }
+                else
+                {
+                    throw new HubException("Fail to update card");
+                }
             }
             catch (Exception)
             {
@@ -310,8 +323,15 @@ namespace CollabSphere.API.Hubs
                 //Send command
                 var result = await _mediator.Send(command);
 
-                //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardDeleted", command.ListId, command.CardId);
+                if (result.IsSuccess)
+                {
+                    //Broadcase to other 
+                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardDeleted", command.ListId, command.CardId);
+                }
+                else
+                {
+                    throw new HubException("Fail to delete card");
+                }
             }
             catch (Exception)
             {
