@@ -1,30 +1,22 @@
 ﻿using CollabSphere.Application.Base;
-using CollabSphere.Application.Common;
 using CollabSphere.Application.DTOs.Validation;
-using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
 namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.CardMemberCommands
 {
-    public class AssignMembersToCardHandler : CommandHandler<AssignMembersToCardCommand>
+    public class UnAssignMembersToCardHandler : CommandHandler<UnAssignMembersToCardCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly CloudinaryService _cloudinaryService;
-
-        public AssignMembersToCardHandler(IUnitOfWork unitOfWork, CloudinaryService cloudinaryService)
+        public UnAssignMembersToCardHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _cloudinaryService = cloudinaryService;
         }
-
-        protected override async Task<CommandResult> HandleCommand(AssignMembersToCardCommand request, CancellationToken cancellationToken)
+        protected override async Task<CommandResult> HandleCommand(UnAssignMembersToCardCommand request, CancellationToken cancellationToken)
         {
             var result = new CommandResult
             {
@@ -49,39 +41,16 @@ namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.CardMemberCom
                             //Already assigned
                             if (assign.StudentId == request.StudentId)
                             {
-                                result.IsSuccess = false;
+                                //Remove if found
+                                _unitOfWork.CardAssignmentRepo.Delete(assign);
+                                await _unitOfWork.SaveChangesAsync();
+                                await _unitOfWork.CommitTransactionAsync();
+
+                                result.IsSuccess = true;
                                 return result;
                             }
                         }
                     }
-
-                    //Find User
-                    var foundStudent = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(request.StudentId);
-
-                    var avatarImg = await _cloudinaryService.GetImageUrl(foundStudent!.Student.AvatarImg);
-
-                    //Assign more to card
-                    var newAssign = new CardAssignment
-                    {
-                        CardId = request.CardId,
-                        StudentId = request.StudentId,
-                        StudentName = foundStudent?.Student.Fullname,
-                        Avatar = avatarImg
-                    };
-
-                    await _unitOfWork.CardAssignmentRepo.Create(newAssign);
-                    await _unitOfWork.SaveChangesAsync();
-                    await _unitOfWork.CommitTransactionAsync();
-
-                    var assignedMember = await _unitOfWork.CardAssignmentRepo.GetOneByCardIdAndStuId(foundCard.CardId, foundStudent!.UId);
-
-                    var jsonOptions = new JsonSerializerOptions
-                    {
-                        ReferenceHandler = ReferenceHandler.IgnoreCycles,
-                        WriteIndented = true
-                    };
-                    result.IsSuccess = true;
-                    result.Message = JsonSerializer.Serialize(assignedMember, jsonOptions);
                 }
             }
             catch (Exception ex)
@@ -89,11 +58,10 @@ namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.CardMemberCom
                 await _unitOfWork.RollbackTransactionAsync();
                 result.IsSuccess = false;
             }
-
             return result;
         }
 
-        protected override async Task ValidateRequest(List<OperationError> errors, AssignMembersToCardCommand request)
+        protected override async Task ValidateRequest(List<OperationError> errors, UnAssignMembersToCardCommand request)
         {
             //Find team workspace
             var foundWorkspace = await _unitOfWork.TeamWorkspaceRepo.GetById(request.WorkspaceId);

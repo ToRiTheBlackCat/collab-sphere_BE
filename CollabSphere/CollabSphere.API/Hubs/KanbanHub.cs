@@ -365,6 +365,31 @@ namespace CollabSphere.API.Hubs
                 throw new HubException("Fail to assign members to card");
             }
         }
+        //Assign member to card
+        public async Task UnAssignMembersToCard(int workspaceId, int listId, int cardId, UnAssignMembersToCardCommand command)
+        {
+            try
+            {
+                //Get Requester Info
+                var userId = GetUserId();
+
+                //Bind to command
+                command.RequesterId = userId;
+                command.WorkspaceId = workspaceId;
+                command.ListId = listId;
+                command.CardId = cardId;
+
+                //Send command
+                var result = await _mediator.Send(command);
+
+                //Broadcase to other 
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardUnAssigned", command.ListId, command.CardId, command.StudentId);
+            }
+            catch (Exception)
+            {
+                throw new HubException("Fail to unassign members from card");
+            }
+        }
         //Delete Task
         public async Task DeleteTask(int workspaceId, int listId, int cardId, int taskId, DeleteTaskCommand command)
         {
