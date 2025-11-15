@@ -209,7 +209,7 @@ namespace CollabSphere.API.Hubs
         }
         #endregion
 
-        #region CARD
+        #region CARD - DONE
 
         //Create Card and assign member to card
         public async Task CreateCardAndAssignMember(int workspaceId, int listId, CreateCardCommand command)
@@ -365,6 +365,7 @@ namespace CollabSphere.API.Hubs
                 throw new HubException("Fail to assign members to card");
             }
         }
+
         //Assign member to card
         public async Task UnAssignMembersToCard(int workspaceId, int listId, int cardId, UnAssignMembersToCardCommand command)
         {
@@ -390,6 +391,62 @@ namespace CollabSphere.API.Hubs
                 throw new HubException("Fail to unassign members from card");
             }
         }
+        #endregion
+
+        #region Task
+        //Create new Task
+        public async Task CreateTask(int workspaceId, int listId, int cardId, CreateTaskCommand command)
+        {
+            try
+            {
+                //Get Requester Info
+                var userId = GetUserId();
+
+                //Bind to command
+                command.RequesterId = userId;
+                command.WorkSpaceId = workspaceId;
+                command.ListId = listId;
+                command.CardId = cardId;
+
+                //Send command
+                var result = await _mediator.Send(command);
+
+                //Broadcase to other 
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveTaskCreated", result);
+            }
+            catch (Exception)
+            {
+                throw new HubException("Fail to create new task");
+            }
+        }
+
+        //Rename Task
+        public async Task RenameTask(int workspaceId, int listId, int cardId, int taskId, RenameTaskCommand command)
+        {
+            try
+            {
+                //Get Requester Info
+                var userId = GetUserId();
+
+                //Bind to command
+                command.RequesterId = userId;
+                command.WorkSpaceId = workspaceId;
+                command.ListId = listId;
+                command.CardId = cardId;
+                command.TaskId = taskId;
+
+                //Send command
+                var result = await _mediator.Send(command);
+
+                //Broadcase to other 
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveTaskRenamed", command.ListId, command.CardId, command.TaskId, command.NewTitle);
+            }
+            catch (Exception)
+            {
+                throw new HubException("Fail to rename the task");
+            }
+        }
+
         //Delete Task
         public async Task DeleteTask(int workspaceId, int listId, int cardId, int taskId, DeleteTaskCommand command)
         {
@@ -529,5 +586,6 @@ namespace CollabSphere.API.Hubs
             }
         }
         #endregion
+
     }
 }
