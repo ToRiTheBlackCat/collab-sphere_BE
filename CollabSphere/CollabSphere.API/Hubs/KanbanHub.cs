@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.CreateCardAndAssignMember;
+using CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.DeleteCard;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.MoveCard;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.UpdateCardDetails;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.ListCommands.CreateList;
@@ -292,13 +293,8 @@ namespace CollabSphere.API.Hubs
             }
         }
 
-        //Delete Card (PENDING - Bổ sung thêm logic tự xóa mấy cái liên quan trong DB)
-
-        #endregion
-
-        #region Task
-        //Create new Task
-        public async Task CreateTask(int workspaceId, int listId, int cardId, CreateTaskCommand command)
+        //Delete Card 
+        public async Task DeleteCard(int workspaceId, int listId, int cardId, DeleteCardCommand command)
         {
             try
             {
@@ -328,25 +324,19 @@ namespace CollabSphere.API.Hubs
         {
             try
             {
-                //Get Requester Info
-                var userId = GetUserId();
-
-                //Bind to command
-                command.RequesterId = userId;
-                command.WorkSpaceId = workspaceId;
+                command.WorkspaceId = workspaceId;
                 command.ListId = listId;
                 command.CardId = cardId;
-                command.TaskId = taskId;
 
                 //Send command
                 var result = await _mediator.Send(command);
 
                 //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveTaskRenamed", command.ListId, command.CardId, command.TaskId, command.NewTitle);
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardDeleted", command.ListId, command.CardId);
             }
             catch (Exception)
             {
-                throw new HubException("Fail to rename the task");
+                throw new HubException("Fail to delete card");
             }
         }
 
