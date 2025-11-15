@@ -27,7 +27,7 @@ public partial class Card
 
     public virtual ICollection<CardAssignment> CardAssignments { get; set; } = new List<CardAssignment>();
 
-    public virtual List List { get; set; }
+    public virtual List List { get; set; } = null!;
 
     public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
 }

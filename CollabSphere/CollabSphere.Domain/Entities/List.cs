@@ -16,5 +16,5 @@ public partial class List
 
     public virtual ICollection<Card> Cards { get; set; } = new List<Card>();
 
-    public virtual TeamWorkspace Workspace { get; set; }
+    public virtual TeamWorkspace Workspace { get; set; } = null!;
 }

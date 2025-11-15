@@ -17,5 +17,5 @@ public partial class SubTask
 
     public int TaskId { get; set; }
 
-    public virtual Task Task { get; set; }
+    public virtual Task Task { get; set; } = null!;
 }

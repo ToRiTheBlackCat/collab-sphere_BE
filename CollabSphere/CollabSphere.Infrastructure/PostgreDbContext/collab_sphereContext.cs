@@ -158,7 +158,9 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.CardId)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("card_id");
-            entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("created_at");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.DueAt).HasColumnName("due_at");
             entity.Property(e => e.IsCompleted).HasColumnName("is_completed");
@@ -169,7 +171,7 @@ public partial class collab_sphereContext : DbContext
 
             entity.HasOne(d => d.List).WithMany(p => p.Cards)
                 .HasForeignKey(d => d.ListId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("card_list_fk");
         });
 
@@ -186,7 +188,6 @@ public partial class collab_sphereContext : DbContext
 
             entity.HasOne(d => d.Card).WithMany(p => p.CardAssignments)
                 .HasForeignKey(d => d.CardId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("card_assignment_card_fk");
         });
 
@@ -535,7 +536,6 @@ public partial class collab_sphereContext : DbContext
 
             entity.HasOne(d => d.Workspace).WithMany(p => p.Lists)
                 .HasForeignKey(d => d.WorkspaceId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("list_team_workspace_fk");
         });
 
@@ -1071,7 +1071,6 @@ public partial class collab_sphereContext : DbContext
 
             entity.HasOne(d => d.Task).WithMany(p => p.SubTasks)
                 .HasForeignKey(d => d.TaskId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("sub_task_task_fk");
         });
 
@@ -1177,7 +1176,6 @@ public partial class collab_sphereContext : DbContext
 
             entity.HasOne(d => d.Card).WithMany(p => p.Tasks)
                 .HasForeignKey(d => d.CardId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("task_card_fk");
         });
 
