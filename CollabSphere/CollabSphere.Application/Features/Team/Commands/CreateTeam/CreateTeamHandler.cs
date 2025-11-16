@@ -134,7 +134,7 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                 }
                 #endregion
 
-                #region Add team members
+                #region Add team memberss
                 foreach (var student in request.StudentList)
                 {
                     if (maxAdded > 0)
@@ -189,6 +189,18 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                     }
                 }
                 #endregion
+
+                #region Create Team WorkSpace
+                var newTeamWkSpace = new TeamWorkspace
+                {
+                    TeamId = newTeam.TeamId,
+                    Title = $"{newTeam.TeamName}'s WorkSpace",
+                    CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow),
+                };
+
+                await _unitOfWork.TeamWorkspaceRepo.Create(newTeamWkSpace);
+                await _unitOfWork.SaveChangesAsync();
+                #endregion
             }
             catch (Exception ex)
             {
@@ -222,7 +234,7 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
             return new string(result);
         }
 
-        protected override async Task ValidateRequest(List<OperationError> errors, CreateTeamCommand request)
+        protected override async System.Threading.Tasks.Task ValidateRequest(List<OperationError> errors, CreateTeamCommand request)
         {
             var bypassRoles = new int[] { RoleConstants.LECTURER };
             if (bypassRoles.Contains(request.UserRole))
