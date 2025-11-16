@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CollabSphere.Application.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.TaskCommands.DeleteTask
 {
-    public class DeleteTaskCommand
+    public class DeleteTaskCommand : ICommand
     {
         [JsonIgnore]
-        public int WorkSpaceId { get; set; }
+        public int WorkspaceId { get; set; }
         [JsonIgnore]
         public int RequesterId { get; set; }
         [JsonIgnore]

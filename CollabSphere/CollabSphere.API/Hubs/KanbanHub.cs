@@ -406,7 +406,7 @@ namespace CollabSphere.API.Hubs
         }
         #endregion
 
-        #region Task
+        #region Task - DONE
         //Create new Task
         public async Task CreateTask(int workspaceId, int listId, int cardId, CreateTaskCommand command)
         {
@@ -486,7 +486,7 @@ namespace CollabSphere.API.Hubs
 
                 //Bind to command
                 command.RequesterId = userId;
-                command.WorkSpaceId = workspaceId;
+                command.WorkspaceId = workspaceId;
                 command.ListId = listId;
                 command.CardId = cardId;
                 command.TaskId = taskId;
@@ -494,8 +494,15 @@ namespace CollabSphere.API.Hubs
                 //Send command
                 var result = await _mediator.Send(command);
 
-                //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveTaskDeleted", command.ListId, command.CardId, command.TaskId);
+                if (result.IsSuccess)
+                {
+                    //Broadcase to other 
+                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveTaskDeleted", command.ListId, command.CardId, command.TaskId);
+                }
+                else
+                {
+                    throw new HubException("Fail to delete the task");
+                }
             }
             catch (Exception)
             {
