@@ -404,7 +404,7 @@ namespace CollabSphere.API.Hubs
 
                 //Bind to command
                 command.RequesterId = userId;
-                command.WorkSpaceId = workspaceId;
+                command.WorkspaceId = workspaceId;
                 command.ListId = listId;
                 command.CardId = cardId;
 
@@ -412,7 +412,7 @@ namespace CollabSphere.API.Hubs
                 var result = await _mediator.Send(command);
 
                 //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveTaskCreated", result);
+                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveTaskCreated", command.ListId, command.CardId, result.Message);
             }
             catch (Exception)
             {

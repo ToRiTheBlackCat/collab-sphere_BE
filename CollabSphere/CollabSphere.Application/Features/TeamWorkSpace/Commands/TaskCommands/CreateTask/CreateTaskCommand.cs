@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CollabSphere.Application.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.TaskCommands.CreateTask
 {
-    public class CreateTaskCommand
+    public class CreateTaskCommand : ICommand
     {
         [JsonIgnore]
-        public int WorkSpaceId { get; set; }
+        public int WorkspaceId { get; set; }
         [JsonIgnore]
         public int RequesterId { get; set; }
         [JsonIgnore]
@@ -20,8 +21,6 @@ namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.TaskCommands.
         public int CardId { get; set; }
 
         [Required]
-        public string CardTitle { get; set; } = string.Empty;
-        [Required]
-        public int CardOrder { get; set; }
+        public string TaskTitle { get; set; } = string.Empty;
     }
 }
