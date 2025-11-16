@@ -35,7 +35,7 @@ namespace CollabSphere.Application.Features.Classes.Queries.GetClassById
 
             try
             {
-                var classEntity = await _unitOfWork.ClassRepo.GetById(request.ClassId);
+                var classEntity = await _unitOfWork.ClassRepo.GetClassDetail(request.ClassId);
                 if (classEntity != null)
                 {
                     // Viewer is a Student but NOT in Class

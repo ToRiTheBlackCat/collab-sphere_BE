@@ -56,7 +56,7 @@ namespace CollabSphere.Application.DTOs.Classes
 
         public List<ProjectAssignmentVM> ProjectAssignments { get; set; } = new List<ProjectAssignmentVM>();
 
-        public List<TeamVM> Teams { get; set; } = new List<TeamVM>();
+        public List<ClassTeamVM> Teams { get; set; } = new List<ClassTeamVM>();
     }
 }
 
@@ -100,7 +100,7 @@ namespace CollabSphere.Application.Mappings.Classes
                 ClassFiles = classEntity.ClassFiles.ToViewModel(),
                 ClassMembers = classEntity.ClassMembers.ToViewModel(),
                 ProjectAssignments = classEntity.ProjectAssignments.Select(x => (ProjectAssignmentVM)x).ToList(),
-                Teams = classEntity.Teams.Select(x => (TeamVM)x).ToList(),
+                Teams = classEntity.Teams.Select(x => (ClassTeamVM)x).ToList(),
             };
         }
     }

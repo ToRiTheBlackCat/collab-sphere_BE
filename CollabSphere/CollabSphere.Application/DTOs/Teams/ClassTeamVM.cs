@@ -1,4 +1,5 @@
-﻿using CollabSphere.Domain.Entities;
+﻿using CollabSphere.Application.Constants;
+using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.DTOs.Teams
 {
-    public class TeamVM
+    public class ClassTeamVM
     {
         public int TeamId { get; set; }
 
@@ -35,13 +36,13 @@ namespace CollabSphere.Application.DTOs.Teams
 
         public float? Progress { get; set; }
 
-        public int Status { get; set; }
+        public string Status { get; set; }
 
-        public static explicit operator TeamVM(Domain.Entities.Team team)
+        public static explicit operator ClassTeamVM(Domain.Entities.Team team)
         {
             var projectAssign = team.ProjectAssignment;
 
-            return new TeamVM()
+            return new ClassTeamVM()
             {
                 TeamId = team.TeamId,
                 TeamName = team.TeamName,
@@ -55,7 +56,7 @@ namespace CollabSphere.Application.DTOs.Teams
                 CreatedDate = team.CreatedDate,
                 EndDate = team.EndDate,
                 Progress = team.Progress,
-                Status = team.Status,
+                Status = ((TeamStatus)team.Status).ToString(),
             };
         }
     }

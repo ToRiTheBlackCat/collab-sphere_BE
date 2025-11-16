@@ -1,4 +1,5 @@
-﻿using CollabSphere.Application.DTOs.ClassMembers;
+﻿using CollabSphere.Application.Constants;
+using CollabSphere.Application.DTOs.ClassMembers;
 using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -32,11 +33,11 @@ namespace CollabSphere.Application.DTOs.ClassMembers
 
         public int ClassId { get; set; }
 
-        public int? TeamRole { get; set; }
+        public string TeamRole { get; set; }
 
         public bool IsGrouped { get; set; }
 
-        public int Status { get; set; }
+        public bool IsActive { get; set; }
     }
 }
 
@@ -62,9 +63,11 @@ namespace CollabSphere.Application.Mappings.ClassMembers
                 TeamId = classMember.TeamId,
                 TeamName = team != null ? team.TeamName : "NOT FOUND",
                 ClassId = classMember.ClassId,
-                TeamRole = classMember.TeamRole,
+                TeamRole = classMember.TeamRole.HasValue ? 
+                    ((TeamRole)classMember.TeamRole).ToString() :
+                    string.Empty,
                 IsGrouped = classMember.IsGrouped,
-                Status = classMember.Status,
+                IsActive = student.StudentNavigation!.IsActive,
             };
         }
 
