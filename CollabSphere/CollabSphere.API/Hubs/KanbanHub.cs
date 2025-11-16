@@ -404,6 +404,9 @@ namespace CollabSphere.API.Hubs
                 throw new HubException("Fail to unassign members of card");
             }
         }
+
+        //MarkUnMark Card
+
         #endregion
 
         #region Task - DONE
@@ -618,8 +621,8 @@ namespace CollabSphere.API.Hubs
             }
         }
 
-        //Update SubTask
-        public async Task UpdateSubTaskDetails(int workspaceId, int listId, int cardId, int taskId, int subtaskId, UpdateSubTaskDetailsCommand command)
+        //Mark done SubTask
+        public async Task MarkUnMarkdoneSubTask(int workspaceId, int listId, int cardId, int taskId, int subtaskId, MarkUnMarkdoneSubTaskCommand command)
         {
             try
             {
@@ -628,7 +631,7 @@ namespace CollabSphere.API.Hubs
 
                 //Bind to command
                 command.RequesterId = userId;
-                command.WorkSpaceId = workspaceId;
+                command.WorkspaceId = workspaceId;
                 command.ListId = listId;
                 command.CardId = cardId;
                 command.TaskId = taskId;
@@ -637,15 +640,21 @@ namespace CollabSphere.API.Hubs
                 //Send command
                 var result = await _mediator.Send(command);
 
-                //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveSubTaskUpdated", result.UpdatedSubTaskDto);
+                if (result.IsSuccess)
+                {
+                    //Broadcase to other 
+                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveSubTaskMarkDone", command.ListId, command.CardId, command.TaskId, command.SubTaskId, command.IsDone);
+                }
+                else
+                {
+                    throw new HubException("Fail to mark/unmark done subtask");
+                }
             }
             catch (Exception)
             {
-                throw new HubException("Fail to update subtask");
+                throw new HubException("Fail to mark/unmark done subtask");
             }
         }
         #endregion
-
     }
 }

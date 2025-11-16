@@ -1,5 +1,7 @@
-﻿using System;
+﻿using CollabSphere.Application.Base;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -7,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.SubTaskCommands.UpdateSubTaskDetails
 {
-    public class UpdateSubTaskDetailsCommand
+    public class MarkUnMarkdoneSubTaskCommand : ICommand
     {
         [JsonIgnore]
-        public int WorkSpaceId { get; set; }
+        public int WorkspaceId { get; set; }
         [JsonIgnore]
         public int ListId { get; set; }
         [JsonIgnore]
@@ -21,8 +23,7 @@ namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.SubTaskComman
         public int TaskId { get; set; }
         [JsonIgnore]
         public int SubTaskId { get; set; }
-
-        public string? SubTaskTitle { get; set; }
+        [Required]
         public bool IsDone { get; set; }
     }
 }
