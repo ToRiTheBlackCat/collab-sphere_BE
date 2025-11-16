@@ -26,7 +26,6 @@ namespace CollabSphere.API.Hubs
     public class KanbanHub : Hub
     {
         private readonly IMediator _mediator;
-        private bool _isAuthoried;
 
         public KanbanHub(IMediator mediator)
         {
