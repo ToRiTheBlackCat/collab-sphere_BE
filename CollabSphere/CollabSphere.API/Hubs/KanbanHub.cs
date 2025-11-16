@@ -582,7 +582,7 @@ namespace CollabSphere.API.Hubs
             }
         }
 
-        //Update SubTask
+        //Delete SubTask
         public async Task DeleteSubTask(int workspaceId, int listId, int cardId, int taskId, int subtaskId, DeleteSubTaskCommand command)
         {
             try
@@ -592,7 +592,7 @@ namespace CollabSphere.API.Hubs
 
                 //Bind to command
                 command.RequesterId = userId;
-                command.WorkSpaceId = workspaceId;
+                command.WorkspaceId = workspaceId;
                 command.ListId = listId;
                 command.CardId = cardId;
                 command.TaskId = taskId;
@@ -601,8 +601,16 @@ namespace CollabSphere.API.Hubs
                 //Send command
                 var result = await _mediator.Send(command);
 
-                //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveSubTaskDeleted", command.ListId, command.CardId, command.TaskId, command.SubTaskId);
+                if (result.IsSuccess)
+                {
+                    //Broadcase to other 
+                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveSubTaskDeleted", command.ListId, command.CardId, command.TaskId, command.SubTaskId);
+                }
+                else
+                {
+                    throw new HubException("Fail to delete subtask");
+                }
+
             }
             catch (Exception)
             {
