@@ -1,5 +1,6 @@
 ﻿using CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.CreateCardAndAssignMember;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.DeleteCard;
+using CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.MarkUnMarkCompleteCard;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.MoveCard;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.CardCommands.UpdateCardDetails;
 using CollabSphere.Application.Features.TeamWorkSpace.Commands.CardMemberCommands;
@@ -405,7 +406,38 @@ namespace CollabSphere.API.Hubs
             }
         }
 
-        //MarkUnMark Card
+        //MarkUnMark complete Card
+        public async Task MarkUnMarkCompleteCard(int workspaceId, int listId, int cardId, MarkUnMarkCompleteCardCommand command)
+        {
+            try
+            {
+                //Get Requester Info
+                var userId = GetUserId();
+
+                //Bind to command
+                command.RequesterId = userId;
+                command.WorkspaceId = workspaceId;
+                command.ListId = listId;
+                command.CardId = cardId;
+
+                //Send command
+                var result = await _mediator.Send(command);
+
+                if (result.IsSuccess)
+                {
+                    //Broadcase to other 
+                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardComplete", command.ListId, command.CardId, command.IsComplete);
+                }
+                else
+                {
+                    throw new HubException("Fail to mark/unmark complete card");
+                }
+            }
+            catch (Exception)
+            {
+                throw new HubException("Fail to mark/unmark complete card");
+            }
+        }
 
         #endregion
 
@@ -515,7 +547,7 @@ namespace CollabSphere.API.Hubs
 
         #endregion
 
-        #region Sub-Task
+        #region Sub-Task - DONE
         //Create new Sub-Task
         public async Task CreateSubTask(int workspaceId, int listId, int cardId, int taskId, CreateSubTaskCommand command)
         {
