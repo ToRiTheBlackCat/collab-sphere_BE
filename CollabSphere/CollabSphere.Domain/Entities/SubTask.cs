@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CollabSphere.Domain.Models;
+namespace CollabSphere.Domain.Entities;
 
 public partial class SubTask
 {
@@ -11,9 +11,11 @@ public partial class SubTask
 
     public string SubTaskTitle { get; set; }
 
+    public int Order { get; set; }
+
     public bool? IsDone { get; set; }
 
     public int TaskId { get; set; }
 
-    public virtual Task Task { get; set; }
+    public virtual Task Task { get; set; } = null!;
 }

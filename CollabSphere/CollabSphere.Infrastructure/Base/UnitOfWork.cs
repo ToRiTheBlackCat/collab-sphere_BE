@@ -50,6 +50,13 @@ namespace CollabSphere.Infrastructure.Base
         public IMilestoneReturnRepository MilestoneReturnRepo { get; }
         public IProjectRepoMappingRepository ProjectRepoMappingRepo { get; }
         public IMeetingRepository MeetingRepo { get; }
+        public ITeamWorkspaceRepository TeamWorkspaceRepo { get; }
+        public IListRepository ListRepo { get; }
+        public ICardRepository CardRepo { get; }
+        public ICardAssignmentRepository CardAssignmentRepo { get; }
+        public ITaskRepository TaskRepo { get; }
+        public ISubTaskRepository SubTaskRepo { get; }
+
         public IPrAnalysisRepository PrAnalysisRepo { get; }
         #endregion
 
@@ -91,10 +98,17 @@ namespace CollabSphere.Infrastructure.Base
             MilestoneReturnRepo = new MilestoneReturnRepository(_context);
             ProjectRepoMappingRepo = new ProjectRepoMappingRepository(_context);
             MeetingRepo = new MeetingRepository(_context);
+            TeamWorkspaceRepo = new TeamWorkspaceRepository(_context);
+            ListRepo = new ListRepository(_context);
+            CardRepo = new CardRepository(_context);
+            CardAssignmentRepo = new CardAssignmentRepository(_context);
+            TaskRepo = new TaskRepository(_context);
+            SubTaskRepo = new SubTaskRepository(_context);
+
             PrAnalysisRepo = new PrAnalysisRepository(_context);
             #endregion
         }
-
+        
         public async Task BeginTransactionAsync()
         {
             if (_transaction == null)

@@ -8,6 +8,7 @@ using StackExchange.Redis;
 using System.Text.RegularExpressions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
+using Task = System.Threading.Tasks.Task;
 
 namespace CollabSphere.Application.Features.Project.Queries.GetAllProjects
 {

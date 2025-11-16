@@ -44,6 +44,12 @@ namespace CollabSphere.Application
         IMilestoneReturnRepository MilestoneReturnRepo { get; }
         IProjectRepoMappingRepository ProjectRepoMappingRepo { get; }
         IMeetingRepository MeetingRepo { get; }
+        ITeamWorkspaceRepository TeamWorkspaceRepo { get; }
+        IListRepository ListRepo { get; }
+        ICardRepository CardRepo { get; }
+        ITaskRepository TaskRepo { get; }
+        ISubTaskRepository SubTaskRepo { get; }
+        ICardAssignmentRepository CardAssignmentRepo { get; }
         IPrAnalysisRepository PrAnalysisRepo { get; }
         //More IRepo below
 
