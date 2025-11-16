@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CollabSphere.Application.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.SubTaskCommands.CreateSubTask
 {
-    public class CreateSubTaskCommand
+    public class CreateSubTaskCommand : ICommand
     {
         [JsonIgnore]
-        public int WorkSpaceId { get; set; }
+        public int WorkspaceId { get; set; }
         [JsonIgnore]
         public int RequesterId { get; set; }
         [JsonIgnore]
@@ -23,8 +24,6 @@ namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.SubTaskComman
 
         [Required]
         public string SubTaskTitle { get; set; } = string.Empty;
-        [Required]
-        public int SubTaskOrder { get; set; }
         [Required]
         public bool IsDone { get; set; }
     }

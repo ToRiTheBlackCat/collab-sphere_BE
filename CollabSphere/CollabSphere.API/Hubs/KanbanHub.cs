@@ -509,11 +509,12 @@ namespace CollabSphere.API.Hubs
                 throw new HubException("Fail to delete the task");
             }
         }
+
         #endregion
 
         #region Sub-Task
         //Create new Sub-Task
-        public async Task CreateSubTask(int workspaceId, int listId, int cardId, CreateSubTaskCommand command)
+        public async Task CreateSubTask(int workspaceId, int listId, int cardId, int taskId, CreateSubTaskCommand command)
         {
             try
             {
@@ -522,15 +523,23 @@ namespace CollabSphere.API.Hubs
 
                 //Bind to command
                 command.RequesterId = userId;
-                command.WorkSpaceId = workspaceId;
+                command.WorkspaceId = workspaceId;
                 command.ListId = listId;
                 command.CardId = cardId;
+                command.TaskId = taskId;
 
                 //Send command
                 var result = await _mediator.Send(command);
 
-                //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveSubTaskCreated", result.CreatedSubTaskDto);
+                if (result.IsSuccess)
+                {
+                    //Broadcase to other 
+                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveSubTaskCreated", command.ListId, command.CardId, command.TaskId, result.Message);
+                }
+                else
+                {
+                    throw new HubException("Fail to create new subtask");
+                }
             }
             catch (Exception)
             {
