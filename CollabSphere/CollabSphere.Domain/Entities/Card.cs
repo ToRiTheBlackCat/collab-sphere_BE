@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CollabSphere.Domain.Models;
+namespace CollabSphere.Domain.Entities;
 
 public partial class Card
 {
@@ -15,9 +15,9 @@ public partial class Card
 
     public string Description { get; set; }
 
-    public string Labels { get; set; }
-
     public string RiskLevel { get; set; }
+
+    public float Position { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
@@ -27,7 +27,7 @@ public partial class Card
 
     public virtual ICollection<CardAssignment> CardAssignments { get; set; } = new List<CardAssignment>();
 
-    public virtual List List { get; set; }
+    public virtual List List { get; set; } = null!;
 
     public virtual ICollection<Task> Tasks { get; set; } = new List<Task>();
 }

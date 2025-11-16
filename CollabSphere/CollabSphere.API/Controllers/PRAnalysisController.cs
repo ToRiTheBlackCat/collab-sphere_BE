@@ -1,5 +1,6 @@
 ﻿using CollabSphere.Application.Features.PrAnalysis.Commands.UpsertPrAnalysis;
 using CollabSphere.Application.Features.PrAnalysis.Queries.GetDetailOfAnalysis;
+using CollabSphere.Application.Features.PrAnalysis.Queries.GetListOfAnalysis;
 using CollabSphere.Application.Features.ProjectRepo.Commands.CreateRepoForProject;
 using CollabSphere.Application.Features.ProjectRepo.Queries.GetReposOfProject;
 using MediatR;
@@ -21,7 +22,6 @@ namespace CollabSphere.API.Controllers
             _mediator = mediator;
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> UpsertPrAnalysis([FromBody] UpsertPrAnalysisCommand command)
         {
@@ -29,12 +29,6 @@ namespace CollabSphere.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            // Get UserId & Role of requester
-            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
-            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
-            command.UserId = int.Parse(UIdClaim.Value);
-            command.UserRole = int.Parse(roleClaim.Value);
 
             var result = await _mediator.Send(command);
 
@@ -51,7 +45,6 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
-        [Authorize]
         [HttpGet("{analysisId}")]
         public async Task<IActionResult> GetDetailOfAnalysis(GetDetailOfAnalysisQuery query, CancellationToken cancellationToken = default!)
         {
@@ -70,5 +63,26 @@ namespace CollabSphere.API.Controllers
 
             return Ok(result);
         }
+
+        [Authorize]
+        [HttpGet("/api/team/{teamId}/pr-analysis")]
+        public async Task<IActionResult> GetListAnalysisOfTeam(GetListAnalysisOfTeamQuery query, CancellationToken cancellationToken = default!)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            query.UserId = int.Parse(UIdClaim.Value);
+            query.UserRole = int.Parse(roleClaim.Value);
+
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+
     }
 }

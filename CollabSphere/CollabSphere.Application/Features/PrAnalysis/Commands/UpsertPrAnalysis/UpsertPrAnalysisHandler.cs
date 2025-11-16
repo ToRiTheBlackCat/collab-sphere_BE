@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 
 namespace CollabSphere.Application.Features.PrAnalysis.Commands.UpsertPrAnalysis
 {
@@ -151,7 +152,7 @@ namespace CollabSphere.Application.Features.PrAnalysis.Commands.UpsertPrAnalysis
 
                 await _unitOfWork.CommitTransactionAsync();
                 result.IsSuccess = true;
-                
+
             }
             catch (Exception ex)
             {
@@ -164,72 +165,26 @@ namespace CollabSphere.Application.Features.PrAnalysis.Commands.UpsertPrAnalysis
 
         protected override async Task ValidateRequest(List<OperationError> errors, UpsertPrAnalysisCommand request)
         {
-            var bypassRoles = new int[] { RoleConstants.LECTURER, RoleConstants.STUDENT };
-
-            //Check role permission
-            if (bypassRoles.Contains(request.UserRole))
-            {
-                //Find project
-                var foundProject = await _unitOfWork.ProjectRepo.GetById(request.ProjectId);
-                if (foundProject == null)
-                {
-                    errors.Add(new OperationError
-                    {
-                        Field = nameof(request.ProjectId),
-                        Message = $"Not found any project with that Id: {request.ProjectId}"
-                    });
-                    return;
-                }
-
-                //Find team
-                var foundTeam = await _unitOfWork.TeamRepo.GetById(request.TeamId);
-                if (foundTeam == null)
-                {
-                    errors.Add(new OperationError
-                    {
-                        Field = nameof(request.ProjectId),
-                        Message = $"Not found any project with that Id: {request.TeamId}"
-                    });
-                    return;
-                }
-                else
-                {
-                    //If student
-                    if (request.UserRole == RoleConstants.STUDENT)
-                    {
-                        //Check if team member
-                        var foundTeamMem = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByTeamIdAndStudentId(foundTeam.TeamId, request.UserId);
-                        if (foundTeamMem == null)
-                        {
-                            errors.Add(new OperationError
-                            {
-                                Field = nameof(request.UserId),
-                                Message = $"You are not the member of this team. Cannot create project installation for this team"
-                            });
-                            return;
-                        }
-                    }
-                    //If Lec
-                    else
-                    {
-                        if (request.UserId != foundTeam.LecturerId)
-                        {
-                            errors.Add(new OperationError
-                            {
-                                Field = nameof(request.UserId),
-                                Message = $"You are not the lecturer of this team. Cannot create meeting for this team"
-                            });
-                            return;
-                        }
-                    }
-                }
-            }
-            else
+            //Find project
+            var foundProject = await _unitOfWork.ProjectRepo.GetById(request.ProjectId);
+            if (foundProject == null)
             {
                 errors.Add(new OperationError
                 {
-                    Field = nameof(request.UserRole),
-                    Message = $"You do not have permission to use this function"
+                    Field = nameof(request.ProjectId),
+                    Message = $"Not found any project with that Id: {request.ProjectId}"
+                });
+                return;
+            }
+
+            //Find team
+            var foundTeam = await _unitOfWork.TeamRepo.GetById(request.TeamId);
+            if (foundTeam == null)
+            {
+                errors.Add(new OperationError
+                {
+                    Field = nameof(request.ProjectId),
+                    Message = $"Not found any project with that Id: {request.TeamId}"
                 });
                 return;
             }

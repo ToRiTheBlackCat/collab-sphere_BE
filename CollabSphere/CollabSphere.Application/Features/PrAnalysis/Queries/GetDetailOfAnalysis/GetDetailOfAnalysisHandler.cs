@@ -69,29 +69,15 @@ namespace CollabSphere.Application.Features.PrAnalysis.Queries.GetDetailOfAnalys
 
         protected override async Task ValidateRequest(List<OperationError> errors, GetDetailOfAnalysisQuery request)
         {
-            var bypassRoles = new int[] { RoleConstants.LECTURER, RoleConstants.STUDENT };
-            //Check role permission
-            if (!bypassRoles.Contains(request.UserRole))
+            var foundAnalysis = await _unitOfWork.PrAnalysisRepo.GetById(request.AnalysisId);
+            if (foundAnalysis == null)
             {
                 errors.Add(new OperationError()
                 {
-                    Field = "UserRole",
-                    Message = $"This role with ID: {request.UserRole} not has permission to get this team details."
+                    Field = nameof(request.AnalysisId),
+                    Message = $"Not found any analysis with ID: {request.AnalysisId}"
                 });
                 return;
-            }
-            else
-            {
-                var foundAnalysis = await _unitOfWork.PrAnalysisRepo.GetById(request.AnalysisId);
-                if (foundAnalysis == null)
-                {
-                    errors.Add(new OperationError()
-                    {
-                        Field = nameof(request.AnalysisId),
-                        Message = $"Not found any analysis with ID: {request.AnalysisId}"
-                    });
-                    return;
-                }
             }
         }
     }

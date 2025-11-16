@@ -80,7 +80,7 @@ namespace CollabSphere.Application.Features.User.Commands.UserUpdateProfile
                         //Update Phone Number
                         if (!string.IsNullOrEmpty(request.PhoneNumber))
                         {
-                            foundUser.Lecturer.Yob = request.Yob;
+                            foundUser.Lecturer.PhoneNumber = request.PhoneNumber;
                         }
 
                         //Update YOB
@@ -179,7 +179,7 @@ namespace CollabSphere.Application.Features.User.Commands.UserUpdateProfile
 
         protected override async Task ValidateRequest(List<OperationError> errors, UpdateUserProfileCommand request)
         {
-            var bypassRoles = new int[] { RoleConstants.STAFF, RoleConstants.STUDENT };
+            var bypassRoles = new int[] { RoleConstants.STAFF, RoleConstants.STUDENT, RoleConstants.LECTURER };
 
             //Check existed user
             var foundUser = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(request.UserId);
@@ -195,7 +195,7 @@ namespace CollabSphere.Application.Features.User.Commands.UserUpdateProfile
             //Check if role is valid to update profile
             if (bypassRoles.Contains(request.RequesterRole))
             {
-                //Check update profile permission if requester is student
+                //Check update profile permission of requester
                 if (request.RequesterRole == RoleConstants.STUDENT && request.RequesterId != foundUser.UId)
                 {
                     errors.Add(new OperationError
@@ -204,17 +204,27 @@ namespace CollabSphere.Application.Features.User.Commands.UserUpdateProfile
                         Message = $"Your are not allowed to update this user profile."
                     });
                 }
-
-                //Check match old password
-                var oldPassword = SHA256Encoding.ComputeSHA256Hash(request.OldPassword + _configure["SecretString"]);
-                if (foundUser.Password != oldPassword)
+                else if (request.RequesterRole == RoleConstants.LECTURER && request.RequesterId != foundUser.UId)
                 {
                     errors.Add(new OperationError
                     {
-                        Field = nameof(request.OldPassword),
-                        Message = $"Not match with found old password. Try again!"
+                        Field = nameof(request.RequesterId),
+                        Message = $"Your are not allowed to update this user profile."
                     });
-                    return;
+                }
+
+                if (!string.IsNullOrEmpty(request.OldPassword))
+                {
+                    //Check match old password
+                    var oldPassword = SHA256Encoding.ComputeSHA256Hash(request.OldPassword + _configure["SecretString"]);
+                    if (foundUser.Password != oldPassword)
+                    {
+                        errors.Add(new OperationError
+                        {
+                            Field = nameof(request.OldPassword),
+                            Message = $"Not match with found old password. Try again!"
+                        });
+                    }
                 }
             }
             else

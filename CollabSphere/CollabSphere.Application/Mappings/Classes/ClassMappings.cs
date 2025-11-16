@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.Mappings.Classes
 {
-    public static class ClassMappings
+    public static partial class ClassMappings
     {
         public static ClassVM ToClassVM(this Class classEntity, bool showEnrolKey = false)
         {

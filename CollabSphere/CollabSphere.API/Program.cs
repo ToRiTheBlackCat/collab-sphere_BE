@@ -1,5 +1,6 @@
 using Amazon.S3;
 using CloudinaryDotNet;
+using CollabSphere.API.Hubs;
 using CollabSphere.Application;
 using CollabSphere.Application.Common;
 using CollabSphere.Domain;
@@ -65,9 +66,14 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins", policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins(
+                "null",
+                "http://127.0.0.1:5500",
+                "http://52.221.106.143/"
+              )
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
@@ -93,6 +99,24 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         ClockSkew = TimeSpan.Zero,
         RoleClaimType = ClaimTypes.Role
+    };
+
+    //Configure using for Hubs
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+
+            var path = context.HttpContext.Request.Path;
+
+            if (!string.IsNullOrEmpty(accessToken) &&
+                (path.StartsWithSegments("/KanbanServiceHub")))
+            {
+                context.Token = accessToken;
+            }
+            return Task.CompletedTask;
+        }
     };
 });
 #endregion
@@ -147,7 +171,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
     var redisUrl = redisSection["RedisUrl"] ?? "";
 
     var options = ConfigurationOptions.Parse(redisUrl);
-    options.AbortOnConnectFail = false; 
+    options.AbortOnConnectFail = false;
 
     return ConnectionMultiplexer.Connect(options);
 });
@@ -165,6 +189,9 @@ builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
 builder.Services.AddAWSService<IAmazonS3>();
 #endregion
 
+#region Configure Hubs
+builder.Services.AddSignalR();
+#endregion
 #region Configure GoogleDrive-Storing Video
 builder.Services.Configure<GgDriveSettings>(
     builder.Configuration.GetSection("GoogleDrive"));
@@ -186,10 +213,13 @@ app.UseSwaggerUI(c =>
 
 
 app.UseHttpsRedirection();
-app.UseCors();
+app.UseCors("AllowAllOrigins");
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+//Hubs
+app.MapHub<KanbanHub>("/KanbanServiceHub");
 app.MapControllers();
 
 app.Run();

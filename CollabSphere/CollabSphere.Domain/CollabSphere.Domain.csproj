@@ -7,6 +7,7 @@
   </PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="CloudinaryDotNet" Version="1.27.7" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="8.0.21" />
 		<PackageReference Include="Google.Apis.Auth" Version="1.72.0" />
 		<PackageReference Include="Google.Apis.Drive.v3" Version="1.72.0.3944" />
 		<PackageReference Include="Npgsql" Version="9.0.3" />

@@ -10,5 +10,7 @@ namespace CollabSphere.Domain.Interfaces
     public interface IProjectRepoMappingRepository : IGenericRepository<ProjectRepoMapping>
     {
         Task<Dictionary<int, List<ProjectRepoMapping>>> SearchInstallationsOfProject(int projectId, int installedUserId, int teamId, DateTime? fromDate, bool isDesc);
+
+        Task<ProjectRepoMapping?> GetOneByTeamIdAndRepoId(int teamId, long repoId);
     }
 }

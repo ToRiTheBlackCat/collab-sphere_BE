@@ -52,6 +52,12 @@ namespace CollabSphere.Infrastructure.Repositories
 
             return groupedResults;
         }
-
+        public async Task<ProjectRepoMapping?> GetOneByTeamIdAndRepoId(int teamId, long repoId)
+        {
+            return await _context.ProjectRepoMappings
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.TeamId == teamId &&
+                                          x.RepositoryId == repoId);
+        }
     }
 }
