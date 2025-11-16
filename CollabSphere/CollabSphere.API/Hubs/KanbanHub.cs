@@ -356,9 +356,15 @@ namespace CollabSphere.API.Hubs
 
                 //Send command
                 var result = await _mediator.Send(command);
-
-                //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardAssigned", command.ListId, command.CardId, result.Message);
+                if (result.IsSuccess)
+                {
+                    //Broadcase to other 
+                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardAssigned", command.ListId, command.CardId, result.Message);
+                }
+                else
+                {
+                    throw new HubException("Fail to assign member to card");
+                }
             }
             catch (Exception)
             {
@@ -383,12 +389,19 @@ namespace CollabSphere.API.Hubs
                 //Send command
                 var result = await _mediator.Send(command);
 
-                //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardUnAssigned", command.ListId, command.CardId, command.StudentId);
+                if (result.IsSuccess)
+                {
+                    //Broadcase to other 
+                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardUnAssigned", command.ListId, command.CardId, command.StudentId);
+                }
+                else
+                {
+                    throw new HubException("Fail to unassign member of card");
+                }
             }
             catch (Exception)
             {
-                throw new HubException("Fail to unassign members from card");
+                throw new HubException("Fail to unassign members of card");
             }
         }
         #endregion
@@ -411,14 +424,22 @@ namespace CollabSphere.API.Hubs
                 //Send command
                 var result = await _mediator.Send(command);
 
-                //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveTaskCreated", command.ListId, command.CardId, result.Message);
+                if (result.IsSuccess)
+                {
+                    //Broadcase to other 
+                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveTaskCreated", command.ListId, command.CardId, result.Message);
+                }
+                else
+                {
+                    throw new HubException("Fail to create new task");
+                }
             }
             catch (Exception)
             {
                 throw new HubException("Fail to create new task");
             }
         }
+
 
         //Rename Task
         public async Task RenameTask(int workspaceId, int listId, int cardId, int taskId, RenameTaskCommand command)
@@ -430,7 +451,7 @@ namespace CollabSphere.API.Hubs
 
                 //Bind to command
                 command.RequesterId = userId;
-                command.WorkSpaceId = workspaceId;
+                command.WorkspaceId = workspaceId;
                 command.ListId = listId;
                 command.CardId = cardId;
                 command.TaskId = taskId;
@@ -438,8 +459,16 @@ namespace CollabSphere.API.Hubs
                 //Send command
                 var result = await _mediator.Send(command);
 
-                //Broadcase to other 
-                await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveTaskRenamed", command.ListId, command.CardId, command.TaskId, command.NewTitle);
+                if (result.IsSuccess)
+                {
+                    //Broadcase to other 
+                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveTaskRenamed", command.ListId, command.CardId, command.TaskId, command.NewTitle);
+                }
+                else
+                {
+                    throw new HubException("Fail to rename the task");
+                }
+
             }
             catch (Exception)
             {
