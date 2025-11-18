@@ -13,5 +13,7 @@ namespace CollabSphere.Domain.Intefaces
         Task<List<Team>?> GetListTeamOfStudent(int studentId, string? teamName, int? classId, int? semesterId);
         Task<List<Team>?> SearchTeam(int classId, string? teamName, int? projectId, DateOnly? fromDate, DateOnly? endDate, bool isDesc);
         Task<Team?> GetTeamDetail(int teamId);
+        Task<Team?> GetTeamWithProjectOverview(int teamId);
+
     }
 }
