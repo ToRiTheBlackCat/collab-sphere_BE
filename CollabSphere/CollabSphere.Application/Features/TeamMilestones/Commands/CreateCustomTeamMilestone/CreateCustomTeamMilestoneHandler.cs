@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Domain.Entities;
 using System;
@@ -42,6 +43,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.CreateCustom
                     StartDate = request.MilestoneDto.StartDate,
                     EndDate = request.MilestoneDto.EndDate,
                     Progress = 0,
+                    Status = (int)TeamMilestoneStatuses.NOT_DONE,
                 };
 
                 await _unitOfWork.TeamMilestoneRepo.Create(newMilestone);
