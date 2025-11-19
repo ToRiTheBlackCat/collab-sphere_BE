@@ -21,6 +21,7 @@ namespace CollabSphere.Application
         IClassFileRepository ClassFileRepo { get; }
         IClassMemberRepository ClassMemberRepo { get; }
         IClassRepository ClassRepo { get; }
+        IDocumentRoomRepository DocRoomRepo { get; }
         IDocumentStateRepository DocStateRepo { get; }
         ILecturerRepository LecturerRepo { get; }
         IObjectiveRepository ObjectiveRepo { get; }

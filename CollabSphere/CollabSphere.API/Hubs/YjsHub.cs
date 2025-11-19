@@ -1,15 +1,10 @@
 ﻿using CollabSphere.Application;
 using CollabSphere.Application.Constants;
-using CollabSphere.Application.DTOs.ChatMessages;
 using CollabSphere.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.SignalR;
-using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Security.Claims;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace CollabSphere.API.Hubs
 {
@@ -79,7 +74,7 @@ namespace CollabSphere.API.Hubs
                 var userInfo = await GetUserInfo();
 
                 // Get document room and states
-                var docRoom = await _unitOfWork.DocStateRepo.GetDocumentRoomDetail(teamId, roomName);
+                var docRoom = await _unitOfWork.DocRoomRepo.GetDocumentRoomDetail(teamId, roomName);
                 if (docRoom == null)
                 {
                     throw new Exception($"The team with ID '{teamId}' does not have a document room of '{roomName}'.");
@@ -190,7 +185,7 @@ namespace CollabSphere.API.Hubs
 
                 #region Data Operation
                 // Delete previous document states
-                var docStates = await _unitOfWork.DocStateRepo.GetStatesByRoom(teamId, roomName);
+                var docStates = await _unitOfWork.DocStateRepo.GetStatesByDocumentRoom(teamId, roomName);
                 foreach (var docState in docStates)
                 {
                     _unitOfWork.DocStateRepo.Delete(docState);

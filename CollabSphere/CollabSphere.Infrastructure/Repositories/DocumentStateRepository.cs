@@ -17,24 +17,7 @@ namespace CollabSphere.Infrastructure.Repositories
         {
         }
 
-        public async Task<DocumentRoom?> GetDocumentRoomDetail(int teamId, string roomName)
-        {
-            var docRoom = await _context.DocRooms
-                .AsNoTracking()
-                .Include(x => x.DocumentStates)
-                .Include(x => x.Team)
-                    .ThenInclude(team => team.Class)
-                .Include(x => x.Team)
-                    .ThenInclude(team => team.ClassMembers)
-                .SingleOrDefaultAsync(x => 
-                    x.RoomName.Equals(roomName) &&
-                    x.TeamId == teamId
-                );
-
-            return docRoom;
-        }
-
-        public async Task<List<DocumentState>> GetStatesByRoom(int teamId, string roomName)
+        public async Task<List<DocumentState>> GetStatesByDocumentRoom(int teamId, string roomName)
         {
             var states = await _context.DocStates
                 .AsNoTracking()

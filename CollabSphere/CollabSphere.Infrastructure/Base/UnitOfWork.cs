@@ -27,6 +27,7 @@ namespace CollabSphere.Infrastructure.Base
         public IClassFileRepository ClassFileRepo { get; }
         public IClassMemberRepository ClassMemberRepo { get; }
         public IClassRepository ClassRepo { get; }
+        public IDocumentRoomRepository DocRoomRepo { get; }
         public IDocumentStateRepository DocStateRepo { get; }
         public ILecturerRepository LecturerRepo { get; }
         public IObjectiveRepository ObjectiveRepo { get; }
@@ -68,6 +69,7 @@ namespace CollabSphere.Infrastructure.Base
             ClassFileRepo = new ClassFileRepository(_context);
             ClassMemberRepo = new ClassMemberRepositiory(_context);
             ClassRepo = new ClassRepository(_context);
+            DocRoomRepo = new DocumentRoomRepository(_context);
             DocStateRepo = new DocumentStateRepository(_context);
             LecturerRepo = new LecturerRepository(_context);
             ObjectiveRepo = new ObjectiveRepository(_context);
