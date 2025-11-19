@@ -9,6 +9,8 @@ namespace CollabSphere.Domain.Interfaces
 {
     public interface IDocumentStateRepository : IGenericRepository<DocumentState>
     {
-        Task<List<DocumentState>> GetStatesByRoom(string roomId);
+        Task<DocumentRoom?> GetDocumentRoomDetail(int teamId, string roomName);
+
+        Task<List<DocumentState>> GetStatesByRoom(int teamId, string roomName);
     }
 }

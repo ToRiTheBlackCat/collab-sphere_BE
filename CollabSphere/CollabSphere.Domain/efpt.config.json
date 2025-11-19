@@ -16,11 +16,15 @@
    "T4TemplatePath": null,
    "Tables": [
       {
-         "Name": "public.milestone_file",
+         "Name": "public.document_room",
          "ObjectType": 0
       },
       {
-         "Name": "public.team_milestone",
+         "Name": "public.document_state",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.team",
          "ObjectType": 0
       }
    ],

@@ -37,6 +37,8 @@ public partial class collab_sphereContext : DbContext
 
     public virtual DbSet<ClassMember> ClassMembers { get; set; }
 
+    public virtual DbSet<DocumentRoom> DocRooms { get; set; }
+
     public virtual DbSet<DocumentState> DocStates { get; set; }
 
     public virtual DbSet<EvaluationDetail> EvaluationDetails { get; set; }
@@ -472,6 +474,29 @@ public partial class collab_sphereContext : DbContext
                 .HasConstraintName("class_member_team_fk");
         });
 
+        modelBuilder.Entity<DocumentRoom>(entity =>
+        {
+            entity.HasKey(e => new { e.RoomName, e.TeamId }).HasName("document_room_pk");
+
+            entity.ToTable("document_room");
+
+            entity.Property(e => e.RoomName)
+                .HasColumnType("character varying")
+                .HasColumnName("room_name");
+            entity.Property(e => e.TeamId).HasColumnName("team_id");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("created_at");
+            entity.Property(e => e.UpdatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("updated_at");
+
+            entity.HasOne(d => d.Team).WithMany(p => p.DocumentRooms)
+                .HasForeignKey(d => d.TeamId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("document_room_team_fk");
+        });
+
         modelBuilder.Entity<DocumentState>(entity =>
         {
             entity.HasKey(e => e.DocStateId).HasName("document_state_pk");
@@ -481,15 +506,17 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.DocStateId)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("doc_state_id");
-            entity.Property(e => e.RoomId)
-                .IsRequired()
-                .HasColumnName("room_id");
-            entity.Property(e => e.UpdateData)
-                .IsRequired()
-                .HasColumnName("update_data");
-            entity.Property(e => e.CreatedTime)
-                .IsRequired()
-                .HasColumnName("created_time");
+            entity.Property(e => e.CreatedTime).HasColumnName("created_time");
+            entity.Property(e => e.RoomName)
+                .HasColumnType("character varying")
+                .HasColumnName("room_name");
+            entity.Property(e => e.TeamId).HasColumnName("team_id");
+            entity.Property(e => e.UpdateData).HasColumnName("update_data");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.DocumentRoom).WithMany(p => p.DocumentStates)
+                .HasForeignKey(d => new { d.RoomName, d.TeamId })
+                .HasConstraintName("document_state_document_room_fk");
         });
 
         modelBuilder.Entity<EvaluationDetail>(entity =>

@@ -44,7 +44,7 @@ namespace CollabSphere.API.Hubs
         // Mappings of Connection IDs for a UserId
         private static readonly ConcurrentDictionary<int, List<string>> UserConnectionIds = new();
 
-        // Helper functions
+        // Helper function
         private async Task<(int UserId, string FullName, int UserRole)> GetUserInfo()
         {
             // Get UserId & Role of requester
