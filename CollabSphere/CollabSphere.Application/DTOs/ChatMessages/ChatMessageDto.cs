@@ -1,4 +1,5 @@
-﻿using CollabSphere.Domain.Entities;
+﻿using CollabSphere.Application.DTOs.ChatMessages;
+using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,10 @@ namespace CollabSphere.Application.DTOs.ChatMessages
 
         public DateTime SendAt { get; set; }
     }
+}
 
+namespace CollabSphere.Application.Mappings.ChatMessages
+{
     public static partial class ChatMessageMappings
     {
         public static ChatMessageDto ToChatMessageDto(this ChatMessage message)

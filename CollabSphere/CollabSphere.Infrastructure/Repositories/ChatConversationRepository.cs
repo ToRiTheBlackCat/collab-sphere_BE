@@ -38,7 +38,28 @@ namespace CollabSphere.Infrastructure.Repositories
                 conversation.ChatMessages = conversation.ChatMessages.OrderBy(x => x.ConversationId).ToList();
             }
 
-            return  conversation;
+            return conversation;
+        }
+
+        public async Task<List<ChatConversation>> SeachConversations(int userId, int? teamId)
+        {
+            // Get teams that user is in
+            var userTeams = await _context.Teams
+                .AsNoTracking()
+                .Include(x => x.Class)
+                .Include(x => x.ClassMembers)
+                .Include(x => x.ChatConversations)
+                    .ThenInclude(x => x.ChatMessages)
+                .Where(x =>
+                    (!teamId.HasValue || x.TeamId == teamId.Value) &&
+                    (x.Class.LecturerId == userId || x.ClassMembers.Any(member => member.StudentId == userId))
+                )
+                .ToListAsync();
+
+            // Get conversations in each team
+            var conversations = userTeams.SelectMany(x => x.ChatConversations).ToList();
+
+            return conversations;
         }
     }
 }

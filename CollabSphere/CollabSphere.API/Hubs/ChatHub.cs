@@ -3,6 +3,7 @@ using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.ChatMessages;
 using CollabSphere.Application.DTOs.Notifications;
 using CollabSphere.Application.DTOs.Teams;
+using CollabSphere.Application.Mappings.ChatMessages;
 using CollabSphere.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;

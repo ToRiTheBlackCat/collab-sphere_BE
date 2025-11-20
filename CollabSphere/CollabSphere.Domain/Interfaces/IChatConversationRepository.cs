@@ -11,5 +11,7 @@ namespace CollabSphere.Domain.Intefaces
     public interface IChatConversationRepository : IGenericRepository<ChatConversation>
     {
         Task<ChatConversation?> GetConversationDetail(int conversationId);
+
+        Task<List<ChatConversation>> SeachConversations(int userId, int? teamId);
     }
 }
