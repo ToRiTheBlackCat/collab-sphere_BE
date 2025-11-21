@@ -7,6 +7,7 @@ using CollabSphere.Application.Features.Team.Queries.GetAllTeamByAssignClass;
 using CollabSphere.Application.Features.Team.Queries.GetAllTeamOfStudent;
 using CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignClass;
 using CollabSphere.Application.Features.Team.Queries.GetTeamDetail;
+using CollabSphere.Application.Features.Team.Queries.GetTeamProjectOverview;
 using CollabSphere.Application.Features.TeamFiles.Commands.DeleteTeamFile;
 using CollabSphere.Application.Features.TeamFiles.Commands.GenerateTeamFileUrl;
 using CollabSphere.Application.Features.TeamFiles.Commands.MoveTeamFile;
@@ -17,6 +18,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace CollabSphere.API.Controllers
 {
@@ -425,6 +427,39 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result.Message);
+        }
+
+        // Roles: Student, Lecturer
+        [Authorize(Roles = "4, 5")]
+        [HttpGet("{teamId}/project-overview")]
+        public async Task<IActionResult> GetProjectOverView(int teamId, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+            int userId = int.Parse(UIdClaim?.Value ?? "-1");
+            int userRole = int.Parse(roleClaim?.Value ?? "-1");
+
+            var query = new GetTeamProjectOverviewQuery()
+            {
+                TeamId = teamId,
+                UserId = userId,
+                UserRole = userRole
+            };
+
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result.ProjectOverview);
         }
     }
 }
