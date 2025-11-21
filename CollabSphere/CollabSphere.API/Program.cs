@@ -1,6 +1,7 @@
 using Amazon.S3;
 using CloudinaryDotNet;
 using CollabSphere.API.Hubs;
+using CollabSphere.API.Middlewares;
 using CollabSphere.Application;
 using CollabSphere.Application.Common;
 using CollabSphere.Domain;
@@ -217,12 +218,15 @@ app.UseSwaggerUI(c =>
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAllOrigins");
+
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
 //Hubs
 app.MapHub<KanbanHub>("/KanbanServiceHub");
+app.UseWebSockets();
+app.UseMiddleware<WhiteboardSocketHandlerMiddleware>();
 app.MapControllers();
 
 app.Run();
