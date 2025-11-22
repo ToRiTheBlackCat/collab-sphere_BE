@@ -130,7 +130,7 @@ namespace CollabSphere.API.Hubs
                 if (result.IsSuccess)
                 {
                     //Broadcase to other 
-                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveListCreated", result.Message);
+                    await Clients.Group(workspaceId.ToString()).SendAsync("ReceiveListCreated", result.Message);
                 }
                 else
                 {
@@ -162,7 +162,7 @@ namespace CollabSphere.API.Hubs
                 if (result.IsSuccess)
                 {
                     //Broadcase to other 
-                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveListMoved", command.ListId, command.NewPosition);
+                    await Clients.Group(workspaceId.ToString()).SendAsync("ReceiveListMoved", command.ListId, command.NewPosition);
                 }
                 else
                 {
@@ -195,7 +195,7 @@ namespace CollabSphere.API.Hubs
                 if (result.IsSuccess)
                 {
                     //Broadcase to other 
-                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveListRenamed", command.ListId, command.NewTitle);
+                    await Clients.Group(workspaceId.ToString()).SendAsync("ReceiveListRenamed", command.ListId, command.NewTitle);
                 }
                 else
                 {
@@ -229,7 +229,7 @@ namespace CollabSphere.API.Hubs
                 if (result.IsSuccess)
                 {
                     //Broadcase to other 
-                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardCreated", listId, result.Message);
+                    await Clients.Group(workspaceId.ToString()).SendAsync("ReceiveCardCreated", listId, result.Message);
                 }
                 else
                 {
@@ -261,7 +261,7 @@ namespace CollabSphere.API.Hubs
                 if (result.IsSuccess)
                 {
                     //Broadcase to other 
-                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardMoved", command.CardId, command.NewListId, command.NewPosition);
+                    await Clients.Group(workspaceId.ToString()).SendAsync("ReceiveCardMoved", command.CardId, command.NewListId, command.NewPosition);
                 }
                 else
                 {
@@ -294,7 +294,7 @@ namespace CollabSphere.API.Hubs
                 if (result.IsSuccess)
                 {
                     //Broadcase to other 
-                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardUpdated", command.CardId, result.Message);
+                    await Clients.Group(workspaceId.ToString()).SendAsync("ReceiveCardUpdated", command.CardId, result.Message);
                 }
                 else
                 {
@@ -327,7 +327,7 @@ namespace CollabSphere.API.Hubs
                 if (result.IsSuccess)
                 {
                     //Broadcase to other 
-                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardDeleted", command.ListId, command.CardId);
+                    await Clients.Group(workspaceId.ToString()).SendAsync("ReceiveCardDeleted", command.ListId, command.CardId);
                 }
                 else
                 {
@@ -359,7 +359,7 @@ namespace CollabSphere.API.Hubs
                 if (result.IsSuccess)
                 {
                     //Broadcase to other 
-                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardAssigned", command.ListId, command.CardId, result.Message);
+                    await Clients.Group(workspaceId.ToString()).SendAsync("ReceiveCardAssigned", command.ListId, command.CardId, result.Message);
                 }
                 else
                 {
@@ -392,7 +392,7 @@ namespace CollabSphere.API.Hubs
                 if (result.IsSuccess)
                 {
                     //Broadcase to other 
-                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardUnAssigned", command.ListId, command.CardId, command.StudentId);
+                    await Clients.Group(workspaceId.ToString()).SendAsync("ReceiveCardUnAssigned", command.ListId, command.CardId, command.StudentId);
                 }
                 else
                 {
@@ -425,7 +425,7 @@ namespace CollabSphere.API.Hubs
                 if (result.IsSuccess)
                 {
                     //Broadcase to other 
-                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveCardComplete", command.ListId, command.CardId, command.IsComplete);
+                    await Clients.Group(workspaceId.ToString()).SendAsync("ReceiveCardComplete", command.ListId, command.CardId, command.IsComplete);
                 }
                 else
                 {
@@ -461,7 +461,7 @@ namespace CollabSphere.API.Hubs
                 if (result.IsSuccess)
                 {
                     //Broadcase to other 
-                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveTaskCreated", command.ListId, command.CardId, result.Message);
+                    await Clients.Group(workspaceId.ToString()).SendAsync("ReceiveTaskCreated", command.ListId, command.CardId, result.Message);
                 }
                 else
                 {
@@ -496,7 +496,7 @@ namespace CollabSphere.API.Hubs
                 if (result.IsSuccess)
                 {
                     //Broadcase to other 
-                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveTaskRenamed", command.ListId, command.CardId, command.TaskId, command.NewTitle);
+                    await Clients.Group(workspaceId.ToString()).SendAsync("ReceiveTaskRenamed", command.ListId, command.CardId, command.TaskId, command.NewTitle);
                 }
                 else
                 {
@@ -531,7 +531,7 @@ namespace CollabSphere.API.Hubs
                 if (result.IsSuccess)
                 {
                     //Broadcase to other 
-                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveTaskDeleted", command.ListId, command.CardId, command.TaskId);
+                    await Clients.Group(workspaceId.ToString()).SendAsync("ReceiveTaskDeleted", command.ListId, command.CardId, command.TaskId);
                 }
                 else
                 {
@@ -568,7 +568,7 @@ namespace CollabSphere.API.Hubs
                 if (result.IsSuccess)
                 {
                     //Broadcase to other 
-                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveSubTaskCreated", command.ListId, command.CardId, command.TaskId, result.Message);
+                    await Clients.Group(workspaceId.ToString()).SendAsync("ReceiveSubTaskCreated", command.ListId, command.CardId, command.TaskId, result.Message);
                 }
                 else
                 {
@@ -603,7 +603,7 @@ namespace CollabSphere.API.Hubs
                 if (result.IsSuccess)
                 {
                     //Broadcase to other 
-                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveSubTaskRenamed", command.ListId, command.CardId, command.TaskId, command.SubTaskId, command.SubTaskNewTitle);
+                    await Clients.Group(workspaceId.ToString()).SendAsync("ReceiveSubTaskRenamed", command.ListId, command.CardId, command.TaskId, command.SubTaskId, command.SubTaskNewTitle);
                 }
                 else
                 {
@@ -638,7 +638,7 @@ namespace CollabSphere.API.Hubs
                 if (result.IsSuccess)
                 {
                     //Broadcase to other 
-                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveSubTaskDeleted", command.ListId, command.CardId, command.TaskId, command.SubTaskId);
+                    await Clients.Group(workspaceId.ToString()).SendAsync("ReceiveSubTaskDeleted", command.ListId, command.CardId, command.TaskId, command.SubTaskId);
                 }
                 else
                 {
@@ -674,7 +674,7 @@ namespace CollabSphere.API.Hubs
                 if (result.IsSuccess)
                 {
                     //Broadcase to other 
-                    await Clients.OthersInGroup(workspaceId.ToString()).SendAsync("ReceiveSubTaskMarkDone", command.ListId, command.CardId, command.TaskId, command.SubTaskId, command.IsDone);
+                    await Clients.Group(workspaceId.ToString()).SendAsync("ReceiveSubTaskMarkDone", command.ListId, command.CardId, command.TaskId, command.SubTaskId, command.IsDone);
                 }
                 else
                 {
