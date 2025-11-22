@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 
 namespace CollabSphere.API.Hubs
 {

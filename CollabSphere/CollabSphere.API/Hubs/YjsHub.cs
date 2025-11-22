@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
 using System.Security.Claims;
+using Task = System.Threading.Tasks.Task;
 
 namespace CollabSphere.API.Hubs
 {
