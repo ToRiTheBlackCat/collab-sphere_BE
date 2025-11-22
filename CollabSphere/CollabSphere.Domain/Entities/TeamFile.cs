@@ -11,9 +11,25 @@ public partial class TeamFile
 
     public int TeamId { get; set; }
 
-    public string FilePath { get; set; }
+    public int UserId { get; set; }
+
+    public string FileName { get; set; }
+
+    public string FilePathPrefix { get; set; }
 
     public string Type { get; set; }
 
+    public long FileSize { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+
+    public string ObjectKey { get; set; }
+
+    public string FileUrl { get; set; }
+
+    public DateTime UrlExpireTime { get; set; }
+
     public virtual Team Team { get; set; }
+
+    public virtual User User { get; set; }
 }

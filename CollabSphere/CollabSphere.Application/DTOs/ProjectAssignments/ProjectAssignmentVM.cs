@@ -27,8 +27,6 @@ namespace CollabSphere.Application.DTOs.ProjectAssignments
 
         public DateTime AssignedDate { get; set; }
 
-        public int Status { get; set; }
-
         public static explicit operator ProjectAssignmentVM(ProjectAssignment projectAssignment)
         {
             return new ProjectAssignmentVM()
@@ -40,7 +38,6 @@ namespace CollabSphere.Application.DTOs.ProjectAssignments
                 ClassId = projectAssignment.ClassId,
                 ClassName = projectAssignment.Class.ClassName,
                 AssignedDate = projectAssignment.AssignedDate,
-                Status = projectAssignment.Status,
             };
         }
     }

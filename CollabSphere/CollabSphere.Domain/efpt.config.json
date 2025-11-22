@@ -4,10 +4,9 @@
    "ContextNamespace": null,
    "FilterSchemas": false,
    "IncludeConnectionString": false,
-   "MinimumProductVersion": "2.6.1186",
    "ModelNamespace": null,
    "OutputContextPath": null,
-   "OutputPath": "TempDB",
+   "OutputPath": "TempMODELS",
    "PreserveCasingWithRegex": true,
    "ProjectRootNamespace": "CollabSphere.Domain",
    "Schemas": null,
@@ -16,15 +15,11 @@
    "T4TemplatePath": null,
    "Tables": [
       {
-         "Name": "public.document_room",
+         "Name": "public.project_repo_mapping",
          "ObjectType": 0
       },
       {
-         "Name": "public.document_state",
-         "ObjectType": 0
-      },
-      {
-         "Name": "public.team",
+         "Name": "public.user",
          "ObjectType": 0
       }
    ],

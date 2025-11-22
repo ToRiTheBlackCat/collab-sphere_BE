@@ -11,9 +11,9 @@ public partial class Meeting
 
     public int TeamId { get; set; }
 
-    public string Title { get; set; }
+    public string Title { get; set; } = null!;
 
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     public int CreatedBy { get; set; }
 
@@ -23,5 +23,10 @@ public partial class Meeting
 
     public int Status { get; set; }
 
-    public virtual Team Team { get; set; }
+    public string? CreatorName { get; set; }
+
+    public string? MeetingUrl { get; set; }
+
+    public string? RecordUrl { get; set; }
+    public virtual Team Team { get; set; } = null!;
 }

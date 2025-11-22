@@ -44,6 +44,13 @@ namespace CollabSphere.Application.Features.MilestoneQuesAns.Commands.DeleteQues
                     //Delete the answer
                     _unitOfWork.MilestoneQuestionAnsRepo.Delete(foundAnswer);
                     await _unitOfWork.SaveChangesAsync();
+
+                    //Update ans count of question
+                    var foundQuestion = await _unitOfWork.MilestoneQuestionRepo.GetById(request.QuestionId);
+                    foundQuestion.AnswerCount--;
+                    _unitOfWork.MilestoneQuestionRepo.Update(foundQuestion);
+                    await _unitOfWork.SaveChangesAsync();
+
                     await _unitOfWork.CommitTransactionAsync();
 
                     result.IsSuccess = true;

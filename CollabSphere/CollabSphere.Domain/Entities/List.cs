@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CollabSphere.Domain.Models;
+namespace CollabSphere.Domain.Entities;
 
 public partial class List
 {
@@ -12,8 +12,9 @@ public partial class List
     public int WorkspaceId { get; set; }
 
     public string Title { get; set; }
+    public float Position { get; set; }
 
     public virtual ICollection<Card> Cards { get; set; } = new List<Card>();
 
-    public virtual TeamWorkspace Workspace { get; set; }
+    public virtual TeamWorkspace Workspace { get; set; } = null!;
 }

@@ -64,21 +64,20 @@ builder.Services.AddSwaggerGen(c =>
 #region Configure CORS policy
 builder.Services.AddCors(options =>
 {
-    //options.AddPolicy("AllowAllOrigins", policy =>
-    //{
-    //    policy.AllowAnyOrigin()
-    //          .AllowAnyHeader()
-    //          .AllowAnyMethod();
-    //});
-    options.AddPolicy("AllowReactApp",
-        policy =>
-        {
-            policy.WithOrigins("http://localhost:5173") // React dev server
-                  .AllowAnyHeader()
-                  .AllowAnyMethod()
-                  .AllowCredentials(); // Needed for SignalR
-        });
+    options.AddPolicy("AllowAllOrigins", policy =>
+    {
+        policy.WithOrigins(
+            "http://localhost:5500",
+            "http://127.0.0.1:5500", 
+            "http://localhost:5173",
+            "http://127.0.0.1:5173",
+            "http://52.221.106.143"
+        )
+        .AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowCredentials();
 
+    });
 });
 
 #endregion
@@ -103,6 +102,24 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         ClockSkew = TimeSpan.Zero,
         RoleClaimType = ClaimTypes.Role
+    };
+
+    //Configure using for Hubs
+    options.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+
+            var path = context.HttpContext.Request.Path;
+
+            if (!string.IsNullOrEmpty(accessToken) &&
+                (path.StartsWithSegments("/KanbanServiceHub")))
+            {
+                context.Token = accessToken;
+            }
+            return Task.CompletedTask;
+        }
     };
 });
 #endregion
@@ -157,7 +174,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
     var redisUrl = redisSection["RedisUrl"] ?? "";
 
     var options = ConfigurationOptions.Parse(redisUrl);
-    options.AbortOnConnectFail = false; 
+    options.AbortOnConnectFail = false;
 
     return ConnectionMultiplexer.Connect(options);
 });
@@ -175,6 +192,7 @@ builder.Services.AddDefaultAWSOptions(builder.Configuration.GetAWSOptions());
 builder.Services.AddAWSService<IAmazonS3>();
 #endregion
 
+#region Configure Hubs
 builder.Services.AddSignalR(options =>
 {
     options.KeepAliveInterval = TimeSpan.FromSeconds(10);
@@ -182,6 +200,14 @@ builder.Services.AddSignalR(options =>
     options.EnableDetailedErrors = true;
     options.MaximumReceiveMessageSize = 2 * 1024 * 1024;
 });
+#endregion
+#region Configure GoogleDrive-Storing Video
+builder.Services.Configure<GgDriveSettings>(
+    builder.Configuration.GetSection("GoogleDrive"));
+
+builder.Services.AddSingleton<GgDriveVideoService>();
+#endregion
+
 
 var app = builder.Build();
 
@@ -196,10 +222,13 @@ app.UseSwaggerUI(c =>
 
 
 app.UseHttpsRedirection();
-app.UseCors("AllowReactApp");
+app.UseCors("AllowAllOrigins");
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+//Hubs
+app.MapHub<KanbanHub>("/KanbanServiceHub");
 app.MapControllers();
 
 app.MapHub<YjsHub>("/yhub");

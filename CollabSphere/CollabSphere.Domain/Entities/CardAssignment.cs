@@ -4,7 +4,7 @@ using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
 
-namespace CollabSphere.Domain.Models;
+namespace CollabSphere.Domain.Entities;
 
 public partial class CardAssignment
 {

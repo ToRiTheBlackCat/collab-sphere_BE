@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace CollabSphere.Domain.Models;
+namespace CollabSphere.Domain.Entities;
 
 public partial class TeamWorkspace
 {

@@ -39,6 +39,7 @@ namespace CollabSphere.Application
         ITeamMilestoneRepository TeamMilestoneRepo { get; }
         ITeamRepository TeamRepo { get; }
         ITeamEvaluationRepository TeamEvaluationRepo { get; }
+        ITeamFileRepository TeamFileRepo { get; }
         IEvaluationDetailRepository EvaluationDetailRepo { get; }
         IMemberEvaluationRepository MemberEvaluationRepo { get; }
         IMessageRecipientRepository MessageRecipientRepo { get; }
@@ -48,9 +49,18 @@ namespace CollabSphere.Application
         IAnswerEvaluationRepository AnswerEvaluationRepo { get; }
         IMilestoneEvaluationRepository MilestoneEvaluationRepo { get; }
         IMilestoneReturnRepository MilestoneReturnRepo { get; }
-         //More IRepo below
+        IProjectRepoMappingRepository ProjectRepoMappingRepo { get; }
+        IMeetingRepository MeetingRepo { get; }
+        ITeamWorkspaceRepository TeamWorkspaceRepo { get; }
+        IListRepository ListRepo { get; }
+        ICardRepository CardRepo { get; }
+        ITaskRepository TaskRepo { get; }
+        ISubTaskRepository SubTaskRepo { get; }
+        ICardAssignmentRepository CardAssignmentRepo { get; }
+        IPrAnalysisRepository PrAnalysisRepo { get; }
+        //More IRepo below
 
-         Task BeginTransactionAsync();
+        Task BeginTransactionAsync();
         Task CommitTransactionAsync();
         Task RollbackTransactionAsync();
         Task<int> SaveChangesAsync();

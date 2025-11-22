@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 
 namespace CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestoneDetail
 {
@@ -74,12 +75,12 @@ namespace CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestoneD
                     }
 
                     // Generate Milestone Returns' User Avatar Img URL
-                    foreach (var file in milestone.MilestoneFiles)
+                    foreach (var milestoneReturn in milestone.MilestoneReturns)
                     {
-                        if (file.User?.Student != null)
+                        if (milestoneReturn.User?.Student != null)
                         {
-                            var url = await _cloudinaryService.GetImageUrl(file.User.Student.AvatarImg);
-                            file.User.Student.AvatarImg = url;
+                            var url = await _cloudinaryService.GetImageUrl(milestoneReturn.User.Student.AvatarImg);
+                            milestoneReturn.User.Student.AvatarImg = url;
                         }
                     }
 

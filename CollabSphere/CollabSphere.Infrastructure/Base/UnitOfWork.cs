@@ -45,6 +45,7 @@ namespace CollabSphere.Infrastructure.Base
         public ITeamMilestoneRepository TeamMilestoneRepo { get; }
         public ITeamRepository TeamRepo { get; }
         public ITeamEvaluationRepository TeamEvaluationRepo { get; }
+        public ITeamFileRepository TeamFileRepo { get; }
         public IEvaluationDetailRepository EvaluationDetailRepo { get; }
         public IMemberEvaluationRepository MemberEvaluationRepo { get; }
         public IMessageRecipientRepository MessageRecipientRepo { get; }
@@ -54,6 +55,16 @@ namespace CollabSphere.Infrastructure.Base
         public IAnswerEvaluationRepository AnswerEvaluationRepo { get; }
         public IMilestoneEvaluationRepository MilestoneEvaluationRepo { get; }
         public IMilestoneReturnRepository MilestoneReturnRepo { get; }
+        public IProjectRepoMappingRepository ProjectRepoMappingRepo { get; }
+        public IMeetingRepository MeetingRepo { get; }
+        public ITeamWorkspaceRepository TeamWorkspaceRepo { get; }
+        public IListRepository ListRepo { get; }
+        public ICardRepository CardRepo { get; }
+        public ICardAssignmentRepository CardAssignmentRepo { get; }
+        public ITaskRepository TaskRepo { get; }
+        public ISubTaskRepository SubTaskRepo { get; }
+
+        public IPrAnalysisRepository PrAnalysisRepo { get; }
         #endregion
 
         public UnitOfWork(collab_sphereContext context)
@@ -89,6 +100,7 @@ namespace CollabSphere.Infrastructure.Base
             TeamRepo = new TeamRepository(_context);
             TeamMilestoneRepo = new TeamMilestoneRepository(_context);
             TeamEvaluationRepo = new TeamEvaluationRepository(_context);
+            TeamFileRepo = new TeamFileRepository(_context);
             EvaluationDetailRepo = new EvaluationDetailRepository(_context);
             MemberEvaluationRepo = new MemberEvaluationRepository(_context);
             MessageRecipientRepo = new MessageRecipientRepository(_context);
@@ -98,9 +110,19 @@ namespace CollabSphere.Infrastructure.Base
             AnswerEvaluationRepo = new AnswerEvaluationRepository(_context);
             MilestoneEvaluationRepo = new MilestoneEvaluationRepository(_context);
             MilestoneReturnRepo = new MilestoneReturnRepository(_context);
+            ProjectRepoMappingRepo = new ProjectRepoMappingRepository(_context);
+            MeetingRepo = new MeetingRepository(_context);
+            TeamWorkspaceRepo = new TeamWorkspaceRepository(_context);
+            ListRepo = new ListRepository(_context);
+            CardRepo = new CardRepository(_context);
+            CardAssignmentRepo = new CardAssignmentRepository(_context);
+            TaskRepo = new TaskRepository(_context);
+            SubTaskRepo = new SubTaskRepository(_context);
+
+            PrAnalysisRepo = new PrAnalysisRepository(_context);
             #endregion
         }
-
+        
         public async Task BeginTransactionAsync()
         {
             if (_transaction == null)

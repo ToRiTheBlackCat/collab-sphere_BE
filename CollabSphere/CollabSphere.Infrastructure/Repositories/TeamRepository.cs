@@ -1,4 +1,5 @@
-﻿using CollabSphere.Domain.Entities;
+﻿using CollabSphere.Application.Constants;
+using CollabSphere.Domain.Entities;
 using CollabSphere.Domain.Intefaces;
 using CollabSphere.Infrastructure.Base;
 using CollabSphere.Infrastructure.PostgreDbContext;
@@ -112,12 +113,66 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(x => x.ClassMembers)
                     .ThenInclude(x => x.Student)
                 .Include(x => x.ProjectAssignment)
-                .ThenInclude(x => x.Project)
+                    .ThenInclude(x => x.Project)
+                .Include(x => x.TeamFiles)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
 
             return result;
         }
 
+        public async Task<Team?> GetTeamWithProjectOverview(int teamId)
+        {
+            var result = await _context.Teams
+                .Where(x => x.TeamId == teamId && x.Status == 1)
+                .Include(x => x.Class)
+                    .ThenInclude(x => x.Lecturer)
+                .Include(x => x.ClassMembers)
+                    .ThenInclude(x => x.Student)
+                .Include(x => x.ProjectAssignment)
+                    .ThenInclude(x => x.Project)
+                        .ThenInclude(pro => pro.Objectives)
+                            .ThenInclude(ojt => ojt.ObjectiveMilestones)
+                                .ThenInclude(ojtMile => ojtMile.TeamMilestones)
+                .Include(x => x.TeamMilestones)
+                .Include(x => x.ProjectAssignment)
+                    .ThenInclude(x => x.Project)
+                        .ThenInclude(x => x.Lecturer)
+                .Include(x => x.TeamFiles)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+
+            if (result != null && result.ProjectAssignmentId.HasValue)
+            {
+                var project = result.ProjectAssignment.Project;
+
+                foreach (var objective in project.Objectives)
+                {
+                    foreach (var ojtMilestone in objective.ObjectiveMilestones)
+                    {
+                        var teamMilestone = ojtMilestone.TeamMilestones
+                            .SingleOrDefault(x => x.TeamId == teamId);
+                        ojtMilestone.TeamMilestones.Clear();
+
+                        if (teamMilestone != null)
+                            ojtMilestone.TeamMilestones.Add(teamMilestone);
+                    }
+
+                    objective.ObjectiveMilestones = objective.ObjectiveMilestones
+                        .OrderBy(x => x.TeamMilestones.Single().StartDate)
+                        .ToList();
+                }
+                
+                // Only show custom milestone in TeamMilestone
+                result.TeamMilestones = result.TeamMilestones
+                    .Where(x => 
+                        x.Status != (int)TeamMilestoneStatuses.SOFT_DELETED &&
+                        !x.ObjectiveMilestoneId.HasValue
+                    )
+                    .OrderBy(x => x.StartDate).ToList();
+            }
+
+            return result;
+        }
     }
 }

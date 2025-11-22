@@ -88,16 +88,19 @@ namespace CollabSphere.Application.Features.MilestoneReturns.Commands.GenerateMi
             }
 
             // Check is a member in team
-            var isTeamMember = tMilestone.Team.ClassMembers
-                .Any(x => x.StudentId == request.UserId);
-            if (request.UserRole != RoleConstants.STUDENT || !isTeamMember)
+            if (request.UserRole == RoleConstants.STUDENT)
             {
-                errors.Add(new OperationError()
+                var isTeamMember = tMilestone.Team.ClassMembers
+                    .Any(x => x.StudentId == request.UserId);
+                if (!isTeamMember)
                 {
-                    Field = nameof(request.UserId),
-                    Message = $"You ({request.UserId}) are not a member in the team with ID '{tMilestone.Team.TeamId}'.",
-                });
-                return;
+                    errors.Add(new OperationError()
+                    {
+                        Field = nameof(request.UserId),
+                        Message = $"You ({request.UserId}) are not a member in the team with ID '{tMilestone.Team.TeamId}'.",
+                    });
+                    return;
+                }
             }
 
             // Validate milestone return

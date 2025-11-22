@@ -19,6 +19,7 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam
         [JsonIgnore]
         public int UserRole = -1;
         public string? TeamComment { get; set; }
+        [Required]
         public List<EvaluateDetail> EvaluateDetails { get; set; } = new List<EvaluateDetail>();
     }
     public class EvaluateDetail

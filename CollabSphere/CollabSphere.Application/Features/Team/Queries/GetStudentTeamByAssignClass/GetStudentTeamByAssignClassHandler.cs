@@ -42,7 +42,8 @@ namespace CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignC
                 var foundTeam = await _unitOfWork.TeamRepo.GetListTeamOfStudent(request.UserId, null, request.ClassId, null);
                 if (foundTeam == null || foundTeam.Count == 0)
                 {
-                    result.Message = $"Not found any team for student ID {request.UserId} in class ID {request.ClassId}";
+                    result.IsSuccess = true;
+                    result.Message = $"Not found any team in this class";
                     return result;
                 }
 
@@ -98,18 +99,18 @@ namespace CollabSphere.Application.Features.Team.Queries.GetStudentTeamByAssignC
                             Message = $"This student with ID: {request.UserId} not in class with ID: {request.ClassId}."
                         });
                     }
-                    else
-                    {
-                        //Check if student has team in this class
-                        if (classmember.TeamId == null)
-                        {
-                            errors.Add(new OperationError
-                            {
-                                Field = nameof(request.UserId),
-                                Message = $"This student with ID: {request.UserId} not has any team in class with ID: {request.ClassId}."
-                            });
-                        }
-                    }
+                    //else
+                    //{
+                    //    //Check if student has team in this class
+                    //    if (classmember.TeamId == null)
+                    //    {
+                    //        errors.Add(new OperationError
+                    //        {
+                    //            Field = nameof(request.UserId),
+                    //            Message = $"This student with ID: {request.UserId} not has any team in class with ID: {request.ClassId}."
+                    //        });
+                    //    }
+                    //}
                 }
             }
         }

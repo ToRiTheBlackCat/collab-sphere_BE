@@ -20,7 +20,7 @@ namespace CollabSphere.Infrastructure.Repositories
         public async Task<TeamEvaluation?> GetOneByTeamId(int teamId)
         {
             return await _context.TeamEvaluations
-                .AsNoTracking()
+                .Include(x => x.EvaluationDetails)
                 .FirstOrDefaultAsync(x => x.TeamId == teamId);
         }
     }

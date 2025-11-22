@@ -1,14 +1,17 @@
 ﻿using CollabSphere.Application.Base;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
+using CollabSphere.Application.Features.Evaluate.Commands.StudentEvaluateOtherInTeam;
 using CollabSphere.Application.Features.Team.Commands.CreateTeam;
 using CollabSphere.Domain.Entities;
+using Google.Apis.Drive.v3.Data;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 
 namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam
 {
@@ -39,11 +42,49 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam
                 var foundTeamEvaluate = await _unitOfWork.TeamEvaluationRepo.GetOneByTeamId(request.TeamId);
                 if (foundTeamEvaluate != null)
                 {
-                    result.Message = "Already evaluate and feedback this team. Cannot evaluate more";
+                    foundTeamEvaluate.Comment = request.TeamComment;
+                    _unitOfWork.TeamEvaluationRepo.Update(foundTeamEvaluate);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    //Get team evaluation details
+                    var foundEvaDetails = foundTeamEvaluate.EvaluationDetails;
+                    if (foundEvaDetails != null)
+                    {
+                        foreach (var foundDetail in foundEvaDetails)
+                        {
+                            foreach (var requestDetail in request.EvaluateDetails)
+                            {
+                                var foundGradeComponent = await _unitOfWork.SubjectGradeComponentRepo.GetById(requestDetail.SubjectGradeComponentId);
+                                if (foundGradeComponent == null)
+                                {
+                                    continue;
+                                }
+
+                                if(foundDetail.SubjectGradeComponentId == foundGradeComponent.SubjectGradeComponentId)
+                                {
+                                    foundDetail.Score = requestDetail.Score;
+                                    foundDetail.Comment = requestDetail.DetailComment;
+
+                                    _unitOfWork.EvaluationDetailRepo.Update(foundDetail);
+                                    await _unitOfWork.SaveChangesAsync();
+                                }
+                            }
+
+                            //Calculate final score
+                            teamScore += foundDetail.Score * (foundDetail.Percentage / 100);
+                        }
+                    }
+                    foundTeamEvaluate.FinalGrade = teamScore;
+                    _unitOfWork.TeamEvaluationRepo.Update(foundTeamEvaluate);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    await _unitOfWork.CommitTransactionAsync();
+                    result.IsSuccess = true;
+                    result.Message = $"Successfully update evaluation and feedbacks for team with Id: {request.TeamId}";
 
                     return result;
                 }
-
+                //Else create new
                 var newTeamEvaluate = new TeamEvaluation
                 {
                     TeamId = request.TeamId,

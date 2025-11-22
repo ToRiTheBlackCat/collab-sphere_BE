@@ -3,6 +3,7 @@ using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Classes;
 using CollabSphere.Application.DTOs.Validation;
+using CollabSphere.Application.Mappings.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace CollabSphere.Application.Features.Classes.Queries.GetClassById
 
             try
             {
-                var classEntity = await _unitOfWork.ClassRepo.GetById(request.ClassId);
+                var classEntity = await _unitOfWork.ClassRepo.GetClassDetail(request.ClassId);
                 if (classEntity != null)
                 {
                     // Viewer is a Student but NOT in Class
@@ -50,28 +51,31 @@ namespace CollabSphere.Application.Features.Classes.Queries.GetClassById
                     }
                     else
                     {
-                        // Generate Class File's User Avatar Img URL
+                        // Generate Class File's Lecturer Avatar Img URL
                         foreach (var classFile in classEntity.ClassFiles)
                         {
-                            if (classFile.User?.Lecturer != null)
-                            {
-                                var url = await _cloudinaryService.GetImageUrl(classFile.User.Lecturer.AvatarImg);
-                                classFile.User.Lecturer.AvatarImg = url;
-                            }
+                            var url = await _cloudinaryService.GetImageUrl(classFile.User.Lecturer.AvatarImg);
+                            classFile.User.Lecturer.AvatarImg = url;
                         }
 
                         // Generate Class Members' User Avatar Img URL
                         foreach (var member in classEntity.ClassMembers)
                         {
-                            if (member.Student != null)
-                            {
-                                var url = await _cloudinaryService.GetImageUrl(member.Student.AvatarImg);
-                                member.Student.AvatarImg = url;
-                            }
+                            var url = await _cloudinaryService.GetImageUrl(member.Student.AvatarImg);
+                            member.Student.AvatarImg = url;
                         }
 
-                        result.Class = (ClassDetailDto)classEntity;
-                        result.Class.EnrolKey = request.ViewerRole == RoleConstants.STUDENT ? "" : result.Class.EnrolKey;
+                        // Generate teams' Avatar Img URL
+                        foreach (var team in classEntity.Teams)
+                        {
+                            var url = await _cloudinaryService.GetImageUrl(team.TeamImage);
+                            team.TeamImage = url;
+                        }
+
+                        // Show enrol key if viewer is not Student Role
+                        var showEnrolKey = request.ViewerRole != RoleConstants.STUDENT;
+
+                        result.Class = classEntity.ToDetailDto(showEnrolKey);
                     }
                 }
 
