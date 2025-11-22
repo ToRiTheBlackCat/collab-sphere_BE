@@ -3,6 +3,7 @@ using CollabSphere.Domain.Intefaces;
 using CollabSphere.Infrastructure.Base;
 using CollabSphere.Infrastructure.PostgreDbContext;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +51,15 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(x => x.ClassMembers)
                 .Include(x => x.ChatConversations)
                     .ThenInclude(x => x.ChatMessages)
+                        .ThenInclude(msg => msg.Sender)
+                            .ThenInclude(x => x.Lecturer)   
+                .Include(x => x.ChatConversations)
+                    .ThenInclude(x => x.ChatMessages)
+                        .ThenInclude(msg => msg.Sender)
+                            .ThenInclude(x => x.Student)
+                .Include(x => x.ChatConversations)
+                    .ThenInclude(x => x.ChatMessages)
+                        .ThenInclude(msg => msg.MessageRecipients)
                 .Where(x =>
                     (!teamId.HasValue || x.TeamId == teamId.Value) &&
                     (x.Class.LecturerId == userId || x.ClassMembers.Any(member => member.StudentId == userId))

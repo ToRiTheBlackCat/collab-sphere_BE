@@ -20,6 +20,10 @@ namespace CollabSphere.Application.DTOs.ChatConversations
 
         public string ConversationName { get; set; } = null!;
 
+        public bool IsRead { get; set; }
+
+        public int UnreadCount { get; set; }
+
         public ChatMessageDto? LatestMessage { get; set; }
 
         public DateTime CreatedAt { get; set; }
@@ -30,10 +34,22 @@ namespace CollabSphere.Application.Mappings.ChatConversations
 {
     public static partial class ChatConversationMappings
     {
-        public static ChatConversationVM ToViewModel(this ChatConversation conversation)
+        public static ChatConversationVM ToViewModel(this ChatConversation conversation, int? viewingUserId = null)
         {
             // Get latest message
             var latestMessage = conversation.ChatMessages.OrderByDescending(x => x.SendAt).FirstOrDefault();
+            var hasRead = true;
+            var unreadCount = 0;
+            if (latestMessage != null && viewingUserId.HasValue)
+            {
+                unreadCount = conversation.ChatMessages
+                    .SelectMany(x => x.MessageRecipients)
+                    .Where(x => 
+                        x.ReceiverId == viewingUserId && 
+                        !x.IsRead)
+                    .Count();
+                hasRead = unreadCount == 0;
+            }
 
             return new ChatConversationVM()
             {
@@ -41,19 +57,21 @@ namespace CollabSphere.Application.Mappings.ChatConversations
                 ConversationName = conversation.ConversationName,
                 TeamId = conversation.TeamId,
                 TeamName = conversation.Team.TeamName,
+                IsRead = hasRead,
+                UnreadCount = unreadCount,
                 CreatedAt = conversation.CreatedAt,
                 LatestMessage = latestMessage?.ToChatMessageDto(),
             };
         }
 
-        public static List<ChatConversationVM> ToViewModels(this IEnumerable<ChatConversation> conversations)
+        public static List<ChatConversationVM> ToViewModels(this IEnumerable<ChatConversation> conversations, int? viewingUserId = null)
         {
             if (conversations == null || !conversations.Any())
             {
                 return new List<ChatConversationVM>();
             }
 
-            return conversations.Select(x => x.ToViewModel()).ToList();
+            return conversations.Select(x => x.ToViewModel(viewingUserId)).ToList();
         }
     }
 }

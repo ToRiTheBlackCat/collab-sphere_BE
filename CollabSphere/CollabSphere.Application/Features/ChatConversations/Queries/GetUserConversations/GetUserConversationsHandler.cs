@@ -32,7 +32,7 @@ namespace CollabSphere.Application.Features.ChatConversations.Queries.GetUserCon
             try
             {
                 var chatConversations = await _unitOfWork.ChatConversationRepo.SeachConversations(request.UserId, request.TeamId);
-                result.ChatConversations = chatConversations.ToViewModels();
+                result.ChatConversations = chatConversations.ToViewModels(request.UserId);
 
                 result.IsSuccess = true;
             }

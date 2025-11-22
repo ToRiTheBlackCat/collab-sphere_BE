@@ -41,6 +41,7 @@ namespace CollabSphere.Application
         ITeamEvaluationRepository TeamEvaluationRepo { get; }
         IEvaluationDetailRepository EvaluationDetailRepo { get; }
         IMemberEvaluationRepository MemberEvaluationRepo { get; }
+        IMessageRecipientRepository MessageRecipientRepo { get; }
         IMilestoneFileRepository MilestoneFileRepo { get; }
         IMilestoneQuestionRepository MilestoneQuestionRepo { get; }
         IMilestoneQuestionAnsRepository MilestoneQuestionAnsRepo { get; }
