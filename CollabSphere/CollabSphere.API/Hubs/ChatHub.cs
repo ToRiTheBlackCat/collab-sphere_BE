@@ -52,16 +52,11 @@ namespace CollabSphere.API.Hubs
             _unitOfWork = unitOfWork;
         }
 
-        // Mappings of Connection IDs for a UserId
-        private static readonly ConcurrentDictionary<int, List<string>> UserConnectionIds = new();
-
-        private static readonly ConcurrentDictionary<string, ChatHubConnectionInfo> ConnectionInfos = new();
-
         /// <summary>
-        /// Mapping of valid ConnectionIds in a conversation for faster validation
-        /// Dictionary<ConversationId, ConnectionId[]>
-        /// </summary>
-        //private static readonly ConcurrentDictionary<int, HashSet<string>> ConversationConnections = new();
+        /// Details of connectionIds
+        /// Dictionary<ConnectionId, ConnectionInfo>
+        /// </summary
+        private static readonly ConcurrentDictionary<string, ChatHubConnectionInfo> ConnectionInfos = new();
 
         // Helper function
         private async Task<(int UserId, string FullName, int UserRole)> GetUserInfo()
@@ -308,16 +303,14 @@ namespace CollabSphere.API.Hubs
         {
             var (userId, name, userRole) = await GetUserInfo();
 
-            if (UserConnectionIds.TryRemove(userId, out var connectionIds))
-            {
-                _ = Clients.All.UserLeft(userId);
-
-                connectionIds.Remove(Context.ConnectionId);
-
-            }
-
             if (ConnectionInfos.TryRemove(Context.ConnectionId, out var removedInfo))
             {
+                // Remove connection Id from groups
+                foreach(var conversationId in removedInfo.ConversationIds)
+                {
+                    await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"{conversationId}");
+                }
+
                 Console.WriteLine($"REMOVE USER_ID '{removedInfo.UserId}', CONNECTION_ID: {removedInfo.ConnectionId}");
             }
 

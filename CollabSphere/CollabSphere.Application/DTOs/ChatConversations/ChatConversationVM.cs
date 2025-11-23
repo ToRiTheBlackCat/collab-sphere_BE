@@ -24,7 +24,7 @@ namespace CollabSphere.Application.DTOs.ChatConversations
 
         public int UnreadCount { get; set; }
 
-        public ChatMessageDto? LatestMessage { get; set; }
+        public ChatConversationMessageVM? LatestMessage { get; set; }
 
         public DateTime CreatedAt { get; set; }
     }
@@ -56,11 +56,11 @@ namespace CollabSphere.Application.Mappings.ChatConversations
                 ConversationId = conversation.ConversationId,
                 ConversationName = conversation.ConversationName,
                 TeamId = conversation.TeamId,
-                TeamName = conversation.Team.TeamName,
+                TeamName = conversation.Team?.TeamName ?? "NOT FOUND",
                 IsRead = hasRead,
                 UnreadCount = unreadCount,
                 CreatedAt = conversation.CreatedAt,
-                LatestMessage = latestMessage?.ToChatMessageDto(),
+                LatestMessage = latestMessage?.ToChatConversatiobMessageVM(),
             };
         }
 

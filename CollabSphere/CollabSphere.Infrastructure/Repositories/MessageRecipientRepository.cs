@@ -2,6 +2,7 @@
 using CollabSphere.Domain.Intefaces;
 using CollabSphere.Infrastructure.Base;
 using CollabSphere.Infrastructure.PostgreDbContext;
+using Google.Apis.Drive.v3.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,18 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Where(x =>
                     x.Message.ConversationId == conversationId &&
                     x.ReceiverId == userId
+                )
+                .ToListAsync();
+
+            return messageRecipients;
+        }
+
+        public async Task<List<MessageRecipient>> GetRecipientsOfMessage(int messageId)
+        {
+            var messageRecipients = await _context.MessageRecipients
+                .AsNoTracking()
+                .Where(x =>
+                    x.MessageId == messageId
                 )
                 .ToListAsync();
 

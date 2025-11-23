@@ -10,5 +10,6 @@ namespace CollabSphere.Domain.Intefaces
 {
     public interface IChatMessageRepository : IGenericRepository<ChatMessage>
     {
+        Task<List<ChatMessage>> GetChatConversationMessages(int conversationId);
     }
 }
