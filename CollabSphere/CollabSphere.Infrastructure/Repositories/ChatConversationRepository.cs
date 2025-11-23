@@ -42,6 +42,7 @@ namespace CollabSphere.Infrastructure.Repositories
             return conversation;
         }
 
+
         public async Task<List<ChatConversation>> SeachConversations(int userId, int? teamId)
         {
             // Get teams that user is in
@@ -68,6 +69,15 @@ namespace CollabSphere.Infrastructure.Repositories
 
             // Get conversations in each team
             var conversations = userTeams.SelectMany(x => x.ChatConversations).ToList();
+
+            return conversations;
+        }
+
+        public async Task<List<ChatConversation>> GetTeamConversation(int teamId)
+        {
+            var conversations = await _context.ChatConversations
+                .Where(x => x.TeamId == teamId)
+                .ToListAsync();
 
             return conversations;
         }
