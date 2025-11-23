@@ -193,7 +193,13 @@ builder.Services.AddAWSService<IAmazonS3>();
 #endregion
 
 #region Configure Hubs
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(options =>
+{
+    options.KeepAliveInterval = TimeSpan.FromSeconds(10);
+    options.ClientTimeoutInterval = TimeSpan.FromSeconds(20);
+    options.EnableDetailedErrors = true;
+    options.MaximumReceiveMessageSize = 2 * 1024 * 1024;
+});
 #endregion
 #region Configure GoogleDrive-Storing Video
 builder.Services.Configure<GgDriveSettings>(
@@ -225,4 +231,6 @@ app.UseAuthorization();
 app.MapHub<KanbanHub>("/KanbanServiceHub");
 app.MapControllers();
 
+app.MapHub<YjsHub>("/yhub");
+app.MapHub<ChatHub>("/chathub");
 app.Run();

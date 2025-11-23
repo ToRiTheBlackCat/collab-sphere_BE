@@ -1,4 +1,7 @@
-﻿using CollabSphere.Application.Features.Classes.Commands.AddStudent;
+﻿using CollabSphere.Application.DTOs.DocumentRooms;
+using CollabSphere.Application.Features.Classes.Commands.AddStudent;
+using CollabSphere.Application.Features.Documents.Commands.CreateDocumentRoom;
+using CollabSphere.Application.Features.Documents.Queries.GetTeamDocuments;
 using CollabSphere.Application.Features.Team.Commands.CreateTeam;
 using CollabSphere.Application.Features.Team.Commands.DeleteTeam;
 using CollabSphere.Application.Features.Team.Commands.TeamUploadAvatar;
@@ -409,7 +412,7 @@ namespace CollabSphere.API.Controllers
             var command = new DeleteTeamFileCommand()
             {
                 TeamId = teamId,
-                FileId = fileId, 
+                FileId = fileId,
                 UserId = userId,
                 UserRole = userRole,
             };
@@ -460,6 +463,71 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result.ProjectOverview);
+        }
+
+        [Authorize(Roles = "4, 5")]
+        [HttpGet("{teamId}/documents")]
+        public async Task<IActionResult> GetDocumentsByTeamId(int teamId, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            int userId = int.Parse(UIdClaim.Value);
+            int userRole = int.Parse(roleClaim.Value);
+
+            var query = new GetTeamDocumentsQuery()
+            {
+                TeamId = teamId,
+                UserId = userId,
+                UserRole = userRole
+            };
+
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result.DocumentRooms);
+        }
+
+        [Authorize(Roles = "4, 5")]
+        [HttpPost("{teamId}/documents")]
+        public async Task<IActionResult> GetDocumentsByTeamId(int teamId, [FromBody] CreateDocumentRoomDto roomName, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            int userId = int.Parse(UIdClaim.Value);
+            int userRole = int.Parse(roleClaim.Value);
+
+            var command = new CreateDocumentRoomCommand()
+            {
+                TeamId = teamId,
+                RoomDto = roomName,
+                UserId = userId,
+                UserRole = userRole
+            };
+
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result.Message);
         }
     }
 }

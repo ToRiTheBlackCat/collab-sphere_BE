@@ -13,14 +13,20 @@ namespace CollabSphere.Application
     {
 
         IUserRepository UserRepo { get; }
+        IChatConversationRepository ChatConversationRepo { get; }
+        IChatMessageRepository ChatMessageRepo { get; }
         ICheckpointAssignmentRepository CheckpointAssignmentRepo { get; }
         ICheckpointFileRepository CheckpointFileRepo { get; }
         ICheckpointRepository CheckpointRepo { get; }
         IClassFileRepository ClassFileRepo { get; }
         IClassMemberRepository ClassMemberRepo { get; }
         IClassRepository ClassRepo { get; }
+        IDocumentRoomRepository DocRoomRepo { get; }
+        IDocumentStateRepository DocStateRepo { get; }
         ILecturerRepository LecturerRepo { get; }
         IObjectiveRepository ObjectiveRepo { get; }
+        INotificationRecipientRepository NotificationRecipientRepo { get; }
+        INotificationRepository NotificationRepo { get; }
         IObjectiveMilestoneRepository ObjectiveMilestoneRepo { get; }
         IProjectAssignmentRepository ProjectAssignmentRepo { get; }
         IProjectRepository ProjectRepo { get; }
@@ -36,6 +42,7 @@ namespace CollabSphere.Application
         ITeamFileRepository TeamFileRepo { get; }
         IEvaluationDetailRepository EvaluationDetailRepo { get; }
         IMemberEvaluationRepository MemberEvaluationRepo { get; }
+        IMessageRecipientRepository MessageRecipientRepo { get; }
         IMilestoneFileRepository MilestoneFileRepo { get; }
         IMilestoneQuestionRepository MilestoneQuestionRepo { get; }
         IMilestoneQuestionAnsRepository MilestoneQuestionAnsRepo { get; }
