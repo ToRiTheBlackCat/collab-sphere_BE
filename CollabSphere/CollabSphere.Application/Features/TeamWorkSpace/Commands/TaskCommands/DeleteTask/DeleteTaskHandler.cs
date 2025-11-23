@@ -38,13 +38,14 @@ namespace CollabSphere.Application.Features.TeamWorkSpace.Commands.TaskCommands.
                             if (task.TaskId == request.TaskId)
                             {
                                 _unitOfWork.TaskRepo.Delete(task);
-                                await _unitOfWork.SaveChangesAsync();
-                                await _unitOfWork.CommitTransactionAsync();
-                                result.IsSuccess = true;
                             }
                         }
                     }
                 }
+
+                await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.CommitTransactionAsync();
+                result.IsSuccess = true;
             }
             catch (Exception ex)
             {
