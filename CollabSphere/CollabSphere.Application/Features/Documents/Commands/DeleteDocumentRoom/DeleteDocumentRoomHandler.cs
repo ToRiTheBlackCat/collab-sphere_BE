@@ -1,29 +1,26 @@
 ﻿using CollabSphere.Application.Base;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
-using CollabSphere.Application.Features.Documents.Queries.GetTeamDocuments;
-using CollabSphere.Application.Mappings.DocumentRooms;
-using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Task = System.Threading.Tasks.Task;
+using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Documents.Commands.CreateDocumentRoom
+namespace CollabSphere.Application.Features.Documents.Commands.DeleteDocumentRoom
 {
-    public class CreateDocumentRoomHandler : CommandHandler<CreateDocumentRoomCommand, CreateDocumentRoomResult>
+    public class DeleteDocumentRoomHandler : CommandHandler<DeleteDocumentRoomCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateDocumentRoomHandler(IUnitOfWork unitOfWork)
+        public DeleteDocumentRoomHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        protected override async Task<CreateDocumentRoomResult> HandleCommand(CreateDocumentRoomCommand request, CancellationToken cancellationToken)
+        protected override async Task<CommandResult> HandleCommand(DeleteDocumentRoomCommand request, CancellationToken cancellationToken)
         {
-            var result = new CreateDocumentRoomResult()
+            var result = new CommandResult()
             {
                 IsSuccess = false,
                 IsValidInput = true,
@@ -34,25 +31,16 @@ namespace CollabSphere.Application.Features.Documents.Commands.CreateDocumentRoo
             {
                 await _unitOfWork.BeginTransactionAsync();
 
-                #region Data Operation
-                var currentTime = DateTime.UtcNow;
+                #region Data Operations
+                var docRoom = (await _unitOfWork.DocRoomRepo.GetDocumentRoom(request.TeamId, request.RoomName))!;
 
-                var docRoom = new DocumentRoom()
-                {
-                    TeamId = request.TeamId,
-                    RoomName = request.RoomDto.RoomName,
-                    CreatedAt = currentTime,
-                    UpdatedAt = currentTime,
-                };
-                await _unitOfWork.DocRoomRepo.Create(docRoom);
-                await _unitOfWork.SaveChangesAsync(); 
+                _unitOfWork.DocRoomRepo.Delete(docRoom);
+                await _unitOfWork.SaveChangesAsync();
                 #endregion
 
                 await _unitOfWork.CommitTransactionAsync();
 
-                result.TeamId = docRoom.TeamId;
-                result.RoomName = docRoom.RoomName;
-                result.Message = $"Created document room '{docRoom.RoomName}' successfully.";
+                result.Message = $"Deleted document room '{docRoom.RoomName}' successfully.";
                 result.IsSuccess = true;
             }
             catch (Exception ex)
@@ -64,7 +52,7 @@ namespace CollabSphere.Application.Features.Documents.Commands.CreateDocumentRoo
             return result;
         }
 
-        protected override async Task ValidateRequest(List<OperationError> errors, CreateDocumentRoomCommand request)
+        protected override async Task ValidateRequest(List<OperationError> errors, DeleteDocumentRoomCommand request)
         {
             // Get team
             var team = await _unitOfWork.TeamRepo.GetTeamDetail(request.TeamId);
@@ -108,16 +96,14 @@ namespace CollabSphere.Application.Features.Documents.Commands.CreateDocumentRoo
                 }
             }
 
-            // Check for duplicated document RoomName
-            var existingRooms = await _unitOfWork.DocRoomRepo.GetDocRoomsByTeam(request.TeamId);
-            var duplicatedName = existingRooms.Any(x => 
-                x.RoomName.Equals(request.RoomDto.RoomName, StringComparison.OrdinalIgnoreCase));
-            if (duplicatedName)
+            // Check if conversation exist
+            var docRoom = await _unitOfWork.DocRoomRepo.GetDocumentRoom(request.TeamId, request.RoomName);
+            if (docRoom == null)
             {
                 errors.Add(new OperationError()
                 {
-                    Field = nameof(request.RoomDto.RoomName),
-                    Message = $"Team '{team.TeamName}'({team.TeamId}) already have a document named '{request.RoomDto.RoomName}'.",
+                    Field = nameof(docRoom.RoomName),
+                    Message = $"No Document of  with ID '{request.RoomName}' found in the team '{team.TeamName}'({team.TeamId}).",
                 });
                 return;
             }

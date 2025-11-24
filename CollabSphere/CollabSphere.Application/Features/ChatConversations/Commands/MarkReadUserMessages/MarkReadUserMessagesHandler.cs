@@ -2,11 +2,12 @@
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Application.Features.ChatConversations.Queries.GetUserConversations;
+using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 
 namespace CollabSphere.Application.Features.ChatConversations.Commands.MarkReadUserMessages
 {
@@ -68,17 +69,20 @@ namespace CollabSphere.Application.Features.ChatConversations.Commands.MarkReadU
 
         protected override async Task ValidateRequest(List<OperationError> errors, MarkReadUserMessagesCommand request)
         {
-            // Check team exist
-            var team = await _unitOfWork.TeamRepo.GetTeamDetail(request.TeamId);
-            if (team == null)
+            // Check conversation exist
+            var chatConversation = await _unitOfWork.ChatConversationRepo.GetById(request.ConversationId);
+            if (chatConversation == null)
             {
                 errors.Add(new OperationError()
                 {
-                    Field = nameof(request.TeamId),
-                    Message = $"No team with ID '{request.TeamId}' found."
+                    Field = nameof(request.ConversationId),
+                    Message = $"No conversation with ID '{request.ConversationId}' found."
                 });
                 return;
             }
+
+            // Get team to validate requester
+            var team = (await _unitOfWork.TeamRepo.GetTeamDetail(chatConversation.TeamId))!;
 
             // Requester is Lecturer
             if (request.UserRole == RoleConstants.LECTURER)
@@ -108,18 +112,6 @@ namespace CollabSphere.Application.Features.ChatConversations.Commands.MarkReadU
                     });
                     return;
                 }
-            }
-
-            // Check if conversation exist
-            var conversation = await _unitOfWork.ChatConversationRepo.GetById(request.ConversationId);
-            if (conversation == null || conversation.TeamId != team.TeamId)
-            {
-                errors.Add(new OperationError()
-                {
-                    Field = nameof(request.ConversationId),
-                    Message = $"No Converstion with ID '{request.ConversationId}' found in team '{team.TeamId}'."
-                });
-                return;
             }
         }
     }

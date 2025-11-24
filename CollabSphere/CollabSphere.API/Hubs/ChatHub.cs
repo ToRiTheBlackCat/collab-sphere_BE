@@ -21,7 +21,7 @@ namespace CollabSphere.API.Hubs
         Task ReceiveMessage(ChatConversationMessageVM message);
 
         // Corresponds to connection.on("ReceiveHistory", ...)
-        Task ReceiveHistory(IEnumerable<ChatMessageDto> messages);
+        Task ReceiveHistory(IEnumerable<ChatConversationMessageVM> messages);
 
         Task ReceiveNotification(ChatNotificationDto notification);
 
@@ -174,7 +174,7 @@ namespace CollabSphere.API.Hubs
             {
                 // Load messages for caller
                 var recentMessages = chatConversation.ChatMessages;
-                var historyDtos = recentMessages.ToChatMessageDto();
+                var historyDtos = recentMessages.ToChatConversatiobMessageVMs();
                 await Clients.Caller.ReceiveHistory(historyDtos);
 
                 // Load recent notifications for caller
