@@ -42,6 +42,12 @@ namespace CollabSphere.Application.Mappings.ChatConversations
             var unreadCount = 0;
             if (latestMessage != null && viewingUserId.HasValue)
             {
+                latestMessage.MessageRecipients.Add(new MessageRecipient()
+                {
+                    ReceiverId = latestMessage.SenderId,
+                    IsRead = true,
+                });
+
                 unreadCount = conversation.ChatMessages
                     .SelectMany(x => x.MessageRecipients)
                     .Where(x => 

@@ -10,9 +10,6 @@ namespace CollabSphere.Application.Features.ChatConversations.Commands.MarkReadU
 {
     public class MarkReadUserMessagesCommand : ICommand
     {
-        [FromQuery(Name = "teamId")]
-        public int TeamId { get; set; }
-
         [FromQuery(Name = "conversationId")]
         public int ConversationId { get; set; }
 

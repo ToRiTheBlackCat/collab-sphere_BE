@@ -499,7 +499,7 @@ namespace CollabSphere.API.Controllers
 
         [Authorize(Roles = "4, 5")]
         [HttpPost("{teamId}/documents")]
-        public async Task<IActionResult> GetDocumentsByTeamId(int teamId, [FromBody] CreateDocumentRoomDto roomName, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> CreateNewTeamDocument(int teamId, [FromBody] CreateDocumentRoomDto roomName, CancellationToken cancellationToken = default)
         {
             // Get UserId & Role of requester
             var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);

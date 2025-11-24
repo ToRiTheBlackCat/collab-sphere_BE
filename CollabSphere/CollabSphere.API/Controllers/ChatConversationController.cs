@@ -55,15 +55,23 @@ namespace CollabSphere.API.Controllers
 
         // Roles: Lecturer, Student
         [Authorize(Roles = "4, 5")]
-        [HttpPatch("is-read")]
+        [HttpPatch("{conversationId}/is-read")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<IActionResult> MarkReadMessagesInConversation(MarkReadUserMessagesCommand command, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> MarkReadMessagesInConversation(int conversationId, CancellationToken cancellationToken = default)
         {
             // Get UserId & Role of requester
             var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
             var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
-            command.UserId = int.Parse(UIdClaim.Value);
-            command.UserRole = int.Parse(roleClaim.Value);
+            var userId = int.Parse(UIdClaim.Value);
+            var userRole = int.Parse(roleClaim.Value);
+
+            // Setup Command
+            var command = new MarkReadUserMessagesCommand()
+            {
+                ConversationId = conversationId,
+                UserId = userId,
+                UserRole = userRole,
+            };
 
             // Handle command
             var result = await _mediator.Send(command, cancellationToken);
@@ -85,7 +93,7 @@ namespace CollabSphere.API.Controllers
         [Authorize(Roles = "4, 5")]
         [HttpGet("{conversationId}")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<IActionResult> MarkReadMessagesInConversation(int conversationId, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetConversationDetail(int conversationId, CancellationToken cancellationToken = default)
         {
             // Get UserId & Role of requester
             var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
@@ -155,7 +163,7 @@ namespace CollabSphere.API.Controllers
         [Authorize(Roles = "4, 5")]
         [HttpDelete("{conversationId}")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<IActionResult> DeleteChatConversation (int conversationId, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeleteChatConversation(int conversationId, CancellationToken cancellationToken = default)
         {
             // Get UserId & Role of requester
             var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
