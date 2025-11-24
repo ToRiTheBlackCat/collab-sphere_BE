@@ -261,7 +261,15 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                         Message = $"Not found any class with that Id: {request.ClassId}"
                     });
                 }
+                else if (foundClass != null && !foundClass.IsActive)
+                {
+                    errors.Add(new OperationError
+                    {
+                        Field = nameof(request.ClassId),
+                        Message = $"Class with Id: {request.ClassId} is unactivate. Cannot use this function"
+                    });
 
+                }
                 //Validate lecturer
                 var foundLecturer = await _unitOfWork.LecturerRepo.GetById(request.LecturerId);
                 if (foundLecturer == null)
