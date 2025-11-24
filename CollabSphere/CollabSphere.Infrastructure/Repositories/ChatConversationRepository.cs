@@ -23,15 +23,21 @@ namespace CollabSphere.Infrastructure.Repositories
             var conversation = await _context.ChatConversations
                 .AsNoTracking()
                 .Include(x => x.ChatMessages)
-                    .ThenInclude(x => x.Sender)
-                        .ThenInclude(x => x.Student)
+                    .ThenInclude(msg => msg.MessageRecipients)
                 .Include(x => x.ChatMessages)
-                    .ThenInclude(x => x.Sender)
-                        .ThenInclude(x => x.Lecturer)
+                    .ThenInclude(msg => msg.Sender)
+                        .ThenInclude(sender => sender.Student)
+                .Include(x => x.ChatMessages)
+                    .ThenInclude(msg => msg.Sender)
+                        .ThenInclude(sender => sender.Lecturer)
                 .Include(x => x.Team)
-                    .ThenInclude(x => x.ClassMembers)
+                    .ThenInclude(team => team.ClassMembers)
+                        .ThenInclude(mem => mem.Student)
+                            .ThenInclude(stu => stu.StudentNavigation)
                 .Include(x => x.Team)
-                    .ThenInclude(x => x.Class)
+                    .ThenInclude(team => team.Class)
+                        .ThenInclude(cls => cls.Lecturer)
+                            .ThenInclude(lec => lec.LecturerNavigation)
                 .FirstOrDefaultAsync(x => x.ConversationId == conversationId);
 
             if (conversation != null)
@@ -41,6 +47,7 @@ namespace CollabSphere.Infrastructure.Repositories
 
             return conversation;
         }
+
 
         public async Task<List<ChatConversation>> SeachConversations(int userId, int? teamId)
         {
@@ -68,6 +75,15 @@ namespace CollabSphere.Infrastructure.Repositories
 
             // Get conversations in each team
             var conversations = userTeams.SelectMany(x => x.ChatConversations).ToList();
+
+            return conversations;
+        }
+
+        public async Task<List<ChatConversation>> GetTeamConversation(int teamId)
+        {
+            var conversations = await _context.ChatConversations
+                .Where(x => x.TeamId == teamId)
+                .ToListAsync();
 
             return conversations;
         }

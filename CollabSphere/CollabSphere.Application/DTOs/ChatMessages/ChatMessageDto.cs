@@ -30,17 +30,27 @@ namespace CollabSphere.Application.Mappings.ChatMessages
     {
         public static ChatMessageDto ToChatMessageDto(this ChatMessage message)
         {
+            var senderName = "NOT FOUND USER";
+            if (message.Sender != null)
+            {
+                // Sender is Lecturer
+                if (message.Sender.IsTeacher)
+                {
+                    senderName = message.Sender.Lecturer?.Fullname ?? senderName;
+                }
+                // Sender is Student
+                else
+                {
+                    senderName = message.Sender.Student?.Fullname ?? senderName;
+                }
+            }
+
             return new ChatMessageDto()
             {
                 MessageId = message.MessageId,
                 ConversationId = message.ConversationId,
                 SenderId = message.SenderId,
-                SenderName = message.Sender != null ?
-                    (message.Sender.IsTeacher ?
-                        (message.Sender.Lecturer?.Fullname ?? "NOT FOUND USER") :
-                        (message.Sender.Student?.Fullname ?? "NOT FOUND USER")
-                    ) :
-                    "NOT FOUND USER",
+                SenderName = senderName,
                 Message = message.Message,
                 SendAt = message.SendAt,
             };

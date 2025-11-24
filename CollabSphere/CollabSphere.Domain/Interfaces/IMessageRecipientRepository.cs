@@ -11,5 +11,7 @@ namespace CollabSphere.Domain.Intefaces
     public interface IMessageRecipientRepository : IGenericRepository<MessageRecipient>
     {
         Task<List<MessageRecipient>> GetMessageRecipientInConversation(int userId, int conversationId);
+
+        Task<List<MessageRecipient>> GetRecipientsOfMessage(int messageId);
     }
 }

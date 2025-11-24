@@ -1,5 +1,6 @@
 ﻿using CollabSphere.Application;
 using CollabSphere.Application.Constants;
+using CollabSphere.Application.DTOs.ChatConversations;
 using CollabSphere.Application.DTOs.ChatMessages;
 using CollabSphere.Application.DTOs.Notifications;
 using CollabSphere.Application.DTOs.Teams;
@@ -17,7 +18,7 @@ namespace CollabSphere.API.Hubs
     public interface IChatClient
     {
         // Corresponds to connection.on("ReceiveMessage", ...)
-        Task ReceiveMessage(ChatMessageDto message);
+        Task ReceiveMessage(ChatConversationMessageVM message);
 
         // Corresponds to connection.on("ReceiveHistory", ...)
         Task ReceiveHistory(IEnumerable<ChatMessageDto> messages);
@@ -25,6 +26,8 @@ namespace CollabSphere.API.Hubs
         Task ReceiveNotification(ChatNotificationDto notification);
 
         Task ReceiveAllNotification(IEnumerable<ChatNotificationDto> notification);
+
+        Task ReceiveMessageReadUpdate(int userId, int conversationId, int messageId);
 
         // Corresponds to connection.on("UserJoined", ...)
         Task UserJoined(int userId);
@@ -52,16 +55,11 @@ namespace CollabSphere.API.Hubs
             _unitOfWork = unitOfWork;
         }
 
-        // Mappings of Connection IDs for a UserId
-        private static readonly ConcurrentDictionary<int, List<string>> UserConnectionIds = new();
-
-        private static readonly ConcurrentDictionary<string, ChatHubConnectionInfo> ConnectionInfos = new();
-
         /// <summary>
-        /// Mapping of valid ConnectionIds in a conversation for faster validation
-        /// Dictionary<ConversationId, ConnectionId[]>
-        /// </summary>
-        //private static readonly ConcurrentDictionary<int, HashSet<string>> ConversationConnections = new();
+        /// Details of connectionIds
+        /// Dictionary<ConnectionId, ConnectionInfo>
+        /// </summary
+        private static readonly ConcurrentDictionary<string, ChatHubConnectionInfo> ConnectionInfos = new();
 
         // Helper function
         private async Task<(int UserId, string FullName, int UserRole)> GetUserInfo()
@@ -291,11 +289,14 @@ namespace CollabSphere.API.Hubs
                     Lecturer = new Lecturer() { Fullname = userInfo.FullName },
                     Student = new Student() { Fullname = userInfo.FullName }
                 };
-                var messageDto = message.ToChatMessageDto();
+                var messageDto = message.ToChatConversatiobMessageVM();
 
                 // Broadcast to group
                 await Clients.Groups($"{conversationId}").ReceiveMessage(messageDto);
                 await Clients.OthersInGroup($"{conversationId}").ReceiveNotification(notification.ToChatNotiDto());
+
+                // Aslo broadcast the message read update for the user who sent it
+                //await Clients.Groups($"{conversationId}").ReceiveMessageReadUpdate(userInfo.UserId, message.MessageId);
             }
             catch (Exception ex)
             {
@@ -304,20 +305,34 @@ namespace CollabSphere.API.Hubs
             }
         }
 
+        public async Task BroadcastReadUpdate(int conversationId, int readMessageId)
+        {
+            var userInfo = await this.GetUserInfo();
+
+            // Check if can join conversation
+            ConnectionInfos.TryGetValue(Context.ConnectionId, out var connectionInfo);
+            //if (!IsValidConnectionId(conversationId, Context.ConnectionId, out var errorString))
+            if (!connectionInfo!.ConversationIds.Contains(conversationId))
+            {
+                throw new HubException($"Can not join conversation. This connection is not valid: {connectionInfo}");
+            }
+
+            // Broadcast message read update to others
+            await Clients.Group($"{conversationId}").ReceiveMessageReadUpdate(userInfo.UserId, conversationId, readMessageId);
+        }
+
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
             var (userId, name, userRole) = await GetUserInfo();
 
-            if (UserConnectionIds.TryRemove(userId, out var connectionIds))
-            {
-                _ = Clients.All.UserLeft(userId);
-
-                connectionIds.Remove(Context.ConnectionId);
-
-            }
-
             if (ConnectionInfos.TryRemove(Context.ConnectionId, out var removedInfo))
             {
+                // Remove connection Id from groups
+                foreach (var conversationId in removedInfo.ConversationIds)
+                {
+                    await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"{conversationId}");
+                }
+
                 Console.WriteLine($"REMOVE USER_ID '{removedInfo.UserId}', CONNECTION_ID: {removedInfo.ConnectionId}");
             }
 
