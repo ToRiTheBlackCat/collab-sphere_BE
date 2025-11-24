@@ -1,6 +1,7 @@
 ﻿using CollabSphere.Application.DTOs.DocumentRooms;
 using CollabSphere.Application.Features.Classes.Commands.AddStudent;
 using CollabSphere.Application.Features.Documents.Commands.CreateDocumentRoom;
+using CollabSphere.Application.Features.Documents.Commands.DeleteDocumentRoom;
 using CollabSphere.Application.Features.Documents.Queries.GetTeamDocuments;
 using CollabSphere.Application.Features.Team.Commands.CreateTeam;
 using CollabSphere.Application.Features.Team.Commands.DeleteTeam;
@@ -494,12 +495,12 @@ namespace CollabSphere.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, result);
             }
 
-            return Ok(result.DocumentRooms);
+            return Ok(result);
         }
 
         [Authorize(Roles = "4, 5")]
         [HttpPost("{teamId}/documents")]
-        public async Task<IActionResult> CreateNewTeamDocument(int teamId, [FromBody] CreateDocumentRoomDto roomName, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> CreateNewTeamDocument(int teamId, [FromBody] CreateDocumentRoomDto roomDto, CancellationToken cancellationToken = default)
         {
             // Get UserId & Role of requester
             var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
@@ -507,14 +508,16 @@ namespace CollabSphere.API.Controllers
             int userId = int.Parse(UIdClaim.Value);
             int userRole = int.Parse(roleClaim.Value);
 
+            // Setup command
             var command = new CreateDocumentRoomCommand()
             {
                 TeamId = teamId,
-                RoomDto = roomName,
+                RoomDto = roomDto,
                 UserId = userId,
                 UserRole = userRole
             };
 
+            // Handle command
             var result = await _mediator.Send(command, cancellationToken);
 
             if (!result.IsValidInput)
@@ -527,7 +530,42 @@ namespace CollabSphere.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, result);
             }
 
-            return Ok(result.Message);
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "4, 5")]
+        [HttpDelete("{teamId}/documents/{roomName}")]
+        public async Task<IActionResult> DeleteDocument(int teamId, string roomName, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            int userId = int.Parse(UIdClaim.Value);
+            int userRole = int.Parse(roleClaim.Value);
+
+            // Setup command
+            var command = new DeleteDocumentRoomCommand()
+            {
+                TeamId = teamId,
+                RoomName = roomName,
+                UserId = userId,
+                UserRole = userRole
+            };
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
         }
     }
 }
