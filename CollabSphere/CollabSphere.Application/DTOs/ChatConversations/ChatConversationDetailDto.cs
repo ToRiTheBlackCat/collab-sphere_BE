@@ -40,7 +40,7 @@ namespace CollabSphere.Application.DTOs.ChatConversations
 namespace CollabSphere.Application.Mappings.ChatConversations
 {
     public static partial class ChatConversationMappings
-    { 
+    {
         public static ChatConversationDetailDto ToDetailDto(this ChatConversation chatConversation)
         {
             // Get latest message
@@ -51,10 +51,20 @@ namespace CollabSphere.Application.Mappings.ChatConversations
             foreach (var chatMessage in chatConversation.ChatMessages.Reverse())
             {
                 chatMessage.MessageRecipients = chatMessage.MessageRecipients
-                    .Where(x => 
-                        x.IsRead && 
+                    .Where(x =>
+                        x.IsRead &&
                         !readUserIds.Contains(x.ReceiverId))
                     .ToList();
+
+                // Add a fake recipient so the User who sent the message is also counted as a user who has read it
+                if (!readUserIds.Contains(chatMessage.SenderId))
+                {
+                    chatMessage.MessageRecipients.Add(new MessageRecipient()
+                    {
+                        ReceiverId = chatMessage.SenderId,
+                        IsRead = true,
+                    });
+                }
 
                 readUserIds = readUserIds.Concat(chatMessage.MessageRecipients.Select(x => x.ReceiverId)).ToHashSet();
             }
