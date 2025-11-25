@@ -78,26 +78,39 @@ namespace CollabSphere.Application.Common
             using var stream = file.OpenReadStream();
             var request = _driveService.Files.Create(fileMetadata, stream, file.ContentType);
             request.Fields = "id";
-            await request.UploadAsync();
-
-            var uploadedFile = request.ResponseBody;
-
-            if (uploadedFile == null)
+            try
             {
-                throw new Exception("File upload failed, Google Drive did not return a file ID.");
+                var uploadProgress = await request.UploadAsync();
+
+                if (uploadProgress.Status == Google.Apis.Upload.UploadStatus.Failed)
+                {
+                    throw new Exception($"Google Drive Upload Failed: {uploadProgress.Exception.Message}", uploadProgress.Exception);
+                }
+
+                var uploadedFile = request.ResponseBody;
+
+                if (uploadedFile == null)
+                {
+                    throw new Exception("File upload failed, Google Drive did not return a file ID.");
+                }
+
+
+                // Set the permission
+                var permission = new Google.Apis.Drive.v3.Data.Permission
+                {
+                    Type = "anyone",
+                    Role = "reader"
+                };
+
+                await _driveService.Permissions.Create(permission, uploadedFile.Id).ExecuteAsync();
+
+                // Return the link
+                return $"https://drive.google.com/uc?id={uploadedFile.Id}&export=download";
             }
-
-            // Set the permission
-            var permission = new Google.Apis.Drive.v3.Data.Permission
+            catch (Exception ex)
             {
-                Type = "anyone",
-                Role = "reader"
-            };
-
-            await _driveService.Permissions.Create(permission, uploadedFile.Id).ExecuteAsync();
-
-            // Return the link
-            return $"https://drive.google.com/uc?id={uploadedFile.Id}&export=download";
+                throw;
+            }
         }
     }
 }
