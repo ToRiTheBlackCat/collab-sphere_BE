@@ -55,6 +55,8 @@ namespace CollabSphere.Application.Common
                 throw new Exception($"Invalid config for github installation: {valueString}");
             }
 
+            privateKey = privateKey.Replace("\\n", "\n");
+
             return (appId, privateKey);
         }
 
