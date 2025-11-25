@@ -65,4 +65,6 @@ public partial class Team
     public virtual ICollection<TeamMilestone> TeamMilestones { get; set; } = new List<TeamMilestone>();
 
     public virtual ICollection<DocumentRoom> DocumentRooms { get; set; } = new List<DocumentRoom>();
+
+    public virtual ICollection<GithubConnectionState> GithubConnectionStates { get; set; } = new List<GithubConnectionState>();
 }
