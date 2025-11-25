@@ -59,5 +59,18 @@ namespace CollabSphere.Infrastructure.Repositories
                 .FirstOrDefaultAsync(x => x.TeamId == teamId &&
                                           x.RepositoryId == repoId);
         }
+
+        public async Task<List<ProjectRepoMapping>> GetRepoMapsByTeam(int teamId)
+        {
+            var repoMaps = await _context.ProjectRepoMappings
+                .AsNoTracking()
+                .Include(x => x.Project)
+                .Include(x => x.InstalledByUser)
+                .Include(x => x.Team)
+                .Where(x => x.TeamId == teamId)
+                .ToListAsync();
+
+            return repoMaps;
+        }
     }
 }

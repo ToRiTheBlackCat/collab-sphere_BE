@@ -45,6 +45,7 @@ public partial class User
 
     public virtual ICollection<TeamFile> TeamFiles { get; set; } = new List<TeamFile>();
 
+    public virtual ICollection<GithubConnectionState> GithubConnectionStates { get; set; } = new List<GithubConnectionState>();
 
     public virtual Role Role { get; set; }
 

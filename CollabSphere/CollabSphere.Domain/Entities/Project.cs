@@ -41,4 +41,6 @@ public partial class Project
     public virtual ICollection<ProjectRepoMapping> ProjectRepoMappings { get; set; } = new List<ProjectRepoMapping>();
 
     public virtual Subject Subject { get; set; }
+
+    public virtual ICollection<GithubConnectionState> GithubConnectionStates { get; set; } = new List<GithubConnectionState>();
 }

@@ -43,6 +43,8 @@ public partial class collab_sphereContext : DbContext
 
     public virtual DbSet<EvaluationDetail> EvaluationDetails { get; set; }
 
+    public virtual DbSet<GithubConnectionState> GithubConnectionStates { get; set; }
+
     public virtual DbSet<Lecturer> Lecturers { get; set; }
 
     public virtual DbSet<List> Lists { get; set; }
@@ -524,6 +526,38 @@ public partial class collab_sphereContext : DbContext
                 .HasForeignKey(d => d.TeamEvaluationId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("evaluation_detail_team_evaluation_fk");
+        });
+
+        modelBuilder.Entity<GithubConnectionState>(entity =>
+        {
+            entity.HasKey(e => e.StateToken).HasName("github_connection_state_pk");
+
+            entity.ToTable("github_connection_state");
+
+            entity.Property(e => e.StateToken)
+                .HasMaxLength(100)
+                .HasColumnName("state_token");
+            entity.Property(e => e.CreatedAt)
+                .HasDefaultValueSql("now()")
+                .HasColumnName("created_at");
+            entity.Property(e => e.ProjectId).HasColumnName("project_id");
+            entity.Property(e => e.TeamId).HasColumnName("team_id");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
+            entity.HasOne(d => d.Project).WithMany(p => p.GithubConnectionStates)
+                .HasForeignKey(d => d.ProjectId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("github_connection_state_project_fk");
+
+            entity.HasOne(d => d.Team).WithMany(p => p.GithubConnectionStates)
+                .HasForeignKey(d => d.TeamId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("github_connection_state_team_fk");
+
+            entity.HasOne(d => d.User).WithMany(p => p.GithubConnectionStates)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("github_connection_state_user_fk");
         });
 
         modelBuilder.Entity<Lecturer>(entity =>

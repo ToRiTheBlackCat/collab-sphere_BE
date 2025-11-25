@@ -12,5 +12,7 @@ namespace CollabSphere.Domain.Interfaces
         Task<Dictionary<int, List<ProjectRepoMapping>>> SearchInstallationsOfProject(int projectId, int installedUserId, int teamId, DateTime? fromDate, bool isDesc);
 
         Task<ProjectRepoMapping?> GetOneByTeamIdAndRepoId(int teamId, long repoId);
+
+        Task<List<ProjectRepoMapping>> GetRepoMapsByTeam(int teamId);
     }
 }
