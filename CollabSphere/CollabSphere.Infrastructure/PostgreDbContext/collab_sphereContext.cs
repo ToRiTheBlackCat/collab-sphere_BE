@@ -534,8 +534,6 @@ public partial class collab_sphereContext : DbContext
 
             entity.ToTable("github_connection_state");
 
-            entity.HasIndex(e => new { e.ProjectId, e.TeamId }, "github_connection_state_unique").IsUnique();
-
             entity.Property(e => e.StateToken)
                 .HasMaxLength(100)
                 .HasColumnName("state_token");

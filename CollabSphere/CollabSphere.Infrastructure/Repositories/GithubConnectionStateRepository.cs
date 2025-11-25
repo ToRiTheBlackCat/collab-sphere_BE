@@ -2,6 +2,7 @@
 using CollabSphere.Domain.Interfaces;
 using CollabSphere.Infrastructure.Base;
 using CollabSphere.Infrastructure.PostgreDbContext;
+using Google.Apis.Drive.v3.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,12 +18,21 @@ namespace CollabSphere.Infrastructure.Repositories
         {
         }
 
-        public async Task<GithubConnectionState?> GetGithubConnectionState(int projectId, int teamId)
+        public async Task<GithubConnectionState?> GetByStateToken(string stateToken)
         {
             var state = await _context.GithubConnectionStates
-                .FirstOrDefaultAsync(x => 
+                .FirstOrDefaultAsync(x => x.StateToken == stateToken );
+
+            return state;
+        }
+
+        public async Task<GithubConnectionState?> GetGithubConnectionState(int projectId, int teamId, int userId)
+        {
+            var state = await _context.GithubConnectionStates
+                .FirstOrDefaultAsync(x =>
                     x.ProjectId == projectId &&
-                    x.TeamId == teamId);
+                    x.TeamId == teamId &&
+                    x.UserId == userId);
 
             return state;
         }

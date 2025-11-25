@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Domain.Entities;
@@ -30,26 +31,47 @@ namespace CollabSphere.Application.Features.GithubConnectionStates.Commands.Gene
 
             try
             {
-                await _unitOfWork.BeginTransactionAsync();
+                // Get unused installations
+                var existedSate = await _unitOfWork.GithubConnectionStateRepo
+                    .GetGithubConnectionState(request.ProjectId, request.TeamId, request.UserId);
 
-                #region Data operation
-                var newState = new GithubConnectionState()
+                // URL string builder function
+                var urlBuilder = (string stakeToken) => $"https://github.com/apps/collabsphere-ai-reviewer/installations/new?state={stakeToken}";
+
+                // Create new if no existing state
+                if (existedSate == null)
                 {
-                    StateToken = Guid.NewGuid().ToString(),
-                    TeamId = request.TeamId,
-                    ProjectId = request.ProjectId,
-                    UserId = request.UserId,
-                    CreatedAt = DateTime.UtcNow,
-                };
+                    await _unitOfWork.BeginTransactionAsync();
 
-                await _unitOfWork.GithubConnectionStateRepo.Create(newState);
-                await _unitOfWork.SaveChangesAsync();
-                #endregion
+                    #region Data operation
+                    var newState = new GithubConnectionState()
+                    {
+                        StateToken = Guid.NewGuid().ToString(),
+                        TeamId = request.TeamId,
+                        ProjectId = request.ProjectId,
+                        UserId = request.UserId,
+                        CreatedAt = DateTime.UtcNow,
+                    };
 
-                await _unitOfWork.CommitTransactionAsync();
+                    await _unitOfWork.GithubConnectionStateRepo.Create(newState);
+                    await _unitOfWork.SaveChangesAsync();
+                    #endregion
 
-                result.StateToken = newState.StateToken;
-                result.GeneratedUrl = $"https://github.com/apps/collabsphere-ai-reviewer/installations/new?state={newState.StateToken}";
+                    await _unitOfWork.CommitTransactionAsync();
+
+                    result.StateToken = newState.StateToken;
+                    result.GeneratedUrl = urlBuilder(newState.StateToken);
+                }
+                // Return existing state
+                else
+                {
+                    result.StateToken = existedSate.StateToken;
+                    result.GeneratedUrl = urlBuilder(existedSate.StateToken);
+                }
+
+                //var config = GithubInstallationHelper.GetInstallationConfig();
+                //result.Jwt = GithubInstallationHelper.CreateJwt(config.appId, config.privateKey);
+
                 result.IsSuccess = true;
             }
             catch (Exception ex)
@@ -127,18 +149,7 @@ namespace CollabSphere.Application.Features.GithubConnectionStates.Commands.Gene
                 return;
             }
 
-            // Check if state is already created
-            var existedSate = await _unitOfWork.GithubConnectionStateRepo
-                .GetGithubConnectionState(team.TeamId, project.ProjectId);
-            if (existedSate != null)
-            {
-                errors.Add(new OperationError()
-                {
-                    Field = nameof(request.ProjectId),
-                    Message = $"Already have a connection state for project '{project.ProjectName}'({project.ProjectId}) of team '{team.TeamName}'{team.TeamName} ",
-                });
-                return;
-            }
+
         }
     }
 }

@@ -10,9 +10,9 @@ namespace CollabSphere.Application.Features.GithubConnectionStates.Commands.Gene
 {
     public class GenerateNewInstallationUrlCommand : ICommand<GenerateNewInstallationUrlResult>
     {
-        public int ProjectId { get; set; } = -1;
-
         public int TeamId { get; set; } = -1;
+
+        public int ProjectId { get; set; } = -1;
 
         public int UserId = -1;
 

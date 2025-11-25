@@ -9,6 +9,7 @@ namespace CollabSphere.Domain.Interfaces
 {
     public interface IGithubConnectionStateRepository : IGenericRepository<GithubConnectionState>
     {
-        Task<GithubConnectionState?> GetGithubConnectionState(int projectId, int teamId);
+        Task<GithubConnectionState?> GetByStateToken(string stateToken);
+        Task<GithubConnectionState?> GetGithubConnectionState(int projectId, int teamId, int userId);
     }
 }

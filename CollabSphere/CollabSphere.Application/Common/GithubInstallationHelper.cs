@@ -6,6 +6,8 @@ using System.Linq;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using static System.Net.WebRequestMethods;
 
@@ -15,28 +17,31 @@ namespace CollabSphere.Application.Common
     {
         public static string CreateJwt(string appId, string pemPrivateKey)
         {
-            using var rsa = RSA.Create();
+            RSA rsa = RSA.Create();
             rsa.ImportFromPem(pemPrivateKey);
+            var rsaParams = rsa.ExportParameters(true);
+            rsa.Dispose();
+
+            var key = RSA.Create();
+            key.ImportParameters(rsaParams);
 
             var signingCredentials = new SigningCredentials(
-                new RsaSecurityKey(rsa),
+                new RsaSecurityKey(key),
                 SecurityAlgorithms.RsaSha256
             );
+
             var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
             var payload = new JwtPayload
             {
-                { "iat", now },
-                { "exp", now + 9 * 60 }, // 9 minutes
+                { "iat", now - 60 }, // Issued at (trừ 60s để tránh lệch giờ server)
+                { "exp", now + 9 * 60 },
                 { "iss", appId }
             };
 
-            var token = new JwtSecurityToken(
-                new JwtHeader(signingCredentials),
-                payload
+            return new JwtSecurityTokenHandler().WriteToken(
+                new JwtSecurityToken(new JwtHeader(signingCredentials), payload)
             );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         public static (string appId, string privateKey) GetInstallationConfig()
@@ -62,26 +67,67 @@ namespace CollabSphere.Application.Common
             );
 
             req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-            req.Headers.UserAgent.ParseAdd("MyGitHubApp"); // Required by GitHub!
+            req.Headers.UserAgent.ParseAdd("collabsphere-ai-reviewer"); // Required by GitHub
 
             var res = await _http.SendAsync(req);
             res.EnsureSuccessStatusCode();
             return await res.Content.ReadAsStringAsync();
         }
 
-
-        public static async Task<HttpResponseMessage> GetInstallationsResponse(string jwt)
+        private static async Task<string> GetAccessTokenByInstallationId(long installationId, string jwt)
         {
-            var req = new HttpRequestMessage(
-                HttpMethod.Get,
-                "https://api.github.com/app/installations"
+            // Get the access token for installtionId
+            var accessTokenReq = new HttpRequestMessage(
+                HttpMethod.Post,
+                $"https://api.github.com/app/installations/{installationId}/access_tokens"
             );
 
-            req.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
-            req.Headers.UserAgent.ParseAdd("MyGitHubApp"); // Required by GitHub!
+            accessTokenReq.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
+            accessTokenReq.Headers.UserAgent.ParseAdd("MyGitHubApp"); // Required by GitHub
 
-            var res = await _http.SendAsync(req);
-            return res;
+            var accessTokenRes = await _http.SendAsync(accessTokenReq);
+            accessTokenRes.EnsureSuccessStatusCode();
+            var json = await accessTokenRes.Content.ReadAsStringAsync();
+            var obj = JsonSerializer.Deserialize<JsonElement>(json);
+            var token = obj.GetProperty("token").GetString() ?? "NOT FOUND";
+
+            return token;
+        }
+
+        public class GithubRepositoryModel
+        {
+            [JsonPropertyName("id")]
+            public long RepositoryId { get; set; }
+
+            [JsonPropertyName("full_name")]
+            public string FullName { get; set; } = null!;
+        }
+
+        public static async Task<List<GithubRepositoryModel>> GetRepositoresByInstallationId(long installationId, string jwt)
+        {
+            // Request for access token
+            var accessToken = await GetAccessTokenByInstallationId(installationId, jwt);
+
+            // Contruct get repositories request using access token
+            var reposRequest = new HttpRequestMessage(
+                HttpMethod.Get,
+                $"https://api.github.com/installation/repositories"
+            );
+
+            reposRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            reposRequest.Headers.UserAgent.ParseAdd("MyGitHubApp"); // Required by GitHub
+
+            // Send request & Get reponse
+            var reposResult = await _http.SendAsync(reposRequest);
+            reposResult.EnsureSuccessStatusCode();
+
+            // Deserialize Json response
+            var json = await reposResult.Content.ReadAsStringAsync();
+            var obj = JsonSerializer.Deserialize<JsonElement>(json);
+            var repositoriesJson = obj.GetProperty("repositories").ToString() ?? "";
+            var repositories = JsonSerializer.Deserialize<List<GithubRepositoryModel>>(repositoriesJson);
+
+            return repositories ?? new List<GithubRepositoryModel>();
         }
     }
 }

@@ -12,5 +12,7 @@ namespace CollabSphere.Application.Features.GithubConnectionStates.Commands.Gene
         public string StateToken { get; set; } = null!;
 
         public string GeneratedUrl { get; set; } = null!;
+
+        //public string Jwt { get; set; } = null!;
     }
 }
