@@ -34,6 +34,14 @@ namespace CollabSphere.Application.Features.Documents.Commands.DeleteDocumentRoo
                 #region Data Operations
                 var docRoom = (await _unitOfWork.DocRoomRepo.GetDocumentRoom(request.TeamId, request.RoomName))!;
 
+                // Document states of room
+                var docStates = await _unitOfWork.DocStateRepo.GetStatesByDocumentRoom(request.TeamId, request.RoomName);
+                foreach (var state in docStates)
+                {
+                    _unitOfWork.DocStateRepo.Delete(state);
+                }
+                await _unitOfWork.SaveChangesAsync();
+
                 _unitOfWork.DocRoomRepo.Delete(docRoom);
                 await _unitOfWork.SaveChangesAsync();
                 #endregion
@@ -96,7 +104,7 @@ namespace CollabSphere.Application.Features.Documents.Commands.DeleteDocumentRoo
                 }
             }
 
-            // Check if conversation exist
+            // Check if document exist
             var docRoom = await _unitOfWork.DocRoomRepo.GetDocumentRoom(request.TeamId, request.RoomName);
             if (docRoom == null)
             {
