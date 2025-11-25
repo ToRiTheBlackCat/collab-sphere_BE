@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Base;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,10 @@ namespace CollabSphere.Application.Features.GithubConnectionStates.Commands.MapR
 {
     public class MapReposFromInstallationCommand : ICommand<MapReposFromInstallationResult>
     {
+        [FromQuery(Name = "installation_id")]
         public long InstallationId { get; set; }
 
+        [FromQuery(Name = "state")]
         public string StateToken { get; set; } = null!;
-
-        public int UserId = -1;
-
-        public int UserRole = -1;
     }
 }
