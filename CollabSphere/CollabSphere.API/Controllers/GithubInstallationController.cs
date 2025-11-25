@@ -82,14 +82,9 @@ namespace CollabSphere.API.Controllers
         }
 
         // Roles: Student
-        [HttpPost("connection-callback")]
-        [Authorize(Roles = "5")]
+        [HttpGet("connection-callback")]
         public async Task<IActionResult> MapRepositoriesFromInstallation(MapReposFromInstallationCommand command, CancellationToken cancellationToken = default)
         {
-            var jwtUserInfo = this.GetCurrentUserInfo();
-            command.UserId = jwtUserInfo.UserId;
-            command.UserRole = jwtUserInfo.RoleId;
-
             // Handle command
             var result = await _mediator.Send(command, cancellationToken);
 
