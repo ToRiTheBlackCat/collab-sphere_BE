@@ -14,5 +14,7 @@ namespace CollabSphere.Domain.Interfaces
         Task<ProjectRepoMapping?> GetOneByTeamIdAndRepoId(int teamId, long repoId);
 
         Task<List<ProjectRepoMapping>> GetRepoMapsByTeam(int teamId);
+
+        Task<ProjectRepoMapping?> GetRepomappingByRepository(long repositoryId);
     }
 }

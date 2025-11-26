@@ -13,5 +13,7 @@ namespace CollabSphere.Application.Features.GithubConnectionStates.Commands.MapR
         public List<MappedProjectRepositoryVM> MappedRepositories { get; set; } = new List<MappedProjectRepositoryVM>();
 
         public List<MappedProjectRepositoryVM> SkippedRepositories { get; set; } = new List<MappedProjectRepositoryVM>();
+
+        public List<MappedProjectRepositoryVM> UnmappedRepositories { get; set; } = new List<MappedProjectRepositoryVM>();
     }
 }

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static CollabSphere.Application.Common.GithubInstallationHelper;
 using Task = System.Threading.Tasks.Task;
 
 namespace CollabSphere.Application.Features.GithubConnectionStates.Commands.MapReposFromInstallation
@@ -29,7 +30,8 @@ namespace CollabSphere.Application.Features.GithubConnectionStates.Commands.MapR
             {
                 IsSuccess = false,
                 IsValidInput = true,
-                Message = string.Empty
+                Message = string.Empty,
+                ErrorList = new List<OperationError>()
             };
 
             try
@@ -44,17 +46,56 @@ namespace CollabSphere.Application.Features.GithubConnectionStates.Commands.MapR
                 var configInfo = GithubInstallationHelper.GetInstallationConfig();
                 var jwt = GithubInstallationHelper.CreateJwt(configInfo.appId, configInfo.privateKey);
                 var gitRepos = await GithubInstallationHelper.GetRepositoresByInstallationId(request.InstallationId, jwt);
+                var gitRepositoryIds = gitRepos.Select(x => x.RepositoryId).ToHashSet();
 
-                // Get exising git repository mappings
+                // Get exising git repository mappings of Team
                 var existMaps = await _unitOfWork.ProjectRepoMappingRepo.GetRepoMapsByTeam(connectionState.TeamId);
-                var mappedRepoIds = existMaps.Select(x => x.RepositoryId).ToHashSet();
+                //var mappedRepoIds = existMaps.Select(x => x.RepositoryId).ToHashSet();
+
+                // Cancel request if any repository is connected by another team
+                var invalidRepos = new List<GithubRepositoryModel>();
+                foreach (var gRepo in gitRepos)
+                {
+                    var existedRepoMapp = await _unitOfWork.ProjectRepoMappingRepo.GetRepomappingByRepository(gRepo.RepositoryId);
+                    if (existedRepoMapp != null && existedRepoMapp.TeamId != connectionState.TeamId)
+                    {
+                        invalidRepos.Add(gRepo);
+                    }
+                }
+                if (invalidRepos.Any())
+                {
+                    var invalidRepoNames = invalidRepos.Select(x => x.FullName).ToList();
+                    result.ErrorList.Add(new OperationError()
+                    {
+                        Field = nameof(request.InstallationId),
+                        Message = $"These repositories are already installed by other teams: {string.Join(", ", invalidRepoNames)}",
+                    });
+
+                    result.IsValidInput = false;
+                    return result; 
+                }
 
                 // Contruct Mappings for found repositories
                 var currentTime = DateTime.UtcNow;
                 var createdMaps = new List<ProjectRepoMapping>();
                 var skippedMaps = new List<ProjectRepoMapping>();
+                var unmappedMaps = new List<ProjectRepoMapping>();
                 var createdCount = 0;
-                foreach(var repo in gitRepos)
+
+                // Delete removed repositoriy mappings
+                var removedMaps = existMaps.Where(x =>
+                    !gitRepositoryIds.Contains(x.RepositoryId) &&
+                    x.GithubInstallationId == request.InstallationId // Only remove repositories connected to the installation_id
+                );
+                foreach (var rmMap in removedMaps)
+                {
+                    _unitOfWork.ProjectRepoMappingRepo.Delete(rmMap);
+                }
+                unmappedMaps.AddRange(removedMaps);
+                await _unitOfWork.SaveChangesAsync();
+
+                // Map new repositories to DB
+                foreach (var repo in gitRepos)
                 {
                     // Check for existing mappings
                     var duplicatedMap = existMaps.FirstOrDefault(x => x.RepositoryId == repo.RepositoryId);
@@ -91,7 +132,8 @@ namespace CollabSphere.Application.Features.GithubConnectionStates.Commands.MapR
                 var team = (await _unitOfWork.TeamRepo.GetById(connectionState!.TeamId))!;
                 var project = (await _unitOfWork.ProjectRepo.GetById(connectionState!.ProjectId))!;
 
-                createdMaps = createdMaps.Select(map => {
+                createdMaps = createdMaps.Select(map =>
+                {
                     return new ProjectRepoMapping()
                     {
                         ProjectId = map.ProjectId,
@@ -109,6 +151,7 @@ namespace CollabSphere.Application.Features.GithubConnectionStates.Commands.MapR
 
                 result.MappedRepositories = createdMaps.ToViewModels();
                 result.SkippedRepositories = skippedMaps.ToViewModels();
+                result.UnmappedRepositories = unmappedMaps.ToViewModels();
                 result.Message = $"Connected {createdCount} repositorie(s) to project '{project.ProjectName}'{project.ProjectId} of team '{team.TeamName}'({team.TeamId}).";
                 result.IsSuccess = true;
             }

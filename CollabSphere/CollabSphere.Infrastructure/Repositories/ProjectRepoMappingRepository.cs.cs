@@ -72,5 +72,13 @@ namespace CollabSphere.Infrastructure.Repositories
 
             return repoMaps;
         }
+
+        public async Task<ProjectRepoMapping?> GetRepomappingByRepository(long repositoryId)
+        {
+            var repoMap = await _context.ProjectRepoMappings
+                .FirstOrDefaultAsync(x => x.RepositoryId == repositoryId);
+
+            return repoMap;
+        }
     }
 }
