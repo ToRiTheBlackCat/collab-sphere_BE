@@ -46,6 +46,7 @@ namespace CollabSphere.Application.Common
 
         public static (string appId, string privateKey) GetInstallationConfig()
         {
+            var test = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var appId = Environment.GetEnvironmentVariable("GITHUB_APP_ID");
             var privateKey = Environment.GetEnvironmentVariable("GITHUB_PRIVATE_KEY");
 

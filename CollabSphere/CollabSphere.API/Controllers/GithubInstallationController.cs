@@ -98,7 +98,8 @@ namespace CollabSphere.API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, result);
             }
 
-            return Ok(result);
+            var redirectUrl = Environment.GetEnvironmentVariable("GITHUB_CALLBACK_REDIRECT_URL");
+            return Redirect(redirectUrl ?? "http://localhost:5173/login");
         }
     }
 }
