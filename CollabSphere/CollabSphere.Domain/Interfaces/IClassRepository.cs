@@ -10,9 +10,9 @@ namespace CollabSphere.Domain.Intefaces
 {
     public interface IClassRepository : IGenericRepository<Class>
     {
-        Task<List<Class>> GetClassByLecturerId(int lecturerId, HashSet<int>? subjectIds = null, string className = "", int? semesterId = null, string orderby = "", bool descending = false);
-        Task<List<Class>> GetClassByStudentId(int studentId, HashSet<int>? subjectIds = null, string className = "", int? semesterId = null, string orderby = "", bool descending = false);
-        Task<List<Class>> SearchClasses(string className = "", int? semesterId = null, HashSet<int>? lecturerIds = null, HashSet<int>? subjectIds = null, string orderby = "", bool descending = false);
+        Task<List<Class>> GetClassByLecturerId(int lecturerId, HashSet<int>? subjectIds = null, string descriptor = "", int? semesterId = null, bool? isActive = null, string orderby = "", bool descending = false);
+        Task<List<Class>> GetClassByStudentId(int studentId, HashSet<int>? subjectIds = null, string descriptor = "", int? semesterId = null, bool? isActive = null, string orderby = "", bool descending = false);
+        Task<List<Class>> SearchClasses(string descriptor = "", int? semesterId = null, HashSet<int>? lecturerIds = null, HashSet<int>? subjectIds = null, bool? isActive = null, string orderby = "", bool descending = false);
         Task<Class?> GetClassDetail(int classId);
         Task<Class?> GetClassByIdAsync(int classId);
     }

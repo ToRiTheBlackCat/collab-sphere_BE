@@ -32,10 +32,11 @@ namespace CollabSphere.Application.Features.Classes.Queries.GetAllClasses
             try
             {
                 var classes = await _unitOfWork.ClassRepo.SearchClasses(
-                    className: request.ClassName,
+                    descriptor: request.Descriptor,
                     semesterId: request.SemesterId,
                     lecturerIds: request.LecturerIds,
                     subjectIds: request.SubjectIds,
+                    isActive: request.IsActive,
                     orderby: request.OrderBy,
                     descending: request.Descending);
 
