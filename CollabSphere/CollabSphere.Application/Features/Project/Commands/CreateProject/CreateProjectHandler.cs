@@ -30,13 +30,6 @@ namespace CollabSphere.Application.Features.Project.Commands.CreateProject
                 Message = string.Empty,
             };
 
-            //#region Place Holder Result
-            //result.IsSuccess = true;
-            //result.Message = "Project Created Successfully.";
-            //result.ProjectId = 2;
-            //return result;
-            //#endregion
-
             try
             {
                 await _uniUnitOfWork.BeginTransactionAsync();
@@ -68,14 +61,6 @@ namespace CollabSphere.Application.Features.Project.Commands.CreateProject
 
         protected override async Task ValidateRequest(List<OperationError> errors, CreateProjectCommand request)
         {
-            // Attribute Validation
-            var attributeErrors = ValidationHelper.ValidateObjectRecursive(request!);
-            if (attributeErrors.Any())
-            {
-                errors.AddRange(attributeErrors);
-                return;
-            }
-
             var projectDto = request.Project;
 
             // Check Requester's Lecturer ID
