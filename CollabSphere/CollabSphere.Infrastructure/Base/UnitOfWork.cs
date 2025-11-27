@@ -56,8 +56,8 @@ namespace CollabSphere.Infrastructure.Base
         public ICardAssignmentRepository CardAssignmentRepo { get; }
         public ITaskRepository TaskRepo { get; }
         public ISubTaskRepository SubTaskRepo { get; }
-
         public IPrAnalysisRepository PrAnalysisRepo { get; }
+        public ITeamWhiteboardRepository TeamWhiteboardRepo { get; }
         #endregion
 
         public UnitOfWork(collab_sphereContext context)
@@ -104,8 +104,8 @@ namespace CollabSphere.Infrastructure.Base
             CardAssignmentRepo = new CardAssignmentRepository(_context);
             TaskRepo = new TaskRepository(_context);
             SubTaskRepo = new SubTaskRepository(_context);
-
             PrAnalysisRepo = new PrAnalysisRepository(_context);
+            TeamWhiteboardRepo = new TeamWhiteboardRepository(_context);
             #endregion
         }
         

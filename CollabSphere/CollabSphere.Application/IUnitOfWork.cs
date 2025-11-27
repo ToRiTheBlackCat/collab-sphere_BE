@@ -51,6 +51,7 @@ namespace CollabSphere.Application
         ISubTaskRepository SubTaskRepo { get; }
         ICardAssignmentRepository CardAssignmentRepo { get; }
         IPrAnalysisRepository PrAnalysisRepo { get; }
+        ITeamWhiteboardRepository TeamWhiteboardRepo { get; }
         //More IRepo below
 
         Task BeginTransactionAsync();
