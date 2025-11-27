@@ -83,7 +83,7 @@ namespace CollabSphere.Infrastructure.Repositories
             return await selectedClass;
         }
 
-        public async Task<List<Class>> GetClassByStudentId(int studentId, HashSet<int>? subjectIds = null, string className = "", int? semesterId = null, string orderby = "", bool descending = false)
+        public async Task<List<Class>> GetClassByStudentId(int studentId, HashSet<int>? subjectIds = null, string descriptor = "", int? semesterId = null, bool? isActive = null, string orderby = "", bool descending = false)
         {
             var classesQuery = _context.ClassMembers
                 .AsNoTracking()
@@ -95,9 +95,6 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(x => x.Class)
                     .ThenInclude(x => x.Semester)
                 .Select(x => x.Class)
-                //.Include(x => x.Subject)
-                //.Include(x => x.Semester)
-                //.Include(x => x.Lecturer)
                 .AsQueryable();
 
             if (subjectIds != null && subjectIds.Any())
@@ -105,12 +102,12 @@ namespace CollabSphere.Infrastructure.Repositories
                 classesQuery = classesQuery.Where(x => subjectIds.Contains(x.SubjectId));
             }
 
-            var classes = FilterClasses(await classesQuery.ToListAsync(), className, semesterId, orderby, descending);
+            var classes = FilterClasses(await classesQuery.ToListAsync(), descriptor, semesterId, isActive, orderby, descending);
 
             return classes;
         }
 
-        public async Task<List<Class>> GetClassByLecturerId(int lecturerId, HashSet<int>? subjectIds = null, string className = "", int? semesterId = null, string orderby = "", bool descending = false)
+        public async Task<List<Class>> GetClassByLecturerId(int lecturerId, HashSet<int>? subjectIds = null, string descriptor = "", int? semesterId = null, bool? isActive = null, string orderby = "", bool descending = false)
         {
             var classesQuery = _context.Classes
                 .AsNoTracking()
@@ -126,12 +123,12 @@ namespace CollabSphere.Infrastructure.Repositories
                 classesQuery = classesQuery.Where(x => subjectIds.Contains(x.SubjectId));
             }
 
-            var classes = FilterClasses(await classesQuery.ToListAsync(), className, semesterId, orderby, descending);
+            var classes = FilterClasses(await classesQuery.ToListAsync(), descriptor, semesterId, isActive, orderby, descending);
 
             return classes;
         }
 
-        public async Task<List<Class>> SearchClasses(string className = "", int? semesterId = null, HashSet<int>? lecturerIds = null, HashSet<int>? subjectIds = null, string orderby = "", bool descending = false)
+        public async Task<List<Class>> SearchClasses(string descriptor = "", int? semesterId = null, HashSet<int>? lecturerIds = null, HashSet<int>? subjectIds = null, bool? isActive = null, string orderby = "", bool descending = false)
         {
             var classesQuery = _context.Classes
                 .Include(x => x.Subject)
@@ -149,16 +146,21 @@ namespace CollabSphere.Infrastructure.Repositories
                 classesQuery = classesQuery.Where(x => subjectIds.Contains(x.SubjectId));
             }
 
-            var classes = FilterClasses(await classesQuery.ToListAsync(), className, semesterId, orderby, descending);
+            var classes = FilterClasses(await classesQuery.ToListAsync(), descriptor, semesterId, isActive, orderby, descending);
 
             return classes;
         }
 
-        private List<Class> FilterClasses(IEnumerable<Class> classes, string className = "", int? semesterId = null, string orderby = "", bool descending = false)
+        private List<Class> FilterClasses(IEnumerable<Class> classes, string descriptor = "", int? semesterId = null, bool? isActive = null, string orderby = "", bool descending = false)
         {
             if (!classes.Any())
             {
                 return new List<Class>();
+            }
+
+            if (isActive.HasValue)
+            {
+                classes = classes.Where(x => x.IsActive == isActive);
             }
 
             if (semesterId.HasValue)
@@ -166,35 +168,38 @@ namespace CollabSphere.Infrastructure.Repositories
                 classes = classes.Where(x => x.SemesterId == semesterId.Value);
             }
 
-            if (!string.IsNullOrWhiteSpace(className))
+            if (!string.IsNullOrWhiteSpace(descriptor))
             {
                 // Keywords ranking
-                var keyWords = new HashSet<string>(className.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries));
-                classes = classes
+                //var nameKeywords = new HashSet<string>(className.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries));
+                var descriptorKeywords = new HashSet<string>(descriptor.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries));
+                var ranking = classes
                     .Select(cls =>
                     {
-                        var name = cls.ClassName.ToLower();
+                        var fullDescriptor = $"{cls.ClassName} {cls.Subject.SubjectName} {cls.Subject.SubjectCode} {cls.Semester.SemesterName} {cls.Semester.SemesterCode}".ToLower();
                         double weight = 0.0;
                         double wordOrderMultiplier = 1.0; // Later words has less weight
 
-                        foreach (var kw in keyWords)
+                        foreach (var kw in descriptorKeywords)
                         {
-                            if (name.Contains(kw))
+                            if (fullDescriptor.Contains(kw))
                             {
                                 // boost for earlier keywords
                                 weight += 4 * wordOrderMultiplier;
 
                                 // additional boost if starts with keyword
-                                if (name.StartsWith(kw))
-                                    weight += 2;
-
-                                // extra boost if exact match
-                                if (string.Equals(name, kw, StringComparison.OrdinalIgnoreCase))
-                                    weight += 5;
+                                if (fullDescriptor.StartsWith(kw))
+                                    weight += 2 * wordOrderMultiplier;
                             }
 
-                            wordOrderMultiplier = Math.Max(0.1, wordOrderMultiplier - 0.1);
+                            wordOrderMultiplier = Math.Max(0.05, wordOrderMultiplier - 0.05);
                         }
+
+                        // extra boost if exact match of name
+                        var name = cls.ClassName.ToLower();
+                        if (string.Equals(name, descriptor, StringComparison.OrdinalIgnoreCase))
+                            weight += 5;
+
                         return new
                         {
                             Class = cls,
@@ -203,8 +208,9 @@ namespace CollabSphere.Infrastructure.Repositories
                     })
                     .Where(x => x.Weight > 0)
                     .OrderByDescending(x => x.Weight)
-                    .Select(x => x.Class)
-                    .ToList();
+                        .ThenBy(x => x.Class.ClassName);
+
+                classes = ranking.Select(x => x.Class).ToList();
             }
 
             if (!string.IsNullOrWhiteSpace(orderby))
@@ -227,6 +233,7 @@ namespace CollabSphere.Infrastructure.Repositories
                     nameof(ClassVM.CreatedDate) => GroupAndOrder(source: classes, keySelector: x => x.CreatedDate, subSelector: x => x.ClassName, descending),
                     nameof(ClassVM.IsActive) => GroupAndOrder(source: classes, keySelector: x => x.IsActive, subSelector: x => x.ClassName, descending),
                     nameof(ClassVM.SemesterId) => GroupAndOrder(source: classes, keySelector: x => x.SemesterId, subSelector: x => x.ClassName, descending),
+                    nameof(ClassVM.SemesterName) => GroupAndOrder(source: classes, keySelector: x => x.Semester.SemesterName, subSelector: x => x.ClassName, descending),
                     _ => classes.OrderBy(x => 0),
                 };
 

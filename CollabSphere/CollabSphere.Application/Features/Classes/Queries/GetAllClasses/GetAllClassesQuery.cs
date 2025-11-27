@@ -12,7 +12,7 @@ namespace CollabSphere.Application.Features.Classes.Queries.GetAllClasses
     public class GetAllClassesQuery : PaginationQuery, IQuery<GetAllClassesResult>
     {
         [FromQuery]
-        public string ClassName { get; set; } = string.Empty;
+        public string Descriptor { get; set; } = string.Empty;
 
         [FromQuery]
         public int? SemesterId { get; set; }
@@ -24,7 +24,10 @@ namespace CollabSphere.Application.Features.Classes.Queries.GetAllClasses
         public HashSet<int>? LecturerIds { get; set; }
 
         [FromQuery]
-        public string OrderBy { get; set; } = nameof(Class.ClassName);
+        public bool? IsActive { get; set; }
+
+        [FromQuery]
+        public string OrderBy { get; set; } = string.Empty;
 
         [FromQuery]
         public bool Descending { get; set; } = false;
