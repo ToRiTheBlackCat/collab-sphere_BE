@@ -111,56 +111,56 @@ namespace CollabSphere.Application.Features.Project.Commands.CreateProject
             }
 
             // Check Objectives
-            DateOnly? lastObjectiveEnd = null; // Previous Objective's "Last Milestone" EndDate
-            for (int index = 0; index < request.Project.Objectives.Count; index++)
-            {
-                var objective = request.Project.Objectives[index];
-                var objectivePrefix = $"{nameof(projectDto.Objectives)}[{index}]";
+            //DateOnly? lastObjectiveEnd = null; // Previous Objective's "Last Milestone" EndDate
+            //for (int index = 0; index < request.Project.Objectives.Count; index++)
+            //{
+            //    var objective = request.Project.Objectives[index];
+            //    var objectivePrefix = $"{nameof(projectDto.Objectives)}[{index}]";
 
-                // Check First Milestone Start
-                if (objective.ObjectiveMilestones[0].StartDate < lastObjectiveEnd)
-                {
-                    errors.Add(new OperationError()
-                    {
-                        Field = $"{objectivePrefix}.{nameof(objective.ObjectiveMilestones)}[0]",
-                        Message = $"Objective's start date cannot be before the previous objective's last end date.",
-                    });
-                    return;
-                }
+            //    // Check First Milestone Start
+            //    if (objective.ObjectiveMilestones[0].StartDate < lastObjectiveEnd)
+            //    {
+            //        errors.Add(new OperationError()
+            //        {
+            //            Field = $"{objectivePrefix}.{nameof(objective.ObjectiveMilestones)}[0]",
+            //            Message = $"Objective's start date cannot be before the previous objective's last end date.",
+            //        });
+            //        return;
+            //    }
 
-                // Check Milestones
-                DateOnly? lastMilestoneEnd = null; // Previous Milestone EndDate
-                for (int mileIndex = 0; mileIndex < objective.ObjectiveMilestones.Count; mileIndex++)
-                {
-                    var milestone = objective.ObjectiveMilestones[mileIndex];
-                    var milestonePrefix = $"{objectivePrefix}.{nameof(objective.ObjectiveMilestones)}[{mileIndex}]";
+            //    // Check Milestones
+            //    DateOnly? lastMilestoneEnd = null; // Previous Milestone EndDate
+            //    for (int mileIndex = 0; mileIndex < objective.ObjectiveMilestones.Count; mileIndex++)
+            //    {
+            //        var milestone = objective.ObjectiveMilestones[mileIndex];
+            //        var milestonePrefix = $"{objectivePrefix}.{nameof(objective.ObjectiveMilestones)}[{mileIndex}]";
 
-                    // Check StartDate
-                    if (mileIndex != 0 && milestone.StartDate < lastMilestoneEnd)
-                    {
-                        errors.Add(new OperationError
-                        {
-                            Field = $"{milestonePrefix}.{nameof(milestone.StartDate)}",
-                            Message = "Milestone start date cannot be before the previous milestone’s end date."
-                        });
-                    }
+            //        // Check StartDate
+            //        if (mileIndex != 0 && milestone.StartDate < lastMilestoneEnd)
+            //        {
+            //            errors.Add(new OperationError
+            //            {
+            //                Field = $"{milestonePrefix}.{nameof(milestone.StartDate)}",
+            //                Message = "Milestone start date cannot be before the previous milestone’s end date."
+            //            });
+            //        }
 
-                    // Check EndDate
-                    if (milestone.EndDate < milestone.StartDate.AddDays(2))
-                    {
-                        errors.Add(new OperationError()
-                        {
-                            Field = $"{milestonePrefix}.{nameof(milestone.EndDate)}",
-                            Message = $"Milestone's EndDate must be atleast 2 days after StartDate.",
-                        });
-                        return;
-                    }
+            //        // Check EndDate
+            //        if (milestone.EndDate < milestone.StartDate.AddDays(2))
+            //        {
+            //            errors.Add(new OperationError()
+            //            {
+            //                Field = $"{milestonePrefix}.{nameof(milestone.EndDate)}",
+            //                Message = $"Milestone's EndDate must be atleast 2 days after StartDate.",
+            //            });
+            //            return;
+            //        }
 
-                    lastMilestoneEnd = milestone.EndDate;
-                }
+            //        lastMilestoneEnd = milestone.EndDate;
+            //    }
 
-                lastObjectiveEnd = objective.ObjectiveMilestones.Last().EndDate;
-            }
+            //    lastObjectiveEnd = objective.ObjectiveMilestones.Last().EndDate;
+            //}
 
             return;
         }

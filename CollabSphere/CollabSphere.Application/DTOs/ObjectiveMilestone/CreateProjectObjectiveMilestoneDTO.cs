@@ -13,7 +13,7 @@ namespace CollabSphere.Application.DTOs.ObjectiveMilestone
         public string Title { get; set; } = string.Empty;
 
         [Length(3, 450)]
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
 
         [Required]
         public DateOnly StartDate { get; set; }
