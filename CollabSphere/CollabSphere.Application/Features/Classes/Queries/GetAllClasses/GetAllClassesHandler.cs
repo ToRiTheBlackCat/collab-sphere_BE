@@ -56,9 +56,9 @@ namespace CollabSphere.Application.Features.Classes.Queries.GetAllClasses
             return result;
         }
 
-        protected override async Task ValidateRequest(List<OperationError> errors, GetAllClassesQuery request)
+        protected override Task ValidateRequest(List<OperationError> errors, GetAllClassesQuery request)
         {
-            return;
+            return Task.CompletedTask;
         }
     }
 }
