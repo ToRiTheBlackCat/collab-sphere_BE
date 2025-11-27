@@ -49,6 +49,18 @@ namespace CollabSphere.Application.Features.TeamWhiteboard.Queries.GetWhiteboard
                         await _unitOfWork.SaveChangesAsync();
                         await _unitOfWork.CommitTransactionAsync();
 
+                        //Create default page 
+                        var newPage = new WhiteboardPage
+                        {
+                            WhiteboardId = newWhiteboard.WhiteboardId,
+                            PageTitle = "Page1",
+                            CreatedAt = DateTime.UtcNow,
+                            IsActivate = true,
+                        };
+                        await _unitOfWork.WhiteboardPageRepo.Create(newPage);
+                        await _unitOfWork.SaveChangesAsync();
+                        await _unitOfWork.CommitTransactionAsync();
+
                         result.WhiteboardId = newWhiteboard.WhiteboardId;
                     }
                     else
