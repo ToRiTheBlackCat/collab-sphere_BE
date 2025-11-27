@@ -50,7 +50,7 @@ namespace CollabSphere.API.Middlewares
 
             var socket = await context.WebSockets.AcceptWebSocketAsync();
             var pageKey = pageId.ToString();
-            var whiteboardKey = whiteboardId.ToString(); // Store this key
+            var whiteboardKey = whiteboardId.ToString(); // SocketKey
 
             Console.WriteLine($"✅ {userName} (ID: {drawerId}) joined whiteboard '{whiteboardKey}', page '{pageKey}'");
        
@@ -217,14 +217,11 @@ namespace CollabSphere.API.Middlewares
                 .AsNoTracking()
                 .ToListAsync();
 
-            // ---- 1. Build a *real* object dictionary ----
             var added = new Dictionary<string, object>();
 
             foreach (var s in shapes)
             {
-                // Parse the stored JSON string → JsonElement (real object)
                 var parsed = JsonNode.Parse(s.JsonData);
-                // Convert to a plain .NET object (Dictionary<string,object>)
                 var obj = JsonSerializer.Deserialize<object>(parsed.ToJsonString());
                 added[s.ShapeId] = obj!;
             }
@@ -312,5 +309,4 @@ namespace CollabSphere.API.Middlewares
             }
         }
     }
-
 }
