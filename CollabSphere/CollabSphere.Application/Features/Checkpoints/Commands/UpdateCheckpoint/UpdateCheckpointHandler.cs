@@ -116,45 +116,33 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.UpdateCheckpoin
                 return;
             }
 
-            // Check start date
-            if (dto.StartDate.HasValue)
+            // StartDate must be before DueDate
+            if (dto.StartDate > dto.DueDate)
             {
-                // Check if is valid start date
-                if (dto.StartDate > dto.DueDate)
+                errors.Add(new OperationError()
                 {
-                    errors.Add(new OperationError()
-                    {
-                        Field = nameof(dto.StartDate),
-                        Message = $"StartDate can't be a date before DueDate: {dto.DueDate}"
-                    });
-                }
-
-                // Check if in range of milestone dates
-                if (dto.StartDate < teamMilestone.StartDate)
-                {
-                    errors.Add(new OperationError()
-                    {
-                        Field = nameof(dto.StartDate),
-                        Message = $"StartDate can't be a date before milestone's StartDate: {teamMilestone.StartDate}"
-                    });
-                }
+                    Field = nameof(dto.StartDate),
+                    Message = $"StartDate can't be a date after DueDate: {dto.DueDate}"
+                });
             }
 
-            // Check if DueDate is in range of milestone dates
+            // StartDate must be >= milestone StartDate
+            if (dto.StartDate < teamMilestone.StartDate)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(dto.StartDate),
+                    Message = $"StartDate can't be a date before milestone's StartDate: {teamMilestone.StartDate}"
+                });
+            }
+
+            // DueDate must be <= milestone EndDate
             if (dto.DueDate > teamMilestone.EndDate)
             {
                 errors.Add(new OperationError()
                 {
                     Field = nameof(dto.StartDate),
                     Message = $"DueDate can't be a date after milestone's EndDate: {teamMilestone.EndDate}"
-                });
-            }
-            else if (!dto.StartDate.HasValue && dto.DueDate < teamMilestone.StartDate)
-            {
-                errors.Add(new OperationError()
-                {
-                    Field = nameof(dto.StartDate),
-                    Message = $"DueDate can't be a date before milestone's StartDate: {teamMilestone.StartDate}"
                 });
             }
         }

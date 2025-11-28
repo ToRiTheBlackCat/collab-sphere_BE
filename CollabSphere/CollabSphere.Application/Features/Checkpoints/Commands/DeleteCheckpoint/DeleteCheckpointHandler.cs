@@ -62,6 +62,17 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.DeleteCheckpoin
                 var checkpoint = (await _unitOfWork.CheckpointRepo.GetById(request.CheckpointId))!;
                 _unitOfWork.CheckpointRepo.Delete(checkpoint);
                 await _unitOfWork.SaveChangesAsync();
+
+                // Also update milestone progress
+                var milestone = (await _unitOfWork.TeamMilestoneRepo.GetById(checkpoint.TeamMilestoneId))!;
+                var checkpointsOfMilestone = await _unitOfWork.CheckpointRepo.GetCheckpointsByMilestone(checkpoint.TeamMilestoneId);
+                if (checkpointsOfMilestone.Any())
+                {
+                    var doneCount = checkpointsOfMilestone.Count(x => x.Status == (int)CheckpointStatuses.DONE);
+                    milestone.Progress = (doneCount * 1.0f / checkpointsOfMilestone.Count) * 100.0f;
+                    _unitOfWork.TeamMilestoneRepo.Update(milestone);
+                    await _unitOfWork.SaveChangesAsync();
+                }
                 #endregion
 
                 await _unitOfWork.CommitTransactionAsync();

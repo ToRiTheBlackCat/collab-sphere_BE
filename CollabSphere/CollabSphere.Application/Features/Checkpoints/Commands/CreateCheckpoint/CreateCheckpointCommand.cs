@@ -15,18 +15,19 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CreateCheckpoin
         public int TeamMilestoneId { get; set; } = -1;
 
         [Required]
-        [StringLength(maximumLength: 150, MinimumLength = 3)]
-        public string Title { get; set; }
+        [Length(3, 150)]
+        public string Title { get; set; } = null!;
 
         [Required]
-        [StringLength(maximumLength: 500, MinimumLength = 3)]
-        public string Description { get; set; }
+        [Length(3, 500)]
+        public string Description { get; set; } = null!;
 
         [Required]
-        [StringLength(maximumLength: 50, MinimumLength = 3)]
-        public string Complexity { get; set; }
+        [Length(3, 50)]
+        public string Complexity { get; set; } = null!;
 
-        public DateOnly? StartDate { get; set; }
+        [Required]
+        public DateOnly StartDate { get; set; }
 
         [Required]
         public DateOnly DueDate { get; set; }

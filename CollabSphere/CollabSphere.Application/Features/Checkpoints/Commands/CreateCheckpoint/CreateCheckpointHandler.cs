@@ -48,6 +48,17 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CreateCheckpoin
                 };
                 await _unitOfWork.CheckpointRepo.Create(newCheckpoint);
                 await _unitOfWork.SaveChangesAsync();
+
+                // Also Update the milestone progress
+                var milestone = (await _unitOfWork.TeamMilestoneRepo.GetById(newCheckpoint.TeamMilestoneId))!;
+                var checkpointsOfMilestone = await _unitOfWork.CheckpointRepo.GetCheckpointsByMilestone(newCheckpoint.TeamMilestoneId);
+                if (checkpointsOfMilestone.Any())
+                {
+                    var doneCount = checkpointsOfMilestone.Count(x => x.Status == (int)CheckpointStatuses.DONE);
+                    milestone.Progress = (doneCount * 1.0f / checkpointsOfMilestone.Count) * 100.0f;
+                    _unitOfWork.TeamMilestoneRepo.Update(milestone);
+                    await _unitOfWork.SaveChangesAsync();
+                }
                 #endregion
 
                 await _unitOfWork.CommitTransactionAsync();
@@ -80,57 +91,58 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CreateCheckpoin
             }
 
             // Check if user is team member
-            var member = teamMilestone.Team.ClassMembers
-                .FirstOrDefault(x => x.StudentId == request.UserId);
-            if (member == null)
+            if (request.UserRole == RoleConstants.STUDENT)
+            {
+                var member = teamMilestone.Team.ClassMembers
+                    .FirstOrDefault(x => x.StudentId == request.UserId);
+                if (member == null)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = nameof(request.UserId),
+                        Message = $"You ({request.UserId}) are not a member of the team with ID: {teamMilestone.TeamId}"
+                    });
+                    return;
+                }
+            }
+            // Check if user is lecturer of class
+            else if (request.UserRole == RoleConstants.LECTURER && teamMilestone.Team.Class.LecturerId != request.UserId)
             {
                 errors.Add(new OperationError()
                 {
                     Field = nameof(request.UserId),
-                    Message = $"You ({request.UserId}) are not a member of the team with ID: {teamMilestone.TeamId}"
+                    Message = $"You ({request.UserId}) are not the assigned lecturer of the class with ID: {teamMilestone.Team.Class.ClassId}"
                 });
                 return;
             }
 
-            // Check start date
-            if (request.StartDate.HasValue)
+            // StartDate must be before DueDate
+            if (request.StartDate > request.DueDate)
             {
-                // Check if is valid start date
-                if (request.StartDate > request.DueDate)
+                errors.Add(new OperationError()
                 {
-                    errors.Add(new OperationError()
-                    {
-                        Field = nameof(request.StartDate),
-                        Message = $"StartDate can't be a date before DueDate: {request.DueDate}"
-                    });
-                }
-
-                // Check if in range of milestone dates
-                if (request.StartDate < teamMilestone.StartDate)
-                {
-                    errors.Add(new OperationError()
-                    {
-                        Field = nameof(request.StartDate),
-                        Message = $"StartDate can't be a date before milestone's StartDate: {teamMilestone.StartDate}"
-                    });
-                }
+                    Field = nameof(request.StartDate),
+                    Message = $"StartDate can't be a date before DueDate: {request.DueDate}"
+                });
             }
 
-            // Check if DueDate is in range of milestone dates
+            // StartDate must be >= milestone StartDate
+            if (request.StartDate < teamMilestone.StartDate)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.StartDate),
+                    Message = $"StartDate can't be a date before milestone's StartDate: {teamMilestone.StartDate}"
+                });
+            }
+
+            // DueDate must be <= milestone EndDate
             if (request.DueDate > teamMilestone.EndDate)
             {
                 errors.Add(new OperationError()
                 {
                     Field = nameof(request.StartDate),
                     Message = $"DueDate can't be a date after milestone's EndDate: {teamMilestone.EndDate}"
-                });
-            }
-            else if (!request.StartDate.HasValue && request.DueDate < teamMilestone.StartDate)
-            {
-                errors.Add(new OperationError()
-                {
-                    Field = nameof(request.StartDate),
-                    Message = $"DueDate can't be a date before milestone's StartDate: {teamMilestone.StartDate}"
                 });
             }
         }
