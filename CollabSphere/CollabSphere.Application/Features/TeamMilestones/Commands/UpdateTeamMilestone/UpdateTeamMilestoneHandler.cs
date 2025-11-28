@@ -33,12 +33,10 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMi
                 #region Data Operation
                 // Get milestone
                 var milestone = (await _unitOfWork.TeamMilestoneRepo.GetById(request.TeamMilestoneDto.TeamMilestoneId))!;
-                milestone.Team = null;
-                milestone.Checkpoints = null;
 
                 // Update milestone
                 milestone.StartDate = request.TeamMilestoneDto.StartDate;
-                milestone.StartDate = request.TeamMilestoneDto.EndDate;
+                milestone.EndDate = request.TeamMilestoneDto.EndDate;
 
                 // Update other fields if is not original milestone
                 if (!milestone.ObjectiveMilestoneId.HasValue)
