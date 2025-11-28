@@ -92,6 +92,16 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.DeleteCustom
                 });
                 return;
             }
+
+            if (milestone.ObjectiveMilestoneId.HasValue)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.TeamMilestoneId),
+                    Message = $"Can't delete an original milestone.",
+                });
+                return;
+            }
         }
     }
 }
