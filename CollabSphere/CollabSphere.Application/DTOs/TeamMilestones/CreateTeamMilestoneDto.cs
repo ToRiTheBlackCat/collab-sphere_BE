@@ -14,11 +14,10 @@ namespace CollabSphere.Application.DTOs.TeamMilestones
 
         [Length(3, 150)]
         [Required]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
-        [Length(3, 700)]
-        [Required]
-        public string Description { get; set; }
+        [Length(0, 700)]
+        public string? Description { get; set; } = string.Empty;
 
         [Required]
         public DateOnly StartDate { get; set; }
