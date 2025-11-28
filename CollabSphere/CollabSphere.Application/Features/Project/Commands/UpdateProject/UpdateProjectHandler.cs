@@ -75,7 +75,7 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
 
                     if (objectiveEntity == null)
                     {
-                        // Add new outcome
+                        // Add new objective
                         var newObjective = new Objective()
                         {
                             Description = objectiveDto.Description,
@@ -92,7 +92,7 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
                     }
                     else
                     {
-                        // Update existing outcome
+                        // Update existing objective
                         objectiveEntity.Description = objectiveDto.Description;
                         objectiveEntity.Priority = objectiveDto.Priority;
 
@@ -124,12 +124,12 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
         {
             // Remove milestones not in DTO
             var milestoneIds = milestoneDtos.Select(m => m.ObjectiveMilestoneId).ToHashSet();
-            var milestonesToDelte = objective.ObjectiveMilestones
+            var milestonesToDelete = objective.ObjectiveMilestones
                 .Where(m => !milestoneIds.Contains(m.ObjectiveMilestoneId))
                 .ToList();
-            foreach (var milestoneEntity in milestonesToDelte)
+            foreach (var milestoneEntity in milestonesToDelete)
             {
-                // Delete reference in objective object
+                // Also delete milestone reference in objective
                 objective.ObjectiveMilestones.Remove(milestoneEntity);
 
                 // Delete milestone in DB
@@ -140,7 +140,7 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
             // Add or Update Milestones
             foreach (var msDto in milestoneDtos)
             {
-                if (msDto.ObjectiveMilestoneId != 0)
+                if (msDto.ObjectiveMilestoneId.HasValue)
                 {
                     // Update existing milestone
                     var existMilestone = objective.ObjectiveMilestones.First(m => m.ObjectiveMilestoneId == msDto.ObjectiveMilestoneId);
@@ -230,7 +230,6 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
             var existObjectiveIds = project.Objectives.Select(x => x.ObjectiveId).ToHashSet();
 
             // Check Objectives
-            DateOnly? lastObjectiveEnd = null; // Previous Objective's "Last Milestone" EndDate
             for (int index = 0; index < request.Project.Objectives.Count; index++)
             {
                 var objectiveDto = request.Project.Objectives[index];
@@ -238,9 +237,9 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
                 HashSet<int>? existMilestoneIds = null;
 
                 // Check existing ObjectiveId
-                if (objectiveDto.ObjectiveId != 0)
+                if (objectiveDto.ObjectiveId.HasValue)
                 {
-                    if (!existObjectiveIds.Contains(objectiveDto.ObjectiveId))
+                    if (!existObjectiveIds.Contains(objectiveDto.ObjectiveId.Value))
                     {
                         errors.Add(new OperationError()
                         {
@@ -255,26 +254,14 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
                     existMilestoneIds = objectiveEntity.ObjectiveMilestones.Select(x => x.ObjectiveMilestoneId).ToHashSet();
                 }
 
-                // Check First Milestone Start
-                if (objectiveDto.ObjectiveMilestones[0].StartDate < lastObjectiveEnd)
-                {
-                    errors.Add(new OperationError()
-                    {
-                        Field = $"{objectivePrefix}.{nameof(objectiveDto.ObjectiveMilestones)}[0]",
-                        Message = $"Objective's start date cannot be before the previous objective's last end date.",
-                    });
-                    return;
-                }
-
                 // Check Milestones
-                DateOnly? lastMilestoneEnd = null; // Previous Milestone EndDate
                 for (int mileIndex = 0; mileIndex < objectiveDto.ObjectiveMilestones.Count; mileIndex++)
                 {
                     var milestoneDto = objectiveDto.ObjectiveMilestones[mileIndex];
                     string milestonePrefix = $"{objectivePrefix}.{nameof(objectiveDto.ObjectiveMilestones)}[{mileIndex}]";
 
                     // Check existing MilestoneId
-                    if (milestoneDto.ObjectiveMilestoneId != 0 && (existMilestoneIds == null || !existMilestoneIds.Contains(milestoneDto.ObjectiveMilestoneId)))
+                    if (milestoneDto.ObjectiveMilestoneId.HasValue && (existMilestoneIds == null || !existMilestoneIds.Contains(milestoneDto.ObjectiveMilestoneId.Value)))
                     {
                         errors.Add(new OperationError()
                         {
@@ -284,18 +271,8 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
                         return;
                     }
 
-                    // Check StartDate
-                    if (mileIndex != 0 && milestoneDto.StartDate < lastMilestoneEnd)
-                    {
-                        errors.Add(new OperationError
-                        {
-                            Field = $"{milestonePrefix}.{nameof(milestoneDto.StartDate)}",
-                            Message = "Milestone start date cannot be before the previous milestone’s end date."
-                        });
-                    }
-
-                    // Check EndDate
-                    if (milestoneDto.EndDate < milestoneDto.StartDate.AddDays(2))
+                    // Check StartDate & EndDate 
+                    if (milestoneDto.EndDate < milestoneDto.StartDate)
                     {
                         errors.Add(new OperationError()
                         {
@@ -304,11 +281,7 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
                         });
                         return;
                     }
-
-                    lastMilestoneEnd = milestoneDto.EndDate;
                 }
-
-                lastObjectiveEnd = objectiveDto.ObjectiveMilestones.Last().EndDate;
             }
         }
     }

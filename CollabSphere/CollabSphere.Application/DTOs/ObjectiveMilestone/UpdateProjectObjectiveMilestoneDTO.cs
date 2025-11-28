@@ -9,7 +9,7 @@ namespace CollabSphere.Application.DTOs.ObjectiveMilestone
 {
     public class UpdateProjectObjectiveMilestoneDTO
     {
-        public int ObjectiveMilestoneId { get; set; } // Create new if 0
+        public int? ObjectiveMilestoneId { get; set; } = 0; // Create new if 0
 
         [Length(3, 150)]
         public string Title { get; set; } = string.Empty;

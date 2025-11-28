@@ -10,7 +10,7 @@ namespace CollabSphere.Application.DTOs.Objective
 {
     public class UpdateProjectObjectiveDTO
     {
-        public int ObjectiveId { get; set; } // Create new if 0
+        public int? ObjectiveId { get; set; } = 0; // Create new if 0
 
         public string? Description { get; set; }
 
