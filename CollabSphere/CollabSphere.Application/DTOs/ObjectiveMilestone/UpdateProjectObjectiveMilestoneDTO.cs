@@ -11,27 +11,15 @@ namespace CollabSphere.Application.DTOs.ObjectiveMilestone
     {
         public int ObjectiveMilestoneId { get; set; } // Create new if 0
 
-        [Length(3, 100)]
+        [Length(3, 150)]
         public string Title { get; set; } = string.Empty;
 
-        [Length(3, 450)]
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
 
         [Required]
         public DateOnly StartDate { get; set; }
 
         [Required]
         public DateOnly EndDate { get; set; }
-
-        //public Domain.Entities.ObjectiveMilestone ToObjectiveMilestoneEntity()
-        //{
-        //    return new Domain.Entities.ObjectiveMilestone()
-        //    {
-        //        Title = this.Title,
-        //        Description = this.Description,
-        //        StartDate = this.StartDate,
-        //        EndDate = this.EndDate,
-        //    };
-        //}
     }
 }

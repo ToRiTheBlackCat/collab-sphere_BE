@@ -12,26 +12,13 @@ namespace CollabSphere.Application.DTOs.Objective
     {
         public int ObjectiveId { get; set; } // Create new if 0
 
-        [Required]
-        [Length(3, 450)]
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; }
 
         [Required]
-        [Length(3, 40)]
         public string Priority { get; set; } = string.Empty;
 
         [Required]
         [MinLength(1)]
         public List<UpdateProjectObjectiveMilestoneDTO> ObjectiveMilestones { get; set; } = new List<UpdateProjectObjectiveMilestoneDTO>();
-
-        //public Domain.Entities.Objective ToObjectiveEntity()
-        //{
-        //    return new Domain.Entities.Objective()
-        //    {
-        //        Description = this.Description,
-        //        Priority = this.Priority,
-        //        ObjectiveMilestones = this.ObjectiveMilestones.Select(x => x.ToObjectiveMilestoneEntity()).ToList(),
-        //    };
-        //}
     }
 }

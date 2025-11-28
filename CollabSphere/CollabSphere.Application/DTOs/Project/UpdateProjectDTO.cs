@@ -15,11 +15,10 @@ namespace CollabSphere.Application.DTOs.Project
         public int ProjectId { get; set; }
 
         [Required]
-        [Length(3, 200)]
+        [Length(0, 150)]
         public string ProjectName { get; set; } = string.Empty;
 
         [Required]
-        [Length(3, 500)]
         public string Description { get; set; } = string.Empty;
 
         [Required]
@@ -28,18 +27,5 @@ namespace CollabSphere.Application.DTOs.Project
         [Required]
         [MinLength(1)]
         public List<UpdateProjectObjectiveDTO> Objectives { get; set; } = new List<UpdateProjectObjectiveDTO>();
-
-        //public Domain.Entities.Project ToProjectEntity()
-        //{
-        //    return new Domain.Entities.Project()
-        //    {
-        //        ProjectName = this.ProjectName,
-        //        Description = this.Description,
-        //        LecturerId = this.LecturerId,
-        //        SubjectId = this.SubjectId,
-        //        Status = ProjectStatuses.PENDING,
-        //        Objectives = this.Objectives.Select(x => x.ToObjectiveEntity()).ToList(),
-        //    };
-        //}
     }
 }

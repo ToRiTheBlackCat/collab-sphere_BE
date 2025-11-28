@@ -10,14 +10,10 @@ namespace CollabSphere.Application.DTOs.Objective
 {
     public class CreateProjectObjectiveDTO
     {
-        //public int ObjectiveId { get; set; } // No Need: Create identity and Never exit before Project
-
         [Required]
-        [Length(3, 450)]
         public string Description { get; set; } = string.Empty;
 
         [Required]
-        [Length(3, 40)]
         public string Priority { get; set; } = string.Empty;
 
         [Required]
