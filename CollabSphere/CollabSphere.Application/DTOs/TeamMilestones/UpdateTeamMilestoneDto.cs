@@ -18,7 +18,7 @@ namespace CollabSphere.Application.DTOs.TeamMilestones
         [Length(3, 150)]
         public string? Title { get; set; }
 
-        [Length(3, 700)]
+        [Length(0, 700)]
         public string? Description { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMi
 {
     public class UpdateTeamMilestoneCommand : ICommand
     {
-        public UpdateTeamMilestoneDto TeamMilestoneDto { get; set; }
+        public UpdateTeamMilestoneDto TeamMilestoneDto { get; set; } = default!;
 
         public int UserId { get; set; } = -1;
 

@@ -10,7 +10,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.CreateCustom
 {
     public class CreateCustomTeamMilestoneCommand : ICommand<CreateCustomTeamMilestoneResult>
     {
-        public CreateTeamMilestoneDto MilestoneDto { get; set; }
+        public CreateTeamMilestoneDto MilestoneDto { get; set; } = default!;
 
         public int UserId { get; set; } = -1;
 
