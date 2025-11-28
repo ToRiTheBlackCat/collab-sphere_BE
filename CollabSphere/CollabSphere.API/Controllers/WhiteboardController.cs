@@ -1,9 +1,14 @@
-﻿using CollabSphere.Application.Features.TeamWhiteboard.Queries.GetWhiteboardByTeamId;
+﻿using CollabSphere.API.Middlewares;
+using CollabSphere.Application.Features;
+using CollabSphere.Application.Features.TeamWhiteboard.Queries.GetWhiteboardByTeamId;
 using CollabSphere.Application.Features.TeamWhiteboard.Queries.GetWhiteboardPages;
+using CollabSphere.Application.Features.TeamWhiteboard.Commands.CreatePage;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Text.Json;
+using CollabSphere.Domain.Entities;
 
 namespace CollabSphere.API.Controllers
 {
@@ -58,5 +63,36 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
+        [Authorize]
+        [HttpPost("{whiteboardId}/pages")]
+        public async Task<IActionResult> CreatePage(CreatePageCommand command)
+        {
+            if (!ModelState.IsValid)
+
+            {
+                return BadRequest(ModelState);
+            }
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+            command.UserId = int.Parse(UIdClaim.Value);
+            command.UserRole = int.Parse(roleClaim.Value);
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+            //Broadcast new page to connected users
+            await WhiteboardSocketHandlerMiddleware.BroadcastNewPageAsync(command.WhiteboardId, JsonSerializer.Deserialize<WhiteboardPage>(result.Message) ?? new());
+
+            return Ok(result);
+        }
     }
 }
