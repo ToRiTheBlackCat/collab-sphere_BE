@@ -1,6 +1,7 @@
 ﻿using CollabSphere.API.Middlewares;
 using CollabSphere.Application.Features;
 using CollabSphere.Application.Features.TeamWhiteboard.Commands.CreatePage;
+using CollabSphere.Application.Features.TeamWhiteboard.Commands.UpdatePageTitle;
 using CollabSphere.Application.Features.TeamWhiteboard.Queries.GetShapeOfPage;
 using CollabSphere.Application.Features.TeamWhiteboard.Queries.GetWhiteboardByTeamId;
 using CollabSphere.Application.Features.TeamWhiteboard.Queries.GetWhiteboardPages;
@@ -8,8 +9,10 @@ using CollabSphere.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Text.Json;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace CollabSphere.API.Controllers
 {
@@ -96,7 +99,6 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
-
         [HttpGet("/api/pages/{pageId}/shapes")]
         public async Task<IActionResult> GetShapeOfPage(GetShapeOfPageQuery query, CancellationToken cancellationToken = default)
         {
@@ -106,6 +108,34 @@ namespace CollabSphere.API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, result);
             }
+
+            return Ok(result);
+        }
+
+        [HttpPut("/api/pages/{pageId}")]
+        public async Task<IActionResult> UpdatePageTitle(UpdatePageTitleCommand command)
+        {
+            if (!ModelState.IsValid)
+
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            //Broadcast update page to connected users
+            var updatedPage = JsonSerializer.Deserialize<WhiteboardPage>(result.Message) ?? new();
+            await WhiteboardSocketHandlerMiddleware.BroadcastUpdatePageAsync(updatedPage.WhiteboardId ?? 0, updatedPage);
 
             return Ok(result);
         }
