@@ -141,7 +141,7 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("api/pages/{pageId}")]
+        [HttpDelete("/api/pages/{pageId}")]
         public async Task<IActionResult> DeletePage(DeletePageCommand command)
         {
             if (!ModelState.IsValid)
