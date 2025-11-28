@@ -10,6 +10,5 @@ namespace CollabSphere.Domain.Interfaces
     public interface IWhiteboardPageRepository : IGenericRepository<WhiteboardPage>
     {
         Task<List<WhiteboardPage>?> GetPagesOfWhiteboard(int whiteboardId);
-        Task<WhiteboardPage?> GetWithShape(int pageId);
     }
 }

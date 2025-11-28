@@ -1,14 +1,15 @@
 ﻿using CollabSphere.API.Middlewares;
 using CollabSphere.Application.Features;
+using CollabSphere.Application.Features.TeamWhiteboard.Commands.CreatePage;
+using CollabSphere.Application.Features.TeamWhiteboard.Queries.GetShapeOfPage;
 using CollabSphere.Application.Features.TeamWhiteboard.Queries.GetWhiteboardByTeamId;
 using CollabSphere.Application.Features.TeamWhiteboard.Queries.GetWhiteboardPages;
-using CollabSphere.Application.Features.TeamWhiteboard.Commands.CreatePage;
+using CollabSphere.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text.Json;
-using CollabSphere.Domain.Entities;
 
 namespace CollabSphere.API.Controllers
 {
@@ -91,6 +92,20 @@ namespace CollabSphere.API.Controllers
             }
             //Broadcast new page to connected users
             await WhiteboardSocketHandlerMiddleware.BroadcastNewPageAsync(command.WhiteboardId, JsonSerializer.Deserialize<WhiteboardPage>(result.Message) ?? new());
+
+            return Ok(result);
+        }
+
+
+        [HttpGet("/api/pages/{pageId}/shapes")]
+        public async Task<IActionResult> GetShapeOfPage(GetShapeOfPageQuery query, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
 
             return Ok(result);
         }

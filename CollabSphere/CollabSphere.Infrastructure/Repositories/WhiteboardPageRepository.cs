@@ -24,12 +24,5 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Where(x => x.WhiteboardId == whiteboardId)
                 .ToListAsync();
         }
-
-        public async Task<WhiteboardPage?> GetWithShape(int pageId)
-        {
-            return await _context.WhiteboardPages
-                .Include(x => x.Shapes)
-                .FirstOrDefaultAsync(x => x.PageId == pageId);
-        }
     }
 }
