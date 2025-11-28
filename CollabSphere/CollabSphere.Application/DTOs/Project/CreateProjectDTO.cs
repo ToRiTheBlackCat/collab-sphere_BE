@@ -13,11 +13,10 @@ namespace CollabSphere.Application.DTOs.Project
     public class CreateProjectDTO
     {
         [Required]
-        [Length(3, 200)]
+        [Length(3, 150)]
         public string ProjectName { get; set; } = string.Empty;
 
         [Required]
-        [Length(3, 500)]
         public string Description { get; set; } = string.Empty;
 
         [Required]

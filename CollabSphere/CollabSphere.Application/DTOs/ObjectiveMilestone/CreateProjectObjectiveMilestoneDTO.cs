@@ -9,7 +9,7 @@ namespace CollabSphere.Application.DTOs.ObjectiveMilestone
 {
     public class CreateProjectObjectiveMilestoneDTO
     {
-        [Length(3, 100)]
+        [Length(3, 150)]
         public string Title { get; set; } = string.Empty;
 
         public string? Description { get; set; }
