@@ -41,5 +41,14 @@ namespace CollabSphere.Infrastructure.Repositories
 
             return checkpoint;
         }
+
+        public async Task<List<Checkpoint>> GetCheckpointsByMilestone(int teamMilestoneId)
+        {
+            var checkpoints = await _context.Checkpoints
+                .Where(x => x.TeamMilestoneId == teamMilestoneId)
+                .ToListAsync();
+
+            return checkpoints;
+        }
     }
 }

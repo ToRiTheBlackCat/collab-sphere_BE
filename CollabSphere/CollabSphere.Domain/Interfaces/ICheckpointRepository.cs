@@ -11,5 +11,7 @@ namespace CollabSphere.Domain.Intefaces
     public interface ICheckpointRepository : IGenericRepository<Checkpoint>
     {
         Task<Checkpoint?> GetCheckpointDetail(int checkpontId);
+
+        Task<List<Checkpoint>> GetCheckpointsByMilestone(int teamMilestoneId);
     }
 }

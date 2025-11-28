@@ -118,6 +118,13 @@ namespace CollabSphere.Infrastructure.Repositories
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
 
+            if (result != null)
+            {
+                result.TeamMilestones = result.TeamMilestones
+                    .Where(x => x.Status != (int)TeamMilestoneStatuses.SOFT_DELETED)
+                    .ToList();
+            }
+
             return result;
         }
 
