@@ -1,6 +1,7 @@
 using Amazon.S3;
 using CloudinaryDotNet;
 using CollabSphere.API.Hubs;
+using CollabSphere.API.Middlewares;
 using CollabSphere.Application;
 using CollabSphere.Application.Common;
 using CollabSphere.Domain;
@@ -71,7 +72,8 @@ builder.Services.AddCors(options =>
             "http://127.0.0.1:5500", 
             "http://localhost:5173",
             "http://127.0.0.1:5173",
-            "http://52.221.106.143"
+            "http://52.221.106.143",
+            "https://collabsphere.space"
         )
         .AllowAnyHeader()
         .AllowAnyMethod()
@@ -195,12 +197,13 @@ builder.Services.AddAWSService<IAmazonS3>();
 #region Configure Hubs
 builder.Services.AddSignalR(options =>
 {
-    options.KeepAliveInterval = TimeSpan.FromSeconds(10);
-    options.ClientTimeoutInterval = TimeSpan.FromSeconds(20);
+    options.KeepAliveInterval = TimeSpan.FromSeconds(15);
+    options.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
     options.EnableDetailedErrors = true;
-    options.MaximumReceiveMessageSize = 2 * 1024 * 1024;
+    options.MaximumReceiveMessageSize = 10 * 1024 * 1024; // 10MB
 });
 #endregion
+
 #region Configure GoogleDrive-Storing Video
 builder.Services.Configure<GgDriveSettings>(
     builder.Configuration.GetSection("GoogleDrive"));
@@ -223,14 +226,17 @@ app.UseSwaggerUI(c =>
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAllOrigins");
+
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+
+app.UseWebSockets();
+app.UseMiddleware<WhiteboardSocketHandlerMiddleware>();
+app.MapControllers();
 //Hubs
 app.MapHub<KanbanHub>("/KanbanServiceHub");
-app.MapControllers();
-
 app.MapHub<YjsHub>("/yhub");
 app.MapHub<ChatHub>("/chathub");
 app.Run();

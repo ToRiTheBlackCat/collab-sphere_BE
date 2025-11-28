@@ -4,11 +4,13 @@ using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.TeamWorkspace;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Application.Features.Team.Queries.GetTeamDetail;
+using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 
 namespace CollabSphere.Application.Features.TeamWorkSpace.Queries.GetTeamWorkspaceByTeam
 {
@@ -35,7 +37,27 @@ namespace CollabSphere.Application.Features.TeamWorkSpace.Queries.GetTeamWorkspa
                 var foundWorkspace = await _unitOfWork.TeamWorkspaceRepo.GetOneByTeamId(request.TeamId);
                 if (foundWorkspace == null)
                 {
-                    result.Message = $"Cannot find any workspace with that ID: {request.TeamId}";
+                    var foundTeam = await _unitOfWork.TeamRepo.GetById(request.TeamId);
+                    //Create new for safety
+                    var newTeamWkSpace = new TeamWorkspace
+                    {
+                        TeamId = request.TeamId,
+                        Title = $"{foundTeam.TeamName}'s WorkSpace",
+                        CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow),
+                    };
+                    await _unitOfWork.TeamWorkspaceRepo.Create(newTeamWkSpace);
+                    await _unitOfWork.SaveChangesAsync();
+                    await _unitOfWork.CommitTransactionAsync();
+
+                    //Create response DTO
+                    var responseDto = new TeamWorkspaceDetailDto
+                    {
+                        WorkspaceId = newTeamWkSpace.WorkspaceId,
+                        TeamId = newTeamWkSpace.TeamId,
+                        Title = newTeamWkSpace.Title,
+                        CreatedAt = newTeamWkSpace.CreatedAt
+                    };
+                    result.TeamWorkspaceDetail = responseDto;
                 }
                 else
                 {
@@ -176,9 +198,9 @@ namespace CollabSphere.Application.Features.TeamWorkSpace.Queries.GetTeamWorkspa
                     #endregion
 
                     result.TeamWorkspaceDetail = responseDto;
-                    result.IsSuccess = true;
-                    result.Message = $"Get detail of Team Workspace with teamID: {request.TeamId} successfully";
                 }
+                result.IsSuccess = true;
+                result.Message = $"Get detail of Team Workspace with teamID: {request.TeamId} successfully";
             }
             catch (Exception ex)
             {
