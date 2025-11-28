@@ -10,7 +10,7 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.UpdateCheckpoin
 {
     public class UpdateCheckpointCommand : ICommand
     {
-        public UpdateCheckpointDto UpdateDto { get; set; }
+        public UpdateCheckpointDto UpdateDto { get; set; } = null!;
 
         public int UserId { get; set; } = -1;
 
