@@ -1,6 +1,7 @@
 ﻿using CollabSphere.API.Middlewares;
 using CollabSphere.Application.Features;
 using CollabSphere.Application.Features.TeamWhiteboard.Commands.CreatePage;
+using CollabSphere.Application.Features.TeamWhiteboard.Commands.DeletePage;
 using CollabSphere.Application.Features.TeamWhiteboard.Commands.UpdatePageTitle;
 using CollabSphere.Application.Features.TeamWhiteboard.Queries.GetShapeOfPage;
 using CollabSphere.Application.Features.TeamWhiteboard.Queries.GetWhiteboardByTeamId;
@@ -138,6 +139,34 @@ namespace CollabSphere.API.Controllers
             await WhiteboardSocketHandlerMiddleware.BroadcastUpdatePageAsync(updatedPage.WhiteboardId ?? 0, updatedPage);
 
             return Ok(result);
+        }
+
+        [HttpDelete("api/pages/{pageId}")]
+        public async Task<IActionResult> DeletePage(DeletePageCommand command)
+        {
+            if (!ModelState.IsValid)
+
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            //Broadcast update page to connected users
+            var dto = JsonSerializer.Deserialize<DeletePageHandler.DeletePageResponseDTO>(result.Message) ?? new();
+            await WhiteboardSocketHandlerMiddleware.BroadcastDeletePageAsync((int)dto.WhiteboardId, (int)dto.PageId);
+
+            return Ok(new { deletedPageId = dto.PageId });
         }
     }
 }
