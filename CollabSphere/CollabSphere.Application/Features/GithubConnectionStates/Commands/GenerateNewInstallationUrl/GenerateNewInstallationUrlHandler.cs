@@ -148,8 +148,6 @@ namespace CollabSphere.Application.Features.GithubConnectionStates.Commands.Gene
                 });
                 return;
             }
-
-
         }
     }
 }

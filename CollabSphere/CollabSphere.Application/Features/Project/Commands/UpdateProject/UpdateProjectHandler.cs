@@ -34,7 +34,7 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
             try
             {
                 var projectDto = request.Project;
-                var project = (await _uniUnitOfWork.ProjectRepo.GetById(projectDto.ProjectId))!;
+                var project = (await _uniUnitOfWork.ProjectRepo.GetProjectDetail(projectDto.ProjectId))!;
 
                 await _uniUnitOfWork.BeginTransactionAsync();
 
@@ -47,7 +47,7 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
                 project.UpdatedAt = DateTime.UtcNow;
                 project.UpdatedBy = request.UserId;
 
-                // 1. Remove objectives not in DTO
+                // 1. Remove objectives with ObjectiveId not in request DTO
                 var requestObjectiveIds = projectDto.Objectives.Select(x => x.ObjectiveId).ToHashSet();
                 var objectivesToDelete = project.Objectives
                     .Where(x => !requestObjectiveIds.Contains(x.ObjectiveId))
@@ -168,7 +168,7 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
             var projectDto = request.Project;
 
             // Check existing Project
-            var project = await _uniUnitOfWork.ProjectRepo.GetById(projectDto.ProjectId);
+            var project = await _uniUnitOfWork.ProjectRepo.GetProjectDetail(projectDto.ProjectId);
             if (project == null)
             {
                 errors.Add(new OperationError()

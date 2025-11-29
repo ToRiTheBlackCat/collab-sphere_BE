@@ -49,7 +49,7 @@ namespace CollabSphere.Infrastructure.Repositories
             return projects;
         }
 
-        public override async Task<Project?> GetById(int id)
+        public async Task<Project?> GetProjectDetail(int projectId)
         {
             var project = await _context.Projects
                 .AsNoTracking()
@@ -57,7 +57,7 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(x => x.Subject)
                 .Include(x => x.Objectives)
                     .ThenInclude(x => x.ObjectiveMilestones)
-                .FirstOrDefaultAsync(x => x.ProjectId == id);
+                .FirstOrDefaultAsync(x => x.ProjectId == projectId);
 
             if (project != null && project.Objectives.Any())
             {
