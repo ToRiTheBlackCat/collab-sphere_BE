@@ -96,7 +96,7 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                 var foundProjectAssign = newTeam.ProjectAssignment;
                 if (foundProjectAssign != null)
                 {
-                    var foundProject = await _unitOfWork.ProjectRepo.GetById(foundProjectAssign.ProjectId);
+                    var foundProject = await _unitOfWork.ProjectRepo.GetProjectDetail(foundProjectAssign.ProjectId);
                     if (foundProject != null)
                     {
                         //Find objective milestone

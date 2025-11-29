@@ -128,7 +128,7 @@ namespace CollabSphere.Application.Features.ProjectAssignments.Commands.AssignPr
             var invalidRemoval = classEntity.Teams
                 .Where(x => x.ProjectAssignmentId != null && !request.ProjectIds.Contains(x.ProjectAssignment.ProjectId))
                 .Select(x => x.ProjectAssignment.ProjectId)
-                .ToList();
+                .ToHashSet();
             if (invalidRemoval.Any())
             {
                 errors.Add(new OperationError()
@@ -163,7 +163,7 @@ namespace CollabSphere.Application.Features.ProjectAssignments.Commands.AssignPr
                         Message = $"No Project with ID: {projectId}",
                     });
                 }
-                // If project is approved
+                // Can only assign if the project status is "APPROVED"
                 else if (project.Status != (int)ProjectStatuses.APPROVED)
                 {
                     errors.Add(new OperationError()

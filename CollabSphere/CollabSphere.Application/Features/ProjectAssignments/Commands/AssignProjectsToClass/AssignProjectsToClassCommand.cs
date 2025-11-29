@@ -15,7 +15,6 @@ namespace CollabSphere.Application.Features.ProjectAssignments.Commands.AssignPr
 
         [FromBody]
         [Required]
-        [MinLength(1)]
         public HashSet<int> ProjectIds { get; set; } = new();
 
         public int UserId = -1;

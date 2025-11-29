@@ -31,7 +31,7 @@ namespace CollabSphere.Application.Features.Project.Queries.GetProjectById
 
             try
             {
-                var project = await _unitOfWork.ProjectRepo.GetById(request.ProjectId);
+                var project = await _unitOfWork.ProjectRepo.GetProjectDetail(request.ProjectId);
                 if (project != null)
                 {
                     result.Project = (ProjectVM)project;

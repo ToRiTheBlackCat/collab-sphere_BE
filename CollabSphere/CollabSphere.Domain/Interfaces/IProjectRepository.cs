@@ -10,5 +10,6 @@ namespace CollabSphere.Domain.Intefaces
 {
     public interface IProjectRepository : IGenericRepository<Project>
     {
+        Task<Project?> GetProjectDetail(int projectId);
     }
 }
