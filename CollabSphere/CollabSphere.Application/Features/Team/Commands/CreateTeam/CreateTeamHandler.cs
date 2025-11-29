@@ -301,6 +301,31 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                     });
                     return;
                 }
+
+                //find existed project assignment
+                var foundAssign = await _unitOfWork.ProjectAssignmentRepo.GetById(request.ProjectAssignmentId);
+                if (foundAssign == null)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = "ProjectAssignmentId",
+                        Message = $"Not found any project assignment with that {request.ProjectAssignmentId}"
+                    });
+                    return;
+                }
+                //Check if the project is assigned to that class
+                else
+                {
+                    if (foundAssign.ClassId != request.ClassId)
+                    {
+                        errors.Add(new OperationError()
+                        {
+                            Field = "ProjectAssignmentId",
+                            Message = $"Project Assignment with ID {request.ProjectAssignmentId} does not belong to Class {request.ClassId}"
+                        });
+                        return;
+                    }
+                }
             }
             else
             {

@@ -30,8 +30,8 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
         public int LeaderId { get; set; }
         [Required]
         public int ClassId { get; set; }
-
-        public int? ProjectAssignmentId { get; set; }
+        [Required]
+        public int ProjectAssignmentId { get; set; }
         [Required]
         public int LecturerId { get; set; }
 
