@@ -1,9 +1,11 @@
-﻿using CollabSphere.Application.DTOs.User;
+﻿using CollabSphere.Application.Common;
+using CollabSphere.Application.DTOs.User;
 using CollabSphere.Application.Features.Admin.Commands;
 using CollabSphere.Application.Features.Admin.Queries;
 using CollabSphere.Application.Features.User.Commands;
 using CollabSphere.Application.Features.User.Commands.SignUpHead_Staff;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading;
@@ -16,10 +18,12 @@ namespace CollabSphere.API.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly EmailService emailService;
 
-        public AdminController(IMediator mediator)
+        public AdminController(IMediator mediator, EmailService emailService)
         {
             _mediator = mediator;
+            this.emailService = emailService;
         }
 
         [HttpPost("user/head-department-staff")]
@@ -57,6 +61,20 @@ namespace CollabSphere.API.Controllers
 
             return Ok(result);
 
+        }
+
+        [Authorize(Roles = "1")]
+        [HttpGet("emails")]
+        public async Task<IActionResult> AdminGetEmails(AdminGetEmailsQuery query, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
         }
     }
 }
