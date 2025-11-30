@@ -1,9 +1,10 @@
-﻿using CollabSphere.Application.Features.Admin.Queries;
+﻿using CollabSphere.Application.Features.Admin.Queries.AdminGetEmails;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
 using Google.Apis.Drive.v3;
 using Google.Apis.Gmail.v1;
+using Google.Apis.Gmail.v1.Data;
 using Google.Apis.Services;
 using Microsoft.Extensions.Options;
 using System;
@@ -83,7 +84,7 @@ namespace CollabSphere.Application.Common
                 // Lưu ý: Có thể dùng BatchRequest để tối ưu tốc độ nếu lấy nhiều
                 foreach (var msgItem in listResponse.Messages)
                 {
-                    var emailDetail = await GetEmailDetailsAsync(msgItem.Id);
+                    var emailDetail = await GetEmailDetailsForListAsync(msgItem.Id);
                     if (emailDetail != null)
                     {
                         result.Add(emailDetail);
@@ -93,10 +94,10 @@ namespace CollabSphere.Application.Common
 
             return result;
         }
-        private async Task<EmailDto> GetEmailDetailsAsync(string messageId)
+        private async Task<EmailDto> GetEmailDetailsForListAsync(string messageId)
         {
             var request = _gmailService.Users.Messages.Get("me", messageId);
-            request.Format = UsersResource.MessagesResource.GetRequest.FormatEnum.Full;
+            request.Format = UsersResource.MessagesResource.GetRequest.FormatEnum.Metadata;
             // Dùng METADATA nhẹ hơn FULL nếu chỉ cần hiển thị danh sách
             // Nếu muốn lấy Body để đọc nội dung thì đổi thành FULL
 
@@ -125,7 +126,118 @@ namespace CollabSphere.Application.Common
 
             return dto;
         }
-    }
 
-   
+        public async Task<EmailDto?> GetEmailDetailsAsync(string messageId)
+        {
+            try
+            {
+                var request = _gmailService.Users.Messages.Get("me", messageId);
+                request.Format = UsersResource.MessagesResource.GetRequest.FormatEnum.Full;
+                // Dùng METADATA nhẹ hơn FULL nếu chỉ cần hiển thị danh sách
+                // Nếu muốn lấy Body để đọc nội dung thì đổi thành FULL
+
+                var messageResponse = await request.ExecuteAsync();
+                if (messageResponse == null) return null;
+
+                if (messageResponse.LabelIds != null && messageResponse.LabelIds.Contains("UNREAD"))
+                {
+                    var mods = new ModifyMessageRequest
+                    {
+                        RemoveLabelIds = new List<string> { "UNREAD" }
+                    };
+                    // Call modify to boost the performance
+                    _ = _gmailService.Users.Messages.Modify(mods, "me", messageId).ExecuteAsync();
+                }
+
+                var dto = new EmailDto
+                {
+                    Id = messageResponse.Id,
+                    ThreadId = messageResponse.ThreadId,
+                    Snippet = messageResponse.Snippet,
+                    IsRead = true // Kiểm tra nhãn UNREAD
+                };
+
+                // Header nằm trong Payload.Headers
+                if (messageResponse.Payload?.Headers != null)
+                {
+                    foreach (var header in messageResponse.Payload.Headers)
+                    {
+                        if (header.Name == "Subject") dto.Subject = header.Value;
+                        if (header.Name == "From") dto.From = header.Value;
+                        if (header.Name == "Date") dto.Date = header.Value;
+                    }
+                }
+                dto.Body = GetMessageBody(messageResponse.Payload);
+
+                return dto;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting email details: {ex.Message}");
+                return null;
+            }
+        }
+
+        private string GetMessageBody(MessagePart payload)
+        {
+            if (payload == null) return "";
+
+            string body = "";
+
+            // Trường hợp 1: Nội dung nằm ngay ở Body.Data (thường là mail đơn giản)
+            if (payload.Body != null && !string.IsNullOrEmpty(payload.Body.Data))
+            {
+                return DecodeBase64Url(payload.Body.Data);
+            }
+
+            // Trường hợp 2: Nội dung nằm trong các Parts (Multipart/Alternative)
+            if (payload.Parts != null && payload.Parts.Count > 0)
+            {
+                // Ưu tiên tìm part có mimeType là "text/html"
+                var htmlPart = payload.Parts.FirstOrDefault(p => p.MimeType == "text/html");
+                if (htmlPart != null)
+                {
+                    return GetMessageBody(htmlPart); // Đệ quy
+                }
+
+                // Nếu không có HTML, lấy "text/plain"
+                var textPart = payload.Parts.FirstOrDefault(p => p.MimeType == "text/plain");
+                if (textPart != null)
+                {
+                    return GetMessageBody(textPart); // Đệ quy
+                }
+
+                // Nếu vẫn lồng nhau tiếp (multipart/mixed), duyệt tiếp con của nó
+                foreach (var part in payload.Parts)
+                {
+                    if (part.Parts != null || part.Body?.Data != null)
+                    {
+                        return GetMessageBody(part);
+                    }
+                }
+            }
+
+            return body;
+        }
+
+        // Hàm giải mã Base64Url của Google sang UTF8 String
+        private string DecodeBase64Url(string base64Url)
+        {
+            try
+            {
+                string padded = base64Url.Replace("-", "+").Replace("_", "/");
+                switch (padded.Length % 4)
+                {
+                    case 2: padded += "=="; break;
+                    case 3: padded += "="; break;
+                }
+                byte[] data = Convert.FromBase64String(padded);
+                return Encoding.UTF8.GetString(data);
+            }
+            catch
+            {
+                return "Error decoding content.";
+            }
+        }
+    }
 }

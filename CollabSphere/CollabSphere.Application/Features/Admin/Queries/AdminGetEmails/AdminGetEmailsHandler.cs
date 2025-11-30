@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Admin.Queries
+namespace CollabSphere.Application.Features.Admin.Queries.AdminGetEmails
 {
     public class AdminGetEmailsHandler : QueryHandler<AdminGetEmailsQuery, AdminGetEmailsResult>
     {
@@ -31,7 +31,7 @@ namespace CollabSphere.Application.Features.Admin.Queries
             };
             try
             {
-                var emailList = await _emailService.GetRecentEmailsAsync(request.PageSize);
+                var emailList = await _emailService.GetRecentEmailsAsync(request.Count);
 
                 result.PaginatedEmails = new PagedList<EmailDto>(
                      list: emailList,

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Admin.Queries
+namespace CollabSphere.Application.Features.Admin.Queries.AdminGetEmails
 {
     public class AdminGetEmailsResult : QueryResult
     {
@@ -20,7 +20,8 @@ namespace CollabSphere.Application.Features.Admin.Queries
         public string? Subject { get; set; }
         public string? From { get; set; }
         public string? Date { get; set; }
-        public string? Snippet { get; set; } 
+        public string? Snippet { get; set; }
+        public string? Body { get; set; }
         public bool IsRead { get; set; }
     }
 }

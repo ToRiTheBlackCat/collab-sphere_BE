@@ -2,8 +2,11 @@
 using CollabSphere.Application.DTOs.User;
 using CollabSphere.Application.Features.Admin.Commands;
 using CollabSphere.Application.Features.Admin.Queries;
+using CollabSphere.Application.Features.Admin.Queries.AdminGetEmails;
+using CollabSphere.Application.Features.Admin.Queries.GetEmailDetail;
 using CollabSphere.Application.Features.User.Commands;
 using CollabSphere.Application.Features.User.Commands.SignUpHead_Staff;
+using Google.Apis.Gmail.v1;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -63,9 +66,23 @@ namespace CollabSphere.API.Controllers
 
         }
 
-        [Authorize(Roles = "1")]
+        //[Authorize(Roles = "1")]
         [HttpGet("emails")]
         public async Task<IActionResult> AdminGetEmails(AdminGetEmailsQuery query, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "1")]
+        [HttpGet("emails/{id}")]
+        public async Task<IActionResult> GetEmailDetail(GetEmailDetailQuery query, CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(query, cancellationToken);
 

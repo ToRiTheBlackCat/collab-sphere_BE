@@ -7,9 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.Admin.Queries
+namespace CollabSphere.Application.Features.Admin.Queries.AdminGetEmails
 {
     public class AdminGetEmailsQuery : PaginationQuery, IQuery<AdminGetEmailsResult>
     {
+        public int Count { get; set; }
     }
 }
