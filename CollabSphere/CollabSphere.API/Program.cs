@@ -69,7 +69,7 @@ builder.Services.AddCors(options =>
     {
         policy.WithOrigins(
             "http://localhost:5500",
-            "http://127.0.0.1:5500", 
+            "http://127.0.0.1:5500",
             "http://localhost:5173",
             "http://127.0.0.1:5173",
             "http://52.221.106.143",
@@ -204,11 +204,20 @@ builder.Services.AddSignalR(options =>
 });
 #endregion
 
-#region Configure GoogleDrive-Storing Video
+#region Configure Google Services
+#region Google Drive
 builder.Services.Configure<GgDriveSettings>(
     builder.Configuration.GetSection("GoogleDrive"));
 
 builder.Services.AddSingleton<GgDriveVideoService>();
+#endregion
+#region Gmail
+builder.Services.Configure<EmailSettings>(
+    builder.Configuration.GetSection("Gmail"));
+
+builder.Services.AddSingleton<EmailService>();
+#endregion
+
 #endregion
 
 

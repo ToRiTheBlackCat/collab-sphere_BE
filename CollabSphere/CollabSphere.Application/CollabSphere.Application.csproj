@@ -6,6 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Features\Git\**" />
+    <EmbeddedResource Remove="Features\Git\**" />
+    <None Remove="Features\Git\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="4.0.3.8" />
@@ -24,7 +30,6 @@
 
   <ItemGroup>
     <Folder Include="Features\MilestoneQues\Queries\" />
-    <Folder Include="Features\Git\" />
     <Folder Include="Features\VideoRecord\Queries\" />
   </ItemGroup>
 

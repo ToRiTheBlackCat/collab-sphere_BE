@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
@@ -303,5 +304,115 @@ namespace CollabSphere.Application.Common
             smtpClient.Send(mailMessage);
         }
 
+        public void SendSystemReport(string fromEmail, string title, string? contents, List<IFormFile>? Attachments)
+        {
+            var email = _configure["SMTPSettings:Email"] ?? "";
+            var password = _configure["SMTPSettings:AppPassword"] ?? "";
+
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(email, password),
+                EnableSsl = true,
+            };
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(email),
+                Subject = @$"⚠️⚠️⚠️ COLLAB-SPHERE | SYSTEM REPORTS ⚠️⚠️⚠️",
+                IsBodyHtml = true
+            };
+
+            mailMessage.To.Add(email);
+
+            var attachmentListHtml = ""; // Chuỗi HTML để liệt kê tên file trong body mail
+
+            if (Attachments != null && Attachments.Count > 0)
+            {
+                attachmentListHtml = "<div style='margin-top: 15px; padding: 10px; background: #fff; border: 1px solid #ddd; border-radius: 4px;'><strong>📎 ATTACHED FILES:</strong><ul style='margin: 5px 0 0 20px; padding: 0;'>";
+
+                foreach (var file in Attachments)
+                {
+                    if (file.Length > 0)
+                    {
+                        // BƯỚC 1: Copy file vào MemoryStream (RAM)
+                        var ms = new MemoryStream();
+                        file.CopyTo(ms);
+
+                        // BƯỚC 2: QUAN TRỌNG - Reset vị trí đọc về đầu (0)
+                        ms.Position = 0;
+
+                        // BƯỚC 3: Tạo Attachment từ MemoryStream
+                        // Lưu ý: Không dùng 'using' cho MemoryStream ở đây vì Attachment cần stream tồn tại đến khi hàm Send() chạy xong
+                        var attachment = new Attachment(ms, file.FileName, file.ContentType);
+                        mailMessage.Attachments.Add(attachment);
+
+                        // Thêm tên file vào danh sách hiển thị HTML
+                        attachmentListHtml += $"<li style='color: #555; font-size: 13px;'>{file.FileName} ({file.Length / 1024} KB)</li>";
+                    }
+                }
+                attachmentListHtml += "</ul></div>";
+            }
+            else
+            {
+                attachmentListHtml = "<div style='margin-top: 10px; font-size: 12px; color: #888;'><em>No files attached.</em></div>";
+            }
+
+            string htmlBody = $@"
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <style>
+            .alert-container {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 650px; margin: 0 auto; border: 2px solid #dc2626; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }}
+            .alert-header {{ background-color: #991b1b; padding: 25px; color: white; text-align: center; border-bottom: 4px solid #ef4444; }}
+            .alert-body {{ padding: 30px; background-color: #fff1f2; }}
+            .label {{ color: #7f1d1d; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: block; }}
+            .value {{ font-size: 15px; color: #111; margin-bottom: 20px; font-weight: 500; }}
+            .content-box {{ background-color: #ffffff; padding: 20px; border-left: 5px solid #dc2626; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }}
+            .footer {{ background-color: #fee2e2; padding: 15px; text-align: center; font-size: 12px; color: #b91c1c; border-top: 1px solid #fecaca; }}
+            .btn-action {{ display: inline-block; padding: 10px 20px; background-color: #dc2626; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 10px; }}
+        </style>
+    </head>
+    <body>
+        <div class='alert-container'>
+            <div class='alert-header'>
+                <h1 style='margin: 0; font-size: 28px; letter-spacing: 2px;'>⚠️ SYSTEM ALERT ⚠️</h1>
+            </div>
+            
+            <div class='alert-body'>
+                <span class='label'>REPORTER / NGƯỜI BÁO CÁO</span>
+                <div class='value' style='display: flex; align-items: center;'>
+                    <span style='background: #fee2e2; color: #991b1b; padding: 4px 8px; border-radius: 4px; font-weight: bold;'>{fromEmail}</span>
+                </div>
+
+                <span class='label'>ISSUE SUMMARY / TIÊU ĐỀ LỖI</span>
+                <div class='value' style='font-size: 18px; color: #dc2626; font-weight: bold;'>
+                    {title}
+                </div>
+
+                <hr style='border: 0; border-top: 1px dashed #fca5a5; margin: 20px 0;' />
+
+                <span class='label'>DETAILED DESCRIPTION / CHI TIẾT</span>
+                <div class='content-box'>
+                    {contents ?? "<em>No content provided.</em>"}
+                </div>
+                
+                <div style='text-align: center; margin-top: 30px;'>
+                    <a href='mailto:{fromEmail}' class='btn-action'>REPLY TO USER</a>
+                </div>
+            </div>
+
+            <div class='footer'>
+                <strong>⚡ ACTION REQUIRED</strong><br/>
+                This is a critical system notification. Please investigate immediately.<br/>
+                Attachments included: {(Attachments != null ? Attachments.Count : 0)} files.
+            </div>
+        </div>
+    </body>
+    </html>";
+            AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
+            mailMessage.AlternateViews.Add(avHtml);
+            smtpClient.Send(mailMessage);
+
+        }
     }
 }

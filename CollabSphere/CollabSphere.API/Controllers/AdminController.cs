@@ -1,11 +1,18 @@
-﻿using CollabSphere.Application.DTOs.User;
+﻿using CollabSphere.Application.Common;
+using CollabSphere.Application.DTOs.User;
 using CollabSphere.Application.Features.Admin.Commands;
+using CollabSphere.Application.Features.Admin.Commands.TrashEmail;
 using CollabSphere.Application.Features.Admin.Queries;
+using CollabSphere.Application.Features.Admin.Queries.AdminGetEmails;
+using CollabSphere.Application.Features.Admin.Queries.GetEmailDetail;
 using CollabSphere.Application.Features.User.Commands;
 using CollabSphere.Application.Features.User.Commands.SignUpHead_Staff;
+using Google.Apis.Gmail.v1;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -16,10 +23,12 @@ namespace CollabSphere.API.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly EmailService emailService;
 
-        public AdminController(IMediator mediator)
+        public AdminController(IMediator mediator, EmailService emailService)
         {
             _mediator = mediator;
+            this.emailService = emailService;
         }
 
         [HttpPost("user/head-department-staff")]
@@ -57,6 +66,59 @@ namespace CollabSphere.API.Controllers
 
             return Ok(result);
 
+        }
+
+        [Authorize(Roles = "1")]
+        [HttpGet("emails")]
+        public async Task<IActionResult> AdminGetEmails(AdminGetEmailsQuery query, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "1")]
+        [HttpGet("emails/{id}")]
+        public async Task<IActionResult> GetEmailDetail(GetEmailDetailQuery query, CancellationToken cancellationToken = default)
+        {
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "1")]
+        [HttpDelete("emails/{id}")]
+        public async Task<IActionResult> TrashEmail(TrashEmailCommand command)
+        {
+            if (!ModelState.IsValid)
+
+            {
+                return BadRequest(ModelState);
+            }
+           
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result);
         }
     }
 }

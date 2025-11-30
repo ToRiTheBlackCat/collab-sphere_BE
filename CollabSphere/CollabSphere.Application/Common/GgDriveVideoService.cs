@@ -16,7 +16,6 @@ namespace CollabSphere.Application.Common
 {
     public class GgDriveSettings
     {
-        // I added ApplicationName back. It's good practice.
         public string ApplicationName { get; set; } = string.Empty;
         public string ClientId { get; set; } = string.Empty;
         public string ClientSecret { get; set; } = string.Empty;
