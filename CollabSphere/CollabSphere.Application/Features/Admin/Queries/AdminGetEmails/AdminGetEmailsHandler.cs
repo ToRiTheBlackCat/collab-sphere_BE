@@ -12,12 +12,10 @@ namespace CollabSphere.Application.Features.Admin.Queries.AdminGetEmails
 {
     public class AdminGetEmailsHandler : QueryHandler<AdminGetEmailsQuery, AdminGetEmailsResult>
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly EmailService _emailService;
 
-        public AdminGetEmailsHandler(IUnitOfWork unitOfWork, EmailService emailService)
+        public AdminGetEmailsHandler(EmailService emailService)
         {
-            _unitOfWork = unitOfWork;
             _emailService = emailService;
         }
 

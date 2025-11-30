@@ -12,12 +12,10 @@ namespace CollabSphere.Application.Features.Admin.Queries.GetEmailDetail
 {
     public class GetEmailDetailHandler : QueryHandler<GetEmailDetailQuery, GetEmailDetailResult>
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly EmailService _emailService;
 
-        public GetEmailDetailHandler(IUnitOfWork unitOfWork, EmailService emailService)
+        public GetEmailDetailHandler( EmailService emailService)
         {
-            _unitOfWork = unitOfWork;
             _emailService = emailService;
         }
 

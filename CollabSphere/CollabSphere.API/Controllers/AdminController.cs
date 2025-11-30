@@ -1,6 +1,7 @@
 ﻿using CollabSphere.Application.Common;
 using CollabSphere.Application.DTOs.User;
 using CollabSphere.Application.Features.Admin.Commands;
+using CollabSphere.Application.Features.Admin.Commands.TrashEmail;
 using CollabSphere.Application.Features.Admin.Queries;
 using CollabSphere.Application.Features.Admin.Queries.AdminGetEmails;
 using CollabSphere.Application.Features.Admin.Queries.GetEmailDetail;
@@ -11,6 +12,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Threading;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -66,7 +68,7 @@ namespace CollabSphere.API.Controllers
 
         }
 
-        //[Authorize(Roles = "1")]
+        [Authorize(Roles = "1")]
         [HttpGet("emails")]
         public async Task<IActionResult> AdminGetEmails(AdminGetEmailsQuery query, CancellationToken cancellationToken = default)
         {
@@ -89,6 +91,31 @@ namespace CollabSphere.API.Controllers
             if (!result.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "1")]
+        [HttpDelete("emails/{id}")]
+        public async Task<IActionResult> TrashEmail(TrashEmailCommand command)
+        {
+            if (!ModelState.IsValid)
+
+            {
+                return BadRequest(ModelState);
+            }
+           
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
             }
 
             return Ok(result);

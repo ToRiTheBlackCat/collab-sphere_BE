@@ -239,5 +239,19 @@ namespace CollabSphere.Application.Common
                 return "Error decoding content.";
             }
         }
+
+        public async Task<bool> TrashEmailAsync(string messageId)
+        {
+            try
+            {
+                await _gmailService.Users.Messages.Trash("me", messageId).ExecuteAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi xóa email: {ex.Message}");
+                return false;
+            }
+        }
     }
 }
