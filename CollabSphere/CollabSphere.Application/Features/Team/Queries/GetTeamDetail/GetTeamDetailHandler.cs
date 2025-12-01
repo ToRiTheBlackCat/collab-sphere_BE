@@ -152,6 +152,11 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                     TotalCheckpoints = totalCheckpoints,
                     CheckpointsComplete = completedCheckpoints,
                 };
+
+                //Update Total progress of team
+                foundTeam.Progress = dto.TeamProgress.OverallProgress;
+                _unitOfWork.TeamRepo.Update(foundTeam);
+                await _unitOfWork.SaveChangesAsync();
                 #endregion
 
                 result.TeamDetail = dto;
