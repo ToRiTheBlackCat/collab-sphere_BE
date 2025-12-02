@@ -22,6 +22,8 @@ namespace CollabSphere.Application.Features.OTP.Commands
 
         private static string SUCCESS = "Send OTP successfully";
         private static string FAIL = "Send OTP fail";
+        private static string DUPLICATED = "Already existed account with that email. Try with other email";
+
         public SendOTPHandler(IUnitOfWork unitOfWork,
                               IConfiguration configure,
                               IMemoryCache cache,
@@ -44,6 +46,13 @@ namespace CollabSphere.Application.Features.OTP.Commands
         {
             try
             {
+                //Validate duplicated email
+                var foundUser = await _unitOfWork.UserRepo.GetOneByEmail(request.Email);
+                if (foundUser != null)
+                {
+                    return (false, DUPLICATED);
+                }
+
                 //Create OTP code and send to email
                 var optCode = _emailSender.SendOTPToEmail(request.Email);
                 if (optCode == null)

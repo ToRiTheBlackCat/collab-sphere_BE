@@ -162,7 +162,7 @@ namespace CollabSphere.Application.Features.User.Commands.UserUpdateProfile
                     await _unitOfWork.CommitTransactionAsync();
 
                     result.IsSuccess = true;
-                    result.Message = $"Update profile of user with ID: {request.UserId} sucessfully";
+                    result.Message = $"Update user profile sucessfully";
                     _logger.LogInformation($"Update profile of user with ID: {request.UserId} sucessfully");
                 }
                 #endregion

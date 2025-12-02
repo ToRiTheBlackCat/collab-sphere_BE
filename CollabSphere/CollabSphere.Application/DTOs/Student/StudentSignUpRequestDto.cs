@@ -15,8 +15,10 @@ namespace CollabSphere.Application.DTOs.Student
         [EmailAddress]
         public string Email { get; set; } = string.Empty;
         [Required]
+        [MinLength(5, ErrorMessage = "Password minimum length is 5")]
         public string Password { get; set; } = string.Empty;
         [Required]
+        [MinLength(5, ErrorMessage = "Confirm Password minimum length is 5")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; } = string.Empty;
         [Required]
