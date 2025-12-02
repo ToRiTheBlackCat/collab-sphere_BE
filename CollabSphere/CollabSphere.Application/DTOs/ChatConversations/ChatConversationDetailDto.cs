@@ -19,11 +19,11 @@ namespace CollabSphere.Application.DTOs.ChatConversations
     {
         public int ConversationId { get; set; }
 
-        public int TeamId { get; set; }
+        public int? TeamId { get; set; }
 
-        public string TeamName { get; set; }
+        public string TeamName { get; set; } = null!;
 
-        public string ConversationName { get; set; }
+        public string ConversationName { get; set; } = null!;
 
         public ChatConversationMessageVM? LatestMessage { get; set; }
 

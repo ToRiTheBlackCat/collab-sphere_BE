@@ -50,4 +50,6 @@ public partial class User
     public virtual Role Role { get; set; }
 
     public virtual Student Student { get; set; }
+
+    public virtual ICollection<ChatConversation> Conversations { get; set; } = new List<ChatConversation>();
 }

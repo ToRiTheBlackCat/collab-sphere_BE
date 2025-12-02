@@ -42,4 +42,6 @@ public partial class Class
     public virtual Subject Subject { get; set; }
 
     public virtual ICollection<Team> Teams { get; set; } = new List<Team>();
+
+    public virtual ICollection<ChatConversation> ChatConversations { get; set; } = new List<ChatConversation>();
 }

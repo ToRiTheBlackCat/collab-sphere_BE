@@ -206,19 +206,28 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.ConversationId)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("conversation_id");
+            entity.Property(e => e.ClassId).HasColumnName("class_id");
             entity.Property(e => e.ConversationName)
                 .HasMaxLength(100)
                 .HasColumnName("conversation_name");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("created_at");
-            entity.Property(e => e.LatestMessage).HasColumnName("latest_message");
+            entity.Property(e => e.LatestMessageId).HasColumnName("latest_message_id");
             entity.Property(e => e.TeamId).HasColumnName("team_id");
+
+            entity.HasOne(d => d.Class).WithMany(p => p.ChatConversations)
+                .HasForeignKey(d => d.ClassId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("chat_conversation_class_fk");
 
             entity.HasOne(d => d.Team).WithMany(p => p.ChatConversations)
                 .HasForeignKey(d => d.TeamId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("chat_conversation_team_fk");
+
+            entity.HasOne(d => d.LatestMessage).WithMany(p => p.ChatConversations)
+                .HasForeignKey(d => d.LatestMessageId)
+                .HasConstraintName("chat_conversation_chat_message_fk");
         });
 
         modelBuilder.Entity<ChatMessage>(entity =>
@@ -1508,6 +1517,25 @@ public partial class collab_sphereContext : DbContext
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("user_role_fk");
+
+            entity.HasMany(d => d.Conversations).WithMany(p => p.Users)
+                .UsingEntity<Dictionary<string, object>>(
+                    "ChatUser",
+                    r => r.HasOne<ChatConversation>().WithMany()
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("chat_user_chat_conversation_fk"),
+                    l => l.HasOne<User>().WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("chat_user_user_fk"),
+                    j =>
+                    {
+                        j.HasKey("UserId", "ConversationId").HasName("chat_user_pk");
+                        j.ToTable("chat_user");
+                        j.IndexerProperty<int>("UserId").HasColumnName("user_id");
+                        j.IndexerProperty<int>("ConversationId").HasColumnName("conversation_id");
+                    });
         });
 
         modelBuilder.Entity<WhiteboardPage>(entity =>
