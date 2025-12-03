@@ -30,19 +30,27 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(x => x.ChatMessages)
                     .ThenInclude(msg => msg.Sender)
                         .ThenInclude(sender => sender.Lecturer)
-                .Include(x => x.Team)
-                    .ThenInclude(team => team.ClassMembers)
-                        .ThenInclude(mem => mem.Student)
-                            .ThenInclude(stu => stu.StudentNavigation)
-                .Include(x => x.Team)
-                    .ThenInclude(team => team.Class)
-                        .ThenInclude(cls => cls.Lecturer)
-                            .ThenInclude(lec => lec.LecturerNavigation)
+                .Include(x => x.Users)
+                    .ThenInclude(user => user.Student)
+                        .ThenInclude(stu => stu.ClassMembers)
+                            .ThenInclude(member => member.Team)
+                .Include(x => x.Users)
+                    .ThenInclude(user => user.Lecturer)
+                //.Include(x => x.Team)
+                //    .ThenInclude(team => team.Class)
+                //        .ThenInclude(cls => cls.Lecturer)
+                //            .ThenInclude(lec => lec.LecturerNavigation)
                 .FirstOrDefaultAsync(x => x.ConversationId == conversationId);
 
             if (conversation != null)
             {
                 conversation.ChatMessages = conversation.ChatMessages.OrderBy(x => x.ConversationId).ToList();
+                
+                // Only get students' class member reference of the class
+                foreach (var user in conversation.Users.Where(x => !x.IsTeacher))
+                {
+                    user.Student.ClassMembers = user.Student.ClassMembers.Where(x => x.ClassId == conversation.ClassId).ToList();
+                }
             }
 
             return conversation;
@@ -51,30 +59,17 @@ namespace CollabSphere.Infrastructure.Repositories
 
         public async Task<List<ChatConversation>> SeachConversations(int userId, int? teamId)
         {
-            // Get teams that user is in
-            var userTeams = await _context.Teams
+            var conversations = await _context.ChatConversations
                 .AsNoTracking()
+                .Include(x => x.Users)
                 .Include(x => x.Class)
-                .Include(x => x.ClassMembers)
-                .Include(x => x.ChatConversations)
-                    .ThenInclude(x => x.ChatMessages)
-                        .ThenInclude(msg => msg.Sender)
-                            .ThenInclude(x => x.Lecturer)   
-                .Include(x => x.ChatConversations)
-                    .ThenInclude(x => x.ChatMessages)
-                        .ThenInclude(msg => msg.Sender)
-                            .ThenInclude(x => x.Student)
-                .Include(x => x.ChatConversations)
-                    .ThenInclude(x => x.ChatMessages)
-                        .ThenInclude(msg => msg.MessageRecipients)
-                .Where(x =>
-                    (!teamId.HasValue || x.TeamId == teamId.Value) &&
-                    (x.Class.LecturerId == userId || x.ClassMembers.Any(member => member.StudentId == userId))
+                .Include(x => x.Team)
+                .Include(x => x.ChatMessages)
+                .Where(x => 
+                    x.Users.Any(x => x.UId == userId) &&
+                    (teamId == null || x.TeamId == teamId)
                 )
                 .ToListAsync();
-
-            // Get conversations in each team
-            var conversations = userTeams.SelectMany(x => x.ChatConversations).ToList();
 
             return conversations;
         }

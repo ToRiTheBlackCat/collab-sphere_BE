@@ -14,6 +14,6 @@ namespace CollabSphere.Application.DTOs.ChatConversations
 
         [Required]
         [Length(3, 100)]
-        public string ConversationName { get; set; }
+        public string ConversationName { get; set; } = null!;
     }
 }

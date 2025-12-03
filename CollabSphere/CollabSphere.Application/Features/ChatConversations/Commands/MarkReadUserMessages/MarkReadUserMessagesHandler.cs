@@ -81,37 +81,49 @@ namespace CollabSphere.Application.Features.ChatConversations.Commands.MarkReadU
                 return;
             }
 
-            // Get team to validate requester
-            var team = (await _unitOfWork.TeamRepo.GetTeamDetail(chatConversation.TeamId))!;
-
-            // Requester is Lecturer
-            if (request.UserRole == RoleConstants.LECTURER)
+            // Only team members (or lecturer) can delete a team conversation
+            if (chatConversation.TeamId.HasValue)
             {
-                // Check if is class's assigned lecturer
-                if (request.UserId != team.Class.LecturerId)
+                // Get team to validate requester
+                var team = (await _unitOfWork.TeamRepo.GetTeamDetail(chatConversation.TeamId.Value))!;
+
+                // Requester is Lecturer
+                if (request.UserRole == RoleConstants.LECTURER)
                 {
-                    errors.Add(new OperationError()
+                    // Check if is class's assigned lecturer
+                    if (request.UserId != team.Class.LecturerId)
                     {
-                        Field = nameof(request.UserId),
-                        Message = $"You ({request.UserId}) are not the assigned lecturer of the class with ID '{team.Class.ClassId}'.",
-                    });
-                    return;
+                        errors.Add(new OperationError()
+                        {
+                            Field = nameof(request.UserId),
+                            Message = $"You ({request.UserId}) are not the assigned lecturer of the class with ID '{team.Class.ClassId}'.",
+                        });
+                    }
+                }
+                // Requester is Student
+                else if (request.UserRole == RoleConstants.STUDENT)
+                {
+                    // Check if is member of team
+                    var isTeamMember = team.ClassMembers.Any(x => x.StudentId == request.UserId);
+                    if (!isTeamMember)
+                    {
+                        errors.Add(new OperationError()
+                        {
+                            Field = nameof(request.UserId),
+                            Message = $"You ({request.UserId}) are not a member of the team with ID '{team.TeamId}'.",
+                        });
+                    }
                 }
             }
-            // Requester is Student
-            else if (request.UserRole == RoleConstants.STUDENT)
+            // Can not delete a class conversation
+            else
             {
-                // Check if is member of team
-                var isTeamMember = team.ClassMembers.Any(x => x.StudentId == request.UserId);
-                if (!isTeamMember)
+                errors.Add(new OperationError()
                 {
-                    errors.Add(new OperationError()
-                    {
-                        Field = nameof(request.UserId),
-                        Message = $"You ({request.UserId}) are not a member of the team with ID '{team.TeamId}'.",
-                    });
-                    return;
-                }
+                    Field = nameof(request.UserId),
+                    Message = $"Conversation '{chatConversation.ConversationName}'({chatConversation.ConversationId}) is a class conversation, which can not be deleted.",
+                });
+                return;
             }
         }
     }

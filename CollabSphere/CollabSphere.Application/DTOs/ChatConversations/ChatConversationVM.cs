@@ -14,6 +14,10 @@ namespace CollabSphere.Application.DTOs.ChatConversations
     {
         public int ConversationId { get; set; }
 
+        public int ClassId { get; set; }
+
+        public string ClassName { get; set; } = null!;
+
         public int? TeamId { get; set; }
 
         public string TeamName { get; set; } = null!;
@@ -57,12 +61,20 @@ namespace CollabSphere.Application.Mappings.ChatConversations
                 hasRead = unreadCount == 0;
             }
 
+            var teamName = "";
+            if (conversation.TeamId.HasValue)
+            {
+                teamName = conversation.Team?.TeamName ?? "NOT FOUND";
+            }
+
             return new ChatConversationVM()
             {
                 ConversationId = conversation.ConversationId,
                 ConversationName = conversation.ConversationName,
+                ClassId = conversation.ClassId,
+                ClassName = conversation.Class?.ClassName ?? "NOT FOUND",
                 TeamId = conversation.TeamId,
-                TeamName = conversation.Team?.TeamName ?? "NOT FOUND",
+                TeamName = teamName,
                 IsRead = hasRead,
                 UnreadCount = unreadCount,
                 CreatedAt = conversation.CreatedAt,

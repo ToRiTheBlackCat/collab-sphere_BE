@@ -1,6 +1,7 @@
 ﻿using CollabSphere.Application.Base;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Domain.Entities;
+using Google.Apis.Drive.v3.Data;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -65,10 +66,32 @@ namespace CollabSphere.Application.Features.Classes.Commands.CreateClass
                         IsGrouped = false,
                         Status = 1,
                     };
-                    
+
                     await _unitOfWork.ClassMemberRepo.Create(classMember);
-                    await _unitOfWork.SaveChangesAsync();
                 }
+                await _unitOfWork.SaveChangesAsync();
+
+                // Generate chat conversation for class (lecturer & students)
+                var lecUser = await _unitOfWork.UserRepo.GetOneByUserIdAsync(request.LecturerId);
+                var studentUsers = new List<Domain.Entities.User>();
+                foreach (var studentId in request.StudentIds)
+                {
+                    var stuUser = await _unitOfWork.UserRepo.GetOneByUserIdAsync(studentId);
+                    studentUsers.Add(stuUser!);
+                }
+
+                var chatUsers = new List<CollabSphere.Domain.Entities.User>() { lecUser! };
+                chatUsers.AddRange(studentUsers);
+                var chatConv = new ChatConversation()
+                {
+                    ClassId = addClass.ClassId,
+                    ConversationName = addClass.ClassName,
+                    TeamId = null,
+                    CreatedAt = DateTime.UtcNow,
+                    Users = chatUsers,
+                };
+                await _unitOfWork.ChatConversationRepo.Create(chatConv);
+                await _unitOfWork.SaveChangesAsync();
 
                 await _unitOfWork.CommitTransactionAsync();
 

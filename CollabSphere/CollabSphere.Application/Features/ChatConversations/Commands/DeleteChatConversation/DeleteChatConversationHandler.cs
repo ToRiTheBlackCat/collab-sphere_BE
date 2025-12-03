@@ -31,17 +31,14 @@ namespace CollabSphere.Application.Features.ChatConversations.Commands.DeleteCha
 
             try
             {
-
                 await _unitOfWork.BeginTransactionAsync();
 
                 #region Data operation
                 // Get chat conversation
                 var chatConversation = await _unitOfWork.ChatConversationRepo.GetById(request.ConversationId);
-                // Get team for result message
-                var team = await _unitOfWork.TeamRepo.GetById(chatConversation!.TeamId);
 
                 // Get chat messages in chat conversation
-                var messages = await _unitOfWork.ChatMessageRepo.GetChatConversationMessages(chatConversation.ConversationId);
+                var messages = await _unitOfWork.ChatMessageRepo.GetChatConversationMessages(chatConversation!.ConversationId);
                 foreach (var message in messages)
                 {
                     // Delete message recipient entities of each message
@@ -63,7 +60,7 @@ namespace CollabSphere.Application.Features.ChatConversations.Commands.DeleteCha
 
                 await _unitOfWork.CommitTransactionAsync();
 
-                result.Message = $"Deleted chat conversation '{chatConversation.ConversationName}'({chatConversation.ConversationId}) from team '{team!.TeamName}'({team.TeamId}).";
+                result.Message = $"Deleted chat conversation '{chatConversation.ConversationName}'({chatConversation.ConversationId}).";
                 result.IsSuccess = true;
             }
             catch (Exception ex)
@@ -89,36 +86,68 @@ namespace CollabSphere.Application.Features.ChatConversations.Commands.DeleteCha
                 return;
             }
 
-            // Get team to validate requester
-            var team = (await _unitOfWork.TeamRepo.GetTeamDetail(chatConversation.TeamId))!;
-
-            // Requester is Lecturer
-            if (request.UserRole == RoleConstants.LECTURER)
+            // Check if user is team member when is team chat
+            if (chatConversation.TeamId.HasValue)
             {
-                // Check if is class's assigned lecturer
-                if (request.UserId != team.Class.LecturerId)
+                // Get team to validate requester
+                var team = (await _unitOfWork.TeamRepo.GetTeamDetail(chatConversation.TeamId.Value))!;
+
+                // Requester is Lecturer
+                if (request.UserRole == RoleConstants.LECTURER)
+                {
+                    // Check if is class's assigned lecturer
+                    if (request.UserId != team.Class.LecturerId)
+                    {
+                        errors.Add(new OperationError()
+                        {
+                            Field = nameof(request.UserId),
+                            Message = $"You ({request.UserId}) are not the assigned lecturer of the class with ID '{team.Class.ClassId}'.",
+                        });
+                        return;
+                    }
+                }
+                // Requester is Student
+                else if (request.UserRole == RoleConstants.STUDENT)
+                {
+                    // Check if is member of team
+                    var isTeamMember = team.ClassMembers.Any(x => x.StudentId == request.UserId);
+                    if (!isTeamMember)
+                    {
+                        errors.Add(new OperationError()
+                        {
+                            Field = nameof(request.UserId),
+                            Message = $"You ({request.UserId}) are not a member of the team with ID '{team.TeamId}'.",
+                        });
+                        return;
+                    }
+                }
+            }
+            // Check is class member when is class chat
+            else
+            {
+                var classEntity = (await _unitOfWork.ClassRepo.GetClassDetail(chatConversation.ClassId))!;
+
+                if (request.UserRole == RoleConstants.LECTURER && request.UserId != classEntity.LecturerId)
                 {
                     errors.Add(new OperationError()
                     {
                         Field = nameof(request.UserId),
-                        Message = $"You ({request.UserId}) are not the assigned lecturer of the class with ID '{team.Class.ClassId}'.",
+                        Message = $"You ({request.UserId}) are not the assigned lecturer for class '{classEntity.ClassName}'({classEntity.ClassId}).",
                     });
                     return;
                 }
-            }
-            // Requester is Student
-            else if (request.UserRole == RoleConstants.STUDENT)
-            {
-                // Check if is member of team
-                var isTeamMember = team.ClassMembers.Any(x => x.StudentId == request.UserId);
-                if (!isTeamMember)
+                else if (request.UserRole == RoleConstants.STUDENT)
                 {
-                    errors.Add(new OperationError()
+                    var classMembers = classEntity.ClassMembers.Select(x => x.StudentId).ToHashSet();
+                    if (!classMembers.Contains(request.UserId))
                     {
-                        Field = nameof(request.UserId),
-                        Message = $"You ({request.UserId}) are not a member of the team with ID '{team.TeamId}'.",
-                    });
-                    return;
+                        errors.Add(new OperationError()
+                        {
+                            Field = nameof(request.UserId),
+                            Message = $"You ({request.UserId}) are not a member of class '{classEntity.ClassName}'({classEntity.ClassId}).",
+                        });
+                        return;
+                    }
                 }
             }
         }

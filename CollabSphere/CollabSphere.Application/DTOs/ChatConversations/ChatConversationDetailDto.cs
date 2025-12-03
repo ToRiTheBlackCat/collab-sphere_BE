@@ -12,12 +12,18 @@ using System.Threading.Tasks;
 using CollabSphere.Application.DTOs.ClassMembers;
 using CollabSphere.Application.DTOs.Lecturer;
 using CollabSphere.Application.Mappings.Lecturer;
+using static CollabSphere.Application.DTOs.ChatConversations.ChatConversationDetailDto;
+using CollabSphere.Application.Constants;
 
 namespace CollabSphere.Application.DTOs.ChatConversations
 {
-    public class ChatConversationDetailDto
+    public partial class ChatConversationDetailDto
     {
         public int ConversationId { get; set; }
+
+        public int ClassId { get; set; }
+
+        public string ClassName { get; set; } = null!;
 
         public int? TeamId { get; set; }
 
@@ -31,9 +37,38 @@ namespace CollabSphere.Application.DTOs.ChatConversations
 
         public List<ChatConversationMessageVM> ChatMessages { get; set; } = new List<ChatConversationMessageVM>();
 
-        public LecturerVM? Lecturer { get; set; }
+        public ChatUserDto? Lecturer { get; set; }
 
-        public List<ClassMemberVM> TeamMembers { get; set; } = new List<ClassMemberVM>();
+        public List<ChatUserDto> TeamMembers { get; set; } = new List<ChatUserDto>();
+
+        public string Type
+        {
+            get
+            {
+                if (this.TeamId.HasValue)
+                {
+                    return ConversationTypes.TEAM_CONVERSTAION.ToString();
+                }
+                else
+                {
+                    return ConversationTypes.CLASS_CONVESATION.ToString();
+                }
+            }
+        }
+    }
+
+    public partial class ChatConversationDetailDto
+    {
+        public class ChatUserDto
+        {
+            public int UserId { get; set; }
+
+            public string FullName { get; set; } = null!;
+
+            public string AvatarImg { get; set; } = null!;
+
+            public bool IsTeacher { get; set; }
+        }
     }
 }
 
@@ -41,6 +76,40 @@ namespace CollabSphere.Application.Mappings.ChatConversations
 {
     public static partial class ChatConversationMappings
     {
+        public static ChatUserDto ToChatUserDto(this CollabSphere.Domain.Entities.User user)
+        {
+            var avatarImg = "NOT_FOUND";
+            var fullName = "NOT_FOUND";
+            if (user.IsTeacher)
+            {
+                avatarImg = user.Lecturer.AvatarImg;
+                fullName = user.Lecturer.Fullname;
+            }
+            else
+            {
+                avatarImg = user.Student.AvatarImg;
+                fullName = user.Student.Fullname;
+            }
+
+            return new ChatUserDto()
+            {
+                UserId = user.UId,
+                IsTeacher = user.IsTeacher,
+                AvatarImg = avatarImg,
+                FullName = fullName,
+            };
+        }
+
+        public static List<ChatUserDto> ToChatUserDtos(this IEnumerable<CollabSphere.Domain.Entities.User> users)
+        {
+            if (users == null || !users.Any())
+            {
+                return new List<ChatUserDto>();
+            }
+
+            return users.Select(x => x.ToChatUserDto()).ToList();
+        }
+
         public static ChatConversationDetailDto ToDetailDto(this ChatConversation chatConversation)
         {
             // Get latest message
@@ -69,17 +138,25 @@ namespace CollabSphere.Application.Mappings.ChatConversations
                 readUserIds = readUserIds.Concat(chatMessage.MessageRecipients.Select(x => x.ReceiverId)).ToHashSet();
             }
 
+            var teamName = "";
+            if (chatConversation.TeamId.HasValue)
+            {
+                teamName = chatConversation.Team?.TeamName ?? "NOT FOUND";
+            }
+
             return new ChatConversationDetailDto()
             {
                 ConversationId = chatConversation.ConversationId,
                 ConversationName = chatConversation.ConversationName,
+                ClassId = chatConversation.ClassId,
+                ClassName = chatConversation.Class?.ClassName ?? "NOT FOUND",
                 TeamId = chatConversation.TeamId,
-                TeamName = chatConversation.Team?.TeamName ?? "NOT FOUND",
+                TeamName = teamName,
                 CreatedAt = chatConversation.CreatedAt,
                 LatestMessage = latestMessage?.ToChatConversatiobMessageVM(),
                 ChatMessages = chatConversation.ChatMessages.ToChatConversatiobMessageVMs(),
-                Lecturer = chatConversation.Team?.Class.Lecturer.ToViewModel() ?? null,
-                TeamMembers = chatConversation.Team?.ClassMembers.ToViewModel() ?? new List<ClassMemberVM>()
+                Lecturer = chatConversation.Users.SingleOrDefault(x => x.IsTeacher)?.ToChatUserDto(),
+                TeamMembers = chatConversation.Users.Where(x => !x.IsTeacher).ToChatUserDtos() ?? new List<ChatUserDto>()
             };
         }
     }
