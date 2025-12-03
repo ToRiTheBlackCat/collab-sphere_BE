@@ -65,7 +65,7 @@ namespace CollabSphere.Application.Features.ChatConversations.Queries.GetConvers
         protected override async Task ValidateRequest(List<OperationError> errors, GetConversationDetailsQuery request)
         {
             // Check conversation exist
-            var chatConversation = await _unitOfWork.ChatConversationRepo.GetById(request.ConversationId);
+            var chatConversation = await _unitOfWork.ChatConversationRepo.GetConversationDetail(request.ConversationId);
             if (chatConversation == null)
             {
                 errors.Add(new OperationError()

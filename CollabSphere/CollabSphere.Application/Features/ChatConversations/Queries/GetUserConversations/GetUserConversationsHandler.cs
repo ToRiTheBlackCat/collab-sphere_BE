@@ -31,7 +31,7 @@ namespace CollabSphere.Application.Features.ChatConversations.Queries.GetUserCon
 
             try
             {
-                var chatConversations = await _unitOfWork.ChatConversationRepo.SeachConversations(request.UserId, request.TeamId);
+                var chatConversations = await _unitOfWork.ChatConversationRepo.GetConversationsByUser(request.UserId, request.SemesterId, request.ClassId);
                 result.ChatConversations = chatConversations.ToViewModels(request.UserId);
 
                 result.IsSuccess = true;
@@ -46,16 +46,31 @@ namespace CollabSphere.Application.Features.ChatConversations.Queries.GetUserCon
 
         protected override async Task ValidateRequest(List<OperationError> errors, GetUserConversationsQuery request)
         {
-            if (request.TeamId.HasValue)
+            if (request.SemesterId.HasValue)
             {
-                // Check if team exist
-                var team = await _unitOfWork.TeamRepo.GetTeamDetail(request.TeamId.Value);
-                if (team == null)
+                // Check if semester
+                var semester = await _unitOfWork.SemesterRepo.GetById(request.SemesterId.Value);
+                if (semester == null)
                 {
                     errors.Add(new OperationError()
                     {
-                        Field = nameof(request.TeamId),
-                        Message = $"No team with ID '{request.TeamId}' found."
+                        Field = nameof(request.ClassId),
+                        Message = $"No Semester with ID '{request.SemesterId}' found."
+                    });
+                    return;
+                }
+            }
+
+            if (request.ClassId.HasValue)
+            {
+                // Check if team exist
+                var classEntity = await _unitOfWork.ClassRepo.GetClassDetail(request.ClassId.Value);
+                if (classEntity == null)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = nameof(request.ClassId),
+                        Message = $"No Class with ID '{request.ClassId}' found."
                     });
                     return;
                 }
@@ -64,12 +79,12 @@ namespace CollabSphere.Application.Features.ChatConversations.Queries.GetUserCon
                 if (request.UserRole == RoleConstants.LECTURER)
                 {
                     // Check if is class's assigned lecturer
-                    if (request.UserId != team.Class.LecturerId)
+                    if (request.UserId != classEntity.LecturerId)
                     {
                         errors.Add(new OperationError()
                         {
                             Field = nameof(request.UserId),
-                            Message = $"You ({request.UserId}) are not the assigned lecturer of the class with ID '{team.Class.ClassId}'.",
+                            Message = $"You ({request.UserId}) are not the assigned lecturer of the class with ID '{classEntity.ClassId}'.",
                         });
                         return;
                     }
@@ -78,13 +93,13 @@ namespace CollabSphere.Application.Features.ChatConversations.Queries.GetUserCon
                 else if (request.UserRole == RoleConstants.STUDENT)
                 {
                     // Check if is member of team
-                    var isTeamMember = team.ClassMembers.Any(x => x.StudentId == request.UserId);
+                    var isTeamMember = classEntity.ClassMembers.Any(x => x.StudentId == request.UserId);
                     if (!isTeamMember)
                     {
                         errors.Add(new OperationError()
                         {
                             Field = nameof(request.UserId),
-                            Message = $"You ({request.UserId}) are not a member of the team with ID '{team.TeamId}'.",
+                            Message = $"You ({request.UserId}) are not a member of the class with ID '{classEntity.ClassName}'({classEntity.ClassId}).",
                         });
                         return;
                     }

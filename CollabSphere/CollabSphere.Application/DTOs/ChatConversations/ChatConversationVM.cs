@@ -1,4 +1,5 @@
-﻿using CollabSphere.Application.DTOs.ChatConversations;
+﻿using CollabSphere.Application.Constants;
+using CollabSphere.Application.DTOs.ChatConversations;
 using CollabSphere.Application.DTOs.ChatMessages;
 using CollabSphere.Application.Mappings.ChatMessages;
 using CollabSphere.Domain.Entities;
@@ -14,6 +15,17 @@ namespace CollabSphere.Application.DTOs.ChatConversations
     {
         public int ConversationId { get; set; }
 
+        public string ConversationName { get; set; } = null!;
+
+        public string Type
+        {
+            get
+            {
+                var type = this.TeamId.HasValue ? ConversationTypes.TEAM_CONVERSTAION : ConversationTypes.CLASS_CONVESATION;
+                return type.ToString();
+            }
+        }
+
         public int ClassId { get; set; }
 
         public string ClassName { get; set; } = null!;
@@ -22,15 +34,21 @@ namespace CollabSphere.Application.DTOs.ChatConversations
 
         public string TeamName { get; set; } = null!;
 
-        public string ConversationName { get; set; } = null!;
+        public int SemesterId { get; set; }
+
+        public string SemesterName { get; set; } = null!;
+
+        public string SemesterCode { get; set; } = null!;
+
+        public DateTime CreatedAt { get; set; }
+
+        public int MessageCount { get; set; }
 
         public bool IsRead { get; set; }
 
         public int UnreadCount { get; set; }
 
         public ChatConversationMessageVM? LatestMessage { get; set; }
-
-        public DateTime CreatedAt { get; set; }
     }
 }
 
@@ -73,11 +91,15 @@ namespace CollabSphere.Application.Mappings.ChatConversations
                 ConversationName = conversation.ConversationName,
                 ClassId = conversation.ClassId,
                 ClassName = conversation.Class?.ClassName ?? "NOT FOUND",
+                SemesterId = conversation.Class?.SemesterId ?? -1,
+                SemesterName = conversation.Class?.Semester?.SemesterName ?? "NOT_FOUND",
+                SemesterCode = conversation.Class?.Semester?.SemesterCode ?? "NOT_FOUND",
                 TeamId = conversation.TeamId,
                 TeamName = teamName,
                 IsRead = hasRead,
                 UnreadCount = unreadCount,
                 CreatedAt = conversation.CreatedAt,
+                MessageCount = conversation.ChatMessages.Count,
                 LatestMessage = latestMessage?.ToChatConversatiobMessageVM(),
             };
         }

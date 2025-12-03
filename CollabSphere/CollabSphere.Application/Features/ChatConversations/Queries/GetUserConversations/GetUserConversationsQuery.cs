@@ -10,7 +10,9 @@ namespace CollabSphere.Application.Features.ChatConversations.Queries.GetUserCon
 {
     public class GetUserConversationsQuery : IQuery<GetUserConversationsResult>
     {
-        public int? TeamId { get; set; }
+        public int? SemesterId { get; set; }
+
+        public int? ClassId { get; set; }
 
         public int UserId = -1;
 

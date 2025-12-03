@@ -21,6 +21,17 @@ namespace CollabSphere.Application.DTOs.ChatConversations
     {
         public int ConversationId { get; set; }
 
+        public string ConversationName { get; set; } = null!;
+
+        public string Type
+        {
+            get
+            {
+                var type = this.TeamId.HasValue ? ConversationTypes.TEAM_CONVERSTAION : ConversationTypes.CLASS_CONVESATION;
+                return type.ToString();
+            }
+        }
+
         public int ClassId { get; set; }
 
         public string ClassName { get; set; } = null!;
@@ -29,32 +40,21 @@ namespace CollabSphere.Application.DTOs.ChatConversations
 
         public string TeamName { get; set; } = null!;
 
-        public string ConversationName { get; set; } = null!;
+        public int SemesterId { get; set; }
 
-        public ChatConversationMessageVM? LatestMessage { get; set; }
+        public string SemesterName { get; set; } = null!;
+
+        public string SemesterCode { get; set; } = null!;
 
         public DateTime CreatedAt { get; set; }
-
-        public List<ChatConversationMessageVM> ChatMessages { get; set; } = new List<ChatConversationMessageVM>();
 
         public ChatUserDto? Lecturer { get; set; }
 
         public List<ChatUserDto> TeamMembers { get; set; } = new List<ChatUserDto>();
 
-        public string Type
-        {
-            get
-            {
-                if (this.TeamId.HasValue)
-                {
-                    return ConversationTypes.TEAM_CONVERSTAION.ToString();
-                }
-                else
-                {
-                    return ConversationTypes.CLASS_CONVESATION.ToString();
-                }
-            }
-        }
+        public ChatConversationMessageVM? LatestMessage { get; set; }
+
+        public List<ChatConversationMessageVM> ChatMessages { get; set; } = new List<ChatConversationMessageVM>();
     }
 
     public partial class ChatConversationDetailDto
@@ -152,11 +152,14 @@ namespace CollabSphere.Application.Mappings.ChatConversations
                 ClassName = chatConversation.Class?.ClassName ?? "NOT FOUND",
                 TeamId = chatConversation.TeamId,
                 TeamName = teamName,
+                SemesterId = chatConversation.Class?.SemesterId ?? -1,
+                SemesterName = chatConversation.Class?.Semester?.SemesterName ?? "NOT_FOUND",
+                SemesterCode = chatConversation.Class?.Semester?.SemesterCode ?? "NOT_FOUND",
                 CreatedAt = chatConversation.CreatedAt,
+                Lecturer = chatConversation.Users.SingleOrDefault(x => x.IsTeacher)?.ToChatUserDto(),
+                TeamMembers = chatConversation.Users.Where(x => !x.IsTeacher).ToChatUserDtos() ?? new List<ChatUserDto>(),
                 LatestMessage = latestMessage?.ToChatConversatiobMessageVM(),
                 ChatMessages = chatConversation.ChatMessages.ToChatConversatiobMessageVMs(),
-                Lecturer = chatConversation.Users.SingleOrDefault(x => x.IsTeacher)?.ToChatUserDto(),
-                TeamMembers = chatConversation.Users.Where(x => !x.IsTeacher).ToChatUserDtos() ?? new List<ChatUserDto>()
             };
         }
     }

@@ -88,6 +88,26 @@ namespace CollabSphere.Application.Features.Classes.Commands.ImportClass
                         await _unitOfWork.ClassMemberRepo.Create(classMember);
                     }
                     await _unitOfWork.SaveChangesAsync();
+
+                    // Also create class conversation for lecturer & class students
+                    var lecturerUser = await _unitOfWork.UserRepo.GetOneByUserIdAsync(lecturer.LecturerId);
+                    var chatUsers = new List<CollabSphere.Domain.Entities.User>() { lecturerUser! };
+                    foreach(var student in students)
+                    {
+                        var studentUser = await _unitOfWork.UserRepo.GetOneByUserIdAsync(student.StudentId);
+                        chatUsers.Add(studentUser!);
+                    }
+
+                    var classConversation = new ChatConversation()
+                    {
+                        ConversationName = newClass.ClassName,
+                        ClassId = newClass.ClassId,
+                        CreatedAt = DateTime.UtcNow,
+                        TeamId = null,
+                        Users = chatUsers,
+                    };
+                    await _unitOfWork.ChatConversationRepo.Create(classConversation);
+                    await _unitOfWork.SaveChangesAsync();
                 }
                 #endregion
 
