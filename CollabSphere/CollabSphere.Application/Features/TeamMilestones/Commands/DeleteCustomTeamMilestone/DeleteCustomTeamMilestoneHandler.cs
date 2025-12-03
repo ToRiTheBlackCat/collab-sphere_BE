@@ -91,12 +91,24 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.DeleteCustom
                 return;
             }
 
+            // Can only delete milestones that aren't originally mapped from a project
             if (milestone.ObjectiveMilestoneId.HasValue)
             {
                 errors.Add(new OperationError()
                 {
                     Field = nameof(request.TeamMilestoneId),
-                    Message = $"Can't delete an original milestone.",
+                    Message = $"Can not delete an original milestone.",
+                });
+                return;
+            }
+
+            // Can not delete an milestone that is valuated
+            if (milestone.MilestoneEvaluation != null)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.TeamMilestoneId),
+                    Message = $"Can not delete a milestone that is already evaluated.",
                 });
                 return;
             }
