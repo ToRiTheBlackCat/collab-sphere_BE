@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CollabSphere.Domain.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Security.Cryptography;
+using Task = System.Threading.Tasks.Task;
 
 namespace CollabSphere.Application.Common
 {
@@ -413,6 +415,164 @@ namespace CollabSphere.Application.Common
             mailMessage.AlternateViews.Add(avHtml);
             smtpClient.Send(mailMessage);
 
+        }
+
+        public async Task SendNotiEmailsForCheckpoint(HashSet<string> receivers, Checkpoint? checkpoint)
+        {
+            var email = _configure["SMTPSettings:Email"] ?? "";
+            var password = _configure["SMTPSettings:AppPassword"] ?? "";
+
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(email, password),
+                EnableSsl = true,
+            };
+
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(email),
+                Subject = @$"🎯 COLLAB-SPHERE | Checkpoint Assigned: {checkpoint.Title}",
+                IsBodyHtml = true
+            };
+
+            foreach (var rec in receivers)
+            {
+                if (!string.IsNullOrWhiteSpace(rec))
+                    mailMessage.To.Add(rec);
+            }
+            var checkpointUrl = "https://collabsphere.space";
+
+            // Safe null handling
+            string desc = string.IsNullOrEmpty(checkpoint.Description) ? "No description provided." : checkpoint.Description;
+            string dateRange = $"{checkpoint.StartDate:MMM dd, yyyy} - {checkpoint.DueDate:MMM dd, yyyy}";
+
+            string htmlBody = $@"
+<html>
+  <head>
+    <style>
+      body {{
+        background-color: #f4f7fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+      }}
+      .container {{
+        width: 100%;
+        padding: 40px 0;
+        display: flex;
+        justify-content: center;
+      }}
+      .card {{
+        width: 600px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }}
+      .header {{
+        background: linear-gradient(135deg, #2b5876, #4e4376);
+        color: #ffffff;
+        text-align: center;
+        padding: 30px 20px;
+      }}
+      .header h2 {{
+        margin: 0;
+        font-size: 22px;
+        font-weight: 600;
+      }}
+      .content {{
+        padding: 30px 40px;
+        color: #333;
+      }}
+      .content p {{
+        margin: 8px 0;
+        line-height: 1.5;
+      }}
+      /* Matching the Meeting style box exactly */
+      .schedule-box {{
+        margin: 25px 0;
+        background-color: #f0f4f8;
+        border-left: 5px solid #4e4376;
+        padding: 15px 20px;
+        border-radius: 6px;
+      }}
+      .schedule-box p {{
+        margin: 5px 0;
+      }}
+      .btn {{
+        display: inline-block;
+        background-color: #4e4376;
+        color: white !important;
+        text-decoration: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        margin-top: 15px;
+        font-weight: 500;
+      }}
+      .btn:hover {{
+        background-color: #2b5876;
+      }}
+      .footer {{
+        background-color: #fafafa;
+        color: #888;
+        text-align: center;
+        font-size: 12px;
+        padding: 15px;
+      }}
+    </style>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='card'>
+        <div class='header'>
+          <h2>🎯 Checkpoint Assigned</h2>
+        </div>
+        <div class='content'>
+          <p>Hello Team Member,</p>
+          <p>a new checkpoint had been assigned to you. Please check the details below:</p>
+
+          <div class='schedule-box'>
+            <p><strong>📌 Checkpoint:</strong> {checkpoint.Title}</p>
+            <p><strong>⏳ Timeline:</strong> {dateRange}</p>
+            <p><strong>📝 Description:</strong> {desc}</p>
+          </div>
+
+          <div style='text-align: center;'>
+             <a href='{checkpointUrl}' class='btn'>👉 View Checkpoint Details</a>
+          </div>
+
+          <p style='margin-top: 30px; font-size: 13px; color: #777; text-align: center;'>
+            Please ensure all deliverables are uploaded before the deadline.
+          </p>
+        </div>
+        <div class='footer'>
+          © 2025 COLLABSPHERE. All rights reserved.
+        </div>
+      </div>
+    </div>
+  </body>
+</html>";
+
+            AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
+
+            string imagePath = Path.Combine("wwwroot", "images", "logo", "logo.jpg");
+            if (File.Exists(imagePath))
+            {
+                LinkedResource inlineLogo = new LinkedResource(imagePath, MediaTypeNames.Image.Jpeg)
+                {
+                    ContentId = "LogoImage",
+                    TransferEncoding = TransferEncoding.Base64
+                };
+                avHtml.LinkedResources.Add(inlineLogo);
+            }
+
+            mailMessage.AlternateViews.Add(avHtml);
+
+            if (mailMessage.To.Count > 0)
+            {
+                smtpClient.Send(mailMessage);
+            }
         }
     }
 }
