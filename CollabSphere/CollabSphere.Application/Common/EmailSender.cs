@@ -760,5 +760,175 @@ namespace CollabSphere.Application.Common
                 smtpClient.Send(mailMessage);
             }
         }
+
+        public async Task SendNotiEmailsForMileEva(HashSet<string> receivers, string teamName, string milestoneTitle, MilestoneEvaluation? milestoneEvaluation)
+        {
+            var email = _configure["SMTPSettings:Email"] ?? "";
+            var password = _configure["SMTPSettings:AppPassword"] ?? "";
+
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(email, password),
+                EnableSsl = true,
+            };
+
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(email),
+                Subject = @$"🏆 COLLAB-SPHERE | Milestone Evaluated: {milestoneTitle}",
+                IsBodyHtml = true
+            };
+
+            foreach (var rec in receivers)
+            {
+                if (!string.IsNullOrWhiteSpace(rec))
+                    mailMessage.To.Add(rec);
+            }
+
+            // Safe Data Handling
+            string scoreDisplay = milestoneEvaluation?.Score.HasValue == true
+                ? $"{milestoneEvaluation.Score.Value:0.##} / 10"
+                : "N/A";
+
+            string commentDisplay = string.IsNullOrWhiteSpace(milestoneEvaluation?.Comment)
+                ? "No specific comment provided."
+                : milestoneEvaluation.Comment;
+
+            // Standard Link
+            var dashboardUrl = "https://collabsphere.space";
+
+            string htmlBody = $@"
+<html>
+  <head>
+    <style>
+      body {{
+        background-color: #f4f7fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+      }}
+      .container {{
+        width: 100%;
+        padding: 40px 0;
+        display: flex;
+        justify-content: center;
+      }}
+      .card {{
+        width: 600px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }}
+      .header {{
+        /* Standard Blue/Purple Gradient */
+        background: linear-gradient(135deg, #2b5876, #4e4376);
+        color: #ffffff;
+        text-align: center;
+        padding: 30px 20px;
+      }}
+      .header h2 {{
+        margin: 0;
+        font-size: 22px;
+        font-weight: 600;
+      }}
+      .content {{
+        padding: 30px 40px;
+        color: #333;
+      }}
+      .content p {{
+        margin: 8px 0;
+        line-height: 1.5;
+      }}
+      /* The requested Meeting Style Box */
+      .schedule-box {{
+        margin: 25px 0;
+        background-color: #f0f4f8;
+        border-left: 5px solid #4e4376;
+        padding: 20px;
+        border-radius: 6px;
+      }}
+      .schedule-box p {{
+        margin: 8px 0;
+        font-size: 15px;
+      }}
+      .btn {{
+        display: inline-block;
+        background-color: #4e4376;
+        color: white !important;
+        text-decoration: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        margin-top: 15px;
+        font-weight: 500;
+      }}
+      .btn:hover {{
+        background-color: #2b5876;
+      }}
+      .footer {{
+        background-color: #fafafa;
+        color: #888;
+        text-align: center;
+        font-size: 12px;
+        padding: 15px;
+      }}
+    </style>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='card'>
+        <div class='header'>
+          <h2>🏆 Milestone Results Available</h2>
+        </div>
+        <div class='content'>
+          <p>Hello Team,</p>
+          <p>Your lecturer has graded the milestone <strong>{milestoneTitle}</strong> for team <strong>{teamName}</strong>. Please see the evaluation details below:</p>
+
+          <div class='schedule-box'>
+            <p><strong>👥 Team:</strong> {teamName}</p>
+            <p><strong>🏁 Milestone:</strong> {milestoneTitle}</p>
+            <p><strong>⭐ Score:</strong> <span style='font-weight:bold; color:#4e4376;'>{scoreDisplay}</span></p>
+            <p><strong>💬 Comment:</strong></p>
+            <p style='font-style: italic; color: #555; margin-left: 10px;'>""{commentDisplay}""</p>
+          </div>
+
+          <div style='text-align: center;'>
+             <a href='{dashboardUrl}' class='btn'>👉 View Full Report</a>
+          </div>
+
+          <p style='margin-top: 30px; font-size: 13px; color: #777; text-align: center;'>
+            Keep up the good work!
+          </p>
+        </div>
+        <div class='footer'>
+          © 2025 COLLABSPHERE. All rights reserved.
+        </div>
+      </div>
+    </div>
+  </body>
+</html>";
+
+            AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
+
+            // --- Logo Section ---
+            string imagePath = Path.Combine("wwwroot", "images", "logo", "logo.jpg");
+            if (File.Exists(imagePath))
+            {
+                LinkedResource inlineLogo = new LinkedResource(imagePath, MediaTypeNames.Image.Jpeg)
+                {
+                    ContentId = "LogoImage",
+                    TransferEncoding = TransferEncoding.Base64
+                };
+                avHtml.LinkedResources.Add(inlineLogo);
+            }
+
+            mailMessage.AlternateViews.Add(avHtml);
+
+            if (mailMessage.To.Count > 0)
+            {
+                smtpClient.Send(mailMessage);
+            }
+        }
     }
 }
