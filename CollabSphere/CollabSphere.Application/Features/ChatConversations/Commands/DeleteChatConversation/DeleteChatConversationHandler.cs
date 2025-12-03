@@ -86,69 +86,22 @@ namespace CollabSphere.Application.Features.ChatConversations.Commands.DeleteCha
                 return;
             }
 
-            // Check if user is team member when is team chat
-            if (chatConversation.TeamId.HasValue)
+            var isValidUser = chatConversation.Users.Any(x => x.UId == request.UserId);
+            if (!isValidUser)
             {
-                // Get team to validate requester
-                var team = (await _unitOfWork.TeamRepo.GetTeamDetail(chatConversation.TeamId.Value))!;
+                var conversationUsersStrings = chatConversation.Users.Select(x =>
+                {
+                    var fullName = x.IsTeacher ? x.Lecturer.Fullname : x.Student.Fullname;
+                    var roleString = x.IsTeacher ? " (Lecturer)" : string.Empty;
+                    return $"{fullName}({x.UId}){roleString}";
+                });
 
-                // Requester is Lecturer
-                if (request.UserRole == RoleConstants.LECTURER)
+                errors.Add(new OperationError()
                 {
-                    // Check if is class's assigned lecturer
-                    if (request.UserId != team.Class.LecturerId)
-                    {
-                        errors.Add(new OperationError()
-                        {
-                            Field = nameof(request.UserId),
-                            Message = $"You ({request.UserId}) are not the assigned lecturer of the class with ID '{team.Class.ClassId}'.",
-                        });
-                        return;
-                    }
-                }
-                // Requester is Student
-                else if (request.UserRole == RoleConstants.STUDENT)
-                {
-                    // Check if is member of team
-                    var isTeamMember = team.ClassMembers.Any(x => x.StudentId == request.UserId);
-                    if (!isTeamMember)
-                    {
-                        errors.Add(new OperationError()
-                        {
-                            Field = nameof(request.UserId),
-                            Message = $"You ({request.UserId}) are not a member of the team with ID '{team.TeamId}'.",
-                        });
-                        return;
-                    }
-                }
-            }
-            // Check is class member when is class chat
-            else
-            {
-                var classEntity = (await _unitOfWork.ClassRepo.GetClassDetail(chatConversation.ClassId))!;
-
-                if (request.UserRole == RoleConstants.LECTURER && request.UserId != classEntity.LecturerId)
-                {
-                    errors.Add(new OperationError()
-                    {
-                        Field = nameof(request.UserId),
-                        Message = $"You ({request.UserId}) are not the assigned lecturer for class '{classEntity.ClassName}'({classEntity.ClassId}).",
-                    });
-                    return;
-                }
-                else if (request.UserRole == RoleConstants.STUDENT)
-                {
-                    var classMembers = classEntity.ClassMembers.Select(x => x.StudentId).ToHashSet();
-                    if (!classMembers.Contains(request.UserId))
-                    {
-                        errors.Add(new OperationError()
-                        {
-                            Field = nameof(request.UserId),
-                            Message = $"You ({request.UserId}) are not a member of class '{classEntity.ClassName}'({classEntity.ClassId}).",
-                        });
-                        return;
-                    }
-                }
+                    Field = nameof(request.ConversationId),
+                    Message = $"You({request.UserId}) are not a user in this conversation. Valid users are: {string.Join(", ", conversationUsersStrings)}"
+                });
+                return;
             }
         }
     }

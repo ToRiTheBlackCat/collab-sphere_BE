@@ -3,6 +3,7 @@ using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Application.Features.ChatConversations.Queries.GetUserConversations;
 using CollabSphere.Domain.Entities;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,7 +71,7 @@ namespace CollabSphere.Application.Features.ChatConversations.Commands.MarkReadU
         protected override async Task ValidateRequest(List<OperationError> errors, MarkReadUserMessagesCommand request)
         {
             // Check conversation exist
-            var chatConversation = await _unitOfWork.ChatConversationRepo.GetById(request.ConversationId);
+            var chatConversation = await _unitOfWork.ChatConversationRepo.GetConversationDetail(request.ConversationId);
             if (chatConversation == null)
             {
                 errors.Add(new OperationError()
@@ -81,47 +82,20 @@ namespace CollabSphere.Application.Features.ChatConversations.Commands.MarkReadU
                 return;
             }
 
-            // Only team members (or lecturer) can delete a team conversation
-            if (chatConversation.TeamId.HasValue)
+            var isValidUser = chatConversation.Users.Any(x => x.UId == request.UserId);
+            if (!isValidUser)
             {
-                // Get team to validate requester
-                var team = (await _unitOfWork.TeamRepo.GetTeamDetail(chatConversation.TeamId.Value))!;
+                var conversationUsersStrings = chatConversation.Users.Select(x =>
+                {
+                    var fullName = x.IsTeacher ? x.Lecturer.Fullname : x.Student.Fullname;
+                    var roleString = x.IsTeacher ? " (Lecturer)" : string.Empty;
+                    return $"{fullName}({x.UId}){roleString}";
+                });
 
-                // Requester is Lecturer
-                if (request.UserRole == RoleConstants.LECTURER)
-                {
-                    // Check if is class's assigned lecturer
-                    if (request.UserId != team.Class.LecturerId)
-                    {
-                        errors.Add(new OperationError()
-                        {
-                            Field = nameof(request.UserId),
-                            Message = $"You ({request.UserId}) are not the assigned lecturer of the class with ID '{team.Class.ClassId}'.",
-                        });
-                    }
-                }
-                // Requester is Student
-                else if (request.UserRole == RoleConstants.STUDENT)
-                {
-                    // Check if is member of team
-                    var isTeamMember = team.ClassMembers.Any(x => x.StudentId == request.UserId);
-                    if (!isTeamMember)
-                    {
-                        errors.Add(new OperationError()
-                        {
-                            Field = nameof(request.UserId),
-                            Message = $"You ({request.UserId}) are not a member of the team with ID '{team.TeamId}'.",
-                        });
-                    }
-                }
-            }
-            // Can not delete a class conversation
-            else
-            {
                 errors.Add(new OperationError()
                 {
-                    Field = nameof(request.UserId),
-                    Message = $"Conversation '{chatConversation.ConversationName}'({chatConversation.ConversationId}) is a class conversation, which can not be deleted.",
+                    Field = nameof(request.ConversationId),
+                    Message = $"You({request.UserId}) are not a user in this conversation. Valid users are: {string.Join(", ", conversationUsersStrings)}"
                 });
                 return;
             }

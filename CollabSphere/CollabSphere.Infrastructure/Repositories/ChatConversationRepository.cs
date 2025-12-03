@@ -38,6 +38,7 @@ namespace CollabSphere.Infrastructure.Repositories
                     .ThenInclude(user => user.Lecturer)
                 .Include(x => x.Team)
                     .ThenInclude(team => team.Class)
+                        .ThenInclude(cls => cls.Semester)
                 .FirstOrDefaultAsync(x => x.ConversationId == conversationId);
 
             if (conversation != null)
@@ -64,9 +65,14 @@ namespace CollabSphere.Infrastructure.Repositories
                     .ThenInclude(cls => cls.Semester)
                 .Include(x => x.Team)
                 .Include(x => x.LatestMessage)
-                    .ThenInclude(x => x.Sender)
+                    .ThenInclude(msg => msg.Sender)
+                        .ThenInclude(sender => sender.Lecturer)
                 .Include(x => x.ChatMessages)
-                    .ThenInclude(x => x.Sender)
+                    .ThenInclude(msg => msg.Sender)
+                        .ThenInclude(sender => sender.Student)
+                .Include(x => x.ChatMessages)
+                    .ThenInclude(msg => msg.Sender)
+                        .ThenInclude(sender => sender.Lecturer)
                 .Where(x =>
                     x.Users.Any(x => x.UId == userId) &&
                     (!semesterId.HasValue || x.Class.SemesterId == semesterId) &&
