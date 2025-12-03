@@ -1,7 +1,9 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Domain.Entities;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +17,14 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.AssignMembersTo
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public AssignMembersToCheckpointHandler(IUnitOfWork unitOfWork)
+        private readonly IConfiguration _configure;
+        private readonly EmailSender _emailSender;
+
+        public AssignMembersToCheckpointHandler(IUnitOfWork unitOfWork, IConfiguration configure)
         {
             _unitOfWork = unitOfWork;
+            _configure = configure;
+            _emailSender = new EmailSender(_configure);
         }
 
         protected override async Task<CommandResult> HandleCommand(AssignMembersToCheckpointCommand request, CancellationToken cancellationToken)
@@ -51,6 +58,8 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.AssignMembersTo
                     removeCount++;
                 }
                 await _unitOfWork.SaveChangesAsync();
+                //Create receiver email list
+                var receiverEmails = new HashSet<string>();
 
                 // Create new assignments
                 var newMemberIds = request.AssignmentsDto.ClassMemberIds
@@ -65,11 +74,21 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.AssignMembersTo
                         AssignedDate = assignDate,
                     };
                     await _unitOfWork.CheckpointAssignmentRepo.Create(newAssignment);
+
+                    //Found user to send mail
+                    var foundClassMember = await _unitOfWork.ClassMemberRepo.GetById(classMemberId);
+                    var foundStu = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(foundClassMember!.StudentId);
+
+                    //Add to receiverEmails 
+                    receiverEmails.Add(foundStu.Email);
                 }
                 await _unitOfWork.SaveChangesAsync();
                 #endregion
 
                 await _unitOfWork.CommitTransactionAsync();
+                //Send Email
+                var foundCheckpoint = await _unitOfWork.CheckpointRepo.GetById(request.AssignmentsDto.CheckpointId);
+                await _emailSender.SendNotiEmailsForCheckpoint(receiverEmails, foundCheckpoint);
 
                 result.Message = $"Updated member assignments for checkpoint with ID '{request.AssignmentsDto.CheckpointId}'. " +
                     $"Added {newMemberIds.Count()} member(s), Removed {removeCount} member(s).";

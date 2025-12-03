@@ -1,6 +1,8 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Domain.Entities;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +15,13 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeamMil
     public class LecturerEvaluateTeamMilestoneHandler : CommandHandler<LecturerEvaluateTeamMilestoneCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
-        public LecturerEvaluateTeamMilestoneHandler(IUnitOfWork unitOfWork)
+        private readonly IConfiguration _configure;
+        private readonly EmailSender _emailSender;
+        public LecturerEvaluateTeamMilestoneHandler(IUnitOfWork unitOfWork, IConfiguration configure)
         {
             _unitOfWork = unitOfWork;
+            _configure = configure;
+            _emailSender = new EmailSender(_configure);
         }
         protected override async Task<CommandResult> HandleCommand(LecturerEvaluateTeamMilestoneCommand request, CancellationToken cancellationToken)
         {
@@ -25,7 +31,7 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeamMil
                 IsValidInput = true,
                 Message = string.Empty
             };
-
+            var receiverEmails = new HashSet<string>();
             try
             {
                 await _unitOfWork.BeginTransactionAsync();
@@ -35,6 +41,15 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeamMil
                     var foundTeam = await _unitOfWork.TeamRepo.GetById(foundTeamMilestone.TeamId);
                     if (foundTeam != null)
                     {
+                        //Get team member to send mail
+                        var teamMembers = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByTeamId(foundTeam.TeamId);
+                        //Get the receiver email
+                        foreach (var member in teamMembers!)
+                        {
+                            var foundStu = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(member.StudentId);
+                            receiverEmails.Add(foundStu!.Email);
+                        }
+
                         //Check existed milestone evaluation
                         var foundMileEvaluation = await _unitOfWork.MilestoneEvaluationRepo.GetEvaluationOfMilestone(request.TeamMilestoneId, request.EvaluatorId, foundTeam.TeamId);
 
@@ -48,6 +63,8 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeamMil
                             _unitOfWork.MilestoneEvaluationRepo.Update(foundMileEvaluation);
                             await _unitOfWork.SaveChangesAsync();
 
+                            //Send mail
+                            await _emailSender.SendNotiEmailsForMileEva(receiverEmails, foundTeam.TeamName, foundTeamMilestone.Title, foundMileEvaluation);
                             result.Message = $"Update milestone evaluation for team milestone with ID: {foundMileEvaluation.MilestoneId} successfully";
                         }
                         else
@@ -64,7 +81,8 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeamMil
                             };
                             await _unitOfWork.MilestoneEvaluationRepo.Create(newMileEvaluation);
                             await _unitOfWork.SaveChangesAsync();
-
+                            //Send mail
+                            await _emailSender.SendNotiEmailsForMileEva(receiverEmails, foundTeam.TeamName, foundTeamMilestone.Title, newMileEvaluation);
                             result.Message = $"Evaluate for team milestone with ID: {request.TeamMilestoneId} successfully";
                         }
 
