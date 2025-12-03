@@ -52,13 +52,11 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.CreateCustom
                 // Also Update Team's progress
                 var team = await _unitOfWork.TeamRepo.GetById(newMilestone.TeamId);
                 var teamMilestones = await _unitOfWork.TeamMilestoneRepo.GetMilestonesByTeamId(team!.TeamId);
-                if (teamMilestones.Any())
-                {
-                    var doneCount = teamMilestones.Count(x => x.Status == (int)TeamMilestoneStatuses.DONE);
-                    team.Progress = (doneCount * 1.0f) / teamMilestones.Count * 100f;
-                    _unitOfWork.TeamRepo.Update(team);
-                    await _unitOfWork.SaveChangesAsync();
-                }
+                var doneCount = teamMilestones.Count(x => x.Status == (int)TeamMilestoneStatuses.DONE);
+                team.Progress = MathF.Round((doneCount * 1.0f) / teamMilestones.Count * 100f, 2);
+
+                _unitOfWork.TeamRepo.Update(team);
+                await _unitOfWork.SaveChangesAsync();
                 #endregion
 
                 await _unitOfWork.CommitTransactionAsync();
