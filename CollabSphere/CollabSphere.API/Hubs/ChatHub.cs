@@ -87,27 +87,17 @@ namespace CollabSphere.API.Hubs
             var canJoin = true;
             var errorMessage = string.Empty;
 
-            if (userRole == RoleConstants.STUDENT)
+            var isInConversation = conversation.Users.Any(x => x.UId == userId);
+            if (!isInConversation)
             {
-                // Check if a member of team
-                var isTeamMember = conversation.Team
-                    .ClassMembers
-                    .Any(x => x.StudentId == userId);
-                if (!isTeamMember)
+                var conversationUsersStrings = conversation.Users.Select(x =>
                 {
-                    canJoin = false;
-                    errorMessage = $"You ({userId}) are not a member of the team with ID '{conversation.Team.TeamId}'.";
-                }
-            }
-            else if (userRole == RoleConstants.LECTURER)
-            {
-                // Check if is assigned lecturer
-                var isValidLecturer = conversation.Team.Class.LecturerId == userId;
-                if (!isValidLecturer)
-                {
-                    canJoin = false;
-                    errorMessage = $"You ({userId}) are not the assigned lecturer of the class with ID '{conversation.Team.Class.ClassId}'.";
-                }
+                    var fullName = x.IsTeacher ? x.Lecturer.Fullname : x.Student.Fullname;
+                    var roleString = x.IsTeacher ? " (Lecturer)" : string.Empty;
+                    return $"{fullName}({x.UId}){roleString}";
+                });
+                errorMessage = $"You({userId}) are not a user in this conversation. Valid users are: {string.Join(", ", conversationUsersStrings)}";
+                canJoin = false;
             }
 
             return (canJoin: canJoin, errorMessage: errorMessage);
@@ -187,16 +177,10 @@ namespace CollabSphere.API.Hubs
         public async Task BroadCastMessage(int conversationId, string newMessage)
         {
             var userInfo = await GetUserInfo();
-            var chatConversation = await _unitOfWork.ChatConversationRepo.GetConversationDetail(conversationId);
-            if (chatConversation == null)
-            {
-                throw new HubException($"No conversation with ID '{conversationId}'.");
-            }
 
             // Check if can join conversation
             ConnectionInfos.TryGetValue(Context.ConnectionId, out var connectionInfo);
-            //if (!IsValidConnectionId(conversationId, Context.ConnectionId, out var errorString))
-            if (!connectionInfo!.ConversationIds.Contains(chatConversation.ConversationId))
+            if (!connectionInfo!.ConversationIds.Contains(conversationId))
             {
                 throw new HubException($"Can not join conversation. This connection is not valid: {connectionInfo}");
             }
@@ -217,70 +201,17 @@ namespace CollabSphere.API.Hubs
                 await _unitOfWork.ChatMessageRepo.Create(message);
                 await _unitOfWork.SaveChangesAsync();
 
-                // Create notifications
-                var notification = new Notification()
-                {
-                    Title = "New Converstaion Message",
-                    Content = $"New message in '{chatConversation.ConversationName}' from: {userInfo.FullName}",
-                    NotificationType = NotificationTypes.ChatNotification.ToString(),
-                    ReferenceId = -1,
-                    ReferenceType = "",
-                    Link = "",
-                    CreatedAt = currentTime,
-                };
-                await _unitOfWork.NotificationRepo.Create(notification);
+                #region Update conversation latest message
+                var updateConversation = await _unitOfWork.ChatConversationRepo.GetById(conversationId);
+                updateConversation!.LatestMessageId = message.MessageId;
+
+                _unitOfWork.ChatConversationRepo.Update(updateConversation);
                 await _unitOfWork.SaveChangesAsync();
-
-                // Create notification & Message for lecturer (If the sender is not the lecturer themself)
-                if (chatConversation.Team.Class.LecturerId.HasValue && chatConversation.Team.Class.LecturerId != userInfo.UserId)
-                {
-                    var messageRecipient = new MessageRecipient()
-                    {
-                        MessageId = message.MessageId,
-                        ReceiverId = chatConversation.Team.Class.LecturerId.Value,
-                        IsRead = false,
-                    };
-                    await _unitOfWork.MessageRecipientRepo.Create(messageRecipient);
-
-                    var notiRecipient = new NotificationRecipient()
-                    {
-                        ReceiverId = chatConversation.Team.Class.LecturerId.Value,
-                        NotificationId = notification.NotificationId,
-                        IsRead = false,
-                    };
-                    await _unitOfWork.NotificationRecipientRepo.Create(notiRecipient);
-                    await _unitOfWork.SaveChangesAsync();
-                }
-
-                // Create notification & Message for other students in team
-                foreach (var teamMember in chatConversation.Team.ClassMembers)
-                {
-                    // Skip sender
-                    if (teamMember.StudentId == userInfo.UserId)
-                    {
-                        continue;
-                    }
-
-                    var messageRecipient = new MessageRecipient()
-                    {
-                        MessageId = message.MessageId,
-                        ReceiverId = teamMember.StudentId,
-                        IsRead = false,
-                    };
-                    await _unitOfWork.MessageRecipientRepo.Create(messageRecipient);
-
-                    var notiRecipient = new NotificationRecipient()
-                    {
-                        ReceiverId = teamMember.StudentId,
-                        NotificationId = notification.NotificationId,
-                        IsRead = false,
-                    };
-                    await _unitOfWork.NotificationRecipientRepo.Create(notiRecipient);
-                }
-                await _unitOfWork.SaveChangesAsync();
+                #endregion
 
                 await _unitOfWork.CommitTransactionAsync();
 
+                #region Realtime Broadcast Message
                 // Setup for DTO mapping
                 message.Sender = new User()
                 {
@@ -292,11 +223,8 @@ namespace CollabSphere.API.Hubs
                 var messageDto = message.ToChatConversatiobMessageVM();
 
                 // Broadcast to group
-                await Clients.Groups($"{conversationId}").ReceiveMessage(messageDto);
-                await Clients.OthersInGroup($"{conversationId}").ReceiveNotification(notification.ToChatNotiDto());
-
-                // Aslo broadcast the message read update for the user who sent it
-                //await Clients.Groups($"{conversationId}").ReceiveMessageReadUpdate(userInfo.UserId, message.MessageId);
+                await Clients.Groups($"{conversationId}").ReceiveMessage(messageDto); 
+                #endregion
             }
             catch (Exception ex)
             {
@@ -310,15 +238,16 @@ namespace CollabSphere.API.Hubs
             var userInfo = await this.GetUserInfo();
 
             // Check if can join conversation
-            ConnectionInfos.TryGetValue(Context.ConnectionId, out var connectionInfo);
-            //if (!IsValidConnectionId(conversationId, Context.ConnectionId, out var errorString))
-            if (!connectionInfo!.ConversationIds.Contains(conversationId))
+            if (ConnectionInfos.TryGetValue(Context.ConnectionId, out var connectionInfo))
             {
-                throw new HubException($"Can not join conversation. This connection is not valid: {connectionInfo}");
-            }
+                if (!connectionInfo.ConversationIds.Contains(conversationId))
+                {
+                    throw new HubException($"Can not join conversation. This connection is not valid: {connectionInfo}");
+                }
 
-            // Broadcast message read update to others
-            await Clients.Group($"{conversationId}").ReceiveMessageReadUpdate(userInfo.UserId, conversationId, readMessageId);
+                // Broadcast message read update to others
+                await Clients.Group($"{conversationId}").ReceiveMessageReadUpdate(userInfo.UserId, conversationId, readMessageId);
+            }
         }
 
         public override async Task OnDisconnectedAsync(Exception? exception)
