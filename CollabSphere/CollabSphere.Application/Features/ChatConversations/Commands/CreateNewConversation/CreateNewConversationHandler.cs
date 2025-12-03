@@ -33,12 +33,13 @@ namespace CollabSphere.Application.Features.ChatConversations.Commands.CreateNew
             {
                 await _unitOfWork.BeginTransactionAsync();
 
-                #region Data operation
-                var team = await _unitOfWork.TeamRepo.GetById(request.ChatConversation.TeamId);
+                var team = (await _unitOfWork.TeamRepo.GetById(request.ChatConversation.TeamId))!;
 
+                #region Data operation
                 var newConversation = new ChatConversation()
                 {
                     ConversationName = request.ChatConversation.ConversationName.Trim(),
+                    ClassId = team.ClassId,
                     TeamId = request.ChatConversation.TeamId,
                     CreatedAt = DateTime.UtcNow,
                 };
@@ -49,7 +50,7 @@ namespace CollabSphere.Application.Features.ChatConversations.Commands.CreateNew
 
                 await _unitOfWork.CommitTransactionAsync();
 
-                result.Message = $"Created chat conversation '{newConversation.ConversationName}' in team '{team!.TeamName}' ({team.TeamId}).";
+                result.Message = $"Created chat conversation '{newConversation.ConversationName}'({newConversation.ConversationId}).";
                 result.ConversationId = newConversation.ConversationId;
                 result.IsSuccess = true;
             }
@@ -102,7 +103,7 @@ namespace CollabSphere.Application.Features.ChatConversations.Commands.CreateNew
                     errors.Add(new OperationError()
                     {
                         Field = nameof(request.UserId),
-                        Message = $"You ({request.UserId}) are not a member of the team with ID '{team.TeamId}'.",
+                        Message = $"You ({request.UserId}) are not a member of the team with ID '{team.TeamName}'({team.TeamId}).",
                     });
                     return;
                 }

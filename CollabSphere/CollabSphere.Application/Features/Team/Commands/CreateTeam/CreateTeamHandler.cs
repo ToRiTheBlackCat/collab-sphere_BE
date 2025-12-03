@@ -201,6 +201,42 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                 await _unitOfWork.TeamWorkspaceRepo.Create(newTeamWkSpace);
                 await _unitOfWork.SaveChangesAsync();
                 #endregion
+
+                #region Create Default Team Conversations
+                var currentTime = DateTime.UtcNow;
+
+                // User enities for students
+                var newConversationUsers = new List<CollabSphere.Domain.Entities.User>() { foundLeader! };
+                foreach (var studentInfo in request.StudentList)
+                {
+                    var studentUser = await _unitOfWork.UserRepo.GetOneByUserIdAsync(studentInfo.StudentId);
+                    newConversationUsers.Add(studentUser!);
+                }
+
+                // Conversation with lecturer
+                var lecturerConversation = new ChatConversation()
+                {
+                    ConversationName = $"{newTeam.TeamName} - {foundClass!.ClassName}",
+                    ClassId = foundClass.ClassId,
+                    TeamId = newTeam.TeamId,
+                    Users = newConversationUsers.Append(foundLecturer).ToList(),
+                    CreatedAt = currentTime,
+                };
+
+                // Private conversation between members (without lecturer)
+                var privateConversation = new ChatConversation()
+                {
+                    ConversationName = $"{newTeam.TeamName} (Private) - {foundClass!.ClassName}",
+                    ClassId = foundClass.ClassId,
+                    TeamId = newTeam.TeamId,
+                    Users = newConversationUsers.ToList(),
+                    CreatedAt = currentTime,
+                };
+
+                await _unitOfWork.ChatConversationRepo.Create(lecturerConversation);
+                await _unitOfWork.ChatConversationRepo.Create(privateConversation);
+                await _unitOfWork.SaveChangesAsync();
+                #endregion
             }
             catch (Exception ex)
             {

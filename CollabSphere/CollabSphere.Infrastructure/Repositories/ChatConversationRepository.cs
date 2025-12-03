@@ -30,51 +30,60 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(x => x.ChatMessages)
                     .ThenInclude(msg => msg.Sender)
                         .ThenInclude(sender => sender.Lecturer)
-                .Include(x => x.Team)
-                    .ThenInclude(team => team.ClassMembers)
-                        .ThenInclude(mem => mem.Student)
-                            .ThenInclude(stu => stu.StudentNavigation)
+                .Include(x => x.Users)
+                    .ThenInclude(user => user.Student)
+                        .ThenInclude(stu => stu.ClassMembers)
+                            .ThenInclude(member => member.Team)
+                .Include(x => x.Users)
+                    .ThenInclude(user => user.Lecturer)
                 .Include(x => x.Team)
                     .ThenInclude(team => team.Class)
-                        .ThenInclude(cls => cls.Lecturer)
-                            .ThenInclude(lec => lec.LecturerNavigation)
+                        .ThenInclude(cls => cls.Semester)
                 .FirstOrDefaultAsync(x => x.ConversationId == conversationId);
 
             if (conversation != null)
             {
                 conversation.ChatMessages = conversation.ChatMessages.OrderBy(x => x.ConversationId).ToList();
+
+                // Only get students' class member reference of the class
+                foreach (var user in conversation.Users.Where(x => !x.IsTeacher))
+                {
+                    user.Student.ClassMembers = user.Student.ClassMembers.Where(x => x.ClassId == conversation.ClassId).ToList();
+                }
             }
 
             return conversation;
         }
 
 
-        public async Task<List<ChatConversation>> SeachConversations(int userId, int? teamId)
+        public async Task<List<ChatConversation>> GetConversationsByUser(int userId, int? semesterId, int? classId)
         {
-            // Get teams that user is in
-            var userTeams = await _context.Teams
+            var conversations = await _context.ChatConversations
                 .AsNoTracking()
+                .Include(x => x.Users)
                 .Include(x => x.Class)
-                .Include(x => x.ClassMembers)
-                .Include(x => x.ChatConversations)
-                    .ThenInclude(x => x.ChatMessages)
-                        .ThenInclude(msg => msg.Sender)
-                            .ThenInclude(x => x.Lecturer)   
-                .Include(x => x.ChatConversations)
-                    .ThenInclude(x => x.ChatMessages)
-                        .ThenInclude(msg => msg.Sender)
-                            .ThenInclude(x => x.Student)
-                .Include(x => x.ChatConversations)
-                    .ThenInclude(x => x.ChatMessages)
-                        .ThenInclude(msg => msg.MessageRecipients)
+                    .ThenInclude(cls => cls.Semester)
+                .Include(x => x.Team)
+                .Include(x => x.LatestMessage)
+                    .ThenInclude(msg => msg.Sender)
+                        .ThenInclude(sender => sender.Lecturer)
+                .Include(x => x.ChatMessages)
+                    .ThenInclude(msg => msg.Sender)
+                        .ThenInclude(sender => sender.Student)
+                .Include(x => x.ChatMessages)
+                    .ThenInclude(msg => msg.Sender)
+                        .ThenInclude(sender => sender.Lecturer)
                 .Where(x =>
-                    (!teamId.HasValue || x.TeamId == teamId.Value) &&
-                    (x.Class.LecturerId == userId || x.ClassMembers.Any(member => member.StudentId == userId))
+                    x.Users.Any(x => x.UId == userId) &&
+                    (!semesterId.HasValue || x.Class.SemesterId == semesterId) &&
+                    (!classId.HasValue || classId == x.ClassId)
                 )
                 .ToListAsync();
 
-            // Get conversations in each team
-            var conversations = userTeams.SelectMany(x => x.ChatConversations).ToList();
+            if (conversations.Any())
+            {
+                conversations = conversations.OrderByDescending(x => x.Class.Semester.StartDate).ToList();
+            }
 
             return conversations;
         }

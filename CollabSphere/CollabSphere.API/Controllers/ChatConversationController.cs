@@ -124,74 +124,74 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
+        //// Roles: Lecturer, Student
+        //[Authorize(Roles = "4, 5")]
+        //[HttpPost]
+        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        //public async Task<IActionResult> CreateNewConversation([FromBody] CreateNewChatConverastionDto dto, CancellationToken cancellationToken = default)
+        //{
+        //    // Get UserId & Role of requester
+        //    var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+        //    var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+        //    var userId = int.Parse(UIdClaim.Value);
+        //    var userRole = int.Parse(roleClaim.Value);
+
+        //    CreateNewConversationCommand command = new CreateNewConversationCommand()
+        //    {
+        //        ChatConversation = dto,
+        //        UserId = userId,
+        //        UserRole = userRole,
+        //    };
+
+        //    // Handle command
+        //    var result = await _mediator.Send(command, cancellationToken);
+
+        //    if (!result.IsValidInput)
+        //    {
+        //        return BadRequest(result);
+        //    }
+
+        //    if (!result.IsSuccess)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError, result);
+        //    }
+
+        //    return Ok(result);
+        //}
+
         // Roles: Lecturer, Student
-        [Authorize(Roles = "4, 5")]
-        [HttpPost]
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<IActionResult> CreateNewConversation([FromBody] CreateNewChatConverastionDto dto, CancellationToken cancellationToken = default)
-        {
-            // Get UserId & Role of requester
-            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
-            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
-            var userId = int.Parse(UIdClaim.Value);
-            var userRole = int.Parse(roleClaim.Value);
+        //[Authorize(Roles = "4, 5")]
+        //[HttpDelete("{conversationId}")]
+        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        //public async Task<IActionResult> DeleteChatConversation(int conversationId, CancellationToken cancellationToken = default)
+        //{
+        //    // Get UserId & Role of requester
+        //    var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+        //    var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+        //    var userId = int.Parse(UIdClaim.Value);
+        //    var userRole = int.Parse(roleClaim.Value);
 
-            CreateNewConversationCommand command = new CreateNewConversationCommand()
-            {
-                ChatConversation = dto,
-                UserId = userId,
-                UserRole = userRole,
-            };
+        //    DeleteChatConversationCommand command = new DeleteChatConversationCommand()
+        //    {
+        //        ConversationId = conversationId,
+        //        UserId = userId,
+        //        UserRole = userRole,
+        //    };
 
-            // Handle command
-            var result = await _mediator.Send(command, cancellationToken);
+        //    // Handle command
+        //    var result = await _mediator.Send(command, cancellationToken);
 
-            if (!result.IsValidInput)
-            {
-                return BadRequest(result);
-            }
+        //    if (!result.IsValidInput)
+        //    {
+        //        return BadRequest(result);
+        //    }
 
-            if (!result.IsSuccess)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, result);
-            }
+        //    if (!result.IsSuccess)
+        //    {
+        //        return StatusCode(StatusCodes.Status500InternalServerError, result);
+        //    }
 
-            return Ok(result);
-        }
-
-        // Roles: Lecturer, Student
-        [Authorize(Roles = "4, 5")]
-        [HttpDelete("{conversationId}")]
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public async Task<IActionResult> DeleteChatConversation(int conversationId, CancellationToken cancellationToken = default)
-        {
-            // Get UserId & Role of requester
-            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
-            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
-            var userId = int.Parse(UIdClaim.Value);
-            var userRole = int.Parse(roleClaim.Value);
-
-            DeleteChatConversationCommand command = new DeleteChatConversationCommand()
-            {
-                ConversationId = conversationId,
-                UserId = userId,
-                UserRole = userRole,
-            };
-
-            // Handle command
-            var result = await _mediator.Send(command, cancellationToken);
-
-            if (!result.IsValidInput)
-            {
-                return BadRequest(result);
-            }
-
-            if (!result.IsSuccess)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, result);
-            }
-
-            return Ok(result);
-        }
+        //    return Ok(result);
+        //}
     }
 }

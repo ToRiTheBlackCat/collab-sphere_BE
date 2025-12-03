@@ -45,13 +45,11 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.DeleteCustom
                 // Also Update Team's progress
                 var team = await _unitOfWork.TeamRepo.GetById(milestone.TeamId);
                 var teamMilestones = await _unitOfWork.TeamMilestoneRepo.GetMilestonesByTeamId(team!.TeamId);
-                if (teamMilestones.Any())
-                {
-                    var doneCount = teamMilestones.Count(x => x.Status == (int)TeamMilestoneStatuses.DONE);
-                    team.Progress = (doneCount * 1.0f) / teamMilestones.Count * 100f;
-                    _unitOfWork.TeamRepo.Update(team);
-                    await _unitOfWork.SaveChangesAsync();
-                }
+                var doneCount = teamMilestones.Count(x => x.Status == (int)TeamMilestoneStatuses.DONE);
+                team.Progress = MathF.Round((doneCount * 1.0f) / teamMilestones.Count * 100f, 2);
+
+                _unitOfWork.TeamRepo.Update(team);
+                await _unitOfWork.SaveChangesAsync();
                 #endregion
 
                 await _unitOfWork.CommitTransactionAsync();
@@ -93,12 +91,24 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.DeleteCustom
                 return;
             }
 
+            // Can only delete milestones that aren't originally mapped from a project
             if (milestone.ObjectiveMilestoneId.HasValue)
             {
                 errors.Add(new OperationError()
                 {
                     Field = nameof(request.TeamMilestoneId),
-                    Message = $"Can't delete an original milestone.",
+                    Message = $"Can not delete an original milestone.",
+                });
+                return;
+            }
+
+            // Can not delete an milestone that is valuated
+            if (milestone.MilestoneEvaluation != null)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.TeamMilestoneId),
+                    Message = $"Can not delete a milestone that is already evaluated.",
                 });
                 return;
             }

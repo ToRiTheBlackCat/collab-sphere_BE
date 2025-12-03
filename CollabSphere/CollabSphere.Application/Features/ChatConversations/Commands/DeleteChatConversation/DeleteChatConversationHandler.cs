@@ -31,17 +31,14 @@ namespace CollabSphere.Application.Features.ChatConversations.Commands.DeleteCha
 
             try
             {
-
                 await _unitOfWork.BeginTransactionAsync();
 
                 #region Data operation
                 // Get chat conversation
                 var chatConversation = await _unitOfWork.ChatConversationRepo.GetById(request.ConversationId);
-                // Get team for result message
-                var team = await _unitOfWork.TeamRepo.GetById(chatConversation!.TeamId);
 
                 // Get chat messages in chat conversation
-                var messages = await _unitOfWork.ChatMessageRepo.GetChatConversationMessages(chatConversation.ConversationId);
+                var messages = await _unitOfWork.ChatMessageRepo.GetChatConversationMessages(chatConversation!.ConversationId);
                 foreach (var message in messages)
                 {
                     // Delete message recipient entities of each message
@@ -63,7 +60,7 @@ namespace CollabSphere.Application.Features.ChatConversations.Commands.DeleteCha
 
                 await _unitOfWork.CommitTransactionAsync();
 
-                result.Message = $"Deleted chat conversation '{chatConversation.ConversationName}'({chatConversation.ConversationId}) from team '{team!.TeamName}'({team.TeamId}).";
+                result.Message = $"Deleted chat conversation '{chatConversation.ConversationName}'({chatConversation.ConversationId}).";
                 result.IsSuccess = true;
             }
             catch (Exception ex)
@@ -89,37 +86,22 @@ namespace CollabSphere.Application.Features.ChatConversations.Commands.DeleteCha
                 return;
             }
 
-            // Get team to validate requester
-            var team = (await _unitOfWork.TeamRepo.GetTeamDetail(chatConversation.TeamId))!;
+            var isValidUser = chatConversation.Users.Any(x => x.UId == request.UserId);
+            if (!isValidUser)
+            {
+                var conversationUsersStrings = chatConversation.Users.Select(x =>
+                {
+                    var fullName = x.IsTeacher ? x.Lecturer.Fullname : x.Student.Fullname;
+                    var roleString = x.IsTeacher ? " (Lecturer)" : string.Empty;
+                    return $"{fullName}({x.UId}){roleString}";
+                });
 
-            // Requester is Lecturer
-            if (request.UserRole == RoleConstants.LECTURER)
-            {
-                // Check if is class's assigned lecturer
-                if (request.UserId != team.Class.LecturerId)
+                errors.Add(new OperationError()
                 {
-                    errors.Add(new OperationError()
-                    {
-                        Field = nameof(request.UserId),
-                        Message = $"You ({request.UserId}) are not the assigned lecturer of the class with ID '{team.Class.ClassId}'.",
-                    });
-                    return;
-                }
-            }
-            // Requester is Student
-            else if (request.UserRole == RoleConstants.STUDENT)
-            {
-                // Check if is member of team
-                var isTeamMember = team.ClassMembers.Any(x => x.StudentId == request.UserId);
-                if (!isTeamMember)
-                {
-                    errors.Add(new OperationError()
-                    {
-                        Field = nameof(request.UserId),
-                        Message = $"You ({request.UserId}) are not a member of the team with ID '{team.TeamId}'.",
-                    });
-                    return;
-                }
+                    Field = nameof(request.ConversationId),
+                    Message = $"You({request.UserId}) are not a user in this conversation. Valid users are: {string.Join(", ", conversationUsersStrings)}"
+                });
+                return;
             }
         }
     }

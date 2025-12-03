@@ -12,7 +12,7 @@ namespace CollabSphere.Domain.Intefaces
     {
         Task<ChatConversation?> GetConversationDetail(int conversationId);
 
-        Task<List<ChatConversation>> SeachConversations(int userId, int? teamId);
+        Task<List<ChatConversation>> GetConversationsByUser(int userId, int? semesterId, int? classId);
 
         Task<List<ChatConversation>> GetTeamConversation(int teamId);
     }

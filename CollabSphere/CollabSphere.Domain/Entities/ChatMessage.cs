@@ -17,6 +17,8 @@ public partial class ChatMessage
 
     public DateTime SendAt { get; set; }
 
+    public virtual ICollection<ChatConversation> ChatConversations { get; set; } = new List<ChatConversation>();
+
     public virtual ChatConversation Conversation { get; set; }
 
     public virtual ICollection<MessageRecipient> MessageRecipients { get; set; } = new List<MessageRecipient>();
