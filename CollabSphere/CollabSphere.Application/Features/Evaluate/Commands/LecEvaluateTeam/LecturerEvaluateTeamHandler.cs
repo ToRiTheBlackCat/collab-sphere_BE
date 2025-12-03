@@ -1,10 +1,12 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Application.Features.Evaluate.Commands.StudentEvaluateOtherInTeam;
 using CollabSphere.Application.Features.Team.Commands.CreateTeam;
 using CollabSphere.Domain.Entities;
 using Google.Apis.Drive.v3.Data;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -18,10 +20,13 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam
     public class LecturerEvaluateTeamHandler : CommandHandler<LecturerEvaluateTeamCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
-
-        public LecturerEvaluateTeamHandler(IUnitOfWork unitOfWork)
+        private readonly IConfiguration _configure;
+        private readonly EmailSender _emailSender;
+        public LecturerEvaluateTeamHandler(IUnitOfWork unitOfWork, IConfiguration configure)
         {
             _unitOfWork = unitOfWork;
+            _configure = configure;
+            _emailSender = new EmailSender(_configure);
         }
 
         protected override async Task<CommandResult> HandleCommand(LecturerEvaluateTeamCommand request, CancellationToken cancellationToken)
@@ -34,10 +39,14 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam
             };
 
             decimal teamScore = 0;
-
+            //Store to send noti email
+            List<(string, decimal, decimal, string)> sendMailDetailList = new List<(string, decimal, decimal, string)>();
+            var receiverEmails = new HashSet<string>();
             try
             {
                 await _unitOfWork.BeginTransactionAsync();
+                var teamMembers = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByTeamId(request.TeamId);
+
                 //Find existed team evaluate
                 var foundTeamEvaluate = await _unitOfWork.TeamEvaluationRepo.GetOneByTeamId(request.TeamId);
                 if (foundTeamEvaluate != null)
@@ -67,6 +76,9 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam
 
                                     _unitOfWork.EvaluationDetailRepo.Update(foundDetail);
                                     await _unitOfWork.SaveChangesAsync();
+
+                                    //Add to list for send mail
+                                    sendMailDetailList.Add((foundGradeComponent.ComponentName,foundDetail.Percentage, foundDetail.Score,foundDetail.Comment));
                                 }
                             }
 
@@ -79,11 +91,22 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam
                     await _unitOfWork.SaveChangesAsync();
 
                     await _unitOfWork.CommitTransactionAsync();
+
+                    //Get the receiver email
+                    foreach (var member in teamMembers!)
+                    {
+                        var foundStu = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(member.StudentId);
+                        receiverEmails.Add(foundStu!.Email);
+                    }
+                    //Send noti email
+                    await _emailSender.SendNotiEmailsForTeamEva(receiverEmails, foundTeamEvaluate, sendMailDetailList);
+
                     result.IsSuccess = true;
                     result.Message = $"Successfully update evaluation and feedbacks for team with Id: {request.TeamId}";
 
                     return result;
                 }
+               
                 //Else create new
                 var newTeamEvaluate = new TeamEvaluation
                 {
@@ -115,6 +138,9 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam
                     await _unitOfWork.EvaluationDetailRepo.Create(evaluateDetail);
                     await _unitOfWork.SaveChangesAsync();
 
+                    //Add to list for send mail
+                    sendMailDetailList.Add((foundGradeComponent.ComponentName, evaluateDetail.Percentage, evaluateDetail.Score, evaluateDetail.Comment));
+
                     //Calculate final score
                     teamScore += evaluateDetail.Score * (evaluateDetail.Percentage / 100);
                 }
@@ -122,6 +148,15 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam
                 newTeamEvaluate.FinalGrade = teamScore;
                 _unitOfWork.TeamEvaluationRepo.Update(newTeamEvaluate);
                 await _unitOfWork.SaveChangesAsync();
+
+                //Get the receiver email
+                foreach (var member in teamMembers!)
+                {
+                    var foundStu = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(member.StudentId);
+                    receiverEmails.Add(foundStu!.Email);
+                }
+                //Send noti email
+                await _emailSender.SendNotiEmailsForTeamEva(receiverEmails, newTeamEvaluate, sendMailDetailList);
             }
             catch (Exception ex)
             {

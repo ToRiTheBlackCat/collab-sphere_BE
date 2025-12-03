@@ -574,5 +574,191 @@ namespace CollabSphere.Application.Common
                 smtpClient.Send(mailMessage);
             }
         }
+
+        public async Task SendNotiEmailsForTeamEva(HashSet<string> receivers, TeamEvaluation teamEva, List<(string gradeComponentName, decimal percentage, decimal score, string comment)> sendMailDetailList)
+        {
+            var email = _configure["SMTPSettings:Email"] ?? "";
+            var password = _configure["SMTPSettings:AppPassword"] ?? "";
+
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(email, password),
+                EnableSsl = true,
+            };
+
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(email),
+                Subject = "🏆 COLLAB-SPHERE | Team Evaluation Results",
+                IsBodyHtml = true
+            };
+
+            foreach (var rec in receivers)
+            {
+                if (!string.IsNullOrWhiteSpace(rec))
+                    mailMessage.To.Add(rec);
+            }
+
+            // --- 1. Generate the Detailed List HTML ---
+            string detailsHtml = "";
+            foreach (var detail in sendMailDetailList)
+            {
+                // detail.Item1 = Name, Item2 = %, Item3 = Score, Item4 = Comment
+                detailsHtml += $@"
+                <div style='border-bottom: 1px solid #eee; padding: 12px 0;'>
+                    <div style='display:flex; justify-content:space-between; align-items:center;'>
+                        <span style='font-weight:bold; color:#2b5876; font-size:15px;'>{detail.gradeComponentName} <span style='font-size:12px; color:#888; font-weight:normal;'>({detail.percentage}%)</span></span>
+                        <span style='font-weight:bold; color:#333; background:#f0f4f8; padding:2px 8px; border-radius:4px;'>{detail.score} / 10</span>
+                    </div>
+                    <div style='margin-top:6px; font-size:13px; color:#555; font-style:italic;'>
+                        {(string.IsNullOrWhiteSpace(detail.comment) ? "No specific comment." : detail.comment)}
+                    </div>
+                </div>";
+            }
+
+            // --- 2. Build the Main HTML ---
+            string finalGradeDisplay = teamEva.FinalGrade.HasValue ? $"{teamEva.FinalGrade.Value:0.##} / 10" : "N/A";
+            string generalComment = string.IsNullOrWhiteSpace(teamEva.Comment) ? "No general comment provided." : teamEva.Comment;
+
+            string htmlBody = $@"
+<html>
+  <head>
+    <style>
+      body {{
+        background-color: #f4f7fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+      }}
+      .container {{
+        width: 100%;
+        padding: 40px 0;
+        display: flex;
+        justify-content: center;
+      }}
+      .card {{
+        width: 600px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }}
+      .header {{
+        background: linear-gradient(135deg, #2b5876, #4e4376);
+        color: #ffffff;
+        text-align: center;
+        padding: 30px 20px;
+      }}
+      .header h2 {{
+        margin: 0;
+        font-size: 22px;
+        font-weight: 600;
+      }}
+      .content {{
+        padding: 30px 40px;
+        color: #333;
+      }}
+      /* The Meeting/Checkpoint Style Box */
+      .schedule-box {{
+        margin: 25px 0;
+        background-color: #f0f4f8;
+        border-left: 5px solid #4e4376;
+        padding: 20px;
+        border-radius: 6px;
+      }}
+      .schedule-box p {{
+        margin: 8px 0;
+      }}
+      .details-section {{
+        margin-top: 30px;
+      }}
+      .details-header {{
+        font-size: 14px;
+        font-weight: bold;
+        color: #4e4376;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-bottom: 2px solid #f0f4f8;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+      }}
+      .btn {{
+        display: inline-block;
+        background-color: #4e4376;
+        color: white !important;
+        text-decoration: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        margin-top: 25px;
+        font-weight: 500;
+      }}
+      .btn:hover {{
+        background-color: #2b5876;
+      }}
+      .footer {{
+        background-color: #fafafa;
+        color: #888;
+        text-align: center;
+        font-size: 12px;
+        padding: 15px;
+      }}
+    </style>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='card'>
+        <div class='header'>
+          <h2>🏆 Team Evaluation Results</h2>
+        </div>
+        <div class='content'>
+          <p>Hello Team,</p>
+          <p>Your lecturer has submitted an evaluation for your team's performance. Here is the summary:</p>
+
+          <div class='schedule-box'>
+            <p style='font-size: 18px; color: #4e4376;'><strong>⭐ Final Grade: {finalGradeDisplay}</strong></p>
+            <hr style='border: 0; border-top: 1px solid #dde2e9; margin: 10px 0;'/>
+            <p><strong>💬 Lecturer Comment:</strong></p>
+            <p style='font-style: italic; color: #555;'>""{generalComment}""</p>
+          </div>
+
+          <div class='details-section'>
+            <div class='details-header'>📝 Grade Breakdown</div>
+            {detailsHtml}
+          </div>
+
+          <div style='text-align: center;'>
+             <a href='https://collabsphere.space' class='btn'>View Full Report</a>
+          </div>
+        </div>
+        <div class='footer'>
+          © 2025 COLLABSPHERE. All rights reserved.
+        </div>
+      </div>
+    </div>
+  </body>
+</html>";
+
+            AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
+
+            // --- Logo Section ---
+            string imagePath = Path.Combine("wwwroot", "images", "logo", "logo.jpg");
+            if (File.Exists(imagePath))
+            {
+                LinkedResource inlineLogo = new LinkedResource(imagePath, MediaTypeNames.Image.Jpeg)
+                {
+                    ContentId = "LogoImage",
+                    TransferEncoding = TransferEncoding.Base64
+                };
+                avHtml.LinkedResources.Add(inlineLogo);
+            }
+
+            mailMessage.AlternateViews.Add(avHtml);
+
+            if (mailMessage.To.Count > 0)
+            {
+                smtpClient.Send(mailMessage);
+            }
+        }
     }
 }
