@@ -125,7 +125,7 @@ namespace CollabSphere.Application.Features.TeamFiles.Commands.UploadTeamFile
             }
 
             // Validate file
-            if (!FileValidator.ValidateFile(request.File, out var fileError, 15))
+            if (!FileValidator.ValidateFile(request.File, out var fileError))
             {
                 errors.Add(new OperationError()
                 {

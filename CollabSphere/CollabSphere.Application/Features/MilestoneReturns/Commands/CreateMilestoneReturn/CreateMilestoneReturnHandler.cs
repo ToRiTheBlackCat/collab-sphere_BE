@@ -134,7 +134,7 @@ namespace CollabSphere.Application.Features.MilestoneReturns.Commands.CreateMile
             }
 
             // Validate file
-            if (!FileValidator.ValidateFile(request.File, out var errorMessage, 15))
+            if (!FileValidator.ValidateFile(request.File, out var errorMessage))
             {
                 errors.Add(new OperationError()
                 {

@@ -323,7 +323,7 @@ namespace CollabSphere.API.Controllers
 
         // Roles: Lecturer
         [Authorize(Roles = "4")]
-        [HttpDelete("{classId}/files")]
+        [HttpDelete("{classId}/files/{fileId}")]
         public async Task<IActionResult> LecturerDeleteFile(int classId, int fileId, CancellationToken cancellationToken = default)
         {
             // Get UserId & Role of requester
