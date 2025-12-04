@@ -138,7 +138,7 @@ namespace CollabSphere.Application.Features.TeamFiles.Commands.MoveTeamFile
             {
                 errors.Add(new OperationError()
                 {
-                    Field = nameof(request.FileId),
+                    Field = nameof(request.FilePathPrefix),
                     Message = $"Destination folder '{request.FilePathPrefix}' already have a file named '{moveFile.FileName}'.",
                 });
                 return;

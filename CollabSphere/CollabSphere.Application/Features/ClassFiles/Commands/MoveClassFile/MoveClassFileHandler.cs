@@ -1,5 +1,4 @@
-﻿using Amazon.S3;
-using CollabSphere.Application.Base;
+﻿using CollabSphere.Application.Base;
 using CollabSphere.Application.Common;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Domain.Entities;
@@ -7,23 +6,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
 
-namespace CollabSphere.Application.Features.ClassFiles.Commands.UploadClassFile
+namespace CollabSphere.Application.Features.ClassFiles.Commands.MoveClassFile
 {
-    public class UploadClassFileHandler : CommandHandler<UploadClassFileCommand>
+    public class MoveClassFileHandler : CommandHandler<MoveClassFileCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IAmazonS3 _s3Client;
 
-        public UploadClassFileHandler(IUnitOfWork unitOfWork, IAmazonS3 s3Client)
+        public MoveClassFileHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _s3Client = s3Client;
         }
 
-        protected override async Task<CommandResult> HandleCommand(UploadClassFileCommand request, CancellationToken cancellationToken)
+        protected override async Task<CommandResult> HandleCommand(MoveClassFileCommand request, CancellationToken cancellationToken)
         {
             var result = new CommandResult()
             {
@@ -37,56 +33,33 @@ namespace CollabSphere.Application.Features.ClassFiles.Commands.UploadClassFile
                 await _unitOfWork.BeginTransactionAsync();
 
                 #region Data Operation
-                // Upload file to AWS
-                var currentTime = DateTime.UtcNow;
+                // Get class file entity
+                var newClassFile = await _unitOfWork.ClassFileRepo.GetById(request.FileId);
 
-                var uploadResponse = await _s3Client.UploadFileToS3Async(
-                    request.File,
-                    AwsS3HelperPaths.Class,
-                    request.ClassId,
-                    null
-                );
+                // Update field
+                newClassFile!.FilePathPrefix = request.FilePathPrefix;
 
-                // Create database entry
-                var newClassFile = new ClassFile()
-                {
-                    ClassId = request.ClassId,
-                    UserId = request.UserId,
-                    FileName = uploadResponse.FileName,
-                    FilePathPrefix = request.FilePathPrefix,
-                    Type = request.File.ContentType,
-                    FileSize = request.File.Length,
-                    CreatedAt = currentTime,
-                    ObjectKey = uploadResponse.ObjectKey,
-                    FileUrl = uploadResponse.PresignedUrl,
-                    UrlExpireTime = uploadResponse.UrlExpireTime,
-                };
-
-                await _unitOfWork.ClassFileRepo.Create(newClassFile);
+                _unitOfWork.ClassFileRepo.Update(newClassFile);
                 await _unitOfWork.SaveChangesAsync();
                 #endregion
 
                 await _unitOfWork.CommitTransactionAsync();
 
                 var folderString = newClassFile.FilePathPrefix.Equals("/") ? "Root folder" : $"folder '{newClassFile.FilePathPrefix}'";
-                result.Message = $"Uploaded file '{newClassFile.FileName}' ({newClassFile.FileId}) to class with ID '{newClassFile.ClassId}'.\nAt {folderString}.";
+
+                result.Message = $"Moved class file '{newClassFile.FileName}' ({newClassFile.FileId}) to {folderString}.";
                 result.IsSuccess = true;
-            }
-            catch (AmazonS3Exception ex)
-            {
-                await _unitOfWork.RollbackTransactionAsync();
-                result.Message = $"S3 Error: {ex.Message}";
             }
             catch (Exception ex)
             {
-                await _unitOfWork.RollbackTransactionAsync();
                 result.Message = ex.Message;
+                await _unitOfWork.RollbackTransactionAsync();
             }
 
             return result;
         }
 
-        protected override async Task ValidateRequest(List<OperationError> errors, UploadClassFileCommand request)
+        protected override async Task ValidateRequest(List<OperationError> errors, MoveClassFileCommand request)
         {
             // Check class
             var classEntity = await _unitOfWork.ClassRepo.GetClassDetail(request.ClassId);
@@ -111,13 +84,24 @@ namespace CollabSphere.Application.Features.ClassFiles.Commands.UploadClassFile
                 return;
             }
 
-            // Check file
-            if (!FileValidator.ValidateFile(request.File, out var errorMessage))
+            // Check file existence
+            var classFile = await _unitOfWork.ClassFileRepo.GetById(request.FileId);
+            if (classFile == null)
             {
                 errors.Add(new OperationError()
                 {
-                    Field = nameof(request.UserId),
-                    Message = errorMessage,
+                    Field = nameof(request.FileId),
+                    Message = $"No class file with ID '{request.FileId}'.",
+                });
+                return;
+            }
+            // Only move file from class in request
+            else if (classFile.ClassId != request.ClassId)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.FileId),
+                    Message = $"No file with ID '{request.FileId}' in class '{classEntity.ClassName}'({classEntity.ClassId}).",
                 });
                 return;
             }
@@ -138,7 +122,8 @@ namespace CollabSphere.Application.Features.ClassFiles.Commands.UploadClassFile
 
             var existClassFiles = await _unitOfWork.ClassFileRepo.GetFilesByClass(request.ClassId);
             var duplicatedFile = existClassFiles.Any(x =>
-                x.FileName.Equals(request.File.FileName, StringComparison.OrdinalIgnoreCase) &&
+                x.FileId != classFile.FileId &&
+                x.FileName.Equals(classFile.FileName, StringComparison.OrdinalIgnoreCase) &&
                 x.FilePathPrefix.Equals(request.FilePathPrefix, StringComparison.OrdinalIgnoreCase)
             );
             if (duplicatedFile)
@@ -146,7 +131,7 @@ namespace CollabSphere.Application.Features.ClassFiles.Commands.UploadClassFile
                 errors.Add(new OperationError()
                 {
                     Field = nameof(request.FilePathPrefix),
-                    Message = $"Destination folder '{request.FilePathPrefix}' already have a file named '{request.File.FileName}'.",
+                    Message = $"Destination folder '{request.FilePathPrefix}' already have a file named '{classFile.FileName}'.",
                 });
                 return;
             }

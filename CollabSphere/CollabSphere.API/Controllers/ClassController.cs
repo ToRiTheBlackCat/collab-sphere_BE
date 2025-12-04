@@ -12,6 +12,7 @@ using CollabSphere.Application.Features.Classes.Queries.GetLecturerClasses;
 using CollabSphere.Application.Features.Classes.Queries.GetStudentClasses;
 using CollabSphere.Application.Features.ClassFiles.Commands.DeleteClassFile;
 using CollabSphere.Application.Features.ClassFiles.Commands.GenerateClassFileUrl;
+using CollabSphere.Application.Features.ClassFiles.Commands.MoveClassFile;
 using CollabSphere.Application.Features.ClassFiles.Commands.UploadClassFile;
 using CollabSphere.Application.Features.ClassFiles.Queries.GetFilesOfClass;
 using CollabSphere.Application.Features.MilestoneFiles.Commands.UploadMilestoneFile;
@@ -288,41 +289,6 @@ namespace CollabSphere.API.Controllers
             return Ok(result.Message);
         }
 
-        // Roles: Lecturer
-        [Authorize(Roles = "4")]
-        [HttpPost("{classId}/files")]
-        public async Task<IActionResult> LecturerUploadFile(int classId, IFormFile formFile, [FromForm] string? pathPrefix, CancellationToken cancellationToken = default)
-        {
-            // Get UserId & Role of requester
-            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
-            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
-
-            // Construct command
-            var command = new UploadClassFileCommand()
-            {
-                ClassId = classId,
-                File = formFile,
-                FilePathPrefix = pathPrefix,
-                UserId = int.Parse(UIdClaim.Value),
-                UserRole = int.Parse(roleClaim.Value),
-            };
-
-            // Handle command
-            var result = await _mediator.Send(command, cancellationToken);
-
-            if (!result.IsValidInput)
-            {
-                return BadRequest(result);
-            }
-
-            if (!result.IsSuccess)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
-            }
-
-            return Ok(result.Message);
-        }
-
         // Roles: Lecturer, Student
         [Authorize(Roles = "4, 5")]
         [HttpGet("{classId}/files")]
@@ -341,6 +307,75 @@ namespace CollabSphere.API.Controllers
 
             // Handle query
             var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+
+        // Roles: Lecturer
+        [Authorize(Roles = "4")]
+        [HttpPost("{classId}/files")]
+        public async Task<IActionResult> LecturerUploadFile(int classId, IFormFile formFile, [FromForm] string? pathPrefix, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var roleClaim = User.Claims.First(c => c.Type == ClaimTypes.Role);
+
+            // Construct command
+            var command = new UploadClassFileCommand()
+            {
+                ClassId = classId,
+                File = formFile,
+                FilePathPrefix = pathPrefix ?? "",
+                UserId = int.Parse(UIdClaim.Value),
+                UserRole = int.Parse(roleClaim.Value),
+            };
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result.Message);
+        }
+
+        // Roles: Lecturer
+        [Authorize(Roles = "4")]
+        [HttpPost("{classId}/files/{fileId}/file-path")]
+        public async Task<IActionResult> LecturerMoveClassFile(int classId, int fileId, [FromForm] string? pathPrefix, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var userInfo = this.GetCurrentUserInfo();
+
+            // Construct command
+            var command = new MoveClassFileCommand()
+            {
+                ClassId = classId,
+                FileId = fileId,
+                FilePathPrefix = pathPrefix ?? "",
+                UserId = userInfo.UserId,
+                UserRole = userInfo.RoleId,
+            };
+
+            // Handle command
+            var result = await _mediator.Send(command, cancellationToken);
 
             if (!result.IsValidInput)
             {
@@ -383,15 +418,15 @@ namespace CollabSphere.API.Controllers
 
             if (!result.IsSuccess)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
             }
 
-            return Ok(result.Message);
+            return Ok(result);
         }
 
         // Roles: Lecturer, Student
         [Authorize(Roles = "4, 5")]
-        [HttpPatch("{classId}/files/new-url")]
+        [HttpPatch("{classId}/files/{fileId}/new-url")]
         public async Task<IActionResult> GenerateNewFileUrl(int classId, int fileId, CancellationToken cancellationToken = default)
         {
             // Get UserId & Role of requester
@@ -417,7 +452,7 @@ namespace CollabSphere.API.Controllers
 
             if (!result.IsSuccess)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
             }
 
             return Ok(new

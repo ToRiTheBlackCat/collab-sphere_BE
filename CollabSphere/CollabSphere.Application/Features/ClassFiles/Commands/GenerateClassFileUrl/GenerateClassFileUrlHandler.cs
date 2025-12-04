@@ -130,6 +130,15 @@ namespace CollabSphere.Application.Features.ClassFiles.Commands.GenerateClassFil
                 });
                 return;
             }
+            else if (classFile.ClassId != classEntity.ClassId)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.FileId),
+                    Message = $"No file with ID '{request.FileId}' in class '{classEntity.ClassName}'({classEntity.ClassId}).",
+                });
+                return;
+            }
         }
     }
 }

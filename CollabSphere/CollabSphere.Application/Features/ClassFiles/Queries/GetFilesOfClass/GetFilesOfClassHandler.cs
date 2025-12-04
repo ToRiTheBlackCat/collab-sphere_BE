@@ -27,8 +27,12 @@ namespace CollabSphere.Application.Features.ClassFiles.Queries.GetFilesOfClass
 
         protected override async Task<GetFilesOfClassResult> HandleCommand(GetFilesOfClassQuery request, CancellationToken cancellationToken)
         {
-            var result = new GetFilesOfClassResult();
-
+            var result = new GetFilesOfClassResult()
+            {
+                IsSuccess = false,
+                IsValidInput = true,
+                Message = string.Empty
+            };
             try
             {
                 // Get files in class
@@ -53,6 +57,7 @@ namespace CollabSphere.Application.Features.ClassFiles.Queries.GetFilesOfClass
 
                 result.Grouping = classFiles.ToViewModels()
                     .GroupBy(x => x.FilePathPrefix)
+                    .OrderBy(x => x.Key)
                     .ToDictionary(x => x.Key);
                 result.IsSuccess = true;
             }
