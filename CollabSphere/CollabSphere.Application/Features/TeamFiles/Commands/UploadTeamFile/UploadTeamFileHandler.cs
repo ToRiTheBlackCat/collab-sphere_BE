@@ -147,6 +147,8 @@ namespace CollabSphere.Application.Features.TeamFiles.Commands.UploadTeamFile
             }
 
             // Check for duplicated files
+            request.FilePathPrefix = string.IsNullOrWhiteSpace(request.FilePathPrefix) ? "/" : request.FilePathPrefix.Trim();
+
             var duplicatedFile = team.TeamFiles
                 .Any(x =>
                     x.FileName.Equals(request.File.FileName, StringComparison.OrdinalIgnoreCase) &&

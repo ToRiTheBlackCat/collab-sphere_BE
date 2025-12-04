@@ -15,6 +15,8 @@ public partial class ClassFile
 
     public string FileName { get; set; }
 
+    public string FilePathPrefix { get; set; }
+
     public string Type { get; set; }
 
     public long FileSize { get; set; }

@@ -13,6 +13,7 @@ using CollabSphere.Application.Features.Classes.Queries.GetStudentClasses;
 using CollabSphere.Application.Features.ClassFiles.Commands.DeleteClassFile;
 using CollabSphere.Application.Features.ClassFiles.Commands.GenerateClassFileUrl;
 using CollabSphere.Application.Features.ClassFiles.Commands.UploadClassFile;
+using CollabSphere.Application.Features.ClassFiles.Queries.GetFilesOfClass;
 using CollabSphere.Application.Features.MilestoneFiles.Commands.UploadMilestoneFile;
 using CollabSphere.Application.Features.ProjectAssignments.Commands.AssignProjectsToClass;
 using MediatR;
@@ -290,7 +291,7 @@ namespace CollabSphere.API.Controllers
         // Roles: Lecturer
         [Authorize(Roles = "4")]
         [HttpPost("{classId}/files")]
-        public async Task<IActionResult> LecturerUploadFile(int classId, IFormFile formFile, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> LecturerUploadFile(int classId, IFormFile formFile, [FromForm] string? pathPrefix, CancellationToken cancellationToken = default)
         {
             // Get UserId & Role of requester
             var UIdClaim = User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
@@ -301,6 +302,7 @@ namespace CollabSphere.API.Controllers
             {
                 ClassId = classId,
                 File = formFile,
+                FilePathPrefix = pathPrefix,
                 UserId = int.Parse(UIdClaim.Value),
                 UserRole = int.Parse(roleClaim.Value),
             };
@@ -319,6 +321,38 @@ namespace CollabSphere.API.Controllers
             }
 
             return Ok(result.Message);
+        }
+
+        // Roles: Lecturer, Student
+        [Authorize(Roles = "4, 5")]
+        [HttpGet("{classId}/files")]
+        public async Task<IActionResult> GetFilesInClass(int classId, CancellationToken cancellationToken = default)
+        {
+            // Get UserId & Role of requester
+            var userInfo = this.GetCurrentUserInfo();
+
+            // Construct query
+            var query = new GetFilesOfClassQuery()
+            {
+                ClassId = classId,
+                UserId = userInfo.UserId,
+                UserRole = userInfo.RoleId,
+            };
+
+            // Handle query
+            var result = await _mediator.Send(query, cancellationToken);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
         }
 
         // Roles: Lecturer

@@ -423,6 +423,9 @@ public partial class collab_sphereContext : DbContext
                 .HasColumnName("type");
             entity.Property(e => e.UrlExpireTime).HasColumnName("url_expire_time");
             entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.FilePathPrefix)
+                .IsRequired()
+                .HasColumnName("file_path_prefix");
 
             entity.HasOne(d => d.Class).WithMany(p => p.ClassFiles)
                 .HasForeignKey(d => d.ClassId)

@@ -44,7 +44,7 @@ namespace CollabSphere.Application.Features.ClassFiles.Commands.UploadClassFile
                     request.File,
                     AwsS3HelperPaths.Class,
                     request.ClassId,
-                    currentTime
+                    null
                 );
 
                 // Create database entry
@@ -53,6 +53,7 @@ namespace CollabSphere.Application.Features.ClassFiles.Commands.UploadClassFile
                     ClassId = request.ClassId,
                     UserId = request.UserId,
                     FileName = uploadResponse.FileName,
+                    FilePathPrefix = request.FilePathPrefix,
                     Type = request.File.ContentType,
                     FileSize = request.File.Length,
                     CreatedAt = currentTime,
@@ -67,7 +68,8 @@ namespace CollabSphere.Application.Features.ClassFiles.Commands.UploadClassFile
 
                 await _unitOfWork.CommitTransactionAsync();
 
-                result.Message = $"Uploaded file '{newClassFile.FileName}' ({newClassFile.FileId}) to class with ID '{newClassFile.ClassId}'.";
+                var folderString = newClassFile.FilePathPrefix.Equals("/") ? "Root folder" : $"folder '{newClassFile.FilePathPrefix}'";
+                result.Message = $"Uploaded file '{newClassFile.FileName}' ({newClassFile.FileId}) to class with ID '{newClassFile.ClassId}'.\n At {folderString}.";
                 result.IsSuccess = true;
             }
             catch (AmazonS3Exception ex)
@@ -87,7 +89,7 @@ namespace CollabSphere.Application.Features.ClassFiles.Commands.UploadClassFile
         protected override async Task ValidateRequest(List<OperationError> errors, UploadClassFileCommand request)
         {
             // Check class
-            var classEntity = await _unitOfWork.ClassRepo.GetById(request.ClassId);
+            var classEntity = await _unitOfWork.ClassRepo.GetClassDetail(request.ClassId);
             if (classEntity == null)
             {
                 errors.Add(new OperationError()
@@ -116,6 +118,35 @@ namespace CollabSphere.Application.Features.ClassFiles.Commands.UploadClassFile
                 {
                     Field = nameof(request.UserId),
                     Message = errorMessage,
+                });
+                return;
+            }
+
+            // Validate prefix
+            if (!FileValidator.IsValidPrefix(request.FilePathPrefix, out var pathError))
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.FilePathPrefix),
+                    Message = pathError,
+                });
+                return;
+            }
+
+            // Check for duplicated files in class (same name & path prefix)
+            request.FilePathPrefix = string.IsNullOrWhiteSpace(request.FilePathPrefix) ? "/" : request.FilePathPrefix.Trim();
+
+            var existClassFiles = await _unitOfWork.ClassFileRepo.GetFilesByClass(request.ClassId);
+            var duplicatedFile = existClassFiles.Any(x =>
+                x.FileName.Equals(request.File.FileName, StringComparison.OrdinalIgnoreCase) &&
+                x.FilePathPrefix.Equals(request.FilePathPrefix, StringComparison.OrdinalIgnoreCase)
+            );
+            if (duplicatedFile)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.File),
+                    Message = $"Destination folder '{request.FilePathPrefix}' already have a file named '{request.File.FileName}'.",
                 });
                 return;
             }
