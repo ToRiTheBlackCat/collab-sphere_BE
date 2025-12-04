@@ -125,7 +125,7 @@ namespace CollabSphere.Application.Features.TeamFiles.Commands.UploadTeamFile
             }
 
             // Validate file
-            if (!FileValidator.ValidateFile(request.File, out var fileError, 15))
+            if (!FileValidator.ValidateFile(request.File, out var fileError))
             {
                 errors.Add(new OperationError()
                 {
@@ -147,6 +147,8 @@ namespace CollabSphere.Application.Features.TeamFiles.Commands.UploadTeamFile
             }
 
             // Check for duplicated files
+            request.FilePathPrefix = string.IsNullOrWhiteSpace(request.FilePathPrefix) ? "/" : request.FilePathPrefix.Trim();
+
             var duplicatedFile = team.TeamFiles
                 .Any(x =>
                     x.FileName.Equals(request.File.FileName, StringComparison.OrdinalIgnoreCase) &&
@@ -156,7 +158,7 @@ namespace CollabSphere.Application.Features.TeamFiles.Commands.UploadTeamFile
             {
                 errors.Add(new OperationError()
                 {
-                    Field = nameof(request.File),
+                    Field = nameof(request.FilePathPrefix),
                     Message = $"Destination folder '{request.FilePathPrefix}' already have a file named '{request.File.FileName}'.",
                 });
                 return;

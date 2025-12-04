@@ -6,15 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.ClassFiles.Commands.UploadClassFile
+namespace CollabSphere.Application.Features.ClassFiles.Queries.GetFilesOfClass
 {
-    public class UploadClassFileCommand : ICommand
+    public class GetFilesOfClassQuery : IQuery<GetFilesOfClassResult>
     {
         public int ClassId { get; set; } = -1;
-
-        public IFormFile File { get; set; } = null!;
-
-        public string FilePathPrefix { get; set; } = null!;
 
         public int UserId { get; set; } = -1;
 

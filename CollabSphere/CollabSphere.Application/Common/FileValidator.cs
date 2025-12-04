@@ -75,8 +75,12 @@ namespace CollabSphere.Application.Common
         /// <param name="errorMessage"></param>
         /// <param name="maxFileSize">Maximum size of file in MB</param>
         /// <returns></returns>
-        public static bool ValidateFile(IFormFile file, out string errorMessage, double maxFileSize = FILE_SIZE_LIMIT, int maxNameLength = FILE_NAME_LIMIT)
+        public static bool ValidateFile(IFormFile file, out string errorMessage)
         {
+            // File limits
+            double maxFileSize = FILE_SIZE_LIMIT;
+            int maxNameLength = FILE_NAME_LIMIT;
+
             errorMessage = "";
 
             if (file == null || file.Length == 0)

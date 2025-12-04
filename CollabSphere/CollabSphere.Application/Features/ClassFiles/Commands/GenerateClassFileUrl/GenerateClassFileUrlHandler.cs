@@ -75,7 +75,7 @@ namespace CollabSphere.Application.Features.ClassFiles.Commands.GenerateClassFil
         protected override async Task ValidateRequest(List<OperationError> errors, GenerateClassFileUrlCommand request)
         {
             // Check class
-            var classEntity = await _unitOfWork.ClassRepo.GetById(request.ClassId);
+            var classEntity = await _unitOfWork.ClassRepo.GetClassDetail(request.ClassId);
             if (classEntity == null)
             {
                 errors.Add(new OperationError()
@@ -104,11 +104,11 @@ namespace CollabSphere.Application.Features.ClassFiles.Commands.GenerateClassFil
             else if (request.UserRole == RoleConstants.STUDENT)
             {
                 // Check if is member of class
-                var isTeamMember = classEntity.ClassMembers
+                var isClassMember = classEntity.ClassMembers
                     .Select(cm => cm.StudentId)
                     .ToHashSet()
                     .Contains(request.UserId);
-                if (!isTeamMember)
+                if (!isClassMember)
                 {
                     errors.Add(new OperationError()
                     {
@@ -127,6 +127,15 @@ namespace CollabSphere.Application.Features.ClassFiles.Commands.GenerateClassFil
                 {
                     Field = nameof(request.FileId),
                     Message = $"No class file with ID '{request.FileId}'.",
+                });
+                return;
+            }
+            else if (classFile.ClassId != classEntity.ClassId)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.FileId),
+                    Message = $"No file with ID '{request.FileId}' in class '{classEntity.ClassName}'({classEntity.ClassId}).",
                 });
                 return;
             }

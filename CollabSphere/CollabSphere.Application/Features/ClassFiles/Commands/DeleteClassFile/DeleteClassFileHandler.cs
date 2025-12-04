@@ -68,7 +68,7 @@ namespace CollabSphere.Application.Features.ClassFiles.Commands.DeleteClassFile
         protected override async Task ValidateRequest(List<OperationError> errors, DeleteClassFileCommand request)
         {
             // Check class
-            var classEntity = await _unitOfWork.ClassRepo.GetById(request.ClassId);
+            var classEntity = await _unitOfWork.ClassRepo.GetClassDetail(request.ClassId);
             if (classEntity == null)
             {
                 errors.Add(new OperationError()
@@ -90,7 +90,7 @@ namespace CollabSphere.Application.Features.ClassFiles.Commands.DeleteClassFile
                 return;
             }
 
-            // Check file
+            // Check file existence
             var classFile = await _unitOfWork.ClassFileRepo.GetById(request.FileId);
             if (classFile == null)
             {
@@ -98,6 +98,16 @@ namespace CollabSphere.Application.Features.ClassFiles.Commands.DeleteClassFile
                 {
                     Field = nameof(request.FileId),
                     Message = $"No class file with ID '{request.FileId}'.",
+                });
+                return;
+            }
+            // Only delete file from class in request
+            else if (classFile.ClassId != request.ClassId)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.FileId),
+                    Message = $"No file with ID '{request.FileId}' in class '{classEntity.ClassName}'({classEntity.ClassId}).",
                 });
                 return;
             }

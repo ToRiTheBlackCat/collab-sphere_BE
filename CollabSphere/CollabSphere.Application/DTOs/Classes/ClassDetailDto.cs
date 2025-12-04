@@ -97,7 +97,7 @@ namespace CollabSphere.Application.Mappings.Classes
                 TeamCount = classEntity.TeamCount,
                 CreatedDate = classEntity.CreatedDate,
                 IsActive = classEntity.IsActive,
-                ClassFiles = classEntity.ClassFiles.ToViewModel(),
+                ClassFiles = classEntity.ClassFiles.ToViewModels(),
                 ClassMembers = classEntity.ClassMembers.ToViewModel(),
                 ProjectAssignments = classEntity.ProjectAssignments.Select(x => (ProjectAssignmentVM)x).ToList(),
                 Teams = classEntity.Teams.Select(x => (ClassTeamVM)x).ToList(),

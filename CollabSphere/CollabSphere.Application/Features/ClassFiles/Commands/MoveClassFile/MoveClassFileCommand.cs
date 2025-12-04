@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CollabSphere.Application.Features.ClassFiles.Commands.UploadClassFile
+namespace CollabSphere.Application.Features.ClassFiles.Commands.MoveClassFile
 {
-    public class UploadClassFileCommand : ICommand
+    public class MoveClassFileCommand : ICommand
     {
         public int ClassId { get; set; } = -1;
 
-        public IFormFile File { get; set; } = null!;
+        public int FileId { get; set; } = -1;
 
         public string FilePathPrefix { get; set; } = null!;
 

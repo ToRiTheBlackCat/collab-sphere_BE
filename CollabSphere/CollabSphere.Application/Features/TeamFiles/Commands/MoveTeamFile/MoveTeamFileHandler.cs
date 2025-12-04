@@ -46,7 +46,7 @@ namespace CollabSphere.Application.Features.TeamFiles.Commands.MoveTeamFile
 
                 await _unitOfWork.CommitTransactionAsync();
 
-                var folderString = string.IsNullOrEmpty(teamFile.FilePathPrefix) ? "root folder" : $"folder '{teamFile.FilePathPrefix}'";
+                var folderString = teamFile.FilePathPrefix.Equals("/") ? "root folder" : $"folder '{teamFile.FilePathPrefix}'";
 
                 result.Message = $"Moved team file '{teamFile.FileName}' ({teamFile.FileId}) to {folderString}.";
                 result.IsSuccess = true;
@@ -126,6 +126,8 @@ namespace CollabSphere.Application.Features.TeamFiles.Commands.MoveTeamFile
             }
 
             // Check for duplicated files in destination folder
+            request.FilePathPrefix = string.IsNullOrWhiteSpace(request.FilePathPrefix) ? "/" : request.FilePathPrefix.Trim();
+
             var duplicatedFile = team.TeamFiles
                 .Any(x =>
                     x.FileId != moveFile.FileId &&
@@ -136,7 +138,7 @@ namespace CollabSphere.Application.Features.TeamFiles.Commands.MoveTeamFile
             {
                 errors.Add(new OperationError()
                 {
-                    Field = nameof(request.FileId),
+                    Field = nameof(request.FilePathPrefix),
                     Message = $"Destination folder '{request.FilePathPrefix}' already have a file named '{moveFile.FileName}'.",
                 });
                 return;

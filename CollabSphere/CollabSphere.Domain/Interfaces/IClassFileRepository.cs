@@ -10,5 +10,6 @@ namespace CollabSphere.Domain.Intefaces
 {
     public interface IClassFileRepository : IGenericRepository<ClassFile>
     {
+        Task<List<ClassFile>> GetFilesByClass(int classId);
     }
 }

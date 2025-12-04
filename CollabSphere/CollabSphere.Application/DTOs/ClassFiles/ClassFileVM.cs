@@ -22,13 +22,13 @@ namespace CollabSphere.Application.DTOs.ClassFiles
 
         public string FileName { get; set; } = null!;
 
+        public string FilePathPrefix { get; set; } = null!;
+
         public string Type { get; set; } = null!;
 
         public long FileSize { get; set; }
 
         public DateTime CreatedAt { get; set; }
-
-        public string ObjectKey { get; set; } = null!;
 
         public string FileUrl { get; set; } = null!;
 
@@ -47,12 +47,8 @@ namespace CollabSphere.Application.Mappings.ClassFiles
 
             if (file.User != null)
             {
-                userName = file.User.IsTeacher ?
-                    file.User.Lecturer?.Fullname ?? userName :
-                    file.User.Student?.Fullname ?? userName;
-                avatarImg = file.User.IsTeacher ?
-                    file.User.Lecturer?.AvatarImg ?? avatarImg :
-                    file.User.Student?.AvatarImg ?? avatarImg;
+                userName = file.User.Lecturer?.Fullname ?? userName;
+                avatarImg = file.User.Lecturer?.AvatarImg ?? avatarImg;
             }
 
             return new ClassFileVM()
@@ -63,17 +59,22 @@ namespace CollabSphere.Application.Mappings.ClassFiles
                 UserName = userName,
                 AvatarImg = avatarImg,
                 FileName = file.FileName,
+                FilePathPrefix = file.FilePathPrefix,
                 Type = file.Type,
                 FileSize = file.FileSize,
                 CreatedAt = file.CreatedAt,
-                ObjectKey = file.ObjectKey,
                 FileUrl = file.FileUrl,
                 UrlExpireTime = file.UrlExpireTime,
             };
         }
 
-        public static List<ClassFileVM> ToViewModel(this IEnumerable<ClassFile> files)
+        public static List<ClassFileVM> ToViewModels(this IEnumerable<ClassFile> files)
         {
+            if (files == null || !files.Any())
+            {
+                return new List<ClassFileVM>();
+            }
+
             return files.Select(x => x.ToViewModel()).ToList();
         }
     }

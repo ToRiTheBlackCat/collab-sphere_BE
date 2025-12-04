@@ -123,7 +123,7 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUploa
             }
 
             // Check file
-            if (!FileValidator.ValidateFile(request.File, out var errorMessage, maxFileSize: 15))
+            if (!FileValidator.ValidateFile(request.File, out var errorMessage))
             {
                 errors.Add(new OperationError()
                 {
