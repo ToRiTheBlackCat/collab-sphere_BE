@@ -306,6 +306,20 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                     });
 
                 }
+
+                var foundSemester = foundClass.Semester;
+                if(request.EndDate != null && foundSemester != null)
+                {
+                    if(request.EndDate < foundSemester.StartDate || request.EndDate > foundSemester.EndDate)
+                    {
+                        errors.Add(new OperationError
+                        {
+                            Field = nameof(request.EndDate),
+                            Message = $"End date of team must be within the semester duration: {foundSemester.StartDate} - {foundSemester.EndDate}."
+                        });
+                    }
+                }
+
                 //Validate lecturer
                 var foundLecturer = await _unitOfWork.LecturerRepo.GetById(request.LecturerId);
                 if (foundLecturer == null)
