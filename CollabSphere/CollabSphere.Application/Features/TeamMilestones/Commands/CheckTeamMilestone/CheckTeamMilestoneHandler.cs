@@ -81,16 +81,17 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.CheckTeamMil
                 });
                 return;
             }
+            var team = milestone.Team;
 
-            // Check is Team leader
-            var member = milestone.Team.ClassMembers
+            // Only the team leader can change milestone's status
+            var member = team.ClassMembers
                 .FirstOrDefault(mem => mem.StudentId == request.UserId);
             if (member == null)
             {
                 errors.Add(new OperationError()
                 {
                     Field = nameof(request.UserId),
-                    Message = $"You ({request.UserId}) are not a member of the team with ID: {milestone.Team.Class.ClassId}.",
+                    Message = $"You ({request.UserId}) are not a member of the team '{team.TeamName}'({team.TeamId}).",
                 });
                 return;
             }
@@ -99,7 +100,20 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.CheckTeamMil
                 errors.Add(new OperationError()
                 {
                     Field = nameof(request.UserId),
-                    Message = $"You ({request.UserId}) are not the LEADER the team with ID: {milestone.Team.Class.ClassId}.",
+                    Message = $"You ({request.UserId}) are not the LEADER the team '{team.TeamName}'({team.TeamId}).",
+                });
+                return;
+            }
+
+            // Can only change status of an unevaluated milestone
+            var milestoneEval = await _unitOfWork.MilestoneEvaluationRepo
+                .GetEvaluationOfMilestone(milestone.TeamMilestoneId, team.LecturerId, team.TeamId);
+            if (milestoneEval != null)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(dto.TeamMilestoneId),
+                    Message = $"Can not change status of milestone '{milestone.Title}'({milestone.TeamMilestoneId}) for it has already been evaluated.",
                 });
                 return;
             }
