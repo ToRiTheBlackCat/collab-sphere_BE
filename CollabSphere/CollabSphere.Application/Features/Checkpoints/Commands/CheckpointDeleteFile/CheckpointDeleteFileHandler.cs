@@ -87,7 +87,7 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointDelet
             var classEntity = milestone!.Team.Class;
             var team = milestone.Team;
 
-            // Can not checkpoint file if milestone is evaluated
+            // Can not delete checkpoint file if milestone is evaluated
             if (milestone.MilestoneEvaluation != null)
             {
                 errors.Add(new OperationError()
@@ -98,7 +98,7 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointDelet
                 return;
             }
 
-            // Can not checkpoint file if milestone's status is DONE
+            // Can not delete checkpoint file if milestone's status is DONE
             if (milestone.Status == (int)TeamMilestoneStatuses.DONE)
             {
                 errors.Add(new OperationError()
