@@ -81,17 +81,49 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckDoneCheckp
                 return;
             }
 
-            // Check if is student in team
-            var member = checkpoint.TeamMilestone.Team.ClassMembers
-                .FirstOrDefault(mem => mem.StudentId == request.UserId);
-            if (member == null)
+            // Get milestone for validation
+            var milestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(checkpoint.TeamMilestoneId);
+            var classEntity = milestone!.Team.Class;
+            var team = milestone.Team;
+
+            // Check done if milestone is evaluated
+            if (milestone.MilestoneEvaluation != null)
             {
                 errors.Add(new OperationError()
                 {
-                    Field = nameof(request.UserId),
-                    Message = $"You ({request.UserId}) are not a member of the team with ID: {checkpoint.TeamMilestone.Team.TeamId}"
+                    Field = nameof(request.CheckpointId),
+                    Message = $"Can not change the checkpoint status. Reason - The checkpoint's team milestone has already been evaluated.",
                 });
                 return;
+            }
+
+            // Lecturer have to be assigned to class
+            if (request.UserRole == RoleConstants.LECTURER)
+            {
+                if (classEntity.LecturerId != request.UserId)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = nameof(request.UserId),
+                        Message = $"You({request.UserId}) are not the assigned lecturer of class '{classEntity.ClassName}'({classEntity.ClassId}).",
+                    });
+                    return;
+                }
+            }
+            // Student have to be team member
+            else if (request.UserRole == RoleConstants.STUDENT)
+            {
+                var isMember = team.ClassMembers
+                    .Any(mem => mem.StudentId == request.UserId);
+                if (!isMember)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = nameof(request.UserId),
+                        Message = $"You({request.UserId}) are not a member of the team '{team.TeamName}'({team.TeamId})."
+                    });
+                    return;
+                }
             }
         }
     }
