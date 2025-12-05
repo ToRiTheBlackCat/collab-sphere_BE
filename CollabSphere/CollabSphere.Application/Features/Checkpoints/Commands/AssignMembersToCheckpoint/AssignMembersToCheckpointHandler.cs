@@ -76,21 +76,21 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.AssignMembersTo
                     await _unitOfWork.CheckpointAssignmentRepo.Create(newAssignment);
 
                     //Found user to send mail
-                    var foundClassMember = await _unitOfWork.ClassMemberRepo.GetById(classMemberId);
-                    var foundStu = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(foundClassMember!.StudentId);
+                    var foundStu = await _unitOfWork.UserRepo.GetUserByClassMemberId(classMemberId);
 
                     //Add to receiverEmails 
-                    receiverEmails.Add(foundStu.Email);
+                    receiverEmails.Add(foundStu!.Email);
                 }
                 await _unitOfWork.SaveChangesAsync();
                 #endregion
 
                 await _unitOfWork.CommitTransactionAsync();
-                //Send Email
-                var foundCheckpoint = await _unitOfWork.CheckpointRepo.GetById(request.AssignmentsDto.CheckpointId);
-                await _emailSender.SendNotiEmailsForCheckpoint(receiverEmails, foundCheckpoint);
 
-                result.Message = $"Updated member assignments for checkpoint with ID '{request.AssignmentsDto.CheckpointId}'. " +
+                //Send Email (asynchronously)
+                var foundCheckpoint = await _unitOfWork.CheckpointRepo.GetById(request.AssignmentsDto.CheckpointId);
+                await _emailSender.SendNotiEmailsForCheckpoint(receiverEmails, foundCheckpoint!);
+
+                result.Message = $"Updated member assignments for checkpoint with ID '{request.AssignmentsDto.CheckpointId}'. \n" +
                     $"Added {newMemberIds.Count()} member(s), Removed {removeCount} member(s).";
                 result.IsSuccess = true;
             }
@@ -119,17 +119,57 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.AssignMembersTo
                 return;
             }
 
-            // Check if user is team member
-            if (request.UserRole == RoleConstants.STUDENT)
+            // Get milestone for validation
+            var milestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(checkpoint.TeamMilestoneId);
+            var classEntity = milestone!.Team.Class;
+            var team = milestone.Team;
+
+            // Can not assign to checkpoint if milestone is evaluated
+            if (milestone.MilestoneEvaluation != null)
             {
-                var member = checkpoint.TeamMilestone.Team.ClassMembers
-                    .FirstOrDefault(x => x.StudentId == request.UserId);
-                if (member == null)
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.AssignmentsDto.CheckpointId),
+                    Message = $"Can not change checkpoint assignments. Reason - The milestone '{milestone.Title}'({milestone.TeamMilestoneId}) has already been evaluated.",
+                });
+                return;
+            }
+
+            // Can not assign to checkpoint if milestone's status is DONE
+            if (milestone.Status == (int)TeamMilestoneStatuses.DONE)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.AssignmentsDto.CheckpointId),
+                    Message = $"Can not change checkpoint assignments. Reason - The milestone '{milestone.Title}'({milestone.TeamMilestoneId}) status is DONE.",
+                });
+                return;
+            }
+
+            // Lecturer have to be assigned to class
+            if (request.UserRole == RoleConstants.LECTURER)
+            {
+                if (classEntity.LecturerId != request.UserId)
                 {
                     errors.Add(new OperationError()
                     {
                         Field = nameof(request.UserId),
-                        Message = $"You ({request.UserId}) are not a member of the team with ID: {checkpoint.TeamMilestone.Team.TeamId}"
+                        Message = $"You({request.UserId}) are not the assigned lecturer of class '{classEntity.ClassName}'({classEntity.ClassId}).",
+                    });
+                    return;
+                }
+            }
+            // Student have to be team member
+            else if (request.UserRole == RoleConstants.STUDENT)
+            {
+                var isMember = team.ClassMembers
+                    .Any(mem => mem.StudentId == request.UserId);
+                if (!isMember)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = nameof(request.UserId),
+                        Message = $"You({request.UserId}) are not a member of the team '{team.TeamName}'({team.TeamId})."
                     });
                     return;
                 }

@@ -68,7 +68,7 @@ namespace CollabSphere.Application.Features.MilestoneFiles.Commands.DeleteMilest
         protected override async Task ValidateRequest(List<OperationError> errors, DeleteMilestoneFileCommand request)
         {
             // Check team milestone
-            var tMilestone = await _unitOfWork.TeamMilestoneRepo.GetDetailsById(request.TeamMilestoneId);
+            var tMilestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(request.TeamMilestoneId);
             if (tMilestone == null)
             {
                 errors.Add(new OperationError()

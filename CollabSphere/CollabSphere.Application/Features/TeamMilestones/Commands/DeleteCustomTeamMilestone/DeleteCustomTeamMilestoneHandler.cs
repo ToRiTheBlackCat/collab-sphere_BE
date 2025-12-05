@@ -33,7 +33,6 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.DeleteCustom
             {
                 await _unitOfWork.BeginTransactionAsync();
 
-                #region Data Operation
                 // Get team milestone
                 var milestone = (await _unitOfWork.TeamMilestoneRepo.GetById(request.TeamMilestoneId))!;
 
@@ -42,6 +41,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.DeleteCustom
                 _unitOfWork.TeamMilestoneRepo.Update(milestone);
                 await _unitOfWork.SaveChangesAsync();
 
+                #region Update progress of team
                 // Also Update Team's progress
                 var team = await _unitOfWork.TeamRepo.GetById(milestone.TeamId);
                 var teamMilestones = await _unitOfWork.TeamMilestoneRepo.GetMilestonesByTeamId(team!.TeamId);
@@ -49,7 +49,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.DeleteCustom
                 team.Progress = MathF.Round((doneCount * 1.0f) / teamMilestones.Count * 100f, 2);
 
                 _unitOfWork.TeamRepo.Update(team);
-                await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync(); 
                 #endregion
 
                 await _unitOfWork.CommitTransactionAsync();
@@ -69,7 +69,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.DeleteCustom
         protected override async Task ValidateRequest(List<OperationError> errors, DeleteCustomTeamMilestoneCommand request)
         {
             // Check milestone
-            var milestone = await _unitOfWork.TeamMilestoneRepo.GetDetailsById(request.TeamMilestoneId);
+            var milestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(request.TeamMilestoneId);
             if (milestone == null)
             {
                 errors.Add(new OperationError()
@@ -102,7 +102,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.DeleteCustom
                 return;
             }
 
-            // Can not delete an milestone that is valuated
+            // Can not delete an milestone that is evaluated
             if (milestone.MilestoneEvaluation != null)
             {
                 errors.Add(new OperationError()
@@ -110,7 +110,16 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.DeleteCustom
                     Field = nameof(request.TeamMilestoneId),
                     Message = $"Can not delete a milestone that is already evaluated.",
                 });
-                return;
+            }
+
+            // Can not delete a milestone that have checkpoints
+            if (milestone.Checkpoints.Any())
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.TeamMilestoneId),
+                    Message = $"Can not delete a milestone that have already implemented checkpoints.",
+                });
             }
         }
     }

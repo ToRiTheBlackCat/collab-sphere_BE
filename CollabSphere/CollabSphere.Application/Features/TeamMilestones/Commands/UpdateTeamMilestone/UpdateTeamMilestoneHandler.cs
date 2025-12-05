@@ -75,7 +75,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMi
             var dto = request.TeamMilestoneDto;
 
             // Check TeamMilestoneId
-            var milestone = await _unitOfWork.TeamMilestoneRepo.GetDetailsById(dto.TeamMilestoneId);
+            var milestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(dto.TeamMilestoneId);
             if (milestone == null)
             {
                 errors.Add(new OperationError()
@@ -85,18 +85,33 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMi
                 });
                 return;
             }
+            var team = milestone.Team;
 
-            if (milestone.Team.Class.LecturerId != request.UserId)
+            // Only the lecturer of the class can update team milestone
+            if (team.LecturerId != request.UserId)
             {
                 errors.Add(new OperationError()
                 {
                     Field = nameof(request.UserId),
-                    Message = $"You ({request.UserId}) are not the assigned lecturer of the class with ID: {milestone.Team.Class.ClassId}.",
+                    Message = $"You ({request.UserId}) are not the assigned lecturer of the class '{team.Class.ClassName}'({team.Class.ClassId}).",
                 });
                 return;
             }
 
-            // Check if is updating valid fields
+            // Can only update unevaluated milestone
+            var milestoneEval = await _unitOfWork.MilestoneEvaluationRepo
+                .GetEvaluationOfMilestone(milestone.TeamMilestoneId, team.LecturerId, team.TeamId);
+            if (milestoneEval != null)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(dto.TeamMilestoneId),
+                    Message = $"Can not change status of milestone '{milestone.Title}'({milestone.TeamMilestoneId}) for it has already been evaluated.",
+                });
+                return;
+            }
+
+            // Can only update title & description for an original milestone
             if (milestone.ObjectiveMilestoneId.HasValue)
             {
                 if (!string.IsNullOrWhiteSpace(dto.Title))

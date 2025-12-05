@@ -2,6 +2,7 @@
 using Amazon.S3.Model;
 using CollabSphere.Application.Base;
 using CollabSphere.Application.Common;
+using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Domain.Entities;
 using Microsoft.Extensions.Logging;
@@ -109,17 +110,60 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointUploa
                 return;
             }
 
-            // Check if is student in team
-            var member = checkpoint.TeamMilestone.Team.ClassMembers
-                .FirstOrDefault(mem => mem.StudentId == request.UserId);
-            if (member == null)
+            // Get milestone for validation
+            var milestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(checkpoint.TeamMilestoneId);
+            var classEntity = milestone!.Team.Class;
+            var team = milestone.Team;
+
+            // Can not upload checkpoint file if milestone is evaluated
+            if (milestone.MilestoneEvaluation != null)
             {
                 errors.Add(new OperationError()
                 {
-                    Field = nameof(request.UserId),
-                    Message = $"You ({request.UserId}) are not a member of the team with ID: {checkpoint.TeamMilestone.Team.TeamId}"
+                    Field = nameof(request.CheckpointId),
+                    Message = $"Can not upload file for checkpoint. Reason - The milestone '{milestone.Title}'({milestone.TeamMilestoneId}) has already been evaluated.",
                 });
                 return;
+            }
+
+            // Can not upload checkpoint file if milestone's status is DONE
+            if (milestone.Status == (int)TeamMilestoneStatuses.DONE)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.CheckpointId),
+                    Message = $"Can not upload file for checkpoint. Reason - The milestone '{milestone.Title}'({milestone.TeamMilestoneId}) status is DONE.",
+                });
+                return;
+            }
+
+            // Lecturer have to be assigned to class
+            if (request.UserRole == RoleConstants.LECTURER)
+            {
+                if (classEntity.LecturerId != request.UserId)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = nameof(request.UserId),
+                        Message = $"You({request.UserId}) are not the assigned lecturer of class '{classEntity.ClassName}'({classEntity.ClassId}).",
+                    });
+                    return;
+                }
+            }
+            // Student have to be team member
+            else if (request.UserRole == RoleConstants.STUDENT)
+            {
+                var isMember = team.ClassMembers
+                    .Any(mem => mem.StudentId == request.UserId);
+                if (!isMember)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = nameof(request.UserId),
+                        Message = $"You({request.UserId}) are not a member of the team '{team.TeamName}'({team.TeamId})."
+                    });
+                    return;
+                }
             }
 
             // Check file

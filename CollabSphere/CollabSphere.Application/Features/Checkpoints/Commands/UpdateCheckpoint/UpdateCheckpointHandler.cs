@@ -66,6 +66,18 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.UpdateCheckpoin
         {
             var dto = request.UpdateDto;
 
+            // Check teamMilesotneId
+            var teamMilestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(dto.TeamMilestoneId);
+            if (teamMilestone == null)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(dto.TeamMilestoneId),
+                    Message = $"No team milestone with ID: {dto.TeamMilestoneId}"
+                });
+                return;
+            }
+
             // Check checkpointId
             var checkpoint = await _unitOfWork.CheckpointRepo.GetById(dto.CheckpointId);
             if (checkpoint == null)
@@ -78,42 +90,59 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.UpdateCheckpoin
                 return;
             }
 
-            // Check teamMilesotneId
-            var teamMilestone = await _unitOfWork.TeamMilestoneRepo.GetDetailsById(dto.TeamMilestoneId);
-            if (teamMilestone == null)
+            // Get milestone for validation
+            var classEntity = teamMilestone!.Team.Class;
+            var team = teamMilestone.Team;
+
+            // Can not update checkpoint if milestone is evaluated
+            if (teamMilestone.MilestoneEvaluation != null)
             {
                 errors.Add(new OperationError()
                 {
-                    Field = nameof(dto.TeamMilestoneId),
-                    Message = $"No team milestone with ID: {dto.TeamMilestoneId}"
+                    Field = nameof(request.UpdateDto.CheckpointId),
+                    Message = $"Can not update checkpoint. Reason - The milestone '{teamMilestone.Title}'({teamMilestone.TeamMilestoneId}) has already been evaluated.",
                 });
                 return;
             }
 
-            // Check if user is team member
-            if (request.UserRole == RoleConstants.STUDENT)
+            // Can not update checkpoint if milestone's status is DONE
+            if (teamMilestone.Status == (int)TeamMilestoneStatuses.DONE)
             {
-                var member = teamMilestone.Team.ClassMembers
-                    .FirstOrDefault(x => x.StudentId == request.UserId);
-                if (member == null)
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.UpdateDto.CheckpointId),
+                    Message = $"Can not update checkpoint. Reason - The milestone '{teamMilestone.Title}'({teamMilestone.TeamMilestoneId}) status is DONE.",
+                });
+                return;
+            }
+
+            // Lecturer have to be assigned to class
+            if (request.UserRole == RoleConstants.LECTURER)
+            {
+                if (classEntity.LecturerId != request.UserId)
                 {
                     errors.Add(new OperationError()
                     {
                         Field = nameof(request.UserId),
-                        Message = $"You ({request.UserId}) are not a member of the team with ID: {teamMilestone.TeamId}"
+                        Message = $"You({request.UserId}) are not the assigned lecturer of class '{classEntity.ClassName}'({classEntity.ClassId}).",
                     });
                     return;
                 }
             }
-            // Check if user is lecturer of class
-            else if (request.UserRole == RoleConstants.LECTURER && teamMilestone.Team.Class.LecturerId != request.UserId)
+            // Student have to be team member
+            else if (request.UserRole == RoleConstants.STUDENT)
             {
-                errors.Add(new OperationError()
+                var isMember = team.ClassMembers
+                    .Any(mem => mem.StudentId == request.UserId);
+                if (!isMember)
                 {
-                    Field = nameof(request.UserId),
-                    Message = $"You ({request.UserId}) are not the assigned lecturer of the class with ID: {teamMilestone.Team.Class.ClassId}"
-                });
-                return;
+                    errors.Add(new OperationError()
+                    {
+                        Field = nameof(request.UserId),
+                        Message = $"You({request.UserId}) are not a member of the team '{team.TeamName}'({team.TeamId})."
+                    });
+                    return;
+                }
             }
 
             // StartDate must be before DueDate

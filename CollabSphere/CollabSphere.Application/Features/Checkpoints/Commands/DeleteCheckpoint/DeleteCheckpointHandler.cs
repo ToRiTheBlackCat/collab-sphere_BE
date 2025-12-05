@@ -3,12 +3,13 @@ using CollabSphere.Application.Base;
 using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
+using CollabSphere.Domain.Entities;
 using Serilog.Parsing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 
 namespace CollabSphere.Application.Features.Checkpoints.Commands.DeleteCheckpoint
 {
@@ -55,7 +56,7 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.DeleteCheckpoin
                     }
                     await _unitOfWork.SaveChangesAsync();
 
-                    var deleteResponse = await _s3Client.DeleteFilesFromS3Async(files.Select(x => x.ObjectKey)); 
+                    var deleteResponse = await _s3Client.DeleteFilesFromS3Async(files.Select(x => x.ObjectKey));
                 }
 
                 // Remove checkpoint
@@ -110,29 +111,57 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.DeleteCheckpoin
                 return;
             }
 
-            // Check if user is team member
-            if (request.UserRole == RoleConstants.STUDENT)
+            // Get milestone for validation
+            var teamMilestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(checkpoint.TeamMilestoneId);
+            var classEntity = teamMilestone!.Team.Class;
+            var team = teamMilestone.Team;
+
+            // Can not delete checkpoint if milestone is evaluated
+            if (teamMilestone.MilestoneEvaluation != null)
             {
-                var member = checkpoint.TeamMilestone.Team.ClassMembers
-                    .FirstOrDefault(x => x.StudentId == request.UserId);
-                if (member == null)
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.CheckpointId),
+                    Message = $"Can not delete checkpoint. Reason - The milestone '{teamMilestone.Title}'({teamMilestone.TeamMilestoneId}) has already been evaluated.",
+                });
+                return;
+            }
+
+            // Can not delete checkpoint if milestone's status is DONE
+            if (teamMilestone.Status == (int)TeamMilestoneStatuses.DONE)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.CheckpointId),
+                    Message = $"Can not delete checkpoint. Reason - The milestone '{teamMilestone.Title}'({teamMilestone.TeamMilestoneId}) status is DONE.",
+                });
+                return;
+            }
+
+            // Lecturer have to be assigned to class
+            if (request.UserRole == RoleConstants.LECTURER)
+            {
+                if (classEntity.LecturerId != request.UserId)
                 {
                     errors.Add(new OperationError()
                     {
                         Field = nameof(request.UserId),
-                        Message = $"You ({request.UserId}) are not a member of the team with ID: {checkpoint.TeamMilestone.Team.TeamId}"
+                        Message = $"You({request.UserId}) are not the assigned lecturer of class '{classEntity.ClassName}'({classEntity.ClassId}).",
                     });
                     return;
                 }
             }
-            else if (request.UserRole == RoleConstants.LECTURER)
+            // Student have to be team member
+            else if (request.UserRole == RoleConstants.STUDENT)
             {
-                if (checkpoint.TeamMilestone.Team.LecturerId != request.UserId)
+                var isMember = team.ClassMembers
+                    .Any(mem => mem.StudentId == request.UserId);
+                if (!isMember)
                 {
                     errors.Add(new OperationError()
                     {
                         Field = nameof(request.UserId),
-                        Message = $"You ({request.UserId}) are not the assigned lecturer of the class with ID: {checkpoint.TeamMilestone.Team.ClassId}",
+                        Message = $"You({request.UserId}) are not a member of the team '{team.TeamName}'({team.TeamId})."
                     });
                     return;
                 }

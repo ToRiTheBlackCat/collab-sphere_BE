@@ -18,7 +18,7 @@ namespace CollabSphere.Infrastructure.Repositories
         {
         }
 
-        public async Task<TeamMilestone?> GetDetailsById(int teamMilestoneId)
+        public async Task<TeamMilestone?> GetDetailById(int teamMilestoneId)
         {
             var milestone = await _context.TeamMilestones
                 .AsNoTracking()
