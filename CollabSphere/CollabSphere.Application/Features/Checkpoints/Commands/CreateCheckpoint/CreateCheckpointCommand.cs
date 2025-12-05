@@ -15,15 +15,15 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CreateCheckpoin
         public int TeamMilestoneId { get; set; } = -1;
 
         [Required]
-        [Length(3, 150)]
+        [Length(0, 150)]
         public string Title { get; set; } = null!;
 
         [Required]
-        [Length(3, 500)]
+        [Length(0, 500)]
         public string Description { get; set; } = null!;
 
         [Required]
-        [Length(3, 50)]
+        [Length(0, 50)]
         public string Complexity { get; set; } = null!;
 
         [Required]
