@@ -417,7 +417,7 @@ namespace CollabSphere.Application.Common
 
         }
 
-        public async Task SendNotiEmailsForCheckpoint(HashSet<string> receivers, Checkpoint? checkpoint)
+        public async Task SendNotiEmailsForCheckpoint(HashSet<string> receivers, Checkpoint checkpoint)
         {
             var email = _configure["SMTPSettings:Email"] ?? "";
             var password = _configure["SMTPSettings:AppPassword"] ?? "";
@@ -571,7 +571,7 @@ namespace CollabSphere.Application.Common
 
             if (mailMessage.To.Count > 0)
             {
-                smtpClient.Send(mailMessage);
+                await smtpClient.SendMailAsync(mailMessage);
             }
         }
 
