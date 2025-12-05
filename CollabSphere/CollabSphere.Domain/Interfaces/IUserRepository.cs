@@ -20,6 +20,7 @@ namespace CollabSphere.Domain.Intefaces
         Task<User?> GetOneByUIdWithInclude(int uid);
         Task<User?> GetOneByUserIdAsync(int userId);
         Task<User?> GetOneByIdWithIncludeAsync(int TId, string typeId, params Expression<Func<User, dynamic>>[] includeProperties);
+        Task<User?> GetUserByClassMemberId(int classMemberId);
         Task InsertUser(User user);
         void UpdateUser(User user);
         Task<User?> GetStudentByStudentCodeAsync(string? studentCode);

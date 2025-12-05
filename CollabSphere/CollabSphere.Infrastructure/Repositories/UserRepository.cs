@@ -100,10 +100,22 @@ namespace CollabSphere.Infrastructure.Repositories
             return await query.FirstOrDefaultAsync(entity => EF.Property<int>(entity, typeId) == TId);
         }
 
+        public async Task<User?> GetUserByClassMemberId(int classMemberId)
+        {
+            var classMemberEntry = await _context.ClassMembers
+                .AsNoTracking()
+                .Include(x => x.Student)
+                    .ThenInclude(stu => stu.StudentNavigation)
+                .FirstOrDefaultAsync(x => x.ClassMemberId == classMemberId);
+
+            return classMemberEntry?.Student?.StudentNavigation;
+        }
+
         public async Task<User?> GetOneByUserIdAsync(int userId)
         {
             return await _context.Users.FirstOrDefaultAsync(x => x.UId == userId && x.IsActive);
         }
+
 
         public async Task InsertUser(User user)
         {

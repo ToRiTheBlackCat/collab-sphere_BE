@@ -86,13 +86,24 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckDoneCheckp
             var classEntity = milestone!.Team.Class;
             var team = milestone.Team;
 
-            // Check done if milestone is evaluated
+            // Can not check done if milestone is evaluated
             if (milestone.MilestoneEvaluation != null)
             {
                 errors.Add(new OperationError()
                 {
                     Field = nameof(request.CheckpointId),
-                    Message = $"Can not change the checkpoint status. Reason - The checkpoint's team milestone has already been evaluated.",
+                    Message = $"Can not change the checkpoint status. Reason - The milestone '{milestone.Title}'({milestone.TeamMilestoneId}) has already been evaluated.",
+                });
+                return;
+            }
+
+            // Can not check done if milestone's status is DONE
+            if (milestone.Status == (int)TeamMilestoneStatuses.DONE)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.CheckpointId),
+                    Message = $"Can not change the checkpoint status. Reason - The milestone '{milestone.Title}'({milestone.TeamMilestoneId}) status is DONE.",
                 });
                 return;
             }
