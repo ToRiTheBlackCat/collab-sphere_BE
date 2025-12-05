@@ -89,7 +89,7 @@ namespace CollabSphere.Application.Features.MilestoneReturns.Commands.CreateMile
         protected override async Task ValidateRequest(List<OperationError> errors, CreateMilestoneReturnCommand request)
         {
             // Check team milestone
-            var tMilestone = await _unitOfWork.TeamMilestoneRepo.GetDetailsById(request.TeamMilestoneId);
+            var tMilestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(request.TeamMilestoneId);
             if (tMilestone == null)
             {
                 errors.Add(new OperationError()

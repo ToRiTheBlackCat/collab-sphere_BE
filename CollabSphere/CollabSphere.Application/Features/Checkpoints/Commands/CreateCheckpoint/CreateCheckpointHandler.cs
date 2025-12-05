@@ -79,7 +79,7 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CreateCheckpoin
         protected override async Task ValidateRequest(List<OperationError> errors, CreateCheckpointCommand request)
         {
             // Check teamMilesotneId
-            var teamMilestone = await _unitOfWork.TeamMilestoneRepo.GetDetailsById(request.TeamMilestoneId);
+            var teamMilestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(request.TeamMilestoneId);
             if (teamMilestone == null)
             {
                 errors.Add(new OperationError()

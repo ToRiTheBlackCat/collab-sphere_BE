@@ -75,7 +75,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMi
             var dto = request.TeamMilestoneDto;
 
             // Check TeamMilestoneId
-            var milestone = await _unitOfWork.TeamMilestoneRepo.GetDetailsById(dto.TeamMilestoneId);
+            var milestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(dto.TeamMilestoneId);
             if (milestone == null)
             {
                 errors.Add(new OperationError()

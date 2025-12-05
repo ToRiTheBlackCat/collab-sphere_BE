@@ -69,7 +69,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.DeleteCustom
         protected override async Task ValidateRequest(List<OperationError> errors, DeleteCustomTeamMilestoneCommand request)
         {
             // Check milestone
-            var milestone = await _unitOfWork.TeamMilestoneRepo.GetDetailsById(request.TeamMilestoneId);
+            var milestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(request.TeamMilestoneId);
             if (milestone == null)
             {
                 errors.Add(new OperationError()
