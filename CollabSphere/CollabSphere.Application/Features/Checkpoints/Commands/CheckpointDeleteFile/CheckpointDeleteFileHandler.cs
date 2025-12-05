@@ -82,30 +82,60 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckpointDelet
                 return;
             }
 
-            if (request.UserRole == RoleConstants.STUDENT)
+            // Get milestone for validation
+            var milestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(checkpoint.TeamMilestoneId);
+            var classEntity = milestone!.Team.Class;
+            var team = milestone.Team;
+
+            // Can not checkpoint file if milestone is evaluated
+            if (milestone.MilestoneEvaluation != null)
             {
-                // Check if is student in team
-                var member = checkpoint.TeamMilestone.Team.ClassMembers
-                    .FirstOrDefault(mem => mem.StudentId == request.UserId);
-                if (member == null)
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.CheckpointId),
+                    Message = $"Can not delete checkpoint's file. Reason - The milestone '{milestone.Title}'({milestone.TeamMilestoneId}) has already been evaluated.",
+                });
+                return;
+            }
+
+            // Can not checkpoint file if milestone's status is DONE
+            if (milestone.Status == (int)TeamMilestoneStatuses.DONE)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(request.CheckpointId),
+                    Message = $"Can not delete checkpoint's file. Reason - The milestone '{milestone.Title}'({milestone.TeamMilestoneId}) status is DONE.",
+                });
+                return;
+            }
+
+            // Lecturer have to be assigned to class
+            if (request.UserRole == RoleConstants.LECTURER)
+            {
+                if (classEntity.LecturerId != request.UserId)
                 {
                     errors.Add(new OperationError()
                     {
                         Field = nameof(request.UserId),
-                        Message = $"You ({request.UserId}) are not a member of the team with ID: {checkpoint.TeamMilestone.Team.TeamId}"
+                        Message = $"You({request.UserId}) are not the assigned lecturer of class '{classEntity.ClassName}'({classEntity.ClassId}).",
                     });
                     return;
                 }
             }
-            else if (request.UserRole == RoleConstants.LECTURER && checkpoint.TeamMilestone.Team.LecturerId != request.UserId)
+            // Student have to be team member
+            else if (request.UserRole == RoleConstants.STUDENT)
             {
-                // User is not lecuter assigned to class
-                errors.Add(new OperationError()
+                var isMember = team.ClassMembers
+                    .Any(mem => mem.StudentId == request.UserId);
+                if (!isMember)
                 {
-                    Field = nameof(request.UserId),
-                    Message = $"You ({request.UserId}) are not the assigned lecturer of the class with ID '{checkpoint.TeamMilestone.Team.ClassId}'",
-                });
-                return;
+                    errors.Add(new OperationError()
+                    {
+                        Field = nameof(request.UserId),
+                        Message = $"You({request.UserId}) are not a member of the team '{team.TeamName}'({team.TeamId})."
+                    });
+                    return;
+                }
             }
 
             // Check file is in checkpoint

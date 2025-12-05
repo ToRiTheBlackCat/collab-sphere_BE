@@ -118,6 +118,7 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.AssignMembersTo
                 });
                 return;
             }
+
             // Get milestone for validation
             var milestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(checkpoint.TeamMilestoneId);
             var classEntity = milestone!.Team.Class;
