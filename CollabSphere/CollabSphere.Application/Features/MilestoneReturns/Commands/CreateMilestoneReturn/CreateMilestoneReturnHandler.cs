@@ -5,6 +5,7 @@ using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Application.Features.MilestoneFiles.Commands.UploadMilestoneFile;
 using CollabSphere.Domain.Entities;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +19,19 @@ namespace CollabSphere.Application.Features.MilestoneReturns.Commands.CreateMile
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAmazonS3 _s3Client;
+        private readonly IConfiguration _configure;
+        private readonly EmailSender _emailSender;
+        private TeamMilestone _teamMilestone;
+        private Domain.Entities.User _lecturer;
 
-        public CreateMilestoneReturnHandler(IUnitOfWork unitOfWork, IAmazonS3 s3Client)
+        public CreateMilestoneReturnHandler(IUnitOfWork unitOfWork,
+                                            IAmazonS3 s3Client,
+                                            IConfiguration configure)
         {
             _unitOfWork = unitOfWork;
             _s3Client = s3Client;
+            _configure = configure;
+            _emailSender = new EmailSender(_configure);
         }
 
         protected override async Task<CommandResult> HandleCommand(CreateMilestoneReturnCommand request, CancellationToken cancellationToken)
@@ -69,6 +78,10 @@ namespace CollabSphere.Application.Features.MilestoneReturns.Commands.CreateMile
 
                 await _unitOfWork.CommitTransactionAsync();
 
+                //Send noti email to lecturer
+                var foundTeam = await _unitOfWork.TeamRepo.GetById(_teamMilestone.TeamId);
+                await _emailSender.SendNotiEmailsForMilestoneSubmit(_lecturer.Email, foundTeam.TeamName, _teamMilestone.Title, uploadResponse.FileName, newMileReturn.SubmitedDate);
+
                 result.Message = $"Submitted milestone return '{newMileReturn.FileName}' ({newMileReturn.MileReturnId}) to milestone with ID '{request.TeamMilestoneId}'.";
                 result.IsSuccess = true;
             }
@@ -99,6 +112,12 @@ namespace CollabSphere.Application.Features.MilestoneReturns.Commands.CreateMile
                 });
                 return;
             }
+            _teamMilestone = tMilestone;
+
+            var foundTeam = await _unitOfWork.TeamRepo.GetById(tMilestone.TeamId);
+            var foundLecturer = await _unitOfWork.UserRepo.GetOneByUserIdAsync(foundTeam.LecturerId);
+
+            _lecturer = foundLecturer;
 
             if (tMilestone.MilestoneEvaluation != null)
             {
