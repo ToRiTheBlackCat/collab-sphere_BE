@@ -1125,7 +1125,7 @@ namespace CollabSphere.Application.Common
             var dashboardUrl = "https://collabsphere.space";
 
             // Current timestamp for the receipt
-            string timeStamp = submitedDate.ToString("dd/MM/yyyy HH:mm");
+            string timeStamp = submitedDate.ToString("dd/MM/yyyy");
 
             string htmlBody = $@"
 <html>
@@ -1211,8 +1211,8 @@ namespace CollabSphere.Application.Common
           <h2>✅ Submission Successful</h2>
         </div>
         <div class='content'>
-          <p>Hello Team <strong>{teamName}</strong>,</p>
-          <p>This email confirms that your submission for the milestone <strong>{milestoneName}</strong> has been successfully uploaded to the system.</p>
+          <p>Dear Lecturer,</p>
+          <p>This email notifiies that your team {teamName} has submit for the milestone <strong>{milestoneName}</strong></p>
 
           <div class='schedule-box'>
             <p><strong>🏁 Milestone:</strong> {milestoneName}</p>
@@ -1227,7 +1227,7 @@ namespace CollabSphere.Application.Common
           </div>
 
           <p style='margin-top: 30px; font-size: 13px; color: #777; text-align: center;'>
-            Good luck with the evaluation!
+            Take a look for more detail of the team submission
           </p>
         </div>
         <div class='footer'>
