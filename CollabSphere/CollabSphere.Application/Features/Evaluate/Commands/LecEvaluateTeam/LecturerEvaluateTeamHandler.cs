@@ -221,7 +221,7 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam
                     if (foundProject != null)
                     {
                         //Find subject syllabus 
-                        var foundSyllabus = await _unitOfWork.SubjectRepo.GetById(foundProject.SubjectId);
+                        var foundSyllabus = await _unitOfWork.SubjectRepo.GetSubjectDetail(foundProject.SubjectId);
 
                         if(foundSyllabus != null)
                         {

@@ -27,14 +27,14 @@ namespace CollabSphere.Infrastructure.Repositories
         //    return subjects;
         //}
 
-        public override async Task<Subject?> GetById(int id)
+        public async Task<Subject?> GetSubjectDetail(int subjectId)
         {
             var subject = await _context.Subjects
                 .Include(x => x.SubjectSyllabi)
                     .ThenInclude(x => x.SubjectGradeComponents)
                 .Include(x => x.SubjectSyllabi)
                     .ThenInclude(x => x.SubjectOutcomes)
-                .FirstOrDefaultAsync(x => x.SubjectId == id);
+                .FirstOrDefaultAsync(x => x.SubjectId == subjectId);
             if (subject != null)
             {
                 _context.Entry(subject).State = EntityState.Detached;

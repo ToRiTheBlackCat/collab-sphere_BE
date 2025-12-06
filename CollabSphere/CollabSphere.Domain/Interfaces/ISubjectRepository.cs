@@ -11,5 +11,6 @@ namespace CollabSphere.Domain.Intefaces
     public interface ISubjectRepository : IGenericRepository<Subject>
     {
         Task<Subject?> GetBySubjectCode(string subjectCode);
+        Task<Subject?> GetSubjectDetail(int subjectId);
     }
 }

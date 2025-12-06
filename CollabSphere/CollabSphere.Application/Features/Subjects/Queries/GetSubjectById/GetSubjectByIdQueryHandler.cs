@@ -28,7 +28,7 @@ namespace CollabSphere.Application.Features.Subjects.Queries.GetSubjectById
 
             try
             {
-                result.Subject = await _unitOfWork.SubjectRepo.GetById(request.SubjectId!.Value);
+                result.Subject = (await _unitOfWork.SubjectRepo.GetById(request.SubjectId!.Value))!;
 
                 result.IsSuccess = true;
             }
