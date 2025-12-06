@@ -1212,7 +1212,7 @@ namespace CollabSphere.Application.Common
         </div>
         <div class='content'>
           <p>Dear Lecturer,</p>
-          <p>This email notifiies that your team {teamName} has submit for the milestone <strong>{milestoneName}</strong></p>
+          <p>This email notifiies that your team <strong> {teamName} </strong> has submit for the milestone <strong>{milestoneName}</strong></p>
 
           <div class='schedule-box'>
             <p><strong>🏁 Milestone:</strong> {milestoneName}</p>
