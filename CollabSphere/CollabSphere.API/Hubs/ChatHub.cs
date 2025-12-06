@@ -201,6 +201,24 @@ namespace CollabSphere.API.Hubs
                 await _unitOfWork.ChatMessageRepo.Create(message);
                 await _unitOfWork.SaveChangesAsync();
 
+                // Create message receipient read state for other user in conversastion
+                var conversation = await _unitOfWork.ChatConversationRepo.GetConversationDetail(conversationId);
+                foreach (var user in conversation!.Users)
+                {
+                    if (user.UId == userInfo.UserId)
+                    {
+                        continue;
+                    }
+
+                    var messageRecipient = new MessageRecipient()
+                    {
+                        MessageId = message.MessageId,
+                        ReceiverId = user.UId,
+                        IsRead = false,
+                    };
+                    await _unitOfWork.MessageRecipientRepo.Create(messageRecipient);
+                }
+
                 #region Update conversation latest message
                 var updateConversation = await _unitOfWork.ChatConversationRepo.GetById(conversationId);
                 updateConversation!.LatestMessageId = message.MessageId;
