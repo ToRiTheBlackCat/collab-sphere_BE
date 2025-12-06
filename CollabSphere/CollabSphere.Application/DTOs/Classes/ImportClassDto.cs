@@ -9,7 +9,6 @@ namespace CollabSphere.Application.DTOs.Classes
     public class ImportClassDto
     {
         public string ClassName { get; set; }
-        public string EnrolKey { get; set; }
         public string SubjectCode { get; set; }
         public string SemesterCode { get; set; }
         public string LecturerCode { get; set; }

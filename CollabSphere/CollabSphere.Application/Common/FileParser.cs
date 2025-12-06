@@ -60,7 +60,6 @@ namespace CollabSphere.Application.Common
             for (int row = 2; row <= rowCount; row++)
             {
                 var className = worksheet.Cells[row, col++].Text.Trim();
-                var enrolKey = worksheet.Cells[row, col++].Text.Trim();
                 var subjectCode = worksheet.Cells[row, col++].Text.Trim();
                 var semesterCode = worksheet.Cells[row, col++].Text.Trim();
                 var lecturerCode = worksheet.Cells[row, col++].Text.Trim();
@@ -76,7 +75,6 @@ namespace CollabSphere.Application.Common
                 result.Add(new ImportClassDto()
                 {
                     ClassName = className,
-                    EnrolKey = enrolKey,
                     SubjectCode = subjectCode,
                     SemesterCode = semesterCode,
                     LecturerCode = lecturerCode,
