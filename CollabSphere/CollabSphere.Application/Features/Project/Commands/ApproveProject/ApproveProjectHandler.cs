@@ -1,6 +1,8 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +14,14 @@ namespace CollabSphere.Application.Features.Project.Commands.ApproveProject
     public class ApproveProjectHandler : CommandHandler<ApproveProjectCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IConfiguration _configure;
+        private readonly EmailSender _emailSender;
 
-        public ApproveProjectHandler(IUnitOfWork unitOfWork)
+        public ApproveProjectHandler(IUnitOfWork unitOfWork, IConfiguration configure)
         {
             _unitOfWork = unitOfWork;
+            _configure = configure;
+            _emailSender = new EmailSender(_configure);
         }
 
         protected override async Task<CommandResult> HandleCommand(ApproveProjectCommand request, CancellationToken cancellationToken)
@@ -38,10 +44,14 @@ namespace CollabSphere.Application.Features.Project.Commands.ApproveProject
 
                 // Update project
                 _unitOfWork.ProjectRepo.Update(project);
-                await _unitOfWork.SaveChangesAsync(); 
+                await _unitOfWork.SaveChangesAsync();
                 #endregion
 
                 await _unitOfWork.CommitTransactionAsync();
+
+                //Send email notification 
+                var foundLecturer = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(project.LecturerId);
+                await _emailSender.SendNotiEmailsForApproveDenyProject("triminh0502@gmail.com", project.ProjectName, request.Approve);
 
                 result.Message = $"Project '{project.ProjectName}' {((ProjectStatuses)project.Status).ToString()}.";
                 result.IsSuccess = true;
