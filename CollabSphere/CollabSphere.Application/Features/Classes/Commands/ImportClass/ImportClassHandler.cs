@@ -92,7 +92,7 @@ namespace CollabSphere.Application.Features.Classes.Commands.ImportClass
                     // Also create class conversation for lecturer & class students
                     var lecturerUser = await _unitOfWork.UserRepo.GetOneByUserIdAsync(lecturer.LecturerId);
                     var chatUsers = new List<CollabSphere.Domain.Entities.User>() { lecturerUser! };
-                    foreach(var student in students)
+                    foreach (var student in students)
                     {
                         var studentUser = await _unitOfWork.UserRepo.GetOneByUserIdAsync(student.StudentId);
                         chatUsers.Add(studentUser!);
@@ -148,6 +148,22 @@ namespace CollabSphere.Application.Features.Classes.Commands.ImportClass
             {
                 var classDto = request.Classes[index];
 
+                // Check duplicates in the request list
+                var duplicatedClassIndex = request.Classes.FindIndex(x =>
+                    // Only compare different element
+                    x != classDto &&
+                    x.ClassName.Equals(classDto.ClassName, StringComparison.OrdinalIgnoreCase) &&
+                    x.SubjectCode.Equals(classDto.SubjectCode, StringComparison.OrdinalIgnoreCase) &&
+                    x.SemesterCode.Equals(classDto.SemesterCode, StringComparison.OrdinalIgnoreCase));
+                if (duplicatedClassIndex != -1 && duplicatedClassIndex < index)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = $"Classes[{index}]",
+                        Message = $"Entry 'Classes[{index}]' is a duplicated class info input of 'Classes[{duplicatedClassIndex}]'."
+                    });
+                }
+
                 // Validate SubjectCode
                 var subject = subjectList
                    .FirstOrDefault(x => x.SubjectCode == classDto.SubjectCode);
@@ -172,6 +188,26 @@ namespace CollabSphere.Application.Features.Classes.Commands.ImportClass
                     });
                 }
 
+                // Check duplicated class
+                if (semester != null && subject != null)
+                {
+                    // Can not create duplicated classes (Same Name, Semester, Subject)
+                    var duplicatedClass = await _unitOfWork.ClassRepo.GetDuplicatedClass(
+                        classDto.ClassName,
+                        subject.SubjectId,
+                        semester.SemesterId
+                    );
+                    if (duplicatedClass != null)
+                    {
+                        var error = new OperationError()
+                        {
+                            Field = $"Classes[{index}].{nameof(classDto.ClassName)}",
+                            Message = $"There is already a class '{classDto.ClassName}' of subject '{subject.SubjectName}'({subject.SubjectId}) in semester '{semester.SemesterName}'({semester.SemesterId})."
+                        };
+                        errors.Add(error);
+                    }
+                }
+
                 // Validate LecturerCode
                 var lecturer = lecturerList
                     .FirstOrDefault(x => x.LecturerCode == classDto.LecturerCode);
@@ -193,8 +229,6 @@ namespace CollabSphere.Application.Features.Classes.Commands.ImportClass
                         Field = $"Classes[{index}].{nameof(classDto.StudentCodes)}",
                         Message = $"There are no students in class '{classDto.ClassName}'."
                     });
-
-                    return;
                 }
                 else
                 {
@@ -211,7 +245,6 @@ namespace CollabSphere.Application.Features.Classes.Commands.ImportClass
                             Field = $"Classes[{index}].{nameof(classDto.StudentCodes)}",
                             Message = $"There were invalid student codes: {string.Join(", ", invalidCodes)}"
                         });
-                        return;
                     }
 
                     // Check existing students

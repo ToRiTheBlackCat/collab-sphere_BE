@@ -152,6 +152,25 @@ namespace CollabSphere.Application.Features.Classes.Commands.CreateClass
                 errors.Add(error);
             }
 
+            if (semester != null && subject != null)
+            {
+                // Can not create duplicated classes (Same Name, Semester, Subject)
+                var duplicatedClass = await _unitOfWork.ClassRepo.GetDuplicatedClass(
+                    request.ClassName,
+                    request.SubjectId,
+                    request.SemesterId
+                );
+                if (duplicatedClass != null)
+                {
+                    var error = new OperationError()
+                    {
+                        Field = nameof(request.LecturerId),
+                        Message = $"There is already a class '{request.ClassName}' of subject '{subject.SubjectName}'({subject.SubjectId}) in semester '{semester.SemesterName}'({semester.SemesterId})."
+                    };
+                    errors.Add(error);
+                }
+            }
+
             // Check lecturer
             var lecturer = await _unitOfWork.LecturerRepo.GetById(request.LecturerId);
             if (lecturer == null)

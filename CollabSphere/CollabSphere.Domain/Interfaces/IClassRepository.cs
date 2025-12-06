@@ -15,5 +15,6 @@ namespace CollabSphere.Domain.Intefaces
         Task<List<Class>> SearchClasses(string descriptor = "", int? semesterId = null, HashSet<int>? lecturerIds = null, HashSet<int>? subjectIds = null, bool? isActive = null, string orderby = "", bool descending = false);
         Task<Class?> GetClassDetail(int classId);
         Task<Class?> GetClassByIdAsync(int classId);
+        Task<Class?> GetDuplicatedClass(string className, int subjectId, int semesterId);
     }
 }
