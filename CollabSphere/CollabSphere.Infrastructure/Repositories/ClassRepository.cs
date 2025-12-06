@@ -266,5 +266,17 @@ namespace CollabSphere.Infrastructure.Repositories
                 .FirstOrDefaultAsync(x => x.ClassId == classId && x.IsActive);
         }
 
+        public async Task<Class?> GetDuplicatedClass(string className, int subjectId, int semesterId)
+        {
+            var classEntity = await _context.Classes
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => 
+                    x.ClassName.ToUpper() == className.Trim().ToUpper() &&
+                    x.SubjectId == subjectId &&
+                    x.SemesterId == semesterId
+                );
+
+            return classEntity;
+        }
     }
 }
