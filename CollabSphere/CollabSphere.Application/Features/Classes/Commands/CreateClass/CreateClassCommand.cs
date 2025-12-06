@@ -24,8 +24,7 @@ namespace CollabSphere.Application.Features.Classes.Commands.CreateClass
         [Required]
         public int LecturerId { get; set; }
 
-        [Required]
-        public string EnrolKey { get; set; }
+        public string? EnrolKey { get; set; }
 
         [MinLength(1)]
         public List<int> StudentIds { get; set; } = new();
