@@ -51,7 +51,7 @@ namespace CollabSphere.Application.Features.Project.Commands.ApproveProject
 
                 //Send email notification 
                 var foundLecturer = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(project.LecturerId);
-                await _emailSender.SendNotiEmailsForApproveDenyProject("triminh0502@gmail.com", project.ProjectName, request.Approve);
+                await _emailSender.SendNotiEmailsForApproveDenyProject(foundLecturer.Email, project.ProjectName, request.Approve);
 
                 result.Message = $"Project '{project.ProjectName}' {((ProjectStatuses)project.Status).ToString()}.";
                 result.IsSuccess = true;
