@@ -4,6 +4,7 @@ using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Task = System.Threading.Tasks.Task;
@@ -62,7 +63,7 @@ namespace CollabSphere.Application.Features.Classes.Commands.ImportClass
                     {
                         ClassName = classDto.ClassName,
                         CreatedDate = DateTime.UtcNow,
-                        EnrolKey = classDto.EnrolKey,
+                        EnrolKey =  GenerateRandomEnrolKey(6),
                         SubjectId = subject.SubjectId,
                         SemesterId = semester.SemesterId,
                         LecturerId = lecturer.LecturerId,
@@ -124,7 +125,22 @@ namespace CollabSphere.Application.Features.Classes.Commands.ImportClass
 
             return result;
         }
+        private string GenerateRandomEnrolKey(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            using var rng = RandomNumberGenerator.Create();
+            var result = new char[length];
+            var buffer = new byte[sizeof(uint)];
 
+            for (int i = 0; i < length; i++)
+            {
+                rng.GetBytes(buffer);
+                uint num = BitConverter.ToUInt32(buffer, 0);
+                result[i] = chars[(int)(num % (uint)chars.Length)];
+            }
+
+            return new string(result);
+        }
         protected override async Task ValidateRequest(List<OperationError> errors, ImportClassCommand request)
         {
             if (!request.Classes.Any())

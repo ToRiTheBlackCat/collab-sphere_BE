@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Features.Team.Commands.CreateTeam;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -31,5 +32,10 @@ namespace CollabSphere.Application.Features.Team.Commands.UpdateTeam
         public string? Description { get; set; }
 
         public string? GitLink { get; set; }
+
+        [Required]
+        public int LeaderId { get; set; }
+        [Required]
+        public List<AddStudentToTeam> StudentList { get; set; } = new();
     }
 }
