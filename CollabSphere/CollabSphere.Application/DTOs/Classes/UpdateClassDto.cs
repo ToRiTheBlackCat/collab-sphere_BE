@@ -20,9 +20,6 @@ namespace CollabSphere.Application.DTOs.Classes
 
         public int? LecturerId { get; set; }
 
-        [StringLength(20, MinimumLength = 3)]
-        public string? EnrolKey { get; set; }
-
         public bool? IsActive { get; set; }
     }
 }

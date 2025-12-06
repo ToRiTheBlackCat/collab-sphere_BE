@@ -153,7 +153,7 @@ namespace CollabSphere.Application.Common
             return new string(result);
         }
 
-        public void SendScheduleMeetingMails(List<string> toEmails, Domain.Entities.Meeting meeting, string meetingUrl, string senderName)
+        public void SendScheduleMeetingMails(List<string> toEmails, Meeting meeting, string meetingUrl, string senderName)
         {
             var email = _configure["SMTPSettings:Email"] ?? "";
             var password = _configure["SMTPSettings:AppPassword"] ?? "";
@@ -899,6 +899,335 @@ namespace CollabSphere.Application.Common
 
           <p style='margin-top: 30px; font-size: 13px; color: #777; text-align: center;'>
             Keep up the good work!
+          </p>
+        </div>
+        <div class='footer'>
+          © 2025 COLLABSPHERE. All rights reserved.
+        </div>
+      </div>
+    </div>
+  </body>
+</html>";
+
+            AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
+
+            // --- Logo Section ---
+            string imagePath = Path.Combine("wwwroot", "images", "logo", "logo.jpg");
+            if (File.Exists(imagePath))
+            {
+                LinkedResource inlineLogo = new LinkedResource(imagePath, MediaTypeNames.Image.Jpeg)
+                {
+                    ContentId = "LogoImage",
+                    TransferEncoding = TransferEncoding.Base64
+                };
+                avHtml.LinkedResources.Add(inlineLogo);
+            }
+
+            mailMessage.AlternateViews.Add(avHtml);
+
+            if (mailMessage.To.Count > 0)
+            {
+                smtpClient.Send(mailMessage);
+            }
+        }
+
+        public async Task SendNotiEmailsForApproveDenyProject(string receiver, string projectName, bool isApprove)
+        {
+            var email = _configure["SMTPSettings:Email"] ?? "";
+            var password = _configure["SMTPSettings:AppPassword"] ?? "";
+
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(email, password),
+                EnableSsl = true,
+            };
+
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(email),
+                // Dynamic Subject based on status
+                Subject = isApprove
+                    ? $@"✨ COLLAB-SPHERE | Project Approved: {projectName} ✨"
+                    : $@"🚫 COLLAB-SPHERE | Project Denied: {projectName} 🚫",
+                IsBodyHtml = true
+            };
+
+            mailMessage.To.Add(receiver);
+
+            string dashboardUrl = "https://collabsphere.space";
+            string statusColor = isApprove ? "#28a745" : "#dc3545";
+            string statusText = isApprove ? "APPROVED" : "DENIED";
+            string statusIcon = isApprove ? "✅" : "❌";
+
+            string messageContent = isApprove
+                ? "Congratulations! Your project application has been approved. You can now proceed with your project activities on the platform."
+                : "We regret to inform you that your project application has been denied after a careful review by the administration.";
+
+            string htmlBody = $@"
+<html>
+  <head>
+    <style>
+      body {{
+        background-color: #f4f7fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+      }}
+      .container {{
+        width: 100%;
+        padding: 40px 0;
+        display: flex;
+        justify-content: center;
+      }}
+      .card {{
+        width: 600px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }}
+      .header {{
+        /* Standard Blue/Purple Gradient */
+        background: linear-gradient(135deg, #2b5876, #4e4376);
+        color: #ffffff;
+        text-align: center;
+        padding: 30px 20px;
+      }}
+      .header h2 {{
+        margin: 0;
+        font-size: 22px;
+        font-weight: 600;
+      }}
+      .content {{
+        padding: 30px 40px;
+        color: #333;
+      }}
+      .content p {{
+        margin: 8px 0;
+        line-height: 1.5;
+      }}
+      /* The requested Meeting Style Box */
+      .schedule-box {{
+        margin: 25px 0;
+        background-color: #f0f4f8;
+        border-left: 5px solid #4e4376;
+        padding: 20px;
+        border-radius: 6px;
+      }}
+      .schedule-box p {{
+        margin: 8px 0;
+        font-size: 15px;
+      }}
+      .btn {{
+        display: inline-block;
+        background-color: #4e4376;
+        color: white !important;
+        text-decoration: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        margin-top: 15px;
+        font-weight: 500;
+      }}
+      .btn:hover {{
+        background-color: #2b5876;
+      }}
+      .footer {{
+        background-color: #fafafa;
+        color: #888;
+        text-align: center;
+        font-size: 12px;
+        padding: 15px;
+      }}
+    </style>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='card'>
+        <div class='header'>
+          <h2>📋 Project Application Update</h2>
+        </div>
+        <div class='content'>
+          <p>Hello,</p>
+          <p>We are writing to provide an official update regarding the status of your project application.</p>
+
+          <div class='schedule-box'>
+            <p><strong>📂 Project:</strong> {projectName}</p>
+            <p><strong>📊 Status:</strong> <span style='font-weight:bold; color:{statusColor}; font-size: 16px;'>{statusText} {statusIcon}</span></p>
+            <hr style='border: 0; border-top: 1px solid #e1e4e8; margin: 15px 0;'>
+            <p><strong>ℹ️ Details:</strong></p>
+            <p style='font-style: italic; color: #555; margin-left: 10px;'>""{messageContent}""</p>
+          </div>
+
+          <div style='text-align: center;'>
+             <a href='{dashboardUrl}' class='btn'>👉 Go to Dashboard</a>
+          </div>
+
+          <p style='margin-top: 30px; font-size: 13px; color: #777; text-align: center;'>
+            Thank you for using CollabSphere.
+          </p>
+        </div>
+        <div class='footer'>
+          © 2025 COLLABSPHERE. All rights reserved.
+        </div>
+      </div>
+    </div>
+  </body>
+</html>";
+
+            AlternateView avHtml = AlternateView.CreateAlternateViewFromString(htmlBody, null, MediaTypeNames.Text.Html);
+
+            string imagePath = Path.Combine("wwwroot", "images", "logo", "logo.jpg");
+            if (File.Exists(imagePath))
+            {
+                LinkedResource inlineLogo = new LinkedResource(imagePath, MediaTypeNames.Image.Jpeg)
+                {
+                    ContentId = "LogoImage",
+                    TransferEncoding = TransferEncoding.Base64
+                };
+                avHtml.LinkedResources.Add(inlineLogo);
+            }
+
+            mailMessage.AlternateViews.Add(avHtml);
+
+            if (mailMessage.To.Count > 0)
+            {
+                smtpClient.Send(mailMessage);
+            }
+        }
+
+        public async Task SendNotiEmailsForMilestoneSubmit(string receiver, string teamName, string milestoneName, string fileName, DateTime submitedDate)
+        {
+            var email = _configure["SMTPSettings:Email"] ?? "";
+            var password = _configure["SMTPSettings:AppPassword"] ?? "";
+
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(email, password),
+                EnableSsl = true,
+            };
+
+            var mailMessage = new MailMessage
+            {
+                From = new MailAddress(email),
+                // Submission specific subject
+                Subject = $@"📤 COLLAB-SPHERE | Submission for Milestone: {milestoneName} 📤",
+                IsBodyHtml = true
+            };
+
+            if (!string.IsNullOrWhiteSpace(receiver))
+            {
+                mailMessage.To.Add(receiver);
+            }
+
+            // Standard Link
+            var dashboardUrl = "https://collabsphere.space";
+
+            // Current timestamp for the receipt
+            string timeStamp = submitedDate.ToString("dd/MM/yyyy");
+
+            string htmlBody = $@"
+<html>
+  <head>
+    <style>
+      body {{
+        background-color: #f4f7fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+      }}
+      .container {{
+        width: 100%;
+        padding: 40px 0;
+        display: flex;
+        justify-content: center;
+      }}
+      .card {{
+        width: 600px;
+        background-color: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }}
+      .header {{
+        /* Standard Blue/Purple Gradient */
+        background: linear-gradient(135deg, #2b5876, #4e4376);
+        color: #ffffff;
+        text-align: center;
+        padding: 30px 20px;
+      }}
+      .header h2 {{
+        margin: 0;
+        font-size: 22px;
+        font-weight: 600;
+      }}
+      .content {{
+        padding: 30px 40px;
+        color: #333;
+      }}
+      .content p {{
+        margin: 8px 0;
+        line-height: 1.5;
+      }}
+      /* The requested Meeting Style Box */
+      .schedule-box {{
+        margin: 25px 0;
+        background-color: #f0f4f8;
+        border-left: 5px solid #4e4376;
+        padding: 20px;
+        border-radius: 6px;
+      }}
+      .schedule-box p {{
+        margin: 8px 0;
+        font-size: 15px;
+      }}
+      .btn {{
+        display: inline-block;
+        background-color: #4e4376;
+        color: white !important;
+        text-decoration: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        margin-top: 15px;
+        font-weight: 500;
+      }}
+      .btn:hover {{
+        background-color: #2b5876;
+      }}
+      .footer {{
+        background-color: #fafafa;
+        color: #888;
+        text-align: center;
+        font-size: 12px;
+        padding: 15px;
+      }}
+    </style>
+  </head>
+  <body>
+    <div class='container'>
+      <div class='card'>
+        <div class='header'>
+          <h2>✅ Submission Successful</h2>
+        </div>
+        <div class='content'>
+          <p>Dear Lecturer,</p>
+          <p>This email notifiies that your team <strong> {teamName} </strong> has submit for the milestone <strong>{milestoneName}</strong></p>
+
+          <div class='schedule-box'>
+            <p><strong>🏁 Milestone:</strong> {milestoneName}</p>
+            <p><strong>📄 File Submitted:</strong> {fileName}</p>
+            <p><strong>🕒 Received At:</strong> {timeStamp}</p>
+            <hr style='border: 0; border-top: 1px solid #e1e4e8; margin: 15px 0;'>
+            <p style='color: #28a745; font-weight: bold;'>Status: Received</p>
+          </div>
+
+          <div style='text-align: center;'>
+             <a href='{dashboardUrl}' class='btn'>👉 View Submission</a>
+          </div>
+
+          <p style='margin-top: 30px; font-size: 13px; color: #777; text-align: center;'>
+            Take a look for more detail of the team submission
           </p>
         </div>
         <div class='footer'>
