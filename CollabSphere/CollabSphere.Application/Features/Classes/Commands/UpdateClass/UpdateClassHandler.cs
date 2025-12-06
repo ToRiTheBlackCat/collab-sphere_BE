@@ -70,11 +70,6 @@ namespace CollabSphere.Application.Features.Classes.Commands.UpdateClass
                     classEntity.SemesterId = classDto.SemesterId.Value;
                 }
 
-                if (!string.IsNullOrWhiteSpace(classDto.EnrolKey))
-                {
-                    classEntity.EnrolKey = classDto.EnrolKey;
-                }
-
                 if (classDto.IsActive.HasValue)
                 {
                     classEntity.IsActive = classDto.IsActive.Value;
