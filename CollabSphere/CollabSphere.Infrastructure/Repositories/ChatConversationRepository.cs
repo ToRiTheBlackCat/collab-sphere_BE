@@ -73,6 +73,8 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(x => x.ChatMessages)
                     .ThenInclude(msg => msg.Sender)
                         .ThenInclude(sender => sender.Lecturer)
+                .Include(x => x.ChatMessages)
+                    .ThenInclude(msg => msg.MessageRecipients)
                 .Where(x =>
                     x.Users.Any(x => x.UId == userId) &&
                     (!semesterId.HasValue || x.Class.SemesterId == semesterId) &&

@@ -32,7 +32,7 @@ namespace CollabSphere.Application.Features.Subjects.Commands.UpdateSubject
                 await _unitOfWork.BeginTransactionAsync();
 
                 // Update Subject
-                var subject = await _unitOfWork.SubjectRepo.GetById(request.SubjectId);
+                var subject = await _unitOfWork.SubjectRepo.GetSubjectDetail(request.SubjectId);
                 subject!.SubjectId = request.SubjectId;
                 subject.SubjectCode = request.SubjectCode;
                 subject.SubjectName = request.SubjectName;

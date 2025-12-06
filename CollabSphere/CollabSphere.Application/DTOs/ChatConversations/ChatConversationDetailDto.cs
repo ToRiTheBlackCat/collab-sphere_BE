@@ -114,6 +114,7 @@ namespace CollabSphere.Application.Mappings.ChatConversations
         {
             // Get latest message
             var latestMessage = chatConversation.ChatMessages.OrderByDescending(x => x.SendAt).FirstOrDefault();
+            chatConversation.ChatMessages = chatConversation.ChatMessages.OrderBy(x => x.SendAt).ToList();
 
             // Setup chat messages to show who has read the messages
             var readUserIds = new HashSet<int>();
