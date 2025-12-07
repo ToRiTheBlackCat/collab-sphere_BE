@@ -148,6 +148,7 @@ namespace CollabSphere.Application.Features.Team.Commands.UpdateTeam
                         mem.TeamId = foundTeam.TeamId;
                         mem.TeamRole = (int)TeamRole.MEMBER;
                         mem.IsGrouped = true;
+                        mem.Status = 1;
 
                         _unitOfWork.ClassMemberRepo.Update(mem);
                     }
