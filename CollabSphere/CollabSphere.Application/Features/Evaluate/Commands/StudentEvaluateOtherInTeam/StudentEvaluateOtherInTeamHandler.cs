@@ -68,6 +68,7 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.StudentEvaluateOth
                 }
                 else
                 {
+                    result.IsSuccess = false;
                     result.Message = "Cannot evaluate and give feedback at this time. Please finish half of the team progress to evaluate and give feedback to other members";
                     return result;
                 }
