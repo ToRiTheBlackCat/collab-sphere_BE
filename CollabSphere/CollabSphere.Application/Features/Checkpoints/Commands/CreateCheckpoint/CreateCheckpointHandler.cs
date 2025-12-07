@@ -152,7 +152,7 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CreateCheckpoin
                 errors.Add(new OperationError()
                 {
                     Field = nameof(request.StartDate),
-                    Message = $"StartDate can't be a date before DueDate: {request.DueDate}"
+                    Message = $"StartDate can't be a date before DueDate: {request.DueDate:dd/MM/yyyy}"
                 });
             }
 
@@ -162,7 +162,7 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CreateCheckpoin
                 errors.Add(new OperationError()
                 {
                     Field = nameof(request.StartDate),
-                    Message = $"StartDate can't be a date before milestone's StartDate: {teamMilestone.StartDate}"
+                    Message = $"StartDate can't be a date before milestone's StartDate: {teamMilestone.StartDate:dd/MM/yyyy}"
                 });
             }
 
@@ -172,7 +172,7 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CreateCheckpoin
                 errors.Add(new OperationError()
                 {
                     Field = nameof(request.StartDate),
-                    Message = $"DueDate can't be a date after milestone's EndDate: {teamMilestone.EndDate}"
+                    Message = $"DueDate can't be a date after milestone's EndDate: {teamMilestone.EndDate:dd/MM/yyyy}"
                 });
             }
         }
