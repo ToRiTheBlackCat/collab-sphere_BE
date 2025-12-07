@@ -26,7 +26,7 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.StudentEvaluateOth
             {
                 await _unitOfWork.BeginTransactionAsync();
                 var foundTeam = await _unitOfWork.TeamRepo.GetById(request.TeamId);
-                if (foundTeam != null && foundTeam.Progress <= 50.0)
+                if (foundTeam != null && foundTeam.Progress >= 50.0)
                 {
                     foreach (var receiver in request.EvaluatorDetails)
                     {
