@@ -1,4 +1,5 @@
-﻿using CollabSphere.Domain.Entities;
+﻿using CollabSphere.Application.DTOs.Checkpoints;
+using CollabSphere.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System.Net;
@@ -417,7 +418,7 @@ namespace CollabSphere.Application.Common
 
         }
 
-        public async Task SendNotiEmailsForCheckpoint(HashSet<string> receivers, Checkpoint checkpoint)
+        public async Task SendNotiEmailsForCheckpoint(HashSet<string> receivers, CheckpointDetailDto checkpoint)
         {
             var email = _configure["SMTPSettings:Email"] ?? "";
             var password = _configure["SMTPSettings:AppPassword"] ?? "";
@@ -445,7 +446,10 @@ namespace CollabSphere.Application.Common
 
             // Safe null handling
             string desc = string.IsNullOrEmpty(checkpoint.Description) ? "No description provided." : checkpoint.Description;
-            string dateRange = $"{checkpoint.StartDate:MMM dd, yyyy} - {checkpoint.DueDate:MMM dd, yyyy}";
+            string startDate = checkpoint.StartDate?.ToString("MMM dd, yyyy") ?? "N/A";
+            string dueDate = checkpoint.DueDate.ToString("MMM dd, yyyy");
+
+            string dateRange = $"{startDate} - {dueDate}";
 
             string htmlBody = $@"
 <html>
