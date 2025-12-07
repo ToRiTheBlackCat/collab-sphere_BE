@@ -75,6 +75,7 @@ namespace CollabSphere.Application.Features.Team.Commands.UpdateTeam
                         foundOldLeader.TeamId = null;
                         foundOldLeader.TeamRole = null;
                         foundOldLeader.IsGrouped = false;
+                        foundOldLeader.Status = 0;
                         _unitOfWork.ClassMemberRepo.Update(foundOldLeader);
                         await _unitOfWork.SaveChangesAsync();
 
@@ -90,6 +91,7 @@ namespace CollabSphere.Application.Features.Team.Commands.UpdateTeam
                             foundClassMember.TeamId = foundTeam.TeamId;
                             foundClassMember.TeamRole = (int?)TeamRole.LEADER;
                             foundClassMember.IsGrouped = true;
+                            foundClassMember.Status = 1;
 
                             _unitOfWork.ClassMemberRepo.Update(foundClassMember);
                             await _unitOfWork.SaveChangesAsync();
