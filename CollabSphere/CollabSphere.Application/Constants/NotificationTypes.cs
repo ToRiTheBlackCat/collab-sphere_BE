@@ -8,6 +8,7 @@ namespace CollabSphere.Application.Constants
 {
     public enum NotificationTypes
     {
-        ChatNotification,
+        CHAT,
+        MILESTONE
     }
 }

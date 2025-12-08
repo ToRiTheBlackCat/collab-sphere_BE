@@ -206,7 +206,7 @@ namespace CollabSphere.Infrastructure.Repositories
             }
             else
             {
-                teams = user.Student.ClassMembers.Select(x => x.Team).ToList();
+                teams = user.Student.ClassMembers.Where(x => x.TeamId.HasValue).Select(x => x.Team).ToList();
             }
 
             return teams;

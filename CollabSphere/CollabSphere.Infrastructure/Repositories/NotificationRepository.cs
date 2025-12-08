@@ -23,6 +23,7 @@ namespace CollabSphere.Infrastructure.Repositories
             var notifications = await _context.NotificationRecipients
                 .AsNoTracking()
                 .Include(x => x.Notification)
+                    .ThenInclude(noti => noti.NotificationRecipients)
                 .Where(x => 
                     x.ReceiverId == userId
                 )
