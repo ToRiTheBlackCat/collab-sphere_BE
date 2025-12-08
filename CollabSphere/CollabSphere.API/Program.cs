@@ -248,4 +248,5 @@ app.MapControllers();
 app.MapHub<KanbanHub>("/KanbanServiceHub");
 app.MapHub<YjsHub>("/yhub");
 app.MapHub<ChatHub>("/chathub");
+app.MapHub<TeamBoardHub>("/team-board-hub");
 app.Run();
