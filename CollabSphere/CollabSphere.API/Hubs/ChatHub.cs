@@ -23,9 +23,9 @@ namespace CollabSphere.API.Hubs
         // Corresponds to connection.on("ReceiveHistory", ...)
         Task ReceiveHistory(IEnumerable<ChatConversationMessageVM> messages);
 
-        Task ReceiveNotification(ChatNotificationDto notification);
+        Task ReceiveNotification(NotificationDto notification);
 
-        Task ReceiveAllNotification(IEnumerable<ChatNotificationDto> notification);
+        Task ReceiveAllNotification(IEnumerable<NotificationDto> notification);
 
         Task ReceiveMessageReadUpdate(int userId, int conversationId, int messageId);
 
@@ -169,7 +169,7 @@ namespace CollabSphere.API.Hubs
 
                 // Load recent notifications for caller
                 var recentNotifications = await _unitOfWork.NotificationRepo.GetChatNotificationsOfUser(userInfo.UserId);
-                var notiDtos = recentNotifications.ToChatNotiDto().Take(50);
+                var notiDtos = recentNotifications.ToNotificationDtos().Take(50);
                 await Clients.Caller.ReceiveAllNotification(notiDtos);
             }
         }
