@@ -10,5 +10,6 @@ namespace CollabSphere.Domain.Intefaces
 {
     public interface INotificationRecipientRepository : IGenericRepository<NotificationRecipient>
     {
+        Task<NotificationRecipient?> GetNotificationRecipient(int notificationId, int userId);
     }
 }

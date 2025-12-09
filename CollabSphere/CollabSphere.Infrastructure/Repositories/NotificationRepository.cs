@@ -33,5 +33,15 @@ namespace CollabSphere.Infrastructure.Repositories
 
             return notifications;
         }
+
+        public async Task<Notification?> GetNotificationDetail(int notificationId)
+        {
+            var notification = await _context.Notifications
+                .AsNoTracking()
+                .Include(x => x.NotificationRecipients)
+                .SingleOrDefaultAsync(x => x.NotificationId == notificationId);
+
+            return notification;
+        }
     }
 }

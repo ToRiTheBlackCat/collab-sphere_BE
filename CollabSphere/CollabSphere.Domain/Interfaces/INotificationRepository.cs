@@ -11,5 +11,6 @@ namespace CollabSphere.Domain.Intefaces
     public interface INotificationRepository : IGenericRepository<Notification>
     {
         Task<List<Notification>> GetChatNotificationsOfUser(int userId);
+        Task<Notification?> GetNotificationDetail(int notificationId);
     }
 }
