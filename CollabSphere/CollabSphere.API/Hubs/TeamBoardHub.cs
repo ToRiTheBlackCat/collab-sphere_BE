@@ -138,7 +138,7 @@ namespace CollabSphere.API.Hubs
             }
 
             var notifications = await _unitOfWork.NotificationRepo.GetChatNotificationsOfUser(userInfo.UserId);
-            await Clients.Caller.ReceiveNotificationHistory(notifications.ToNotificationDtos());
+            await Clients.Caller.ReceiveNotificationHistory(notifications.ToNotificationDtos(userInfo.UserId));
         }
 
         [Authorize(Roles = "4")]
