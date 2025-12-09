@@ -174,7 +174,7 @@ namespace CollabSphere.Application.Features.ProjectAssignments.Commands.AssignPr
                     });
                 }
                 // The Subject of the Assigned Project must match with that of the Class
-                else if (project.SubjectId != project.SubjectId)
+                else if (project.SubjectId != classEntity.SubjectId)
                 {
                     errors.Add(new OperationError()
                     {
