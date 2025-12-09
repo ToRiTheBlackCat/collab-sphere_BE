@@ -47,11 +47,15 @@ namespace CollabSphere.API.Hubs
     {
         Task JoinServer();
 
-        Task BroadcastMilestoneCreate(int teamMilestoneId, string linkForTeamMeber);
+        Task BroadcastMilestoneCreated(int teamId, int teamMilestoneId, string linkForTeamMeber);
 
-        Task BroadcastMilestoneUpdate(int teamMilestoneId, string linkForTeamMeber);
+        Task BroadcastMilestoneUpdated(int teamId, int teamMilestoneId, string linkForTeamMeber);
 
-        Task BroadcastMilestoneCheckDone(int teamMilestoneId, string linkForTeamMember, string linkForLecturer);
+        Task BroadcastMilestoneDeleted(int teamId, int teamMilestoneId, string linkForTeamMeber);
+
+        Task BroadcastMilestoneCheckedDone(int teamId, int teamMilestoneId, string linkForTeamMember, string linkForLecturer);
+
+        Task BroadcastMilestoneEvaluated(int teamId, int teamMilestoneId, string linkForTeamMember);
     }
 
     public static class HubExentions
@@ -103,11 +107,12 @@ namespace CollabSphere.API.Hubs
         /// Details of connectionIds
         /// Dictionary<ConnectionId, ConnectionInfo>
         /// </summary
-        private static readonly ConcurrentDictionary<string, TeamWorkConnectionInfo> ConnectionInfos = new();
+        private readonly ConcurrentDictionary<string, TeamWorkConnectionInfo> _mapping;
 
-        public TeamBoardHub(IUnitOfWork unitOfWork)
+        public TeamBoardHub(IUnitOfWork unitOfWork, ConnectionMappings connectionMappings)
         {
             _unitOfWork = unitOfWork;
+            _mapping = connectionMappings.TeamBoardMapping;
         }
 
         public async Task JoinServer()
@@ -125,7 +130,7 @@ namespace CollabSphere.API.Hubs
                     ConnectedTeamIds = new List<int>()
                 };
 
-                var connectInfo = ConnectionInfos.GetOrAdd(Context.ConnectionId, newConnectionInfo);
+                var connectInfo = _mapping.GetOrAdd(Context.ConnectionId, newConnectionInfo);
                 connectInfo.ConnectedTeamIds.Add(team.TeamId);
 
                 var groupName = $"{team.TeamId}";
@@ -137,12 +142,16 @@ namespace CollabSphere.API.Hubs
         }
 
         [Authorize(Roles = "4")]
-        public async Task BroadcastMilestoneCreate(int teamMilestoneId, string linkForTeamMeber)
+        public async Task BroadcastMilestoneCreated(int teamId, int teamMilestoneId, string linkForTeamMeber)
         {
             var userInfo = this.GetCurrentUserInfo();
-            if (!ConnectionInfos.TryGetValue(Context.ConnectionId, out var connectionInfo))
+            if (!_mapping.TryGetValue(Context.ConnectionId, out var connectionInfo))
             {
                 throw new HubException("SignalR failed to get info of connected user");
+            }
+            else if (!connectionInfo.ConnectedTeamIds.Contains(teamId))
+            {
+                throw new HubException($"You are not allowed to access Team with ID '{teamId}'.");
             }
 
             var teamMilestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(teamMilestoneId);
@@ -150,13 +159,14 @@ namespace CollabSphere.API.Hubs
             {
                 throw new HubException($"No Team Milestone with ID '{teamMilestoneId}' found.");
             }
-            else if (connectionInfo.ConnectedTeamIds.Contains(teamMilestone.TeamId))
+
+            var team = await _unitOfWork.TeamRepo.GetTeamDetail(teamId);
+            if (teamMilestone.TeamId != team!.TeamId)
             {
-                throw new HubException($"You are not allowed to access Team Milestone with ID '{teamMilestoneId}'.");
+                throw new HubException($"Team Milestone '{teamMilestone.Title}'({teamMilestone.TeamMilestoneId}) is not of team '{team.TeamName}'({team.TeamId}).");
             }
 
-            var team = await _unitOfWork.TeamRepo.GetTeamDetail(teamMilestone.TeamId);
-            var groupName = $"{teamMilestone.TeamId}";
+            var groupName = $"{team.TeamId}";
 
             try
             {
@@ -168,8 +178,8 @@ namespace CollabSphere.API.Hubs
                 {
                     Link = linkForTeamMeber,
                     CreatedAt = DateTime.UtcNow,
-                    Content = $"New Team Milestone created. '{teamMilestone.Title}'.",
-                    Title = $"Team {team!.TeamName} - Milestone created.",
+                    Content = $"New Team Milestone '{teamMilestone.Title}' has been created.",
+                    Title = $"Team '{team!.TeamName}' - Milestone created.",
                     ReferenceType = NotificationTypes.MILESTONE.ToString(),
                 };
                 await _unitOfWork.NotificationRepo.Create(notification);
@@ -196,11 +206,16 @@ namespace CollabSphere.API.Hubs
                 // Broadcast about newly created milestone
                 var _ = Clients.OthersInGroup(groupName).ReceiveMilestoneCreated(teamMilestone.ToTeamMilestoneVM());
 
-                var validConnections = ConnectionInfos.Where(x => x.Value.ConnectedTeamIds.Contains(team.TeamId));
+                // Notification Dto
+                var notiDto = notification.ToNotificationDto();
+                notiDto.IsRead = false;
+                notiDto.ReadAt = null;
+
+                var validConnections = _mapping.Where(x => x.Value.ConnectedTeamIds.Contains(team.TeamId));
                 if (validConnections.Any())
                 {
                     var _noti = Clients.Clients(validConnections.Select(x => x.Value.ConnectionId))
-                        .ReceiveNotification(notification.ToNotificationDto());
+                        .ReceiveNotification(notiDto);
                 }
             }
             catch (Exception ex)
@@ -211,12 +226,16 @@ namespace CollabSphere.API.Hubs
         }
 
         [Authorize(Roles = "4")]
-        public async Task BroadcastMilestoneUpdate(int teamMilestoneId, string linkForTeamMeber)
+        public async Task BroadcastMilestoneUpdated(int teamId, int teamMilestoneId, string linkForTeamMember)
         {
             var userInfo = this.GetCurrentUserInfo();
-            if (!ConnectionInfos.TryGetValue(Context.ConnectionId, out var connectionInfo))
+            if (!_mapping.TryGetValue(Context.ConnectionId, out var connectionInfo))
             {
                 throw new HubException("SignalR failed to get info of connected user");
+            }
+            else if (!connectionInfo.ConnectedTeamIds.Contains(teamId))
+            {
+                throw new HubException($"You are not allowed to access Team with ID '{teamId}'.");
             }
 
             var teamMilestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(teamMilestoneId);
@@ -224,13 +243,14 @@ namespace CollabSphere.API.Hubs
             {
                 throw new HubException($"No Team Milestone with ID '{teamMilestoneId}' found.");
             }
-            else if (connectionInfo.ConnectedTeamIds.Contains(teamMilestone.TeamId))
+
+            var team = await _unitOfWork.TeamRepo.GetTeamDetail(teamId);
+            if (teamMilestone.TeamId != team!.TeamId)
             {
-                throw new HubException($"You are not allowed to access Team Milestone with ID '{teamMilestoneId}'.");
+                throw new HubException($"Team Milestone '{teamMilestone.Title}'({teamMilestone.TeamMilestoneId}) is not of team '{team.TeamName}'({team.TeamId}).");
             }
 
-            var team = await _unitOfWork.TeamRepo.GetTeamDetail(teamMilestone.TeamId);
-            var groupName = $"{teamMilestone.TeamId}";
+            var groupName = $"{team.TeamId}";
 
             try
             {
@@ -240,10 +260,10 @@ namespace CollabSphere.API.Hubs
                 // Create new notification
                 var notification = new Notification()
                 {
-                    Link = linkForTeamMeber,
+                    Link = linkForTeamMember,
                     CreatedAt = DateTime.UtcNow,
-                    Content = $"Team Milestone updated. '{teamMilestone.Title}'.",
-                    Title = $"Team {team!.TeamName} - Milestone updated.",
+                    Content = $"Team Milestone '{teamMilestone.Title}' has been updated.",
+                    Title = $"Team '{team!.TeamName}' - Milestone updated.",
                     ReferenceType = NotificationTypes.MILESTONE.ToString(),
                 };
                 await _unitOfWork.NotificationRepo.Create(notification);
@@ -270,27 +290,115 @@ namespace CollabSphere.API.Hubs
                 // Broadcast about updated milestone
                 var _ = Clients.OthersInGroup(groupName).ReceiveMilestoneUpdated(teamMilestone.ToTeamMilestoneVM());
 
-                var validConnections = ConnectionInfos.Where(x => x.Value.ConnectedTeamIds.Contains(team.TeamId));
+                // Notification Dto
+                var notiDto = notification.ToNotificationDto();
+                notiDto.IsRead = false;
+                notiDto.ReadAt = null;
+
+                var validConnections = _mapping.Where(x => x.Value.ConnectedTeamIds.Contains(team.TeamId));
                 if (validConnections.Any())
                 {
                     var _noti = Clients.Clients(validConnections.Select(x => x.Value.ConnectionId))
-                        .ReceiveNotification(notification.ToNotificationDto());
+                        .ReceiveNotification(notiDto);
                 }
             }
             catch (Exception ex)
             {
                 await _unitOfWork.RollbackTransactionAsync();
-                throw new HubException($"Failed to broadcast new Team Milestone. {ex.Message}");
+                throw new HubException($"Failed to broadcast update Team Milestone. {ex.Message}");
+            }
+        }
+
+        [Authorize(Roles = "4")]
+        public async Task BroadcastMilestoneDeleted(int teamId, int teamMilestoneId, string linkForTeamMember)
+        {
+            var userInfo = this.GetCurrentUserInfo();
+            if (!_mapping.TryGetValue(Context.ConnectionId, out var connectionInfo))
+            {
+                throw new HubException("SignalR failed to get info of connected user");
+            }
+            else if (!connectionInfo.ConnectedTeamIds.Contains(teamId))
+            {
+                throw new HubException($"You are not allowed to access Team with ID '{teamId}'.");
+            }
+
+            var teamMilestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(teamMilestoneId);
+            if (teamMilestone != null)
+            {
+                throw new HubException($"Team Milestone '{teamMilestone.Title}'({teamMilestone.TeamMilestoneId}) has not been deleteted.");
+            }
+
+            var team = await _unitOfWork.TeamRepo.GetTeamDetail(teamId);
+            var groupName = $"{team!.TeamId}";
+
+            try
+            {
+                await _unitOfWork.BeginTransactionAsync();
+
+                #region Data Operation
+                // Create new notification
+                var notification = new Notification()
+                {
+                    Link = linkForTeamMember,
+                    CreatedAt = DateTime.UtcNow,
+                    Content = $"A Team Milestone has been deleted.",
+                    Title = $"Team '{team!.TeamName}' - Milestone deleted.",
+                    ReferenceType = NotificationTypes.MILESTONE.ToString(),
+                };
+                await _unitOfWork.NotificationRepo.Create(notification);
+                await _unitOfWork.SaveChangesAsync();
+
+                // Create recipient entries for team members
+                var teamMembers = team.ClassMembers.Where(x => x.Status == (int)ClassMemberStatus.VALID);
+                foreach (var teamMember in teamMembers)
+                {
+                    var recipient = new NotificationRecipient()
+                    {
+                        NotificationId = notification.NotificationId,
+                        IsRead = false,
+                        ReadAt = null,
+                        ReceiverId = teamMember.StudentId,
+                    };
+                    await _unitOfWork.NotificationRecipientRepo.Create(recipient);
+                }
+                await _unitOfWork.SaveChangesAsync();
+                #endregion
+
+                await _unitOfWork.CommitTransactionAsync();
+
+                // Broadcast about deleted milestone
+                var _ = Clients.OthersInGroup(groupName).ReceiveMilestoneDeleted(teamMilestoneId);
+
+                // Notification Dto
+                var notiDto = notification.ToNotificationDto();
+                notiDto.IsRead = false;
+                notiDto.ReadAt = null;
+
+                var validConnections = _mapping.Where(x => x.Value.ConnectedTeamIds.Contains(team.TeamId));
+                if (validConnections.Any())
+                {
+                    var _noti = Clients.Clients(validConnections.Select(x => x.Value.ConnectionId))
+                        .ReceiveNotification(notiDto);
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.RollbackTransactionAsync();
+                throw new HubException($"Failed to broadcast delete Team Milestone. {ex.Message}");
             }
         }
 
         [Authorize(Roles = "5")]
-        public async Task BroadcastMilestoneCheckDone(int teamMilestoneId, string linkForTeamMember, string linkForLecturer)
+        public async Task BroadcastMilestoneCheckedDone(int teamId, int teamMilestoneId, string linkForTeamMember, string linkForLecturer)
         {
             var userInfo = this.GetCurrentUserInfo();
-            if (!ConnectionInfos.TryGetValue(Context.ConnectionId, out var connectionInfo))
+            if (!_mapping.TryGetValue(Context.ConnectionId, out var connectionInfo))
             {
                 throw new HubException("SignalR failed to get info of connected user");
+            }
+            else if (!connectionInfo.ConnectedTeamIds.Contains(teamId))
+            {
+                throw new HubException($"You are not allowed to access Team with ID '{teamId}'.");
             }
 
             var teamMilestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(teamMilestoneId);
@@ -298,13 +406,14 @@ namespace CollabSphere.API.Hubs
             {
                 throw new HubException($"No Team Milestone with ID '{teamMilestoneId}' found.");
             }
-            else if (!connectionInfo.ConnectedTeamIds.Contains(teamMilestone.TeamId))
-            {
-                throw new HubException($"You are not allowed to access Team Milestone with ID '{teamMilestoneId}'.");
-            }
 
             var team = await _unitOfWork.TeamRepo.GetTeamDetail(teamMilestone.TeamId);
-            var groupName = $"{teamMilestone.TeamId}";
+            if (teamMilestone.TeamId != team!.TeamId)
+            {
+                throw new HubException($"Team Milestone '{teamMilestone.Title}'({teamMilestone.TeamMilestoneId}) is not of team '{team.TeamName}'({team.TeamId}).");
+            }
+
+            var groupName = $"{team.TeamId}";
 
             try
             {
@@ -318,8 +427,8 @@ namespace CollabSphere.API.Hubs
                 {
                     Link = linkForTeamMember,
                     CreatedAt = currentTime,
-                    Content = $"Team Milestone Done. '{teamMilestone.Title}'.",
-                    Title = $"Team {team!.TeamName} - Milestone is done.",
+                    Content = $"Team Milestone '{teamMilestone.Title}' has been marked done. ",
+                    Title = $"Team '{team!.TeamName}' - Milestone is done.",
                     ReferenceType = NotificationTypes.MILESTONE.ToString(),
                 };
 
@@ -351,7 +460,7 @@ namespace CollabSphere.API.Hubs
                     Link = linkForLecturer,
                     CreatedAt = currentTime,
                     Content = $"Team Milestone Done. '{teamMilestone.Title}'.",
-                    Title = $"Team {team.TeamName} - Milestone is done.",
+                    Title = $"Team '{team.TeamName}' - Milestone is done.",
                     ReferenceType = NotificationTypes.MILESTONE.ToString(),
                 };
                 await _unitOfWork.NotificationRepo.Create(lecturerNoti);
@@ -374,7 +483,7 @@ namespace CollabSphere.API.Hubs
                 var _ = Clients.OthersInGroup(groupName).ReceiveMilestoneCheckedDone(teamMilestone.ToTeamMilestoneVM());
 
                 // Boardcast notification to other members in team & lecturer
-                var validConnections = ConnectionInfos.Where(x =>
+                var validConnections = _mapping.Where(x =>
                     x.Value.UserId != userInfo.UserId &&
                     x.Value.ConnectedTeamIds.Contains(team.TeamId));
                 if (validConnections.Any())
@@ -407,9 +516,98 @@ namespace CollabSphere.API.Hubs
             }
         }
 
+        [Authorize(Roles = "4")]
+        public async Task BroadcastMilestoneEvaluated(int teamId, int teamMilestoneId, string linkForTeamMember)
+        {
+            var userInfo = this.GetCurrentUserInfo();
+            if (!_mapping.TryGetValue(Context.ConnectionId, out var connectionInfo))
+            {
+                throw new HubException("SignalR failed to get info of connected user");
+            }
+            else if (!connectionInfo.ConnectedTeamIds.Contains(teamId))
+            {
+                throw new HubException($"You are not allowed to access Team with ID '{teamId}'.");
+            }
+
+            var teamMilestone = await _unitOfWork.TeamMilestoneRepo.GetDetailById(teamMilestoneId);
+            if (teamMilestone == null)
+            {
+                throw new HubException($"No Team Milestone with ID '{teamMilestoneId}' found.");
+            }
+            else if (teamMilestone.MilestoneEvaluation == null)
+            {
+                throw new HubException($"No Milestone '{teamMilestone.Title}'({teamMilestone.TeamMilestoneId}) has not been graded yet.");
+            }
+
+            var team = await _unitOfWork.TeamRepo.GetTeamDetail(teamId);
+            if (teamMilestone.TeamId != team!.TeamId)
+            {
+                throw new HubException($"Team Milestone '{teamMilestone.Title}'({teamMilestone.TeamMilestoneId}) is not of team '{team.TeamName}'({team.TeamId}).");
+            }
+
+            var groupName = $"{team!.TeamId}";
+
+            try
+            {
+                await _unitOfWork.BeginTransactionAsync();
+
+                #region Data Operation
+                // Create new notification
+                var notification = new Notification()
+                {
+                    Link = linkForTeamMember,
+                    CreatedAt = DateTime.UtcNow,
+                    Content = $"Team Milestone '{teamMilestone.Title}' has been evaluated.",
+                    Title = $"Team '{team!.TeamName}' - Milestone has been evaluated.",
+                    ReferenceType = NotificationTypes.MILESTONE.ToString(),
+                };
+                await _unitOfWork.NotificationRepo.Create(notification);
+                await _unitOfWork.SaveChangesAsync();
+
+                // Create recipient entries for team members
+                var teamMembers = team.ClassMembers.Where(x => x.Status == (int)ClassMemberStatus.VALID);
+                foreach (var teamMember in teamMembers)
+                {
+                    var recipient = new NotificationRecipient()
+                    {
+                        NotificationId = notification.NotificationId,
+                        IsRead = false,
+                        ReadAt = null,
+                        ReceiverId = teamMember.StudentId,
+                    };
+                    await _unitOfWork.NotificationRecipientRepo.Create(recipient);
+                }
+                await _unitOfWork.SaveChangesAsync();
+                #endregion
+
+                await _unitOfWork.CommitTransactionAsync();
+
+                // Broadcast about evaluated milestone
+                var evaluateVM = teamMilestone.ToDetailDto().MilestoneEvaluation;
+                var _ = Clients.OthersInGroup(groupName).ReceiveMilestoneEvaluated(evaluateVM);
+
+                // Notification Dto
+                var notiDto = notification.ToNotificationDto();
+                notiDto.IsRead = false;
+                notiDto.ReadAt = null;
+
+                var validConnections = _mapping.Where(x => x.Value.ConnectedTeamIds.Contains(team.TeamId));
+                if (validConnections.Any())
+                {
+                    var _noti = Clients.Clients(validConnections.Select(x => x.Value.ConnectionId))
+                        .ReceiveNotification(notiDto);
+                }
+            }
+            catch (Exception ex)
+            {
+                await _unitOfWork.RollbackTransactionAsync();
+                throw new HubException($"Failed to broadcast evaluate Team Milestone. {ex.Message}");
+            }
+        }
+
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            if (ConnectionInfos.Remove(Context.ConnectionId, out var removedInfo))
+            if (_mapping.Remove(Context.ConnectionId, out var removedInfo))
             {
                 // Remove connection Id from groups
                 foreach (var teamId in removedInfo.ConnectedTeamIds)

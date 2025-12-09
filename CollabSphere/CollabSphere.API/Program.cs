@@ -220,6 +220,9 @@ builder.Services.AddSingleton<EmailService>();
 
 #endregion
 
+#region Singleton SingalR Hub Connection Mappings
+builder.Services.AddSingleton<ConnectionMappings>();
+#endregion
 
 var app = builder.Build();
 

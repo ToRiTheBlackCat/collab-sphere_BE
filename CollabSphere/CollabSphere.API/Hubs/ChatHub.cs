@@ -50,16 +50,17 @@ namespace CollabSphere.API.Hubs
     {
         private readonly IUnitOfWork _unitOfWork;
 
-        public ChatHub(IUnitOfWork unitOfWork)
+        public ChatHub(IUnitOfWork unitOfWork, ConnectionMappings connectionMappings)
         {
             _unitOfWork = unitOfWork;
+            _mapping = connectionMappings.ChatHubMapping;
         }
 
         /// <summary>
         /// Details of connectionIds
         /// Dictionary<ConnectionId, ConnectionInfo>
         /// </summary
-        private static readonly ConcurrentDictionary<string, ChatHubConnectionInfo> ConnectionInfos = new();
+        private readonly ConcurrentDictionary<string, ChatHubConnectionInfo> _mapping;
 
         // Helper function
         private async Task<(int UserId, string FullName, int UserRole)> GetUserInfo()
@@ -131,7 +132,7 @@ namespace CollabSphere.API.Hubs
                     await Groups.AddToGroupAsync(Context.ConnectionId, $"{conversationId}");
 
                     // Add this ConnectionId to ConnectionInfos
-                    var chatHubConnectionInfo = ConnectionInfos.GetOrAdd(Context.ConnectionId,
+                    var chatHubConnectionInfo = _mapping.GetOrAdd(Context.ConnectionId,
                         new ChatHubConnectionInfo()
                         {
                             ConnectionId = Context.ConnectionId,
@@ -155,7 +156,7 @@ namespace CollabSphere.API.Hubs
             }
 
             // Check if can join conversation
-            ConnectionInfos.TryGetValue(Context.ConnectionId, out var connectionInfo);
+            _mapping.TryGetValue(Context.ConnectionId, out var connectionInfo);
             if (!connectionInfo!.ConversationIds.Contains(chatConversation.ConversationId))
             {
                 throw new HubException($"Can not join conversation. This connection is not valid: {connectionInfo}");
@@ -179,7 +180,7 @@ namespace CollabSphere.API.Hubs
             var userInfo = await GetUserInfo();
 
             // Check if can join conversation
-            ConnectionInfos.TryGetValue(Context.ConnectionId, out var connectionInfo);
+            _mapping.TryGetValue(Context.ConnectionId, out var connectionInfo);
             if (!connectionInfo!.ConversationIds.Contains(conversationId))
             {
                 throw new HubException($"Can not join conversation. This connection is not valid: {connectionInfo}");
@@ -256,7 +257,7 @@ namespace CollabSphere.API.Hubs
             var userInfo = await this.GetUserInfo();
 
             // Check if can join conversation
-            if (ConnectionInfos.TryGetValue(Context.ConnectionId, out var connectionInfo))
+            if (_mapping.TryGetValue(Context.ConnectionId, out var connectionInfo))
             {
                 if (!connectionInfo.ConversationIds.Contains(conversationId))
                 {
@@ -272,7 +273,7 @@ namespace CollabSphere.API.Hubs
         {
             var (userId, name, userRole) = await GetUserInfo();
 
-            if (ConnectionInfos.TryRemove(Context.ConnectionId, out var removedInfo))
+            if (_mapping.TryRemove(Context.ConnectionId, out var removedInfo))
             {
                 // Remove connection Id from groups
                 foreach (var conversationId in removedInfo.ConversationIds)
