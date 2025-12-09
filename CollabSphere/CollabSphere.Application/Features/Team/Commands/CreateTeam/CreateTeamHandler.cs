@@ -237,6 +237,27 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                 await _unitOfWork.ChatConversationRepo.Create(privateConversation);
                 await _unitOfWork.SaveChangesAsync();
                 #endregion
+
+                #region Create default team whiteboard & page
+                var newWhiteboard = new Domain.Entities.TeamWhiteboard
+                {
+                    TeamId = newTeam.TeamId,
+                    CreatedAt = DateTime.UtcNow,
+                };
+                await _unitOfWork.TeamWhiteboardRepo.Create(newWhiteboard);
+                await _unitOfWork.SaveChangesAsync();
+
+                //Create default page 
+                var newPage = new WhiteboardPage
+                {
+                    WhiteboardId = newWhiteboard.WhiteboardId,
+                    PageTitle = "Page1",
+                    CreatedAt = DateTime.UtcNow,
+                    IsActivate = true,
+                };
+                await _unitOfWork.WhiteboardPageRepo.Create(newPage);
+                await _unitOfWork.SaveChangesAsync();
+                #endregion
             }
             catch (Exception ex)
             {
