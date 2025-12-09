@@ -120,6 +120,7 @@ namespace CollabSphere.Application.Features.Team.Commands.UpdateTeam
                         member.IsGrouped = false;
                         _unitOfWork.ClassMemberRepo.Update(member);
                     }
+                    await _unitOfWork.SaveChangesAsync();
                 }
 
                 //Add incoming new members
