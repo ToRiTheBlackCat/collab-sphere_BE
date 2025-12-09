@@ -139,8 +139,9 @@ namespace CollabSphere.Application.Features.ProjectAssignments.Commands.AssignPr
                 return;
             }
 
-            // Get existing assigned project
+            // Get existing assigned projects
             var assignedProjectIds = classEntity.ProjectAssignments.Select(x => x.ProjectId).ToHashSet();
+
             for (int i = 0; i < request.ProjectIds.Count; i++)
             {
                 var projectId = request.ProjectIds.ElementAt(i);
@@ -170,6 +171,15 @@ namespace CollabSphere.Application.Features.ProjectAssignments.Commands.AssignPr
                     {
                         Field = projectIdprefix,
                         Message = $"Project with ID '{projectId}' is not {ProjectStatuses.APPROVED.ToString()}.",
+                    });
+                }
+                // The Subject of the Assigned Project must match with that of the Class
+                else if (project.SubjectId != project.SubjectId)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = projectIdprefix,
+                        Message = $"The Project's Subject does not match with the Class's Subject.",
                     });
                 }
             }
