@@ -220,6 +220,9 @@ builder.Services.AddSingleton<EmailService>();
 
 #endregion
 
+#region Singleton SingalR Hub Connection Mappings
+builder.Services.AddSingleton<ConnectionMappings>();
+#endregion
 
 var app = builder.Build();
 
@@ -248,4 +251,5 @@ app.MapControllers();
 app.MapHub<KanbanHub>("/KanbanServiceHub");
 app.MapHub<YjsHub>("/yhub");
 app.MapHub<ChatHub>("/chathub");
+app.MapHub<TeamBoardHub>("/team-board-hub");
 app.Run();

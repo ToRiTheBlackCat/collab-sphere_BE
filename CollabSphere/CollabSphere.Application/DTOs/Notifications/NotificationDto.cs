@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Application.DTOs.Notifications
 {
-    public class ChatNotificationDto
+    public class NotificationDto
     {
         public int NotificationId { get; set; }
 
@@ -24,13 +24,24 @@ namespace CollabSphere.Application.DTOs.Notifications
         public string Link { get; set; }
 
         public DateTime CreatedAt { get; set; }
+
+        public bool? IsRead { get; set; }
+
+        public DateTime? ReadAt { get; set; }
     }
 
     public static partial class NotificationMappings
     {
-        public static ChatNotificationDto ToChatNotiDto(this Notification notification)
+        public static NotificationDto ToNotificationDto(this Notification notification, int? userId = null)
         {
-            return new ChatNotificationDto()
+            NotificationRecipient? notiRecipient = null;
+            if (userId.HasValue)
+            {
+                notiRecipient = notification.NotificationRecipients
+                    .FirstOrDefault(x => x.ReceiverId == userId);
+            }
+
+            return new NotificationDto()
             {
                 NotificationId = notification.NotificationId,
                 Title = notification.Title,
@@ -40,12 +51,14 @@ namespace CollabSphere.Application.DTOs.Notifications
                 ReferenceType = notification.ReferenceType,
                 Link = notification.Link,
                 CreatedAt = notification.CreatedAt,
+                IsRead = notiRecipient?.IsRead,
+                ReadAt = notiRecipient?.ReadAt,
             };
         }
 
-        public static List<ChatNotificationDto> ToChatNotiDto(this IEnumerable<Notification> notifications)
+        public static List<NotificationDto> ToNotificationDtos(this IEnumerable<Notification> notifications, int? userId = null)
         {
-            return notifications.Select(notification => notification.ToChatNotiDto()).ToList();
+            return notifications.Select(notification => notification.ToNotificationDto(userId)).ToList();
         }
     }
 }

@@ -181,5 +181,35 @@ namespace CollabSphere.Infrastructure.Repositories
 
             return result;
         }
+
+        public async Task<List<Team>> GetTeamsByUser(int userId)
+        {
+            var user = await _context.Users
+                .AsNoTracking()
+                .Include(x => x.Student)
+                    .ThenInclude(stu => stu.ClassMembers)
+                        .ThenInclude(member => member.Team)
+                .Include(x => x.Lecturer)
+                    .ThenInclude(lec => lec.Classes)
+                        .ThenInclude (cls => cls.Teams)
+                .FirstOrDefaultAsync(x => x.UId == userId);
+
+            if (user == null)
+            {
+                return new List<Team>();
+            }
+
+            var teams = new List<Team>();
+            if (user.IsTeacher)
+            {
+                teams = user.Lecturer.Classes.SelectMany(x => x.Teams).ToList();
+            }
+            else
+            {
+                teams = user.Student.ClassMembers.Where(x => x.TeamId.HasValue).Select(x => x.Team).ToList();
+            }
+
+            return teams;
+        }
     }
 }

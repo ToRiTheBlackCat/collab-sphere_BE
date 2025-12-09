@@ -23,6 +23,7 @@ namespace CollabSphere.Infrastructure.Repositories
             var notifications = await _context.NotificationRecipients
                 .AsNoTracking()
                 .Include(x => x.Notification)
+                    .ThenInclude(noti => noti.NotificationRecipients)
                 .Where(x => 
                     x.ReceiverId == userId
                 )
@@ -31,6 +32,16 @@ namespace CollabSphere.Infrastructure.Repositories
                 .ToListAsync();
 
             return notifications;
+        }
+
+        public async Task<Notification?> GetNotificationDetail(int notificationId)
+        {
+            var notification = await _context.Notifications
+                .AsNoTracking()
+                .Include(x => x.NotificationRecipients)
+                .SingleOrDefaultAsync(x => x.NotificationId == notificationId);
+
+            return notification;
         }
     }
 }
