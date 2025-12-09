@@ -26,7 +26,7 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.StudentEvaluateOth
             {
                 await _unitOfWork.BeginTransactionAsync();
                 var foundTeam = await _unitOfWork.TeamRepo.GetById(request.TeamId);
-                if (foundTeam != null && foundTeam.Progress == 100)
+                if (foundTeam != null && foundTeam.Progress >= 50.0)
                 {
                     foreach (var receiver in request.EvaluatorDetails)
                     {
@@ -68,7 +68,8 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.StudentEvaluateOth
                 }
                 else
                 {
-                    result.Message = "Cannot evaluate and give feedback because this team is not finish all the progress. Please finish all to evaluate and give feedback to these members";
+                    result.IsSuccess = false;
+                    result.Message = "Cannot evaluate and give feedback at this time. Please finish half of the team progress to evaluate and give feedback to other members";
                     return result;
                 }
             }

@@ -53,7 +53,7 @@ namespace CollabSphere.Application.Features.User.Commands.UserUpdateProfile
         [MaxLength(50, ErrorMessage = "Major cannot exceed 50 characters.")]
         public string Major { get; set; } = string.Empty;
         #endregion
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

@@ -1,6 +1,7 @@
 ﻿using CollabSphere.Application.Base;
 using CollabSphere.Application.Common;
 using CollabSphere.Application.Constants;
+using CollabSphere.Application.DTOs.Checkpoints;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Domain.Entities;
 using Microsoft.Extensions.Configuration;
@@ -88,7 +89,19 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.AssignMembersTo
 
                 //Send Email (asynchronously)
                 var foundCheckpoint = await _unitOfWork.CheckpointRepo.GetById(request.AssignmentsDto.CheckpointId);
-                await _emailSender.SendNotiEmailsForCheckpoint(receiverEmails, foundCheckpoint!);
+                var checkPointDto = new CheckpointDetailDto
+                {
+                    CheckpointId = foundCheckpoint!.CheckpointId,
+                    Title = foundCheckpoint.Title,
+                    Description = foundCheckpoint.Description,
+                    Complexity = foundCheckpoint.Complexity,
+                    StartDate = foundCheckpoint.StartDate,
+                    DueDate = foundCheckpoint.DueDate,
+                    Status = foundCheckpoint.Status,
+                };
+                Task.Run(() =>
+                    _emailSender.SendNotiEmailsForCheckpoint(receiverEmails, checkPointDto)
+                );
 
                 result.Message = $"Updated member assignments for checkpoint with ID '{request.AssignmentsDto.CheckpointId}'. \n" +
                     $"Added {newMemberIds.Count()} member(s), Removed {removeCount} member(s).";

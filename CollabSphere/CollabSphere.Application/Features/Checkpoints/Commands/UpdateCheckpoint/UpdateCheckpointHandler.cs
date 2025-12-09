@@ -170,7 +170,7 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.UpdateCheckpoin
             {
                 errors.Add(new OperationError()
                 {
-                    Field = nameof(dto.StartDate),
+                    Field = nameof(dto.DueDate),
                     Message = $"DueDate can't be a date after milestone's EndDate: {teamMilestone.EndDate}"
                 });
             }
