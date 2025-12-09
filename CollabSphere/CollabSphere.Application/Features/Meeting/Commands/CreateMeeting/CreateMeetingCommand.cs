@@ -24,6 +24,6 @@ namespace CollabSphere.Application.Features.Meeting.Commands.CreateMeeting
         [Required]
         public string MeetingUrl { get; set; } = string.Empty;
         [Required]
-        public DateTime ScheduleTime { get; set; } = DateTime.Now;
+        public DateTime ScheduleTime { get; set; } = DateTime.UtcNow;
     }
 }
