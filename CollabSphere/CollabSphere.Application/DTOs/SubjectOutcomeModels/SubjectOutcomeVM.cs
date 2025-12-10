@@ -1,4 +1,6 @@
-﻿using CollabSphere.Domain.Entities;
+﻿using CollabSphere.Application.DTOs.SubjectGradeComponentModels;
+using CollabSphere.Application.DTOs.SubjectOutcomeModels;
+using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +15,15 @@ namespace CollabSphere.Application.DTOs.SubjectOutcomeModels
 
         public int SyllabusId { get; set; }
 
-        public string OutcomeDetail { get; set; }
+        public string OutcomeDetail { get; set; } = null!;
+    }
+}
 
-        public static implicit operator SubjectOutcomeVM(SubjectOutcome outcome)
+namespace CollabSphere.Application.Mappings.SubjectOutcomes
+{
+    public static partial class SubjectOutcomeMappings
+    {
+        public static SubjectOutcomeVM ToViewModel(this SubjectOutcome outcome)
         {
             return new SubjectOutcomeVM()
             {
@@ -23,6 +31,11 @@ namespace CollabSphere.Application.DTOs.SubjectOutcomeModels
                 OutcomeDetail = outcome.OutcomeDetail,
                 SyllabusId = outcome.SyllabusId
             };
+        }
+
+        public static List<SubjectOutcomeVM> ToViewModels(this IEnumerable<SubjectOutcome> outcomes)
+        {
+            return outcomes.Select(x => x.ToViewModel()).ToList();
         }
     }
 }

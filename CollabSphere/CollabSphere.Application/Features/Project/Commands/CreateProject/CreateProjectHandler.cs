@@ -95,31 +95,6 @@ namespace CollabSphere.Application.Features.Project.Commands.CreateProject
                 });
             }
 
-            // Check Objectives
-            for (int index = 0; index < request.Project.Objectives.Count; index++)
-            {
-                var objective = request.Project.Objectives[index];
-                var objectivePrefix = $"{nameof(projectDto.Objectives)}[{index}]";
-
-                // Check objective's Milestones
-                for (int mileIndex = 0; mileIndex < objective.ObjectiveMilestones.Count; mileIndex++)
-                {
-                    var milestone = objective.ObjectiveMilestones[mileIndex];
-                    var milestonePrefix = $"{objectivePrefix}.{nameof(objective.ObjectiveMilestones)}[{mileIndex}]";
-
-                    // Check StartDate & EndDate
-                    if (milestone.EndDate < milestone.StartDate)
-                    {
-                        errors.Add(new OperationError()
-                        {
-                            Field = $"{milestonePrefix}.{nameof(milestone.EndDate)}",
-                            Message = $"Milestone's EndDate must be atleast 2 days after StartDate.",
-                        });
-                        return;
-                    }
-                }
-            }
-
             return;
         }
     }

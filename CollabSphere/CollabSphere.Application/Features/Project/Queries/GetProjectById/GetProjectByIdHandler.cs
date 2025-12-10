@@ -2,6 +2,7 @@
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Project;
 using CollabSphere.Application.DTOs.Validation;
+using CollabSphere.Application.Mappings.Projects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace CollabSphere.Application.Features.Project.Queries.GetProjectById
                 var project = await _unitOfWork.ProjectRepo.GetProjectDetail(request.ProjectId);
                 if (project != null)
                 {
-                    result.Project = (ProjectVM)project;
+                    result.Project = project.ToViewModel();
 
                     // Roles that bypass viewing privileges
                     var bypassRoles = new int[] { RoleConstants.HEAD_DEPARTMENT, RoleConstants.ADMIN, RoleConstants.STAFF };

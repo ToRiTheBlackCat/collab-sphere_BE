@@ -69,10 +69,6 @@ public partial class collab_sphereContext : DbContext
 
     public virtual DbSet<NotificationRecipient> NotificationRecipients { get; set; }
 
-    public virtual DbSet<Objective> Objectives { get; set; }
-
-    public virtual DbSet<ObjectiveMilestone> ObjectiveMilestones { get; set; }
-
     public virtual DbSet<Project> Projects { get; set; }
 
     public virtual DbSet<ProjectAssignment> ProjectAssignments { get; set; }
@@ -98,6 +94,8 @@ public partial class collab_sphereContext : DbContext
     public virtual DbSet<SubjectOutcome> SubjectOutcomes { get; set; }
 
     public virtual DbSet<SubjectSyllabus> SubjectSyllabi { get; set; }
+
+    public virtual DbSet<SyllabusMilestone> SyllabusMilestones { get; set; }
 
     public virtual DbSet<Task> Tasks { get; set; }
 
@@ -918,63 +916,31 @@ public partial class collab_sphereContext : DbContext
                 .HasConstraintName("notification_recipient_user_fk");
         });
 
-        modelBuilder.Entity<Objective>(entity =>
-        {
-            entity.HasKey(e => e.ObjectiveId).HasName("objective_pk");
-
-            entity.ToTable("objective");
-
-            entity.Property(e => e.ObjectiveId)
-                .UseIdentityAlwaysColumn()
-                .HasColumnName("objective_id");
-            entity.Property(e => e.Description).HasColumnName("description");
-            entity.Property(e => e.Priority).HasColumnName("priority");
-            entity.Property(e => e.ProjectId).HasColumnName("project_id");
-
-            entity.HasOne(d => d.Project).WithMany(p => p.Objectives)
-                .HasForeignKey(d => d.ProjectId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("objective_project_fk");
-        });
-
-        modelBuilder.Entity<ObjectiveMilestone>(entity =>
-        {
-            entity.HasKey(e => e.ObjectiveMilestoneId).HasName("objective_milestone_pk");
-
-            entity.ToTable("objective_milestone");
-
-            entity.Property(e => e.ObjectiveMilestoneId)
-                .UseIdentityAlwaysColumn()
-                .HasColumnName("objective_milestone_id");
-            entity.Property(e => e.Description).HasColumnName("description");
-            entity.Property(e => e.EndDate).HasColumnName("end_date");
-            entity.Property(e => e.ObjectiveId).HasColumnName("objective_id");
-            entity.Property(e => e.StartDate).HasColumnName("start_date");
-            entity.Property(e => e.Title)
-                .HasMaxLength(150)
-                .HasColumnName("title");
-
-            entity.HasOne(d => d.Objective).WithMany(p => p.ObjectiveMilestones)
-                .HasForeignKey(d => d.ObjectiveId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("objective_milestone_objective_fk");
-        });
-
         modelBuilder.Entity<Project>(entity =>
         {
             entity.HasKey(e => e.ProjectId).HasName("project_pk");
 
             entity.ToTable("project");
 
+            entity.HasIndex(e => new { e.ProjectId, e.SubjectId }, "project_project_id_idx");
+
             entity.Property(e => e.ProjectId)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("project_id");
+            entity.Property(e => e.Actors)
+                .IsRequired()
+                .HasMaxLength(200)
+                .HasColumnName("actors");
+            entity.Property(e => e.BusinessRules)
+                .IsRequired()
+                .HasColumnName("business_rules");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("created_at");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.LecturerId).HasColumnName("lecturer_id");
             entity.Property(e => e.ProjectName)
+                .IsRequired()
                 .HasMaxLength(150)
                 .HasColumnName("project_name");
             entity.Property(e => e.Status)
@@ -1299,6 +1265,38 @@ public partial class collab_sphereContext : DbContext
                 .HasConstraintName("subject_syllabus_subject_fk");
         });
 
+        modelBuilder.Entity<SyllabusMilestone>(entity =>
+        {
+            entity.HasKey(e => e.SyllabusMilestoneId).HasName("syllabus_milestone_pk");
+
+            entity.ToTable("syllabus_milestone");
+
+            entity.Property(e => e.SyllabusMilestoneId)
+                .UseIdentityAlwaysColumn()
+                .HasColumnName("syllabus_milestone_id");
+            entity.Property(e => e.Description)
+                .IsRequired()
+                .HasColumnName("description");
+            entity.Property(e => e.EndDate).HasColumnName("end_date");
+            entity.Property(e => e.StarDate).HasColumnName("star_date");
+            entity.Property(e => e.SubjectOutcomeId).HasColumnName("subject_outcome_id");
+            entity.Property(e => e.SyllabusId).HasColumnName("syllabus_id");
+            entity.Property(e => e.Title)
+                .IsRequired()
+                .HasMaxLength(200)
+                .HasColumnName("title");
+
+            entity.HasOne(d => d.SubjectOutcome).WithMany(p => p.SyllabusMilestones)
+                .HasForeignKey(d => d.SubjectOutcomeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("syllabus_milestone_subject_outcome_fk");
+
+            entity.HasOne(d => d.Syllabus).WithMany(p => p.SyllabusMilestones)
+                .HasForeignKey(d => d.SyllabusId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("syllabus_milestone_subject_syllabus_fk");
+        });
+
         modelBuilder.Entity<Task>(entity =>
         {
             entity.HasKey(e => e.TaskId).HasName("task_pk");
@@ -1435,25 +1433,28 @@ public partial class collab_sphereContext : DbContext
 
             entity.ToTable("team_milestone");
 
+            entity.HasIndex(e => new { e.TeamMilestoneId, e.SyllabusMilestoneId, e.TeamId }, "team_milestone_team_milestone_id_idx");
+
             entity.Property(e => e.TeamMilestoneId)
                 .UseIdentityAlwaysColumn()
                 .HasColumnName("team_milestone_id");
             entity.Property(e => e.Description).HasColumnName("description");
             entity.Property(e => e.EndDate).HasColumnName("end_date");
-            entity.Property(e => e.ObjectiveMilestoneId).HasColumnName("objective_milestone_id");
             entity.Property(e => e.Progress).HasColumnName("progress");
             entity.Property(e => e.StartDate).HasColumnName("start_date");
             entity.Property(e => e.Status)
                 .HasComment("0 - not done , 1 - done")
                 .HasColumnName("status");
+            entity.Property(e => e.SyllabusMilestoneId).HasColumnName("syllabus_milestone_id");
             entity.Property(e => e.TeamId).HasColumnName("team_id");
             entity.Property(e => e.Title)
+                .IsRequired()
                 .HasMaxLength(150)
                 .HasColumnName("title");
 
-            entity.HasOne(d => d.ObjectiveMilestone).WithMany(p => p.TeamMilestones)
-                .HasForeignKey(d => d.ObjectiveMilestoneId)
-                .HasConstraintName("team_milestone_objective_milestone_fk");
+            entity.HasOne(d => d.SyllabusMilestone).WithMany(p => p.TeamMilestones)
+                .HasForeignKey(d => d.SyllabusMilestoneId)
+                .HasConstraintName("team_milestone_syllabus_milestone_fk");
 
             entity.HasOne(d => d.Team).WithMany(p => p.TeamMilestones)
                 .HasForeignKey(d => d.TeamId)

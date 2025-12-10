@@ -1,5 +1,5 @@
 ﻿using CollabSphere.Application.Constants;
-using CollabSphere.Application.DTOs.Objective;
+using CollabSphere.Application.DTOs.Project;
 using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -33,6 +33,10 @@ namespace CollabSphere.Application.DTOs.Project
         public string SubjectCode { get; set; }
         #endregion
 
+        public string BusinessRules { get; set; } = null!;
+
+        public string Actors { get; set; } = null!;
+
         public int Status { get; set; }
 
         public DateTime CreatedAt { get; set; }
@@ -42,10 +46,14 @@ namespace CollabSphere.Application.DTOs.Project
         public int UpdatedBy { get; set; }
 
         public string StatusString => ((ProjectStatuses)Status).ToString();
+    }
+}
 
-        public List<ObjectiveVM> Objectives { get; set; } = new List<ObjectiveVM>();
-
-        public static explicit operator ProjectVM(Domain.Entities.Project project)
+namespace CollabSphere.Application.Mappings.Projects
+{
+    public static partial class ProjectMappings
+    {
+        public static ProjectVM ToViewModel(this Project project)
         {
             return new ProjectVM()
             {
@@ -53,20 +61,28 @@ namespace CollabSphere.Application.DTOs.Project
                 ProjectName = project.ProjectName,
                 Description = project.Description,
                 LecturerId = project.LecturerId,
-                LecturerCode = project.Lecturer?.LecturerCode ?? string.Empty,
-                LecturerName = project.Lecturer?.Fullname ?? string.Empty,
+                LecturerCode = project.Lecturer?.LecturerCode ?? "NOT_FOUND",
+                LecturerName = project.Lecturer?.Fullname ?? "NOT_FOUND",
                 SubjectId = project.SubjectId,
-                SubjectCode = project.Subject?.SubjectCode ?? string.Empty,
-                SubjectName = project.Subject?.SubjectName ?? string.Empty,
-                Objectives =
-                    project.Objectives
-                        .Select(x => (ObjectiveVM)x)
-                        .ToList(),
+                SubjectCode = project.Subject?.SubjectCode ?? "NOT_FOUND",
+                SubjectName = project.Subject?.SubjectName ?? "NOT_FOUND",
+                BusinessRules = project.BusinessRules,
+                Actors = project.Actors,
                 Status = project.Status,
                 CreatedAt = project.CreatedAt,
                 UpdatedAt = project.UpdatedAt,
                 UpdatedBy = project.UpdatedBy,
             };
+        }
+
+        public static List<ProjectVM> ToViewModels(this IEnumerable<Project> projects)
+        {
+            if (projects == null || !projects.Any())
+            {
+                return new List<ProjectVM>();
+            }
+
+            return projects.Select(x => x.ToViewModel()).ToList();
         }
     }
 }

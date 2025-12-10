@@ -39,7 +39,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMi
                 milestone.EndDate = request.TeamMilestoneDto.EndDate;
 
                 // Update other fields if is not original milestone
-                if (!milestone.ObjectiveMilestoneId.HasValue)
+                if (!milestone.SyllabusMilestoneId.HasValue)
                 {
                     if (!string.IsNullOrWhiteSpace(request.TeamMilestoneDto.Title))
                     {
@@ -112,7 +112,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMi
             }
 
             // Can only update title & description for an original milestone
-            if (milestone.ObjectiveMilestoneId.HasValue)
+            if (milestone.SyllabusMilestoneId.HasValue)
             {
                 if (!string.IsNullOrWhiteSpace(dto.Title))
                 {

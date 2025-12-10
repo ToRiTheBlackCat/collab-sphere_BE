@@ -48,7 +48,7 @@ namespace CollabSphere.Application.Mappings.TeamMilestones
             return new TeamMilestoneVM()
             {
                 TeamMilestoneId = entity.TeamMilestoneId,
-                ObjectiveMilestoneId = entity.ObjectiveMilestoneId,
+                ObjectiveMilestoneId = entity.SyllabusMilestoneId,
                 TeamId = entity.TeamId,
                 Title = entity.Title,
                 Description = entity.Description,

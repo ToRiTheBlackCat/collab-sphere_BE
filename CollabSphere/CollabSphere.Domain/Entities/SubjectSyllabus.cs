@@ -28,4 +28,6 @@ public partial class SubjectSyllabus
     public virtual ICollection<SubjectGradeComponent> SubjectGradeComponents { get; set; } = new List<SubjectGradeComponent>();
 
     public virtual ICollection<SubjectOutcome> SubjectOutcomes { get; set; } = new List<SubjectOutcome>();
+
+    public virtual ICollection<SyllabusMilestone> SyllabusMilestones { get; set; } = new List<SyllabusMilestone>();
 }

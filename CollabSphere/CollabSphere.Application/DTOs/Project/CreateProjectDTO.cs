@@ -1,5 +1,4 @@
 ﻿using CollabSphere.Application.Constants;
-using CollabSphere.Application.DTOs.Objective;
 using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,22 +11,24 @@ namespace CollabSphere.Application.DTOs.Project
 {
     public class CreateProjectDTO
     {
-        [Required]
-        [Length(3, 150)]
-        public string ProjectName { get; set; } = string.Empty;
+        public string ProjectName { get; set; } = null!;
 
-        [Required]
-        public string Description { get; set; } = string.Empty;
+        public string Description { get; set; } = null!;
 
-        [Required]
         public int LecturerId { get; set; }
 
-        [Required]
         public int SubjectId { get; set; }
 
-        [Required]
-        [MinLength(1)]
-        public List<CreateProjectObjectiveDTO> Objectives { get; set; } = new List<CreateProjectObjectiveDTO>();
+        /// <summary>
+        /// 0 - Pending,
+        /// 1 - Approved,
+        /// 2 - Denied
+        /// </summary>
+        public int Status { get; set; }
+
+        public string BusinessRules { get; set; } = null!;
+
+        public string Actors { get; set; } = null!;
 
         public Domain.Entities.Project ToProjectEntity()
         {
@@ -38,7 +39,8 @@ namespace CollabSphere.Application.DTOs.Project
                 LecturerId = this.LecturerId,
                 SubjectId = this.SubjectId,
                 Status = (int)ProjectStatuses.PENDING,
-                Objectives = this.Objectives.Select(x => x.ToObjectiveEntity()).ToList(),
+                BusinessRules = this.BusinessRules,
+                Actors = this.Actors,
             };
         }
     }

@@ -1,5 +1,4 @@
 ﻿using CollabSphere.Application.Constants;
-using CollabSphere.Application.DTOs.Objective;
 using CollabSphere.Application.DTOs.TeamMilestones;
 using CollabSphere.Domain.Entities;
 using System;
@@ -15,7 +14,7 @@ namespace CollabSphere.Application.DTOs.TeamMilestones
         public required int TeamMilestoneId { get; set; }
 
         #region Objective Info
-        public int? ObjectiveId { get; set; }
+        public int? SyllabusMilestoneId { get; set; }
         #endregion
 
         public required int TeamId { get; set; }
@@ -40,17 +39,17 @@ namespace CollabSphere.Application.Mappings.TeamMilestones
     {
         public static TeamProjectMilestoneVM ToTeamProjectMilestoneVM(this TeamMilestone teamMilestone)
         {
-            int? objectiveId = null;
-            if (teamMilestone.ObjectiveMilestoneId.HasValue)
+            int? syllabusMilestoneId = null;
+            if (teamMilestone.SyllabusMilestoneId.HasValue)
             {
-                objectiveId = teamMilestone.ObjectiveMilestone.ObjectiveId;
+                syllabusMilestoneId = teamMilestone.SyllabusMilestone.SyllabusMilestoneId;
             }
 
             return new TeamProjectMilestoneVM()
             {
                 TeamMilestoneId = teamMilestone.TeamMilestoneId,
                 TeamId = teamMilestone.TeamId,
-                ObjectiveId = objectiveId,
+                SyllabusMilestoneId = syllabusMilestoneId,
                 Title = teamMilestone.Title,
                 Description = teamMilestone.Description,
                 StartDate = teamMilestone.StartDate,

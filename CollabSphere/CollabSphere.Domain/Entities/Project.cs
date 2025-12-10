@@ -30,9 +30,11 @@ public partial class Project
 
     public int UpdatedBy { get; set; }
 
-    public virtual Lecturer Lecturer { get; set; }
+    public string BusinessRules { get; set; }
 
-    public virtual ICollection<Objective> Objectives { get; set; } = new List<Objective>();
+    public string Actors { get; set; }
+
+    public virtual Lecturer Lecturer { get; set; }
 
     public virtual ICollection<ProjectAssignment> ProjectAssignments { get; set; } = new List<ProjectAssignment>();
 

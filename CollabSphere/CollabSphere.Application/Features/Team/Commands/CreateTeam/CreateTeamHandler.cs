@@ -99,37 +99,29 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                     var foundProject = await _unitOfWork.ProjectRepo.GetProjectDetail(foundProjectAssign.ProjectId);
                     if (foundProject != null)
                     {
-                        //Find objective milestone
-                        var objectives = foundProject.Objectives;
-                        if (objectives.Any() || objectives.Count() > 0)
-                        {
-                            //Find milestones of objective
-                            foreach (var obj in objectives)
-                            {
-                                var objMilestones = obj.ObjectiveMilestones;
-                                if (objMilestones.Any() || objMilestones.Count() > 0)
-                                {
-                                    foreach (var mile in objMilestones)
-                                    {
-                                        //Create team milestone
-                                        var newTeamMilestone = new TeamMilestone
-                                        {
-                                            ObjectiveMilestoneId = mile.ObjectiveMilestoneId,
-                                            Title = mile.Title,
-                                            Description = mile.Description,
-                                            TeamId = newTeam.TeamId,
-                                            StartDate = mile.StartDate,
-                                            EndDate = mile.EndDate,
-                                            Progress = 0,
-                                            Status = (int)MilestoneStatus.NOTDONE,
-                                        };
+                        // Get Subject and it's Syllabus 
+                        var subject = await _unitOfWork.SubjectRepo.GetSubjectDetail(foundProject.SubjectId);
+                        var syllabus = subject!.SubjectSyllabi.First();
 
-                                        await _unitOfWork.TeamMilestoneRepo.Create(newTeamMilestone);
-                                        await _unitOfWork.SaveChangesAsync();
-                                    }
-                                }
-                            }
+                        // Map a Team Milestone for each subject's syllabus milestones
+                        foreach (var syllabusMilestone in syllabus.SyllabusMilestones)
+                        {
+                            //Create team milestone
+                            var newTeamMilestone = new TeamMilestone
+                            {
+                                SyllabusMilestoneId = syllabusMilestone.SyllabusMilestoneId,
+                                Title = syllabusMilestone.Title,
+                                Description = syllabusMilestone.Description,
+                                TeamId = newTeam.TeamId,
+                                StartDate = syllabusMilestone.StarDate,
+                                EndDate = syllabusMilestone.EndDate,
+                                Progress = 0,
+                                Status = (int)MilestoneStatus.NOTDONE,
+                            };
+
+                            await _unitOfWork.TeamMilestoneRepo.Create(newTeamMilestone);
                         }
+                        await _unitOfWork.SaveChangesAsync();
                     }
                 }
                 #endregion
@@ -329,9 +321,9 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                 }
 
                 var foundSemester = foundClass.Semester;
-                if(request.EndDate != null && foundSemester != null)
+                if (request.EndDate != null && foundSemester != null)
                 {
-                    if(request.EndDate < foundSemester.StartDate || request.EndDate > foundSemester.EndDate)
+                    if (request.EndDate < foundSemester.StartDate || request.EndDate > foundSemester.EndDate)
                     {
                         errors.Add(new OperationError
                         {

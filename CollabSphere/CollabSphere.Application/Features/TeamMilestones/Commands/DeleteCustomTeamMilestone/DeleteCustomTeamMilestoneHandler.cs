@@ -92,7 +92,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.DeleteCustom
             }
 
             // Can only delete milestones that aren't originally mapped from a project
-            if (milestone.ObjectiveMilestoneId.HasValue)
+            if (milestone.SyllabusMilestoneId.HasValue)
             {
                 errors.Add(new OperationError()
                 {

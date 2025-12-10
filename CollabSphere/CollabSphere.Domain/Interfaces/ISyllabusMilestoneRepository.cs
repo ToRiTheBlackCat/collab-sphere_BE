@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Domain.Intefaces
 {
-    public interface IObjectiveMilestoneRepository : IGenericRepository<ObjectiveMilestone>
+    public interface ISyllabusMilestoneRepository : IGenericRepository<SyllabusMilestone>
     {
     }
 }

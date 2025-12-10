@@ -32,19 +32,6 @@ namespace CollabSphere.Application.Features.Project.Commands.DeleteProject
 
                 #region Data Operation
                 var project = (await _unitOfWork.ProjectRepo.GetProjectDetail(request.ProjectId))!;
-                
-                // Remove all Objectives
-                foreach (var objective in project.Objectives)
-                {
-                    // Remove all Milestones
-                    foreach (var milestone in objective.ObjectiveMilestones)
-                    {
-                        _unitOfWork.ObjectiveMilestoneRepo.Delete(milestone);
-                    }
-
-                    _unitOfWork.ObjectiveRepo.Delete(objective);
-                }
-                await _unitOfWork.SaveChangesAsync();
 
                 // Remove project
                 _unitOfWork.ProjectRepo.Delete(project);
