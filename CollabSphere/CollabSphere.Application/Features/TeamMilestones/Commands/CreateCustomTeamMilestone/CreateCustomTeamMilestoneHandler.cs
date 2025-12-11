@@ -111,6 +111,25 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.CreateCustom
                 });
                 return;
             }
+
+            if (request.MilestoneDto.StartDate < team.CreatedDate)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(msDto.StartDate),
+                    Message = $"Start Date can not be before team's created date: {team.CreatedDate:dd-MM-yyyy}",
+                });
+                return;
+            }
+            if (request.MilestoneDto.EndDate > team.EndDate)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(msDto.EndDate),
+                    Message = $"End Date can not be after team's end date: {team.EndDate:dd-MM-yyyy}",
+                });
+                return;
+            }
         }
     }
 }

@@ -157,7 +157,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMi
                     errors.Add(new OperationError()
                     {
                         Field = nameof(dto.StartDate),
-                        Message = $"StartDate can't be a date later than earliest checkpoint's StartDate: {earliestStartDate}",
+                        Message = $"StartDate can't be a date later than earliest checkpoint's StartDate: {earliestStartDate:dd-MM-yyyy}",
                     });
                 }
 
@@ -168,9 +168,28 @@ namespace CollabSphere.Application.Features.TeamMilestones.Commands.UpdateTeamMi
                     errors.Add(new OperationError()
                     {
                         Field = nameof(dto.EndDate),
-                        Message = $"EndDate can't be a date earlier than latest checpoint's DueDate: {latestDueDate}",
+                        Message = $"EndDate can't be a date earlier than latest checpoint's DueDate: {latestDueDate:dd-MM-yyyy}",
                     });
                 }
+            }
+
+            if (dto.StartDate < team.CreatedDate)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(dto.StartDate),
+                    Message = $"Start Date can not be before team's created date: {team.CreatedDate:dd-MM-yyyy}",
+                });
+                return;
+            }
+            if (request.TeamMilestoneDto.EndDate > team.EndDate)
+            {
+                errors.Add(new OperationError()
+                {
+                    Field = nameof(dto.EndDate),
+                    Message = $"End Date can not be after team's end date: {team.EndDate:dd-MM-yyyy}",
+                });
+                return;
             }
         }
     }

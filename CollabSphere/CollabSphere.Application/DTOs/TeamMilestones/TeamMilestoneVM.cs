@@ -15,7 +15,7 @@ namespace CollabSphere.Application.DTOs.TeamMilestones
     {
         public int TeamMilestoneId { get; set; }
 
-        public int? ObjectiveMilestoneId { get; set; }
+        public int? SyllabusMilestoneId { get; set; }
 
         public int TeamId { get; set; }
 
@@ -48,7 +48,7 @@ namespace CollabSphere.Application.Mappings.TeamMilestones
             return new TeamMilestoneVM()
             {
                 TeamMilestoneId = entity.TeamMilestoneId,
-                ObjectiveMilestoneId = entity.SyllabusMilestoneId,
+                SyllabusMilestoneId = entity.SyllabusMilestoneId,
                 TeamId = entity.TeamId,
                 Title = entity.Title,
                 Description = entity.Description,

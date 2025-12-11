@@ -45,7 +45,7 @@ namespace CollabSphere.Application.Mappings.SubjectOutcomes
                 return new List<TeamProjectSubjectOutcome>();
             }
 
-            return subjectOutcomes.Select(x => new TeamProjectSubjectOutcome()).ToList();
+            return subjectOutcomes.Select(x => x.TeamProjectSubjectOutcome()).ToList();
         }
     }
 }

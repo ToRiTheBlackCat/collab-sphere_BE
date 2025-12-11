@@ -57,8 +57,8 @@ namespace CollabSphere.Application.Mappings.Projects
             }
 
             // Only get team milestone mappings of current team
-            var syllabusMilestones = project.Subject.SubjectSyllabi.First().SubjectOutcomes.SelectMany(x => x.SyllabusMilestones);
-            foreach (var syllabusMilestone in syllabusMilestones)
+            var outcomes = project.Subject.SubjectSyllabi.First().SubjectOutcomes;
+            foreach (var syllabusMilestone in outcomes.SelectMany(x => x.SyllabusMilestones))
             {
                 syllabusMilestone.TeamMilestones = syllabusMilestone.TeamMilestones.Where(x => x.TeamId == team.TeamId).ToList();
             }
@@ -72,7 +72,7 @@ namespace CollabSphere.Application.Mappings.Projects
                 LecturerName = project.Lecturer.Fullname,
                 LecturerCode = project.Lecturer.LecturerCode,
                 TeamId = team.TeamId,
-                SubjectOutcomes = project.Subject.SubjectSyllabi.First().SubjectOutcomes.TeamProjectSubjectOutcomes(),
+                SubjectOutcomes = outcomes.TeamProjectSubjectOutcomes(),
                 CustomTeamMilestones = customeTeamMilestones.ToTeamProjectMilestoneVMs()
             };
         }
