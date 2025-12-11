@@ -4,12 +4,14 @@ using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Teams;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Application.Features.Team.Commands;
+using CollabSphere.Domain.Entities;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Task = System.Threading.Tasks.Task;
 
 namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
 {
@@ -87,19 +89,14 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                 {
                     foreach (var cm in foundTeam.ClassMembers)
                     {
-                        // safely query one by one using the same DbContext
-                        var classMember = await _unitOfWork.ClassMemberRepo
-                            .GetClassMemberAsyncByTeamIdAndStudentId(foundTeam.TeamId, cm.StudentId);
-
-                        // build the member info
                         var member = new TeamMemberInfo
                         {
-                            ClassMemberId = classMember?.ClassMemberId ?? 0,
+                            ClassMemberId = cm.ClassMemberId,
                             StudentId = cm.Student.StudentId,
                             StudentName = cm.Student.Fullname,
                             Avatar = await _cloudinaryService.GetImageUrl(cm.Student.AvatarImg),
                             TeamRole = cm.TeamRole,
-                            MemberContributionPercentage = 0
+                            MemberContributionPercentage = CalculateMemberContribution(cm.ClassMemberId, foundTeam)
                         };
 
                         members.Add(member);
@@ -173,6 +170,67 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
             }
 
             return result;
+        }
+
+        private float CalculateMemberContribution(int classMemberId, Domain.Entities.Team foundTeam)
+        {
+            // 1. Initialize counters
+            int totalCheckpoints = 0;
+            int completedCheckpoints = 0;
+
+            int totalQuestions = 0;
+            int answeredQuestion = 0;
+
+            var teamMilestones = foundTeam.TeamMilestones?.ToList() ?? new();
+
+            foreach (var milestone in teamMilestones)
+            {
+                // Checkpoints
+                var checkpoints = milestone.Checkpoints?.ToList() ?? new();
+
+                bool hasAssignment = checkpoints
+                    .SelectMany(c => c.CheckpointAssignments ?? new List<CheckpointAssignment>())
+                    .Any(x => x.ClassMemberId == classMemberId);
+
+                if (hasAssignment)
+                {
+                    totalCheckpoints += checkpoints.Count;
+                    completedCheckpoints += checkpoints.Count(c => c.Status == (int)CheckpointStatuses.DONE);
+                }
+
+                // Milestone Questions
+                var milestoneQuestions = milestone.MilestoneQuestions?.ToList() ?? new();
+
+                if (milestoneQuestions.Any())
+                {
+                    totalQuestions += milestoneQuestions.Count;
+
+                    int userAnswersCount = milestoneQuestions
+                        .SelectMany(q => q.MilestoneQuestionAns)
+                        .Count(ans => ans.ClassMemberId == classMemberId);
+
+                    answeredQuestion += userAnswersCount;
+                }
+            }
+
+            if (totalCheckpoints == 0 && totalQuestions == 0) 
+                return 0;
+
+            float checkpointPercent = totalCheckpoints == 0 ? 0 : (float)completedCheckpoints / totalCheckpoints;
+            float questionPercent = totalQuestions == 0 ? 0 : (float)answeredQuestion / totalQuestions;
+
+            // Only Questions
+            if (totalCheckpoints == 0)
+                return (float)Math.Round(questionPercent * 100f, 2);
+
+            // Only Checkpoints 
+            if (totalQuestions == 0)
+                return (float)Math.Round(checkpointPercent * 100f, 2);
+
+            // Both exist (70/30 Weight)
+            float finalScore = (checkpointPercent * 70f) + (questionPercent * 30f);
+
+            return (float)Math.Round(finalScore, 2);
         }
 
         protected override async Task ValidateRequest(List<OperationError> errors, GetTeamDetailQuery request)
