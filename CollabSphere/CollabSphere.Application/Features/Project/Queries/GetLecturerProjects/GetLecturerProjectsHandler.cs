@@ -1,6 +1,7 @@
 ﻿using CollabSphere.Application.Base;
 using CollabSphere.Application.DTOs.Project;
 using CollabSphere.Application.DTOs.Validation;
+using CollabSphere.Application.Mappings.Projects;
 using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -72,7 +73,7 @@ namespace CollabSphere.Application.Features.Project.Queries.GetTeacherProjects
                 }
 
                 result.PagedProjects = new Common.PagedList<ProjectVM>(
-                    list: projects.Select(x => (ProjectVM)x).ToList(),
+                    list: projects.ToViewModels(),
                     pageNum: request.PageNum,
                     pageSize: request.PageSize,
                     viewAll: request.ViewAll);

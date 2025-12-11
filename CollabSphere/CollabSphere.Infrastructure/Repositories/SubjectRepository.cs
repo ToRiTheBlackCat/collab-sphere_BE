@@ -30,10 +30,13 @@ namespace CollabSphere.Infrastructure.Repositories
         public async Task<Subject?> GetSubjectDetail(int subjectId)
         {
             var subject = await _context.Subjects
+                .AsNoTracking()
                 .Include(x => x.SubjectSyllabi)
                     .ThenInclude(x => x.SubjectGradeComponents)
                 .Include(x => x.SubjectSyllabi)
                     .ThenInclude(x => x.SubjectOutcomes)
+                .Include(x => x.SubjectSyllabi)
+                    .ThenInclude(x => x.SyllabusMilestones)
                 .FirstOrDefaultAsync(x => x.SubjectId == subjectId);
             if (subject != null)
             {
@@ -46,6 +49,7 @@ namespace CollabSphere.Infrastructure.Repositories
         public async Task<Subject?> GetBySubjectCode(string subjectCode)
         {
             var subject = await _context.Subjects
+                .AsNoTracking()
                 .Include(x => x.SubjectSyllabi)
                     .ThenInclude(x => x.SubjectGradeComponents)
                 .Include(x => x.SubjectSyllabi)

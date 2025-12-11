@@ -138,9 +138,11 @@ namespace CollabSphere.Infrastructure.Repositories
                     .ThenInclude(x => x.Student)
                 .Include(x => x.ProjectAssignment)
                     .ThenInclude(x => x.Project)
-                        .ThenInclude(pro => pro.Objectives)
-                            .ThenInclude(ojt => ojt.ObjectiveMilestones)
-                                .ThenInclude(ojtMile => ojtMile.TeamMilestones)
+                        .ThenInclude(pro => pro.Subject)
+                            .ThenInclude(sub => sub.SubjectSyllabi)
+                                .ThenInclude(syllabi => syllabi.SubjectOutcomes)
+                                    .ThenInclude(outcome => outcome.SyllabusMilestones)
+                                        .ThenInclude(syllabusMile => syllabusMile.TeamMilestones)
                 .Include(x => x.TeamMilestones)
                 .Include(x => x.ProjectAssignment)
                     .ThenInclude(x => x.Project)
@@ -148,36 +150,6 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(x => x.TeamFiles)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
-
-            if (result != null && result.ProjectAssignmentId.HasValue)
-            {
-                var project = result.ProjectAssignment.Project;
-
-                foreach (var objective in project.Objectives)
-                {
-                    foreach (var ojtMilestone in objective.ObjectiveMilestones)
-                    {
-                        var teamMilestone = ojtMilestone.TeamMilestones
-                            .SingleOrDefault(x => x.TeamId == teamId);
-                        ojtMilestone.TeamMilestones.Clear();
-
-                        if (teamMilestone != null)
-                            ojtMilestone.TeamMilestones.Add(teamMilestone);
-                    }
-
-                    objective.ObjectiveMilestones = objective.ObjectiveMilestones
-                        .OrderBy(x => x.TeamMilestones.Single().StartDate)
-                        .ToList();
-                }
-                
-                // Only show custom milestone in TeamMilestone
-                result.TeamMilestones = result.TeamMilestones
-                    .Where(x => 
-                        x.Status != (int)TeamMilestoneStatuses.SOFT_DELETED &&
-                        !x.ObjectiveMilestoneId.HasValue
-                    )
-                    .OrderBy(x => x.StartDate).ToList();
-            }
 
             return result;
         }

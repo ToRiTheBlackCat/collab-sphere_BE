@@ -56,7 +56,7 @@ namespace CollabSphere.Application.Mappings.TeamMilestones
             return new TeamMilestoneDetailDto()
             {
                 TeamMilestoneId = teamMilestone.TeamMilestoneId,
-                ObjectiveMilestoneId = teamMilestone.ObjectiveMilestoneId,
+                ObjectiveMilestoneId = teamMilestone.SyllabusMilestoneId,
                 Title = teamMilestone.Title,
                 Description = teamMilestone.Description,
                 TeamId = teamMilestone.TeamId,

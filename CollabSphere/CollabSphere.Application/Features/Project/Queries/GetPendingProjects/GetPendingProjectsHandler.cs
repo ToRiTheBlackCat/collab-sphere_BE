@@ -2,6 +2,7 @@
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Project;
 using CollabSphere.Application.DTOs.Validation;
+using CollabSphere.Application.Mappings.Projects;
 
 namespace CollabSphere.Application.Features.Project.Queries.GetPendingProjects
 {
@@ -61,7 +62,7 @@ namespace CollabSphere.Application.Features.Project.Queries.GetPendingProjects
                 }
 
                 result.PagedProjects = new Common.PagedList<ProjectVM>(
-                    list: projects.Select(x => (ProjectVM)x),
+                    list: projects.ToViewModels(),
                     pageNum: request.PageNum,
                     pageSize: request.PageSize,
                     viewAll: request.ViewAll);

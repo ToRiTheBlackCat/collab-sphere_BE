@@ -2,6 +2,7 @@
 using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Project;
 using CollabSphere.Application.DTOs.Validation;
+using CollabSphere.Application.Mappings.Projects;
 using CollabSphere.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
@@ -74,7 +75,7 @@ namespace CollabSphere.Application.Features.Project.Queries.GetAllProjects
                 }
 
                 result.PagedProjects = new Common.PagedList<ProjectVM>(
-                    list: projects.Select(x => (ProjectVM)x).ToList(),
+                    list: projects.ToViewModels(),
                     pageNum: request.PageNum,
                     pageSize: request.PageSize,
                     viewAll: request.ViewAll);

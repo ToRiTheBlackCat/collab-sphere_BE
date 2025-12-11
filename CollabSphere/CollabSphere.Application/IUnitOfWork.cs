@@ -1,6 +1,7 @@
 ﻿
 using CollabSphere.Domain.Intefaces;
 using CollabSphere.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,10 +26,8 @@ namespace CollabSphere.Application
         IDocumentStateRepository DocStateRepo { get; }
         IGithubConnectionStateRepository GithubConnectionStateRepo { get; }
         ILecturerRepository LecturerRepo { get; }
-        IObjectiveRepository ObjectiveRepo { get; }
         INotificationRecipientRepository NotificationRecipientRepo { get; }
         INotificationRepository NotificationRepo { get; }
-        IObjectiveMilestoneRepository ObjectiveMilestoneRepo { get; }
         IProjectAssignmentRepository ProjectAssignmentRepo { get; }
         IProjectRepository ProjectRepo { get; }
         ISemesterRepository SemesterRepo { get; }
@@ -37,6 +36,7 @@ namespace CollabSphere.Application
         ISubjectOutcomeRepository SubjectOutcomeRepo { get; }
         ISubjectRepository SubjectRepo { get; }
         ISubjectSyllabusRepository SubjectSyllabusRepo { get; }
+        ISyllabusMilestoneRepository SyllabusMilestoneRepo { get; }
         ITeamMilestoneRepository TeamMilestoneRepo { get; }
         ITeamRepository TeamRepo { get; }
         ITeamEvaluationRepository TeamEvaluationRepo { get; }
@@ -68,5 +68,6 @@ namespace CollabSphere.Application
         Task CommitTransactionAsync();
         Task RollbackTransactionAsync();
         Task<int> SaveChangesAsync();
+        Task<ChangeTracker> GetStates();
     }
 }

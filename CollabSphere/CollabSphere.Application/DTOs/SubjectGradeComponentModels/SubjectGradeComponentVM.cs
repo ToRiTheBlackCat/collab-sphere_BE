@@ -1,4 +1,5 @@
-﻿using CollabSphere.Domain.Entities;
+﻿using CollabSphere.Application.DTOs.SubjectGradeComponentModels;
+using CollabSphere.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,17 @@ namespace CollabSphere.Application.DTOs.SubjectGradeComponentModels
 
         public int SyllabusId { get; set; }
 
-        public string ComponentName { get; set; }
+        public string ComponentName { get; set; } = null!;
 
         public decimal? ReferencePercentage { get; set; }
+    }
+}
 
-        public static implicit operator SubjectGradeComponentVM(SubjectGradeComponent gradeComponent)
+namespace CollabSphere.Application.Mappings.SubjectGrades
+{
+    public static class SubjectGradeMappings
+    {
+        public static SubjectGradeComponentVM ToViewModel(this SubjectGradeComponent gradeComponent)
         {
             return new SubjectGradeComponentVM()
             {
@@ -29,6 +36,11 @@ namespace CollabSphere.Application.DTOs.SubjectGradeComponentModels
                 SubjectId = gradeComponent.SubjectId,
                 SyllabusId = gradeComponent.SyllabusId
             };
+        }
+
+        public static List<SubjectGradeComponentVM> ToViewModels(this IEnumerable<SubjectGradeComponent> gradeComponents)
+        {
+            return gradeComponents.Select(x => x.ToViewModel()).ToList();
         }
     }
 }

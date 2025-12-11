@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.DTOs.SubjectSyllabusModel;
+using CollabSphere.Application.Mappings.SubjectSyllabuses;
 using CollabSphere.Domain.Entities;
 
 namespace CollabSphere.Application.DTOs.SubjectModels
@@ -7,17 +8,22 @@ namespace CollabSphere.Application.DTOs.SubjectModels
     {
         public int SubjectId { get; set; }
 
-        public string SubjectName { get; set; }
+        public string SubjectName { get; set; } = null!;
 
-        public string SubjectCode { get; set; }
+        public string SubjectCode { get; set; } = null!;
 
         public bool IsActive { get; set; }
 
         public SubjectSyllabusVM? SubjectSyllabus { get; set; }
 
-        public static implicit operator SubjectVM(Subject subject)
+        public static explicit operator SubjectVM(Subject subject)
         {
-            if (subject == null) throw new ArgumentNullException();
+            if (subject == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var syllabusVm = subject.SubjectSyllabi.FirstOrDefault()?.ToViewModel();
 
             return new SubjectVM()
             {
@@ -25,7 +31,7 @@ namespace CollabSphere.Application.DTOs.SubjectModels
                 SubjectName = subject.SubjectName,
                 SubjectCode = subject.SubjectCode,
                 IsActive = subject.IsActive,
-                SubjectSyllabus = (SubjectSyllabusVM)subject.SubjectSyllabi.FirstOrDefault(),
+                SubjectSyllabus = syllabusVm,
             };
         }
     }

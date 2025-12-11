@@ -31,66 +31,67 @@ namespace CollabSphere.Application.Features.Subjects.Commands.UpdateSubject
             {
                 await _unitOfWork.BeginTransactionAsync();
 
-                // Update Subject
                 var subject = await _unitOfWork.SubjectRepo.GetSubjectDetail(request.SubjectId);
-                subject!.SubjectId = request.SubjectId;
-                subject.SubjectCode = request.SubjectCode;
-                subject.SubjectName = request.SubjectName;
-                subject.IsActive = request.IsActive;
-
-                _unitOfWork.SubjectRepo.Update(subject);
-                await _unitOfWork.SaveChangesAsync();
+                _unitOfWork.SubjectRepo.Update(subject!);
 
                 // Update Syllabus
-                var syllabus = subject.SubjectSyllabi.First();
-                syllabus!.SyllabusName = request.SubjectSyllabus.SyllabusName;
-                syllabus.IsActive = request.SubjectSyllabus.IsActive;
-                syllabus.Description = request.SubjectSyllabus.Description;
-                syllabus.NoCredit = request.SubjectSyllabus.NoCredit;
-                syllabus.SubjectCode = subject.SubjectCode;
+                var syllabusDto = request.Subject.SubjectSyllabus;
 
-                _unitOfWork.SubjectSyllabusRepo.Update(syllabus);
-                await _unitOfWork.SaveChangesAsync();
+                var syllabus = subject!.SubjectSyllabi.First();
+
+                var states = await _unitOfWork.GetStates();
 
                 // Replace grade components
-                var existingComponents = await _unitOfWork.SubjectGradeComponentRepo.GetAll();
-                var componentsToDelete = existingComponents.Where(x => x.SyllabusId == syllabus.SyllabusId).ToList();
-                foreach (var comp in componentsToDelete)
-                {
-                    _unitOfWork.SubjectGradeComponentRepo.Delete(comp);
-                    await _unitOfWork.SaveChangesAsync();
-                }
+                syllabus.SubjectGradeComponents.Clear();
 
-                foreach (var gradeComponentDto in request.SubjectSyllabus.SubjectGradeComponents)
+                foreach (var gradeComponentDto in syllabusDto.SubjectGradeComponents)
                 {
-                    await _unitOfWork.SubjectGradeComponentRepo.Create(new SubjectGradeComponent()
+                    syllabus.SubjectGradeComponents.Add(new SubjectGradeComponent()
                     {
                         ComponentName = gradeComponentDto.ComponentName,
                         ReferencePercentage = gradeComponentDto.ReferencePercentage,
                         SubjectId = subject.SubjectId,
-                        Syllabus = syllabus,
+                        SyllabusId = syllabus.SyllabusId,
                     });
-                    await _unitOfWork.SaveChangesAsync();
                 }
 
                 // Replace subject outcomes
-                var existingOutcomes = await _unitOfWork.SubjectOutcomeRepo.GetAll();
-                var outcomesToDelete = existingOutcomes.Where(x => x.SyllabusId == syllabus.SyllabusId).ToList();
-                foreach (var outcome in outcomesToDelete)
-                {
-                    _unitOfWork.SubjectOutcomeRepo.Delete(outcome);
-                    await _unitOfWork.SaveChangesAsync();
-                }
+                syllabus.SubjectOutcomes.Clear();
 
-                foreach (var outcomeDto in request.SubjectSyllabus.SubjectOutcomes)
+                // Create Subject Outcomes
+                foreach (var outcomeDto in syllabusDto.SubjectOutcomes)
                 {
-                    await _unitOfWork.SubjectOutcomeRepo.Create(new SubjectOutcome()
+                    var outcome = new SubjectOutcome()
                     {
                         OutcomeDetail = outcomeDto.OutcomeDetail,
-                        Syllabus = syllabus
-                    });
-                    await _unitOfWork.SaveChangesAsync();
+                        SyllabusMilestones = outcomeDto.SyllabusMilestones.Select(m => new SyllabusMilestone
+                        {
+                            SyllabusId = syllabus.SyllabusId,
+
+                            Title = m.Title,
+                            Description = m.Description,
+                            StarDate = m.StarDate,
+                            EndDate = m.EndDate
+                        }).ToList()
+                    };
+
+                    syllabus.SubjectOutcomes.Add(outcome);
                 }
+
+                // Update syllabus
+                syllabus!.SyllabusName = syllabusDto.SyllabusName;
+                syllabus.IsActive = syllabusDto.IsActive;
+                syllabus.Description = syllabusDto.Description;
+                syllabus.NoCredit = syllabusDto.NoCredit;
+                syllabus.SubjectCode = subject.SubjectCode;
+
+                // Update subject
+                subject!.SubjectId = request.SubjectId;
+                subject.SubjectCode = request.Subject.SubjectCode;
+                subject.SubjectName = request.Subject.SubjectName;
+                subject.IsActive = request.Subject.IsActive;
+
+                await _unitOfWork.SaveChangesAsync();
 
                 await _unitOfWork.CommitTransactionAsync();
 
@@ -119,25 +120,27 @@ namespace CollabSphere.Application.Features.Subjects.Commands.UpdateSubject
                 });
             }
 
+            var syllabusDto = request.Subject.SubjectSyllabus;
+
             // Validate grade components
-            var componentSum = request.SubjectSyllabus.SubjectGradeComponents.Sum(x => x.ReferencePercentage);
+            var componentSum = syllabusDto.SubjectGradeComponents.Sum(x => x.ReferencePercentage);
             if (componentSum != 100)
             {
                 errors.Add(new OperationError()
                 {
-                    Field = $"{nameof(request.SubjectSyllabus)}.{nameof(request.SubjectSyllabus.SubjectGradeComponents)}",
-                    Message = $"{nameof(request.SubjectSyllabus.SubjectGradeComponents)} don't sum up to 100."
+                    Field = $"{nameof(request.Subject.SubjectSyllabus)}.{nameof(request.Subject.SubjectSyllabus.SubjectGradeComponents)}",
+                    Message = $"{nameof(request.Subject.SubjectSyllabus.SubjectGradeComponents)} don't sum up to 100."
                 });
             }
 
             // Validate Subject Code
-            var existSubjectCode = await _unitOfWork.SubjectRepo.GetBySubjectCode(request.SubjectCode);
-            if (existSubjectCode != null && existSubjectCode.SubjectId != request.SubjectId)
+            var existingSubject = await _unitOfWork.SubjectRepo.GetBySubjectCode(request.Subject.SubjectCode);
+            if (existingSubject != null && existingSubject.SubjectId != request.SubjectId)
             {
                 errors.Add(new OperationError()
                 {
-                    Field = $"{nameof(request.SubjectCode)}",
-                    Message = $"Subject with {nameof(request.SubjectCode)} '{request.SubjectCode}' already exist."
+                    Field = $"{nameof(request.Subject.SubjectCode)}",
+                    Message = $"Subject with {nameof(request.Subject.SubjectCode)} '{request.Subject.SubjectCode}' already exist."
                 });
             }
         }

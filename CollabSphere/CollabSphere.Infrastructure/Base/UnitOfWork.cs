@@ -3,6 +3,7 @@ using CollabSphere.Domain.Intefaces;
 using CollabSphere.Domain.Interfaces;
 using CollabSphere.Infrastructure.PostgreDbContext;
 using CollabSphere.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
@@ -31,10 +32,8 @@ namespace CollabSphere.Infrastructure.Base
         public IDocumentStateRepository DocStateRepo { get; }
         public IGithubConnectionStateRepository GithubConnectionStateRepo { get; }
         public ILecturerRepository LecturerRepo { get; }
-        public IObjectiveRepository ObjectiveRepo { get; }
         public INotificationRecipientRepository NotificationRecipientRepo { get; }
         public INotificationRepository NotificationRepo { get; }
-        public IObjectiveMilestoneRepository ObjectiveMilestoneRepo { get; }
         public IProjectAssignmentRepository ProjectAssignmentRepo { get; }
         public IProjectRepository ProjectRepo { get; }
         public ISemesterRepository SemesterRepo { get; }
@@ -43,6 +42,7 @@ namespace CollabSphere.Infrastructure.Base
         public ISubjectOutcomeRepository SubjectOutcomeRepo { get; }
         public ISubjectRepository SubjectRepo { get; }
         public ISubjectSyllabusRepository SubjectSyllabusRepo { get; }
+        public ISyllabusMilestoneRepository SyllabusMilestoneRepo { get; }
         public ITeamMilestoneRepository TeamMilestoneRepo { get; }
         public ITeamRepository TeamRepo { get; }
         public ITeamEvaluationRepository TeamEvaluationRepo { get; }
@@ -88,10 +88,8 @@ namespace CollabSphere.Infrastructure.Base
             DocStateRepo = new DocumentStateRepository(_context);
             GithubConnectionStateRepo = new GithubConnectionStateRepository(_context);
             LecturerRepo = new LecturerRepository(_context);
-            ObjectiveRepo = new ObjectiveRepository(_context);
             NotificationRecipientRepo = new NotificationRecipientRepository(_context);
             NotificationRepo = new NotificationRepository(_context);
-            ObjectiveMilestoneRepo = new ObjectiveMilestoneRepository(_context);
             ProjectAssignmentRepo = new ProjectAssignmentRepository(_context);
             ProjectRepo = new ProjectRepository(_context);
             SemesterRepo = new SemesterRepository(_context);
@@ -100,6 +98,7 @@ namespace CollabSphere.Infrastructure.Base
             SubjectOutcomeRepo = new SubjectOutcomeRepository(_context);
             SubjectRepo = new SubjectRepository(_context);
             SubjectSyllabusRepo = new SubjectSyllabusRepository(_context);
+            SyllabusMilestoneRepo = new SyllabusMiletstoneRepository(_context);
             TeamMilestoneRepo = new TeamMilestoneRepository(_context);
             TeamRepo = new TeamRepository(_context);
             TeamMilestoneRepo = new TeamMilestoneRepository(_context);
@@ -128,7 +127,7 @@ namespace CollabSphere.Infrastructure.Base
             ShapeRepo = new ShapeRepository(_context);
             #endregion
         }
-        
+
         public async Task BeginTransactionAsync()
         {
             if (_transaction == null)
@@ -166,6 +165,12 @@ namespace CollabSphere.Infrastructure.Base
         public void Dispose()
         {
             _context.Dispose();
+        }
+
+        public async Task<ChangeTracker> GetStates()
+        {
+            var states = _context.ChangeTracker;
+            return states;
         }
     }
 }

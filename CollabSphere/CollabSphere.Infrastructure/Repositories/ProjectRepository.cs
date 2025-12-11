@@ -22,29 +22,9 @@ namespace CollabSphere.Infrastructure.Repositories
             var projects = await _context.Projects
                 .Include(x => x.Lecturer)
                 .Include(x => x.Subject)
-                .Include(x => x.Objectives)
-                    .ThenInclude(x => x.ObjectiveMilestones)
                 .OrderByDescending(x => x.CreatedAt)
                 .AsNoTracking()
                 .ToListAsync();
-
-            if (projects.Any())
-            {
-                foreach (var project in projects)
-                {
-                    foreach (var objective in project.Objectives)
-                    {
-                        if (!objective.ObjectiveMilestones.Any())
-                        {
-                            continue;
-                        }
-
-                        objective.ObjectiveMilestones = objective.ObjectiveMilestones.OrderBy(mile => mile.StartDate).ToList();
-                    }
-
-                    project.Objectives = project.Objectives.OrderBy(obj => obj.ObjectiveMilestones.FirstOrDefault()?.StartDate).ToList();
-                }
-            }
 
             return projects;
         }
@@ -55,26 +35,21 @@ namespace CollabSphere.Infrastructure.Repositories
                 .AsNoTracking()
                 .Include(x => x.Lecturer)
                 .Include(x => x.Subject)
-                .Include(x => x.Objectives)
-                    .ThenInclude(x => x.ObjectiveMilestones)
                 .FirstOrDefaultAsync(x => x.ProjectId == projectId);
 
-            if (project != null && project.Objectives.Any())
-            {
-                foreach (var objective in project.Objectives)
-                {
-                    if (!objective.ObjectiveMilestones.Any())
-                    {
-                        continue;
-                    }
-
-                    objective.ObjectiveMilestones = objective.ObjectiveMilestones.OrderBy(mile => mile.StartDate).ToList();
-                }
-
-                project.Objectives = project.Objectives.OrderBy(obj => obj.ObjectiveMilestones.FirstOrDefault()?.StartDate).ToList();
-            }
-
             return project;
+        }
+
+        public async Task<List<Project>> SearchProjects(List<int>? lecturerIds = null, List<int>? subjectIds = null)
+        {
+            var projects = await _context.Projects
+                .Where(x =>
+                    (lecturerIds == null || lecturerIds.Contains(x.LecturerId)) &&
+                    (subjectIds == null || subjectIds.Contains(x.SubjectId))
+                )
+                .ToListAsync();
+
+            return projects;
         }
     }
 }

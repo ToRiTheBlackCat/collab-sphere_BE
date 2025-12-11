@@ -14,4 +14,6 @@ public partial class SubjectOutcome
     public string OutcomeDetail { get; set; }
 
     public virtual SubjectSyllabus Syllabus { get; set; }
+
+    public virtual ICollection<SyllabusMilestone> SyllabusMilestones { get; set; } = new List<SyllabusMilestone>();
 }

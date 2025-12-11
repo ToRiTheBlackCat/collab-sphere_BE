@@ -9,7 +9,7 @@ public partial class TeamMilestone
 {
     public int TeamMilestoneId { get; set; }
 
-    public int? ObjectiveMilestoneId { get; set; }
+    public int? SyllabusMilestoneId { get; set; }
 
     public string Title { get; set; }
 
@@ -38,7 +38,7 @@ public partial class TeamMilestone
 
     public virtual ICollection<MilestoneReturn> MilestoneReturns { get; set; } = new List<MilestoneReturn>();
 
-    public virtual ObjectiveMilestone ObjectiveMilestone { get; set; }
+    public virtual SyllabusMilestone SyllabusMilestone { get; set; }
 
     public virtual Team Team { get; set; }
 }

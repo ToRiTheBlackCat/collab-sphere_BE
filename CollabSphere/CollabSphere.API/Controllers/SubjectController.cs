@@ -1,5 +1,7 @@
 ﻿using CollabSphere.Application.Common;
+using CollabSphere.Application.DTOs.SubjectModels;
 using CollabSphere.Application.Features.Subjects.Commands.CreateSubject;
+using CollabSphere.Application.Features.Subjects.Commands.DeleteSubject;
 using CollabSphere.Application.Features.Subjects.Commands.ImportSubject;
 using CollabSphere.Application.Features.Subjects.Commands.UpdateSubject;
 using CollabSphere.Application.Features.Subjects.Queries.GetAllSubject;
@@ -98,12 +100,17 @@ namespace CollabSphere.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AcademicCreateSubject([FromBody] CreateSubjectCommand command)
+        public async Task<IActionResult> AcademicCreateSubject([FromBody] CreateSubjectDto subjectDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            var command = new CreateSubjectCommand()
+            {
+                Subject = subjectDto
+            };
 
             var result = await _mediator.Send(command);
 
@@ -120,13 +127,19 @@ namespace CollabSphere.API.Controllers
             return Ok(result);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> AcademicUpdateSubject([FromBody] UpdateSubjectCommand command)
+        [HttpPut("{subjectId}")]
+        public async Task<IActionResult> AcademicUpdateSubject(int subjectId, [FromBody] CreateSubjectDto subjectDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            var command = new UpdateSubjectCommand()
+            {
+                SubjectId = subjectId,
+                Subject = subjectDto,
+            };
 
             var result = await _mediator.Send(command);
 
@@ -138,6 +151,33 @@ namespace CollabSphere.API.Controllers
             if (!result.IsSuccess)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, result.Message);
+            }
+
+            return Ok(result);
+        }
+        [HttpDelete("{subjectId}")]
+        public async Task<IActionResult> AcademicDeleteSubject(int subjectId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var command = new DeleteSubjectCommand()
+            {
+                SubjectId = subjectId,
+            };
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
             }
 
             return Ok(result);

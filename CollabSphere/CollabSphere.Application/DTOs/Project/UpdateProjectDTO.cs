@@ -1,5 +1,4 @@
 ﻿using CollabSphere.Application.Constants;
-using CollabSphere.Application.DTOs.Objective;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -15,7 +14,7 @@ namespace CollabSphere.Application.DTOs.Project
         public int ProjectId { get; set; }
 
         [Required]
-        [Length(0, 150)]
+        [Length(3, 150)]
         public string ProjectName { get; set; } = string.Empty;
 
         [Required]
@@ -25,7 +24,9 @@ namespace CollabSphere.Application.DTOs.Project
         public int SubjectId { get; set; }
 
         [Required]
-        [MinLength(1)]
-        public List<UpdateProjectObjectiveDTO> Objectives { get; set; } = new List<UpdateProjectObjectiveDTO>();
+        public string BusinessRules { get; set; } = null!;
+
+        [Required]
+        public string Actors { get; set; } = null!;
     }
 }

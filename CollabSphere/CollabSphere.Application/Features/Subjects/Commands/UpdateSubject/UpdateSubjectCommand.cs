@@ -1,24 +1,15 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.DTOs.SubjectModels;
 using CollabSphere.Application.DTOs.SubjectSyllabusModel;
+using CollabSphere.Application.Features.Subjects.Commands.CreateSubject;
 using System.ComponentModel.DataAnnotations;
 
 namespace CollabSphere.Application.Features.Subjects.Commands.UpdateSubject
 {
     public class UpdateSubjectCommand : ICommand
     {
-        [Required]
         public int SubjectId { get; set; }
 
-        [Required]
-        public string SubjectName { get; set; }
-
-        [Required]
-        public string SubjectCode { get; set; }
-
-        [Required]
-        public bool IsActive { get; set; }
-
-        [Required]
-        public SubjectSyllabusDto SubjectSyllabus { get; set; }
+        public CreateSubjectDto Subject { get; set; } = null!;
     }
 }

@@ -1,7 +1,9 @@
 ﻿using CollabSphere.Application.Base;
 using CollabSphere.Application.Common;
+using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Domain.Entities;
+using Microsoft.AspNetCore.Http.HttpResults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,10 +37,20 @@ namespace CollabSphere.Application.Features.Project.Commands.CreateProject
                 await _uniUnitOfWork.BeginTransactionAsync();
 
                 #region Data Operations
-                var newPoject = request.Project.ToProjectEntity();
-                newPoject.CreatedAt = DateTime.UtcNow;
-                newPoject.UpdatedAt = DateTime.UtcNow;
-                newPoject.UpdatedBy = request.UserId;
+                //var newPoject = request.Project.ToProjectEntity();
+                var newPoject = new Domain.Entities.Project()
+                {
+                    ProjectName = request.Project.ProjectName,
+                    Description = request.Project.Description,
+                    LecturerId = request.Project.LecturerId,
+                    SubjectId = request.Project.SubjectId,
+                    Status = (int)ProjectStatuses.PENDING,
+                    BusinessRules = request.Project.BusinessRules,
+                    Actors = request.Project.Actors,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = DateTime.UtcNow,
+                    UpdatedBy = request.UserId
+                };
 
                 await _uniUnitOfWork.ProjectRepo.Create(newPoject);
                 await _uniUnitOfWork.SaveChangesAsync();
@@ -47,7 +59,7 @@ namespace CollabSphere.Application.Features.Project.Commands.CreateProject
                 await _uniUnitOfWork.CommitTransactionAsync();
 
                 result.ProjectId = newPoject.ProjectId;
-                result.Message = "Project Created Successfully.";
+                result.Message = $"Created project '{newPoject.ProjectName}'({newPoject.ProjectId}) successfully.";
                 result.IsSuccess = true;
             }
             catch (Exception ex)
@@ -63,14 +75,23 @@ namespace CollabSphere.Application.Features.Project.Commands.CreateProject
         {
             var projectDto = request.Project;
 
-            // Check Requester's Lecturer ID
-            if (request.UserId != projectDto.LecturerId)
+            var bypassRoles = new List<int>()
             {
-                errors.Add(new OperationError()
+                RoleConstants.HEAD_DEPARTMENT,
+                RoleConstants.STAFF
+            };
+
+            if (!bypassRoles.Contains(request.UserRole))
+            {
+                // Check Requester's Lecturer ID
+                if (request.UserId != projectDto.LecturerId)
                 {
-                    Field = $"{nameof(request.UserId)}",
-                    Message = $"UserId ({request.UserId}) doesn't match the Project's LecturerId ({projectDto.LecturerId}).",
-                });
+                    errors.Add(new OperationError()
+                    {
+                        Field = $"{nameof(request.UserId)}",
+                        Message = $"UserId ({request.UserId}) doesn't match the Project's LecturerId ({projectDto.LecturerId}).",
+                    });
+                }
             }
 
             // Check Lecturer ID
@@ -93,31 +114,6 @@ namespace CollabSphere.Application.Features.Project.Commands.CreateProject
                     Field = nameof(projectDto.SubjectId),
                     Message = $"No existing Subject with this ID: {projectDto.SubjectId}",
                 });
-            }
-
-            // Check Objectives
-            for (int index = 0; index < request.Project.Objectives.Count; index++)
-            {
-                var objective = request.Project.Objectives[index];
-                var objectivePrefix = $"{nameof(projectDto.Objectives)}[{index}]";
-
-                // Check objective's Milestones
-                for (int mileIndex = 0; mileIndex < objective.ObjectiveMilestones.Count; mileIndex++)
-                {
-                    var milestone = objective.ObjectiveMilestones[mileIndex];
-                    var milestonePrefix = $"{objectivePrefix}.{nameof(objective.ObjectiveMilestones)}[{mileIndex}]";
-
-                    // Check StartDate & EndDate
-                    if (milestone.EndDate < milestone.StartDate)
-                    {
-                        errors.Add(new OperationError()
-                        {
-                            Field = $"{milestonePrefix}.{nameof(milestone.EndDate)}",
-                            Message = $"Milestone's EndDate must be atleast 2 days after StartDate.",
-                        });
-                        return;
-                    }
-                }
             }
 
             return;

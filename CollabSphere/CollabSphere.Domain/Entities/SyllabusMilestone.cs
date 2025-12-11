@@ -5,21 +5,25 @@ using System.Collections.Generic;
 
 namespace CollabSphere.Domain.Entities;
 
-public partial class ObjectiveMilestone
+public partial class SyllabusMilestone
 {
-    public int ObjectiveMilestoneId { get; set; }
+    public int SyllabusMilestoneId { get; set; }
 
     public string Title { get; set; }
 
     public string Description { get; set; }
 
-    public int ObjectiveId { get; set; }
-
-    public DateOnly? StartDate { get; set; }
+    public DateOnly StarDate { get; set; }
 
     public DateOnly EndDate { get; set; }
 
-    public virtual Objective Objective { get; set; }
+    public int SyllabusId { get; set; }
+
+    public int SubjectOutcomeId { get; set; }
+
+    public virtual SubjectOutcome SubjectOutcome { get; set; }
+
+    public virtual SubjectSyllabus Syllabus { get; set; }
 
     public virtual ICollection<TeamMilestone> TeamMilestones { get; set; } = new List<TeamMilestone>();
 }

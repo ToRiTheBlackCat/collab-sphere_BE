@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace CollabSphere.Infrastructure.Repositories
 {
-    public class ObjectiveRepository : GenericRepository<Objective>, IObjectiveRepository
+    public class SyllabusMiletstoneRepository : GenericRepository<SyllabusMilestone>, ISyllabusMilestoneRepository
     {
-        public ObjectiveRepository(collab_sphereContext context) : base(context)
+        public SyllabusMiletstoneRepository(collab_sphereContext context) : base(context)
         {
         }
     }
