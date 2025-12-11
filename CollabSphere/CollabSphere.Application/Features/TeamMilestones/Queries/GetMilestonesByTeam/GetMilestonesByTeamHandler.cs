@@ -32,7 +32,7 @@ namespace CollabSphere.Application.Features.TeamMilestones.Queries.GetMilestones
             {
                 // Get milestones of team
                 var milestones = await _unitOfWork.TeamMilestoneRepo.GetMilestonesByTeamId(request.TeamId);
-                result.TeamMilestones = milestones.ToTeamMilestoneVM();
+                result.TeamMilestones = milestones.OrderBy(x => x.StartDate).ToTeamMilestoneVM();
 
                 result.IsSuccess = true;
             }

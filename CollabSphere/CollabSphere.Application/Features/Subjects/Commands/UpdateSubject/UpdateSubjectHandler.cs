@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.Constants;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Domain.Entities;
 using System;
@@ -70,8 +71,8 @@ namespace CollabSphere.Application.Features.Subjects.Commands.UpdateSubject
 
                             Title = m.Title,
                             Description = m.Description,
-                            StarDate = m.StarDate,
-                            EndDate = m.EndDate
+                            StartWeek = m.StartWeek,
+                            Duration = m.Duration
                         }).ToList()
                     };
 
@@ -142,6 +143,28 @@ namespace CollabSphere.Application.Features.Subjects.Commands.UpdateSubject
                     Field = $"{nameof(request.Subject.SubjectCode)}",
                     Message = $"Subject with {nameof(request.Subject.SubjectCode)} '{request.Subject.SubjectCode}' already exist."
                 });
+            }
+
+            // Validate Syllabus Milestone distributions
+            for (int i = 0; i < request.Subject.SubjectSyllabus.SubjectOutcomes.Count; i++)
+            {
+                var outcome = request.Subject.SubjectSyllabus.SubjectOutcomes[i];
+                var outcomePrefix = $"{nameof(request.Subject.SubjectSyllabus)}.{nameof(request.Subject.SubjectSyllabus.SubjectOutcomes)}[{i}]";
+
+                for (int j = 0; j < outcome.SyllabusMilestones.Count; j++)
+                {
+                    var syllabusMile = outcome.SyllabusMilestones[j];
+                    var syllabusMilePrefix = $"{outcomePrefix}.{nameof(outcome.SyllabusMilestones)}[{j}]";
+
+                    if (syllabusMile.StartWeek + syllabusMile.Duration - 1 > SemesterConstants.MAX_WEEKS_PER_SEMESTER)
+                    {
+                        errors.Add(new OperationError()
+                        {
+                            Field = syllabusMilePrefix,
+                            Message = $"The syllabus milestone must be within the {SemesterConstants.MAX_WEEKS_PER_SEMESTER} week(s) boundary of a semseter."
+                        });
+                    }
+                }
             }
         }
     }

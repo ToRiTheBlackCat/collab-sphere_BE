@@ -81,8 +81,12 @@ namespace CollabSphere.Application.DTOs.SubjectModels
         [Length(1, 500)]
         public string Description { get; set; } = null!;
 
-        public DateOnly StarDate { get; set; }
+        [Required]
+        [Range(1, 10)]
+        public int StartWeek { get; set; }
 
-        public DateOnly EndDate { get; set; }
+        [Required]
+        [Range(1, 10)]
+        public int Duration { get; set; }
     }
 }

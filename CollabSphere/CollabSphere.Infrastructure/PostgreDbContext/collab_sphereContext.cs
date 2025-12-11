@@ -1277,8 +1277,8 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.Description)
                 .IsRequired()
                 .HasColumnName("description");
-            entity.Property(e => e.EndDate).HasColumnName("end_date");
-            entity.Property(e => e.StarDate).HasColumnName("star_date");
+            entity.Property(e => e.Duration).HasColumnName("duration");
+            entity.Property(e => e.StartWeek).HasColumnName("start_week");
             entity.Property(e => e.SubjectOutcomeId).HasColumnName("subject_outcome_id");
             entity.Property(e => e.SyllabusId).HasColumnName("syllabus_id");
             entity.Property(e => e.Title)

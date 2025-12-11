@@ -16,9 +16,9 @@ namespace CollabSphere.Application.DTOs.SyllabusMilestones
 
         public string Description { get; set; } = null!;
 
-        public DateOnly StarDate { get; set; }
+        public int StartWeek { get; set; }
 
-        public DateOnly EndDate { get; set; }
+        public int Duration { get; set; }
 
         public int SyllabusId { get; set; }
 
@@ -37,8 +37,8 @@ namespace CollabSphere.Application.Mappings.SyllabusMilestones
                 SyllabusMilestoneId = syllabusMilestone.SyllabusMilestoneId,
                 Title = syllabusMilestone.Title,
                 Description = syllabusMilestone.Description,
-                StarDate = syllabusMilestone.StarDate,
-                EndDate = syllabusMilestone.EndDate,
+                StartWeek = syllabusMilestone.StartWeek,
+                Duration = syllabusMilestone.Duration,
                 SyllabusId = syllabusMilestone.SyllabusId,
                 SubjectOutcomeId = syllabusMilestone.SubjectOutcomeId,
             };
