@@ -1,6 +1,7 @@
 ﻿
 using CollabSphere.Domain.Intefaces;
 using CollabSphere.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,5 +68,6 @@ namespace CollabSphere.Application
         Task CommitTransactionAsync();
         Task RollbackTransactionAsync();
         Task<int> SaveChangesAsync();
+        Task<ChangeTracker> GetStates();
     }
 }

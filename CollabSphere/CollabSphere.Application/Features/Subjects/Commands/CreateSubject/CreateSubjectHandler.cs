@@ -29,14 +29,16 @@ namespace CollabSphere.Application.Features.Subjects.Commands.CreateSubject
 
             try
             {
+                var subjectDto = request.Subject;
+
                 await _unitOfWork.BeginTransactionAsync();
 
                 // Insert subject
                 var subject = new Subject()
                 {
-                    SubjectName = request.SubjectName,
-                    SubjectCode = request.SubjectCode,
-                    IsActive = request.IsActive,
+                    SubjectName = subjectDto.SubjectName,
+                    SubjectCode = subjectDto.SubjectCode,
+                    IsActive = subjectDto.IsActive,
                 };
 
                 await _unitOfWork.SubjectRepo.Create(subject);
@@ -45,12 +47,12 @@ namespace CollabSphere.Application.Features.Subjects.Commands.CreateSubject
                 // Insert syllabus
                 var syllabus = new SubjectSyllabus()
                 {
-                    SyllabusName = request.SubjectSyllabus.SyllabusName,
+                    SyllabusName = subjectDto.SubjectSyllabus.SyllabusName,
                     CreatedDate = DateTime.UtcNow,
-                    Description = request.SubjectSyllabus.Description,
-                    IsActive = request.SubjectSyllabus.IsActive,
-                    NoCredit = request.SubjectSyllabus.NoCredit,
-                    SubjectCode = request.SubjectCode,
+                    Description = subjectDto.SubjectSyllabus.Description,
+                    IsActive = subjectDto.SubjectSyllabus.IsActive,
+                    NoCredit = subjectDto.SubjectSyllabus.NoCredit,
+                    SubjectCode = subjectDto.SubjectCode,
                     //SubjectId = subject.SubjectId,
                     Subject = subject,
                 };
@@ -59,35 +61,52 @@ namespace CollabSphere.Application.Features.Subjects.Commands.CreateSubject
                 await _unitOfWork.SaveChangesAsync();
 
                 // Insert grade components
-                foreach (var gradeComponentDto in request.SubjectSyllabus.SubjectGradeComponents)
+                foreach (var gradeComponentDto in subjectDto.SubjectSyllabus.SubjectGradeComponents)
                 {
                     await _unitOfWork.SubjectGradeComponentRepo.Create(new SubjectGradeComponent()
                     {
+                        SyllabusId = syllabus.SyllabusId,
+
                         ComponentName = gradeComponentDto.ComponentName,
                         ReferencePercentage = gradeComponentDto.ReferencePercentage,
                         SubjectId = subject.SubjectId,
-                        //SyllabusId = syllabus.SyllabusId,
-                        Syllabus = syllabus
                     });
-                    await _unitOfWork.SaveChangesAsync();
                 }
+                await _unitOfWork.SaveChangesAsync();
 
                 // Insert Subject Outcome
-                foreach (var subjectOutcomeDto in request.SubjectSyllabus.SubjectOutcomes)
+                foreach (var subjectOutcomeDto in subjectDto.SubjectSyllabus.SubjectOutcomes)
                 {
-                    await _unitOfWork.SubjectOutcomeRepo.Create(new SubjectOutcome()
+                    var outcome = new SubjectOutcome()
                     {
+                        SyllabusId = syllabus.SyllabusId,
+
                         OutcomeDetail = subjectOutcomeDto.OutcomeDetail,
-                        //SyllabusId = syllabus.SyllabusId,
-                        Syllabus = syllabus,
-                    });
+                    };
+                    await _unitOfWork.SubjectOutcomeRepo.Create(outcome);
+                    await _unitOfWork.SaveChangesAsync();
+
+                    // Insert Syllabus Milestones for each Outcome
+                    foreach (var syllabusMileDto in subjectOutcomeDto.SyllabusMilestones)
+                    {
+                        await _unitOfWork.SyllabusMilestoneRepo.Create(new SyllabusMilestone()
+                        {
+                            SyllabusId = syllabus.SyllabusId,
+                            SubjectOutcomeId = outcome.SubjectOutcomeId,
+
+                            Title = syllabusMileDto.Title,
+                            Description = syllabusMileDto.Description,
+                            StarDate = syllabusMileDto.StarDate,
+                            EndDate = syllabusMileDto.EndDate,
+                        });
+                    }
                     await _unitOfWork.SaveChangesAsync();
                 }
 
                 await _unitOfWork.CommitTransactionAsync();
 
                 result.IsSuccess = true;
-                result.Message = "Subject created successfully.";
+                result.Message = $"Created subject '{subject.SubjectName}'({subject.SubjectId}) successfully.";
             }
             catch (Exception ex)
             {
@@ -100,25 +119,27 @@ namespace CollabSphere.Application.Features.Subjects.Commands.CreateSubject
 
         protected override async Task ValidateRequest(List<OperationError> errors, CreateSubjectCommand request)
         {
+            var subjectDto = request.Subject;
+
             // Validate grade components
-            var componentSum = request.SubjectSyllabus.SubjectGradeComponents.Sum(x => x.ReferencePercentage);
+            var componentSum = subjectDto.SubjectSyllabus.SubjectGradeComponents.Sum(x => x.ReferencePercentage);
             if (componentSum != 100)
             {
                 errors.Add(new OperationError()
                 {
-                    Field = $"{nameof(request.SubjectSyllabus)}.{nameof(request.SubjectSyllabus.SubjectGradeComponents)}",
-                    Message = $"{nameof(request.SubjectSyllabus.SubjectGradeComponents)} don't sum up to 100."
+                    Field = $"{nameof(subjectDto.SubjectSyllabus)}.{nameof(subjectDto.SubjectSyllabus.SubjectGradeComponents)}",
+                    Message = $"Grade components do not sum up to 100."
                 });
             }
 
             // Validate Subject Code
-            var existSubject = await _unitOfWork.SubjectRepo.GetBySubjectCode(request.SubjectCode);
+            var existSubject = await _unitOfWork.SubjectRepo.GetBySubjectCode(subjectDto.SubjectCode);
             if (existSubject != null)
             {
                 errors.Add(new OperationError()
                 {
-                    Field = $"{nameof(request.SubjectCode)}",
-                    Message = $"Subject with {nameof(request.SubjectCode)} '{request.SubjectCode}' already exist."
+                    Field = $"{nameof(subjectDto.SubjectCode)}",
+                    Message = $"A Subject with {nameof(subjectDto.SubjectCode)} '{subjectDto.SubjectCode}' already exist."
                 });
             }
         }

@@ -10,5 +10,6 @@ namespace CollabSphere.Domain.Intefaces
 {
     public interface ISubjectOutcomeRepository : IGenericRepository<SubjectOutcome>
     {
+        Task<List<SubjectOutcome>> GetOutcomesOfSubjectSyllabus(int syllabusId);
     }
 }

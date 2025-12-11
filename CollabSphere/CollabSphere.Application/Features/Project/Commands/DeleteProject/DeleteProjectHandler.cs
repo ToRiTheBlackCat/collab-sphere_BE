@@ -67,14 +67,23 @@ namespace CollabSphere.Application.Features.Project.Commands.DeleteProject
             }
 
             // Check viewer LecturerId
-            if (project.LecturerId != request.UserId)
+            var bypassRoles = new List<int>()
             {
-                errors.Add(new OperationError()
+                RoleConstants.HEAD_DEPARTMENT,
+                RoleConstants.STAFF
+            };
+
+            if (!bypassRoles.Contains(request.UserRole))
+            {
+                // Check Requester's Lecturer ID
+                if (request.UserId != project.LecturerId)
                 {
-                    Field = $"{nameof(request.ProjectId)}",
-                    Message = $"You are not the owning Lecturer of the Project with ID '{project.ProjectId}'."
-                });
-                return;
+                    errors.Add(new OperationError()
+                    {
+                        Field = $"{nameof(request.UserId)}",
+                        Message = $"UserId ({request.UserId}) doesn't match the Project's LecturerId ({project.LecturerId}).",
+                    });
+                }
             }
 
             // Check project's status

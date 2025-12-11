@@ -1288,7 +1288,7 @@ public partial class collab_sphereContext : DbContext
 
             entity.HasOne(d => d.SubjectOutcome).WithMany(p => p.SyllabusMilestones)
                 .HasForeignKey(d => d.SubjectOutcomeId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("syllabus_milestone_subject_outcome_fk");
 
             entity.HasOne(d => d.Syllabus).WithMany(p => p.SyllabusMilestones)

@@ -39,5 +39,17 @@ namespace CollabSphere.Infrastructure.Repositories
 
             return project;
         }
+
+        public async Task<List<Project>> SearchProjects(List<int>? lecturerIds = null, List<int>? subjectIds = null)
+        {
+            var projects = await _context.Projects
+                .Where(x =>
+                    (lecturerIds == null || lecturerIds.Contains(x.LecturerId)) &&
+                    (subjectIds == null || subjectIds.Contains(x.SubjectId))
+                )
+                .ToListAsync();
+
+            return projects;
+        }
     }
 }

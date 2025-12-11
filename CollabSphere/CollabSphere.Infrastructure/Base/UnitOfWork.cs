@@ -3,6 +3,7 @@ using CollabSphere.Domain.Intefaces;
 using CollabSphere.Domain.Interfaces;
 using CollabSphere.Infrastructure.PostgreDbContext;
 using CollabSphere.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
@@ -164,6 +165,12 @@ namespace CollabSphere.Infrastructure.Base
         public void Dispose()
         {
             _context.Dispose();
+        }
+
+        public async Task<ChangeTracker> GetStates()
+        {
+            var states = _context.ChangeTracker;
+            return states;
         }
     }
 }

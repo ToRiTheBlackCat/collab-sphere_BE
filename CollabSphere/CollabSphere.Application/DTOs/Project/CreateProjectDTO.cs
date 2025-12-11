@@ -19,13 +19,6 @@ namespace CollabSphere.Application.DTOs.Project
 
         public int SubjectId { get; set; }
 
-        /// <summary>
-        /// 0 - Pending,
-        /// 1 - Approved,
-        /// 2 - Denied
-        /// </summary>
-        public int Status { get; set; }
-
         public string BusinessRules { get; set; } = null!;
 
         public string Actors { get; set; } = null!;

@@ -100,13 +100,23 @@ namespace CollabSphere.Application.Features.Project.Commands.UpdateProject
             }
 
             // Check is owning Lecturer's LecturerID
-            if (request.UserId != project.LecturerId)
+            var bypassRoles = new List<int>()
             {
-                errors.Add(new OperationError()
+                RoleConstants.HEAD_DEPARTMENT,
+                RoleConstants.STAFF
+            };
+
+            if (!bypassRoles.Contains(request.UserRole))
+            {
+                // Check Requester's Lecturer ID
+                if (request.UserId != project.LecturerId)
                 {
-                    Field = $"{nameof(request.UserId)}",
-                    Message = $"UserId ({request.UserId}) doesn't match the Project's LecturerId ({project.LecturerId}).",
-                });
+                    errors.Add(new OperationError()
+                    {
+                        Field = $"{nameof(request.UserId)}",
+                        Message = $"UserId ({request.UserId}) doesn't match the Project's LecturerId ({project.LecturerId}).",
+                    });
+                }
             }
 
             // Check existing Lecturer ID

@@ -140,7 +140,7 @@ namespace CollabSphere.API.Controllers
         }
 
         // Roles: Lecturer
-        [Authorize(Roles = "4")]
+        [Authorize(Roles = "2, 3, 4")]
         [HttpPost]
         public async Task<IActionResult> TeacherCreateProject(CreateProjectCommand command, CancellationToken cancellationToken = default)
         {
@@ -197,7 +197,7 @@ namespace CollabSphere.API.Controllers
             return Ok(result.Message);
         }
 
-        [Authorize(Roles = "4")]
+        [Authorize(Roles = "2, 3, 4")]
         [HttpDelete("{projectId}")]
         public async Task<IActionResult> LecturerRemoveProjectBeforeApprove(int projectId, CancellationToken cancellationToken = default)
         {

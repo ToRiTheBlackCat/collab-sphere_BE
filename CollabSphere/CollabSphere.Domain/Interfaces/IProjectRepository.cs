@@ -11,5 +11,6 @@ namespace CollabSphere.Domain.Intefaces
     public interface IProjectRepository : IGenericRepository<Project>
     {
         Task<Project?> GetProjectDetail(int projectId);
+        Task<List<Project>> SearchProjects(List<int>? lecturerIds = null, List<int>? subjectIds = null);
     }
 }

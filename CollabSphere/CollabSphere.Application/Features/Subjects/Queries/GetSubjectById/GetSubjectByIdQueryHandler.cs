@@ -1,4 +1,5 @@
 ﻿using CollabSphere.Application.Base;
+using CollabSphere.Application.DTOs.SubjectModels;
 using CollabSphere.Application.DTOs.Validation;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,15 @@ namespace CollabSphere.Application.Features.Subjects.Queries.GetSubjectById
 
             try
             {
-                result.Subject = (await _unitOfWork.SubjectRepo.GetSubjectDetail(request.SubjectId!.Value))!;
+                var subject = (await _unitOfWork.SubjectRepo.GetSubjectDetail(request.SubjectId!.Value))!;
+                if (subject.SubjectSyllabi.Any())
+                {
+                    var syllabus = subject.SubjectSyllabi.First();
+                    syllabus.SyllabusMilestones = syllabus.SyllabusMilestones.OrderBy(x => x.StarDate).ToList();
+                    syllabus.SubjectOutcomes = syllabus.SubjectOutcomes.OrderBy(x => x.SubjectOutcomeId).ToList();
+                }
+
+                result.Subject = (SubjectVM)subject;
 
                 result.IsSuccess = true;
             }
