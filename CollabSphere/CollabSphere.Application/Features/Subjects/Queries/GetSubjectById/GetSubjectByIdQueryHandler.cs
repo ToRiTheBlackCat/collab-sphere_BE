@@ -33,7 +33,7 @@ namespace CollabSphere.Application.Features.Subjects.Queries.GetSubjectById
                 if (subject.SubjectSyllabi.Any())
                 {
                     var syllabus = subject.SubjectSyllabi.First();
-                    syllabus.SyllabusMilestones = syllabus.SyllabusMilestones.OrderBy(x => x.StarDate).ToList();
+                    syllabus.SyllabusMilestones = syllabus.SyllabusMilestones.OrderBy(x => x.StartWeek).ToList();
                     syllabus.SubjectOutcomes = syllabus.SubjectOutcomes.OrderBy(x => x.SubjectOutcomeId).ToList();
                 }
 

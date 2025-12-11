@@ -70,7 +70,7 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                 #region Update team count in class
                 // Add count for team in class
                 var foundClass = await _unitOfWork.ClassRepo.GetClassByIdAsync(request.ClassId);
-                foundClass.TeamCount++;
+                foundClass!.TeamCount++;
                 _unitOfWork.ClassRepo.Update(foundClass);
                 await _unitOfWork.SaveChangesAsync();
                 #endregion
@@ -94,36 +94,37 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                 #region Auto create team milestone
                 //Create Team Milestone if picked project
                 var foundProjectAssign = newTeam.ProjectAssignment;
-                if (foundProjectAssign != null)
+
+                // Get Semester to calculate mapping dates
+                var semester = await _unitOfWork.SemesterRepo.GetById(foundClass.SemesterId);
+
+                // Get Subject and it's Syllabus 
+                var subject = await _unitOfWork.SubjectRepo.GetSubjectDetail(foundClass.SubjectId);
+                var syllabus = subject!.SubjectSyllabi.First();
+
+                // Map a Team Milestone for each subject's syllabus milestones
+                foreach (var syllabusMilestone in syllabus.SyllabusMilestones)
                 {
-                    var foundProject = await _unitOfWork.ProjectRepo.GetProjectDetail(foundProjectAssign.ProjectId);
-                    if (foundProject != null)
+                    // Calculate Start & End Dates
+                    var mStartDate = semester!.StartDate.AddDays(7 * (syllabusMilestone.StartWeek - 1));
+                    var mEndDate = mStartDate.AddDays(7 * syllabusMilestone.Duration - 1);
+
+                    //Create team milestone
+                    var newTeamMilestone = new TeamMilestone
                     {
-                        // Get Subject and it's Syllabus 
-                        var subject = await _unitOfWork.SubjectRepo.GetSubjectDetail(foundProject.SubjectId);
-                        var syllabus = subject!.SubjectSyllabi.First();
+                        SyllabusMilestoneId = syllabusMilestone.SyllabusMilestoneId,
+                        Title = syllabusMilestone.Title,
+                        Description = syllabusMilestone.Description,
+                        TeamId = newTeam.TeamId,
+                        StartDate = mStartDate,
+                        EndDate = mEndDate,
+                        Progress = 0,
+                        Status = (int)MilestoneStatus.NOTDONE,
+                    };
 
-                        // Map a Team Milestone for each subject's syllabus milestones
-                        foreach (var syllabusMilestone in syllabus.SyllabusMilestones)
-                        {
-                            //Create team milestone
-                            var newTeamMilestone = new TeamMilestone
-                            {
-                                SyllabusMilestoneId = syllabusMilestone.SyllabusMilestoneId,
-                                Title = syllabusMilestone.Title,
-                                Description = syllabusMilestone.Description,
-                                TeamId = newTeam.TeamId,
-                                StartDate = syllabusMilestone.StarDate,
-                                EndDate = syllabusMilestone.EndDate,
-                                Progress = 0,
-                                Status = (int)MilestoneStatus.NOTDONE,
-                            };
-
-                            await _unitOfWork.TeamMilestoneRepo.Create(newTeamMilestone);
-                        }
-                        await _unitOfWork.SaveChangesAsync();
-                    }
+                    await _unitOfWork.TeamMilestoneRepo.Create(newTeamMilestone);
                 }
+                await _unitOfWork.SaveChangesAsync();
                 #endregion
 
                 #region Add team memberss

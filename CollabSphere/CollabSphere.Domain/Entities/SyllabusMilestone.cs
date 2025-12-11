@@ -13,9 +13,9 @@ public partial class SyllabusMilestone
 
     public string Description { get; set; }
 
-    public DateOnly StarDate { get; set; }
+    public int StartWeek { get; set; }
 
-    public DateOnly EndDate { get; set; }
+    public int Duration { get; set; }
 
     public int SyllabusId { get; set; }
 
