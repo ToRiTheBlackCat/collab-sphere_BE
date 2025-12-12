@@ -68,6 +68,7 @@ namespace CollabSphere.Infrastructure.Base
         public ITeamWhiteboardRepository TeamWhiteboardRepo { get; }
         public IWhiteboardPageRepository WhiteboardPageRepo { get; }
         public IShapeRepository ShapeRepo { get; }
+        public ITeamMemberEvaluationRepository TeamMemEvaluationRepo { get; }
         #endregion
 
         public UnitOfWork(collab_sphereContext context)
@@ -125,6 +126,7 @@ namespace CollabSphere.Infrastructure.Base
             TeamWhiteboardRepo = new TeamWhiteboardRepository(_context);
             WhiteboardPageRepo = new WhiteboardPageRepository(_context);
             ShapeRepo = new ShapeRepository(_context);
+            TeamMemEvaluationRepo = new TeamMemberEvaluationRepository(_context);
             #endregion
         }
 
