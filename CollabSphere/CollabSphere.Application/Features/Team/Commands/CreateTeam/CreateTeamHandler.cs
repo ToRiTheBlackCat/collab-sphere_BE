@@ -67,14 +67,6 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                 await _unitOfWork.SaveChangesAsync();
                 #endregion
 
-                #region Update team count in class
-                // Add count for team in class
-                var foundClass = await _unitOfWork.ClassRepo.GetClassByIdAsync(request.ClassId);
-                foundClass!.TeamCount++;
-                _unitOfWork.ClassRepo.Update(foundClass);
-                await _unitOfWork.SaveChangesAsync();
-                #endregion
-
                 #region Update Class member in class
                 //Update class member
                 var foundLeader = await _unitOfWork.UserRepo.GetOneByUserIdAsync(request.LeaderId);
@@ -249,6 +241,14 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                     IsActivate = true,
                 };
                 await _unitOfWork.WhiteboardPageRepo.Create(newPage);
+                await _unitOfWork.SaveChangesAsync();
+                #endregion
+
+                #region Update team count in class
+                // Add count for team in class
+                var foundClass = await _unitOfWork.ClassRepo.GetClassByIdAsync(request.ClassId);
+                foundClass!.TeamCount++;
+                _unitOfWork.ClassRepo.Update(foundClass);
                 await _unitOfWork.SaveChangesAsync();
                 #endregion
             }
