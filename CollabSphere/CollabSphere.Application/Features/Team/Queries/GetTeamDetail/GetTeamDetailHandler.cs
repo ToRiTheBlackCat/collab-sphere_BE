@@ -78,7 +78,9 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                         ProjectAssignmentId = foundTeam.ProjectAssignment?.ProjectAssignmentId,
                         ProjectId = foundTeam.ProjectAssignment?.Project?.ProjectId,
                         ProjectName = foundTeam.ProjectAssignment?.Project?.ProjectName ?? string.Empty,
-                        ProjectDescription = foundTeam.ProjectAssignment?.Project?.Description ?? string.Empty
+                        ProjectDescription = foundTeam.ProjectAssignment?.Project?.Description ?? string.Empty,
+                        ProjectBusinessRule = foundTeam.ProjectAssignment?.Project?.BusinessRules ?? string.Empty,
+                        ProjectActors = foundTeam.ProjectAssignment?.Project?.Actors ?? string.Empty
                     }
 
                 };
@@ -96,7 +98,8 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                             StudentName = cm.Student.Fullname,
                             Avatar = await _cloudinaryService.GetImageUrl(cm.Student.AvatarImg),
                             TeamRole = cm.TeamRole,
-                            MemberContributionPercentage = CalculateMemberContribution(cm.ClassMemberId, foundTeam)
+                            CheckpointContributionPercentage = CalculateCheckpointContribution(cm.ClassMemberId, foundTeam),
+                            MilestoneAnsContributionPercentage = CalculateMielAnsContribution(cm.ClassMemberId, foundTeam)
                         };
 
                         members.Add(member);
@@ -125,8 +128,6 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                 var checkpoints = milestones.SelectMany(m => m.Checkpoints ?? new List<Domain.Entities.Checkpoint>()).ToList();
                 var totalCheckpoints = checkpoints.Count;
                 var completedCheckpoints = checkpoints.Count(c => c.Status == 1);
-
-
 
                 dto.TeamProgress = new TeamProgress
                 {
@@ -171,21 +172,30 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
 
             return result;
         }
-
-        private float CalculateMemberContribution(int classMemberId, Domain.Entities.Team foundTeam)
+        private float CalculateMielAnsContribution(int classMemberId, Domain.Entities.Team foundTeam)
         {
-            // 1. Initialize counters
-            int totalCheckpoints = 0;
-            int completedCheckpoints = 0;
-
             int totalQuestions = 0;
             int answeredQuestion = 0;
 
             var teamMilestones = foundTeam.TeamMilestones?.ToList() ?? new();
 
+            if (totalQuestions == 0)
+                return 0;
+
+            float questionPercent = totalQuestions == 0 ? 0 : (float)answeredQuestion / totalQuestions;
+
+            return (float)Math.Round(questionPercent, 2);
+        }
+
+        private float CalculateCheckpointContribution(int classMemberId, Domain.Entities.Team foundTeam)
+        {
+            int totalCheckpoints = 0;
+            int completedCheckpoints = 0;
+
+            var teamMilestones = foundTeam.TeamMilestones?.ToList() ?? new();
+
             foreach (var milestone in teamMilestones)
             {
-                // Checkpoints
                 var checkpoints = milestone.Checkpoints?.ToList() ?? new();
 
                 bool hasAssignment = checkpoints
@@ -197,40 +207,14 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                     totalCheckpoints += checkpoints.Count;
                     completedCheckpoints += checkpoints.Count(c => c.Status == (int)CheckpointStatuses.DONE);
                 }
-
-                // Milestone Questions
-                var milestoneQuestions = milestone.MilestoneQuestions?.ToList() ?? new();
-
-                if (milestoneQuestions.Any())
-                {
-                    totalQuestions += milestoneQuestions.Count;
-
-                    int userAnswersCount = milestoneQuestions
-                        .SelectMany(q => q.MilestoneQuestionAns)
-                        .Count(ans => ans.ClassMemberId == classMemberId);
-
-                    answeredQuestion += userAnswersCount;
-                }
             }
 
-            if (totalCheckpoints == 0 && totalQuestions == 0) 
+            if (totalCheckpoints == 0)
                 return 0;
 
             float checkpointPercent = totalCheckpoints == 0 ? 0 : (float)completedCheckpoints / totalCheckpoints;
-            float questionPercent = totalQuestions == 0 ? 0 : (float)answeredQuestion / totalQuestions;
 
-            // Only Questions
-            if (totalCheckpoints == 0)
-                return (float)Math.Round(questionPercent * 100f, 2);
-
-            // Only Checkpoints 
-            if (totalQuestions == 0)
-                return (float)Math.Round(checkpointPercent * 100f, 2);
-
-            // Both exist (70/30 Weight)
-            float finalScore = (checkpointPercent * 70f) + (questionPercent * 30f);
-
-            return (float)Math.Round(finalScore, 2);
+            return (float)Math.Round(checkpointPercent, 2);
         }
 
         protected override async Task ValidateRequest(List<OperationError> errors, GetTeamDetailQuery request)

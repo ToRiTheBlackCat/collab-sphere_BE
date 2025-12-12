@@ -69,7 +69,7 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam
                                     continue;
                                 }
 
-                                if(foundDetail.SubjectGradeComponentId == foundGradeComponent.SubjectGradeComponentId)
+                                if (foundDetail.SubjectGradeComponentId == foundGradeComponent.SubjectGradeComponentId)
                                 {
                                     foundDetail.Score = requestDetail.Score;
                                     foundDetail.Comment = requestDetail.DetailComment;
@@ -78,7 +78,7 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam
                                     await _unitOfWork.SaveChangesAsync();
 
                                     //Add to list for send mail
-                                    sendMailDetailList.Add((foundGradeComponent.ComponentName,foundDetail.Percentage, foundDetail.Score,foundDetail.Comment));
+                                    sendMailDetailList.Add((foundGradeComponent.ComponentName, foundDetail.Percentage, foundDetail.Score, foundDetail.Comment));
                                 }
                             }
 
@@ -106,7 +106,7 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam
 
                     return result;
                 }
-               
+
                 //Else create new
                 var newTeamEvaluate = new TeamEvaluation
                 {
@@ -200,6 +200,15 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam
                     });
                     return;
                 }
+                if (foundTeam != null && foundTeam.Progress <= 50)
+                {
+                    errors.Add(new OperationError
+                    {
+                        Field = nameof(request.TeamId),
+                        Message = $"Cannot evaluate and give feedback at this time. Team must finish half of the team progress to receive evaluation and feedbacks"
+                    });
+                    return;
+                }
 
                 //Validate lecturerId
                 var foundLecturer = await _unitOfWork.UserRepo.GetOneByUserIdAsync(request.UserId);
@@ -223,7 +232,7 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam
                         //Find subject syllabus 
                         var foundSyllabus = await _unitOfWork.SubjectRepo.GetSubjectDetail(foundProject.SubjectId);
 
-                        if(foundSyllabus != null)
+                        if (foundSyllabus != null)
                         {
                             //Find grade component list of that syllabus
                             var gradeComponents = await _unitOfWork.SubjectGradeComponentRepo.GetComponentsBySubjectId(foundSyllabus.SubjectId);
@@ -233,7 +242,7 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.LecEvaluateTeam
                                 gradeComponentIdSet.Add(component.SubjectGradeComponentId.ToString());
                             }
                         }
-                        
+
                     }
                     //Validate permission to evaluate team
                     if (request.UserId != foundTeam.LecturerId)

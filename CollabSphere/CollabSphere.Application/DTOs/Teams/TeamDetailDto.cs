@@ -55,6 +55,9 @@ namespace CollabSphere.Application.DTOs.Teams
         public int? ProjectId { get; set; }
         public string ProjectName { get; set; } = string.Empty;
         public string ProjectDescription { get; set; } = string.Empty;
+        public string ProjectBusinessRule { get; set; } = string.Empty;
+        public string ProjectActors { get; set; } = string.Empty;
+
 
     }
     public class LecturerInfo
@@ -74,6 +77,8 @@ namespace CollabSphere.Application.DTOs.Teams
         public string StudentName { get; set; } = string.Empty;
         public string Avatar { get; set; } = string.Empty;
         public int? TeamRole { get; set; }
-        public float? MemberContributionPercentage { get; set; } = 0;
+        public float? CheckpointContributionPercentage { get; set; } = 0;
+        public float? MilestoneAnsContributionPercentage { get; set; } = 0;
+
     }
 }
