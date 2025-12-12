@@ -93,7 +93,7 @@ namespace CollabSphere.Application.Features.Evaluate.Queries.GetLecturerEvaluati
             {
                 //Check if team exists
                 var foundTeam = await _unitOfWork.TeamRepo.GetById(request.TeamId);
-                if (foundTeam == null || foundTeam.Status == 0)
+                if (foundTeam == null || foundTeam.Status == (int)TeamStatus.DEACTIVE)
                 {
                     errors.Add(new OperationError()
                     {

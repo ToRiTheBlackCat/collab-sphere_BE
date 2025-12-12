@@ -62,6 +62,7 @@ namespace CollabSphere.Application
         ITeamWhiteboardRepository TeamWhiteboardRepo { get; }
         IWhiteboardPageRepository WhiteboardPageRepo { get; }
         IShapeRepository ShapeRepo { get; }
+        ITeamMemberEvaluationRepository TeamMemEvaluationRepo { get; }
         //More IRepo below
 
         Task BeginTransactionAsync();
