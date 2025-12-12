@@ -34,4 +34,6 @@ public partial class Lecturer
     public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
 
     public virtual ICollection<TeamEvaluation> TeamEvaluations { get; set; } = new List<TeamEvaluation>();
+
+    public virtual ICollection<TeamMemEvaluation> TeamMemEvaluations { get; set; } = new List<TeamMemEvaluation>();
 }

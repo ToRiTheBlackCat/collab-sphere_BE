@@ -36,4 +36,6 @@ public partial class ClassMember
     public virtual Student Student { get; set; }
 
     public virtual Team Team { get; set; }
+
+    public virtual ICollection<TeamMemEvaluation> TeamMemEvaluations { get; set; } = new List<TeamMemEvaluation>();
 }

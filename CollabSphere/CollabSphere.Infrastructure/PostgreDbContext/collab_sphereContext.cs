@@ -115,6 +115,7 @@ public partial class collab_sphereContext : DbContext
 
     public virtual DbSet<WhiteboardPage> WhiteboardPages { get; set; }
 
+    public virtual DbSet<TeamMemEvaluation> TeamMemEvaluations { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -1561,6 +1562,34 @@ public partial class collab_sphereContext : DbContext
             entity.HasOne(d => d.Whiteboard).WithMany(p => p.WhiteboardPages)
                 .HasForeignKey(d => d.WhiteboardId)
                 .HasConstraintName("whiteboard_page_team_whiteboard_fk");
+        });
+
+        modelBuilder.Entity<TeamMemEvaluation>(entity =>
+        {
+            entity.HasKey(e => e.TeamMemEvaluationId).HasName("team_mem_evaluation_pk");
+
+            entity.ToTable("team_mem_evaluation");
+
+            entity.Property(e => e.TeamMemEvaluationId)
+                .UseIdentityAlwaysColumn()
+                .HasColumnName("team_mem_evaluation_id");
+            entity.Property(e => e.ClassMemberId).HasColumnName("class_member_id");
+            entity.Property(e => e.LecturerId).HasColumnName("lecturer_id");
+            entity.Property(e => e.Score).HasColumnName("score");
+            entity.Property(e => e.TeamId).HasColumnName("team_id");
+
+            entity.HasOne(d => d.ClassMember).WithMany(p => p.TeamMemEvaluations)
+                .HasForeignKey(d => d.ClassMemberId)
+                .HasConstraintName("team_mem_evaluation_class_member_fk");
+
+            entity.HasOne(d => d.Lecturer).WithMany(p => p.TeamMemEvaluations)
+                .HasForeignKey(d => d.LecturerId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("team_mem_evaluation_lecturer_fk");
+
+            entity.HasOne(d => d.Team).WithMany(p => p.TeamMemEvaluations)
+                .HasForeignKey(d => d.TeamId)
+                .HasConstraintName("team_mem_evaluation_team_fk");
         });
 
         OnModelCreatingPartial(modelBuilder);

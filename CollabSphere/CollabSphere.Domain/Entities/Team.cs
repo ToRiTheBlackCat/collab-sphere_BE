@@ -67,4 +67,5 @@ public partial class Team
     public virtual ICollection<DocumentRoom> DocumentRooms { get; set; } = new List<DocumentRoom>();
 
     public virtual ICollection<GithubConnectionState> GithubConnectionStates { get; set; } = new List<GithubConnectionState>();
+    public virtual ICollection<TeamMemEvaluation> TeamMemEvaluations { get; set; } = new List<TeamMemEvaluation>();
 }
