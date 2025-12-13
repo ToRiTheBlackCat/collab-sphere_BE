@@ -110,6 +110,7 @@ namespace CollabSphere.Infrastructure.Repositories
                     .ThenInclude(x => x.Lecturer)
                 .Include(x => x.TeamMilestones)
                    .ThenInclude(x => x.Checkpoints)
+                        .ThenInclude(cp => cp.CheckpointAssignments)
                 .Include(x => x.ClassMembers)
                     .ThenInclude(x => x.Student)
                 .Include(x => x.ProjectAssignment)
