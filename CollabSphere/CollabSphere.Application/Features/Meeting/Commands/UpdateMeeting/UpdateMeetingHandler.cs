@@ -47,7 +47,7 @@ namespace CollabSphere.Application.Features.Meeting.Commands.UpdateMeeting
                     {
                         foundMeeting.ScheduleTime = request.ScheduleTime.Value;
                     }
-                    if (string.IsNullOrEmpty(request.RecordUrl))
+                    if (!string.IsNullOrEmpty(request.RecordUrl))
                     {
                         foundMeeting.RecordUrl = request.RecordUrl;
                     }
