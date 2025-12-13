@@ -183,6 +183,10 @@ namespace CollabSphere.Application.Common
                 ? "<span style='background:#28a745; color:#fff; padding:4px 10px; border-radius:5px; font-size:12px;'>🟢 LIVE</span>"
                 : "<span style='background:#f0ad4e; color:#fff; padding:4px 10px; border-radius:5px; font-size:12px;'>⏳ UPCOMING</span>";
 
+            var uri = new Uri(meetingUrl);
+            string roomId = uri.Segments.Last().Trim('/');
+
+
             string htmlBody = $@"
 <html>
   <head>
@@ -273,6 +277,8 @@ namespace CollabSphere.Application.Common
             <p><strong>📆 Date & Time:</strong> {meeting.ScheduleTime}</p>
             <p><strong>👤 Created By:</strong> {senderName}</p>
             <p><strong>📝 Description:</strong> {meeting.Description}</p>
+            <p><strong>🔗 Room ID:</strong> {roomId}</p>
+
           </div>
 
           <a href='{meetingUrl}' class='btn'>🔗 Join meeting now</a>
