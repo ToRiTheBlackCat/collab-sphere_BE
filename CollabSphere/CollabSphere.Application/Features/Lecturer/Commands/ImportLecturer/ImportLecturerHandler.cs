@@ -192,7 +192,18 @@ namespace CollabSphere.Application.Features.Lecturer.Commands.ImportLecturer
                     errors.Add(new OperationError()
                     {
                         Field = "LecturerCode",
-                        Message = $"There is a dupliacted lecturer code : {request.LecturerList[i].LecturerCode}. Try another lecturer code create lecturer"
+                        Message = $"There is a duplicated lecturer code : {request.LecturerList[i].LecturerCode}. Try another lecturer code create lecturer"
+                    });
+                }
+
+                //Validate duplicated lecturer email
+                var foundEmail = await _unitOfWork.UserRepo.GetOneByEmail(request.LecturerList[i].Email);
+                if (foundEmail != null)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = "Email",
+                        Message = $"There is a duplicated lecturer email : {request.LecturerList[i].Email}. Try another lecturer email create lecturer"
                     });
                 }
             }

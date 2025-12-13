@@ -193,7 +193,17 @@ namespace CollabSphere.Application.Features.Student.Commands.ImportStudent
                     errors.Add(new OperationError()
                     {
                         Field = "StudentCode",
-                        Message = $"There is a dupliacted student code : {request.StudentList[i].StudentCode}. Try another student code create student"
+                        Message = $"There is a duplicated student code : {request.StudentList[i].StudentCode}. Try another student code create student"
+                    });
+                }
+                //Validate duplicated student email
+                var foundEmail = await _unitOfWork.UserRepo.GetOneByEmail(request.StudentList[i].Email);
+                if (foundEmail != null)
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = "Email",
+                        Message = $"There is a duplicated student email : {request.StudentList[i].Email}. Try another student email create student"
                     });
                 }
             }
