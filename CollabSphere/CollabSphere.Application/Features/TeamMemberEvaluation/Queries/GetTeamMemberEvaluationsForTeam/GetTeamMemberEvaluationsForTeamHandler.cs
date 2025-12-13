@@ -36,7 +36,7 @@ namespace CollabSphere.Application.Features.TeamMemberEvaluation.Queries.GetTeam
                 (int? lecturerId, int? studentId) ids = request.UserRole switch
                 {
                     RoleConstants.LECTURER => ((int?)request.UserId, null),
-                    RoleConstants.STUDENT => (null, (int?)request.UserId),
+                    RoleConstants.STUDENT => (null, (int?)_ownScore.ClassMemberId),
                     _ => (null, null)
                 };
                 var (lecturerId, classMemberId) = ids;
