@@ -211,7 +211,10 @@ namespace CollabSphere.API.Hubs
                 notiDto.IsRead = false;
                 notiDto.ReadAt = null;
 
-                var validConnections = _mapping.Where(x => x.Value.ConnectedTeamIds.Contains(team.TeamId));
+                // Broadcast Create notification to others (Students)
+                var validConnections = _mapping.Where(x =>
+                    x.Value.UserId != userInfo.UserId &&
+                    x.Value.ConnectedTeamIds.Contains(team.TeamId));
                 if (validConnections.Any())
                 {
                     var _noti = Clients.Clients(validConnections.Select(x => x.Value.ConnectionId))
@@ -295,7 +298,10 @@ namespace CollabSphere.API.Hubs
                 notiDto.IsRead = false;
                 notiDto.ReadAt = null;
 
-                var validConnections = _mapping.Where(x => x.Value.ConnectedTeamIds.Contains(team.TeamId));
+                // Broadcast Update notification to others (Students)
+                var validConnections = _mapping.Where(x =>
+                    x.Value.UserId != userInfo.UserId &&
+                    x.Value.ConnectedTeamIds.Contains(team.TeamId));
                 if (validConnections.Any())
                 {
                     var _noti = Clients.Clients(validConnections.Select(x => x.Value.ConnectionId))
@@ -374,7 +380,10 @@ namespace CollabSphere.API.Hubs
                 notiDto.IsRead = false;
                 notiDto.ReadAt = null;
 
-                var validConnections = _mapping.Where(x => x.Value.ConnectedTeamIds.Contains(team.TeamId));
+                // Broadcast Milestone Delete notification to others (Students)
+                var validConnections = _mapping.Where(x =>
+                    x.Value.UserId != userInfo.UserId &&
+                    x.Value.ConnectedTeamIds.Contains(team.TeamId));
                 if (validConnections.Any())
                 {
                     var _noti = Clients.Clients(validConnections.Select(x => x.Value.ConnectionId))
@@ -427,7 +436,7 @@ namespace CollabSphere.API.Hubs
                 {
                     Link = linkForTeamMember,
                     CreatedAt = currentTime,
-                    Content = $"Team Milestone '{teamMilestone.Title}' has been marked done. ",
+                    Content = $"Team Milestone '{teamMilestone.Title}' has been marked done.",
                     Title = $"Team '{team!.TeamName}' - Milestone is done.",
                     ReferenceType = NotificationTypes.MILESTONE.ToString(),
                 };
@@ -591,7 +600,10 @@ namespace CollabSphere.API.Hubs
                 notiDto.IsRead = false;
                 notiDto.ReadAt = null;
 
-                var validConnections = _mapping.Where(x => x.Value.ConnectedTeamIds.Contains(team.TeamId));
+                // Broadcast Evaluation to others (Students)
+                var validConnections = _mapping.Where(x =>
+                    x.Value.UserId != userInfo.UserId &&
+                    x.Value.ConnectedTeamIds.Contains(team.TeamId));
                 if (validConnections.Any())
                 {
                     var _noti = Clients.Clients(validConnections.Select(x => x.Value.ConnectionId))
