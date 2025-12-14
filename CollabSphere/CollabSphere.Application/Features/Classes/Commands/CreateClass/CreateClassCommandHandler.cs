@@ -164,8 +164,8 @@ namespace CollabSphere.Application.Features.Classes.Commands.CreateClass
                 {
                     var error = new OperationError()
                     {
-                        Field = nameof(request.LecturerId),
-                        Message = $"There is already a class '{request.ClassName}' of subject '{subject.SubjectName}'({subject.SubjectId}) in semester '{semester.SemesterName}'({semester.SemesterId})."
+                        Field = nameof(request.ClassName),
+                        Message = $"There is already a class '{request.ClassName}' of subject '{subject.SubjectName}' in semester '{semester.SemesterName}'."
                     };
                     errors.Add(error);
                 }
