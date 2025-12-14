@@ -176,7 +176,7 @@ namespace CollabSphere.Application.Features.Classes.Commands.ImportClass
                     errors.Add(new OperationError()
                     {
                         Field = $"Classes[{index}]",
-                        Message = $"Entry 'Classes[{index}]' is a duplicated class info input of 'Classes[{duplicatedClassIndex}]'."
+                        Message = $"Entry 'Classes[{index + 1}]' is a duplicated class info input of 'Classes[{duplicatedClassIndex + 1}]'."
                     });
                 }
 
