@@ -355,17 +355,6 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                     });
                 }
 
-                //Check if input list > 0
-                if (request.StudentList == null || request.StudentList.Count == 0)
-                {
-                    errors.Add(new OperationError()
-                    {
-                        Field = "StudentList",
-                        Message = $"Cannot add empty student list into team."
-                    });
-                    return;
-                }
-
                 //find existed project assignment
                 var foundAssign = await _unitOfWork.ProjectAssignmentRepo.GetById(request.ProjectAssignmentId);
                 if (foundAssign == null)
