@@ -218,7 +218,7 @@ namespace CollabSphere.Application.Features.Classes.Commands.ImportClass
                         var error = new OperationError()
                         {
                             Field = $"Classes[{index}].{nameof(classDto.ClassName)}",
-                            Message = $"There is already a class '{classDto.ClassName}' of subject '{subject.SubjectName}'({subject.SubjectId}) in semester '{semester.SemesterName}'({semester.SemesterId})."
+                            Message = $"There is already a class '{classDto.ClassName}' of subject '{subject.SubjectName}' in semester '{semester.SemesterName}'."
                         };
                         errors.Add(error);
                     }
