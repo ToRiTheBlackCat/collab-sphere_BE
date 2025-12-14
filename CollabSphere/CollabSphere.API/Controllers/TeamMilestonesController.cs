@@ -128,8 +128,8 @@ namespace CollabSphere.API.Controllers
             return CreatedAtAction(
                 actionName: nameof(GetMilestoneDetail),
                 routeValues: new { result.TeamMilestoneId },
-                value: result.Message
-            ); ;
+                value: result
+            );
         }
 
         // Roles: Lecturer
