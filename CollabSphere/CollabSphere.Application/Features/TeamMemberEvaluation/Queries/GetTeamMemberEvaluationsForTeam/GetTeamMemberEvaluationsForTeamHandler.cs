@@ -41,8 +41,7 @@ namespace CollabSphere.Application.Features.TeamMemberEvaluation.Queries.GetTeam
                 };
                 var (lecturerId, classMemberId) = ids;
 
-                //Find the team member evaluations
-                var teamMemberEvaluations = await _unitOfWork.TeamMemEvaluationRepo.GetTeamMemEvaluations(request.TeamId, ids.lecturerId, ids.studentId);
+                // 2. Initialize DTO
                 var dto = new TeamMemEvaluationDto
                 {
                     LecturerId = _foundTeam.LecturerId,
@@ -50,50 +49,40 @@ namespace CollabSphere.Application.Features.TeamMemberEvaluation.Queries.GetTeam
                     MemberScores = new List<MemberEvaluationDto>()
                 };
 
-                if (teamMemberEvaluations.Count > 0)
+                //Find the team member evaluations
+                var existingEvaluations = await _unitOfWork.TeamMemEvaluationRepo.GetTeamMemEvaluations(request.TeamId, ids.lecturerId, ids.studentId);
+                List<ClassMember> membersToDisplay = new();
+
+                if (request.UserRole == RoleConstants.LECTURER)
                 {
-                    //Loop through each team member evaluation
-                    foreach (var member in teamMemberEvaluations)
-                    {
-                        dto.MemberScores.Add(new MemberEvaluationDto
-                        {
-                            ClassMemberId = member.ClassMemberId,
-                            MemberName = (await _unitOfWork.ClassMemberRepo.GetById(member.ClassMemberId))?.Fullname,
-                            Score = member.Score,
-                        });
-                    }
+                    // LECTURER: Needs to see ALL members
+                    var allTeamMembers = await _unitOfWork.ClassMemberRepo
+                        .GetClassMemberAsyncByTeamId(_foundTeam.TeamId);
+
+                    membersToDisplay = allTeamMembers.ToList();
                 }
-                else if (teamMemberEvaluations?.Count == 0)
+                else
                 {
-                    //If get own score of student
-                    if (ids.studentId != null)
+                    // STUDENT: Only sees themselves
+                    membersToDisplay = new List<Domain.Entities.ClassMember> { _ownScore };
+                }
+
+                foreach (var member in membersToDisplay)
+                {
+                    var evaluationRecord = existingEvaluations
+                        .FirstOrDefault(e => e.ClassMemberId == member.ClassMemberId);
+
+                    dto.MemberScores.Add(new MemberEvaluationDto
                     {
-                        dto.MemberScores.Add(new MemberEvaluationDto
-                        {
-                            ClassMemberId = _ownScore.ClassMemberId,
-                            MemberName = (await _unitOfWork.ClassMemberRepo.GetById(_ownScore.ClassMemberId))?.Fullname,
-                            Score = null,
-                        });
-                    }
-                    //If Lecturer get all members score
-                    else
-                    {
-                        var teamMembers = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByTeamId(_foundTeam.TeamId);
-                        foreach (var member in teamMembers)
-                        {
-                            dto.MemberScores.Add(new MemberEvaluationDto
-                            {
-                                ClassMemberId = member.ClassMemberId,
-                                MemberName = (await _unitOfWork.ClassMemberRepo.GetById(member.ClassMemberId))?.Fullname,
-                                Score = null,
-                            });
-                        }
-                    }
+                        ClassMemberId = member.ClassMemberId,
+                        MemberName = member.Fullname,
+                        Score = evaluationRecord?.Score
+                    });
                 }
 
                 result.TeamMemEvaluations = dto;
                 result.IsSuccess = true;
-                result.Message = $"Get score of members in this team successfully";
+                result.Message = "Successfully retrieved team member evaluations.";
             }
             catch (Exception ex)
             {
