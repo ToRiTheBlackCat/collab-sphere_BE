@@ -179,6 +179,17 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
 
             var teamMilestones = foundTeam.TeamMilestones?.ToList() ?? new();
 
+            foreach (var milestone in teamMilestones)
+            {
+                var questions = milestone.MilestoneQuestions?.ToList() ?? new();
+
+                totalQuestions += questions.Count;
+
+                answeredQuestion += questions.Count(q => 
+                    (q.MilestoneQuestionAns?.Any(a => a.ClassMemberId == classMemberId) ?? false) 
+                );
+            }
+
             if (totalQuestions == 0)
                 return 0;
 
