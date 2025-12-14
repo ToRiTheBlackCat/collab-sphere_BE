@@ -107,7 +107,7 @@ namespace CollabSphere.Application.Features.Subjects.Commands.CreateSubject
                 await _unitOfWork.CommitTransactionAsync();
 
                 result.IsSuccess = true;
-                result.Message = $"Created subject '{subject.SubjectName}'({subject.SubjectId}) successfully.";
+                result.Message = $"Created subject '{subject.SubjectName}' successfully.";
             }
             catch (Exception ex)
             {
