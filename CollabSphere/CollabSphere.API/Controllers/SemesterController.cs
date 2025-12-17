@@ -1,4 +1,6 @@
 ﻿using CollabSphere.Application.Features.Semesters.Commands.CreateSemester;
+using CollabSphere.Application.Features.Semesters.Commands.DeleteSemester;
+using CollabSphere.Application.Features.Semesters.Commands.UpdateSemester;
 using CollabSphere.Application.Features.Semesters.Queries.GetAllSemester;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -76,6 +78,28 @@ namespace CollabSphere.API.Controllers
             {
                 return BadRequest(ModelState);
             }
+            command.SemesterId = semesterId;
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "2")]
+        [HttpDelete("{semesterId}")]
+        public async Task<IActionResult> DeleteSemester(int semesterId)
+        {
+            var command = new DeleteSemesterCommand();
             command.SemesterId = semesterId;
 
             var result = await _mediator.Send(command);
