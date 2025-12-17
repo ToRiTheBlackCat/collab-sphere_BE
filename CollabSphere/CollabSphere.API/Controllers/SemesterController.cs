@@ -66,5 +66,31 @@ namespace CollabSphere.API.Controllers
 
             return Ok(result);
         }
+
+        [Authorize(Roles = "2")]
+        [HttpPut("{semesterId}")]
+        public async Task<IActionResult> UpdateSemester(int semesterId, [FromBody] UpdateSemesterCommand command)
+        {
+            if (!ModelState.IsValid)
+
+            {
+                return BadRequest(ModelState);
+            }
+            command.SemesterId = semesterId;
+
+            var result = await _mediator.Send(command);
+
+            if (!result.IsValidInput)
+            {
+                return BadRequest(result);
+            }
+
+            if (!result.IsSuccess)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, result);
+            }
+
+            return Ok(result);
+        }
     }
 }

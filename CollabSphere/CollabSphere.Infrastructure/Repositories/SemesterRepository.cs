@@ -34,5 +34,13 @@ namespace CollabSphere.Infrastructure.Repositories
                 .FirstOrDefaultAsync(sem => sem.SemesterName.ToLower().Trim() == name.ToLower().Trim() || 
                                             sem.SemesterCode.ToLower().Trim() == code.ToLower().Trim());
         }
+
+        public async Task<List<Class>?> GetClassesBySemester(int semesterId)
+        {
+            return await _context.Classes
+                .AsNoTracking()
+                .Where(c => c.SemesterId == semesterId)
+                .ToListAsync();
+        }
     }
 }
