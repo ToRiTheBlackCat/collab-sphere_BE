@@ -9,5 +9,6 @@ namespace CollabSphere.Domain.Interfaces
 {
     public interface ISemesterRepository : IGenericRepository<Semester>
     {
+        Task<Semester?> GetSemesterWithNameAndCode(string name, string code);
     }
 }

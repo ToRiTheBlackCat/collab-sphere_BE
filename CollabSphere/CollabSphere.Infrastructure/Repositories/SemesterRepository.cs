@@ -20,11 +20,19 @@ namespace CollabSphere.Infrastructure.Repositories
         public override async Task<List<Semester>> GetAll()
         {
             var semestersQuery = _context.Semesters
-                .AsNoTracking() 
+                .AsNoTracking()
                 .OrderByDescending(sem => sem.StartDate)
                 .ToListAsync();
 
             return await semestersQuery;
+        }
+
+        public async Task<Semester?> GetSemesterWithNameAndCode(string name, string code)
+        {
+            return await _context.Semesters
+                .AsNoTracking()
+                .FirstOrDefaultAsync(sem => sem.SemesterName.ToLower().Trim() == name.ToLower().Trim() || 
+                                            sem.SemesterCode.ToLower().Trim() == code.ToLower().Trim());
         }
     }
 }
