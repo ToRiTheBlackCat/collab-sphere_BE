@@ -10,7 +10,7 @@ namespace CollabSphere.Domain.Intefaces
 {
     public interface IMemberEvaluationRepository : IGenericRepository<MemberEvaluation>
     {
-        Task<MemberEvaluation?> SearchEvaluation(int teamId, int raterId, int receiverId,  string? scoreDetailName);
+        Task<MemberEvaluation?> SearchEvaluation(int teamId, int raterId, int receiverId, string? scoreDetailName);
         Task<Dictionary<int, List<MemberEvaluation>>> GetEvaluationsForReceiver(int teamId, int receiverId);
         Task<Dictionary<int, List<MemberEvaluation>>> GetEvaluationsOfOwnByUser(int teamId, int raterId);
     }
