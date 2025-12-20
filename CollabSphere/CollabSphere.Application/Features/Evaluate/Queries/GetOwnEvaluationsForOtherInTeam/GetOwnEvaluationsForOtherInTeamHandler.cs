@@ -17,6 +17,7 @@ namespace CollabSphere.Application.Features.Evaluate.Queries.GetOwnEvaluationsFo
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly CloudinaryService _cloudinaryService;
+        private Domain.Entities.ClassMember _classMember;
         public GetOwnEvaluationsForOtherInTeamHandler(IUnitOfWork unitOfWork, CloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
@@ -36,16 +37,17 @@ namespace CollabSphere.Application.Features.Evaluate.Queries.GetOwnEvaluationsFo
                 var foundTeam = await _unitOfWork.TeamRepo.GetById(request.TeamId);
                 if (foundTeam != null)
                 {
-                    var ownEvaluations = await _unitOfWork.MemberEvaluationRepo.GetEvaluationsOfOwnByUser(request.TeamId, request.UserId);
+                    var ownEvaluations = await _unitOfWork.MemberEvaluationRepo.GetEvaluationsOfOwnByUser(request.TeamId, _classMember.ClassMemberId);
                     if (ownEvaluations != null)
                     {
                         var dtoList = new List<GetOwnEvaluationsForOtherInTeamDto>();
 
                         foreach (var x in ownEvaluations)
                         {
-                            var user = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(x.Key);
+                            var foundClassMember = await _unitOfWork.ClassMemberRepo.GetById(x.Key);
+                            var user = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(foundClassMember.StudentId);
                             var userAva = await _cloudinaryService.GetImageUrl(user.Student.AvatarImg);
-                            var foundClasMem = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByTeamIdAndStudentId(foundTeam.TeamId, x.Key);
+                            var foundClasMem = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByTeamIdAndStudentId(foundTeam.TeamId, foundClassMember.StudentId);
 
 
                             dtoList.Add(new GetOwnEvaluationsForOtherInTeamDto
@@ -126,6 +128,7 @@ namespace CollabSphere.Application.Features.Evaluate.Queries.GetOwnEvaluationsFo
                 }
                 else
                 {
+                    _classMember = classmember;
                     //Check if student has team in this class
                     if (classmember.TeamId == null)
                     {

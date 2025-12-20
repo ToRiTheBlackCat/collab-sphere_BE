@@ -9,6 +9,7 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.StudentEvaluateOth
     public class StudentEvaluateOtherInTeamHandler : CommandHandler<StudentEvaluateOtherInTeamCommand>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private ClassMember _foundClassMember;
         public StudentEvaluateOtherInTeamHandler(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -52,8 +53,8 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.StudentEvaluateOth
                                     var newEvaluation = new MemberEvaluation
                                     {
                                         TeamId = foundTeam.TeamId,
-                                        RaterId = request.RaterId,
-                                        ReceiverId = receiver.ReceiverId,
+                                        RaterId = _foundClassMember.ClassMemberId,
+                                        ReceiverId = foundClassMem.ClassMemberId,
                                         Score = detail.Score,
                                         Comment = detail.ScoreDetailName,
                                     };
@@ -119,6 +120,7 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.StudentEvaluateOth
                         });
                         return;
                     }
+                    _foundClassMember = foundMemberInClass;
                 }
 
                 //Check if EvaluatorDetails list is empty
