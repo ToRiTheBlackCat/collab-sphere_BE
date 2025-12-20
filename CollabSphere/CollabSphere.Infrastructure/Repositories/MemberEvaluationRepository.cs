@@ -47,5 +47,14 @@ namespace CollabSphere.Infrastructure.Repositories
                 .GroupBy(x => x.ReceiverId)
                 .ToDictionaryAsync(g => g.Key, g => g.ToList());
         }
+
+        public async Task<Dictionary<int, List<MemberEvaluation>>> GetMemberEvaluationsOfTeam(int teamId)
+        {
+            return await _context.MemberEvaluations
+                .AsNoTracking()
+                .Where(x => x.TeamId == teamId)
+                .GroupBy(x => x.ReceiverId)
+                .ToDictionaryAsync(g => g.Key, g => g.ToList());
+        }
     }
 }

@@ -13,5 +13,6 @@ namespace CollabSphere.Domain.Intefaces
         Task<MemberEvaluation?> SearchEvaluation(int teamId, int raterId, int receiverId, string? scoreDetailName);
         Task<Dictionary<int, List<MemberEvaluation>>> GetEvaluationsForReceiver(int teamId, int receiverId);
         Task<Dictionary<int, List<MemberEvaluation>>> GetEvaluationsOfOwnByUser(int teamId, int raterId);
+        Task<Dictionary<int, List<MemberEvaluation>>> GetMemberEvaluationsOfTeam(int teamId);
     }
 }
