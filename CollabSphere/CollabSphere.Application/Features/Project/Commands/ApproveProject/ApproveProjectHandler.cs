@@ -42,6 +42,15 @@ namespace CollabSphere.Application.Features.Project.Commands.ApproveProject
                 var project = (await _unitOfWork.ProjectRepo.GetById(request.ProjectId))!;
                 project.Status = request.Approve ? (int)ProjectStatuses.APPROVED : (int)ProjectStatuses.DENIED;
 
+                if (request.Approve)
+                {
+                    project.RejectReason = null;
+                }
+                else
+                {
+                    project.RejectReason = request.RejectReason;
+                }
+
                 // Update project
                 _unitOfWork.ProjectRepo.Update(project);
                 await _unitOfWork.SaveChangesAsync();
@@ -76,6 +85,15 @@ namespace CollabSphere.Application.Features.Project.Commands.ApproveProject
                     {
                         Field = nameof(request.ProjectId),
                         Message = $"Project with ID '{request.ProjectId}' is not {ProjectStatuses.PENDING.ToString()}",
+                    });
+                }
+
+                if (!request.Approve && string.IsNullOrWhiteSpace(request.RejectReason))
+                {
+                    errors.Add(new OperationError()
+                    {
+                        Field = nameof(request.RejectReason),
+                        Message = $"Reject reason is a required field.",
                     });
                 }
             }

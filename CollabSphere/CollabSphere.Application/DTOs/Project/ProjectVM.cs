@@ -37,6 +37,8 @@ namespace CollabSphere.Application.DTOs.Project
 
         public string Actors { get; set; } = null!;
 
+        public string RejectReason { get; set; } = null!;
+
         public int Status { get; set; }
 
         public DateTime CreatedAt { get; set; }
@@ -68,6 +70,7 @@ namespace CollabSphere.Application.Mappings.Projects
                 SubjectName = project.Subject?.SubjectName ?? "NOT_FOUND",
                 BusinessRules = project.BusinessRules,
                 Actors = project.Actors,
+                RejectReason = project.RejectReason,
                 Status = project.Status,
                 CreatedAt = project.CreatedAt,
                 UpdatedAt = project.UpdatedAt,

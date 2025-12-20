@@ -34,6 +34,8 @@ public partial class Project
 
     public string Actors { get; set; }
 
+    public string RejectReason { get; set; }
+
     public virtual Lecturer Lecturer { get; set; }
 
     public virtual ICollection<ProjectAssignment> ProjectAssignments { get; set; } = new List<ProjectAssignment>();
