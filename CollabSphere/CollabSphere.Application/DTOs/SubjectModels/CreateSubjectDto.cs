@@ -82,11 +82,11 @@ namespace CollabSphere.Application.DTOs.SubjectModels
         public string Description { get; set; } = null!;
 
         [Required]
-        [Range(1, 10)]
+        [Range(1, 15)]
         public int StartWeek { get; set; }
 
         [Required]
-        [Range(1, 10)]
+        [Range(1, 15)]
         public int Duration { get; set; }
     }
 }
