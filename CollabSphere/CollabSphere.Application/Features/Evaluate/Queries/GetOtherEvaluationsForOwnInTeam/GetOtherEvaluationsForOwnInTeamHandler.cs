@@ -37,17 +37,19 @@ namespace CollabSphere.Application.Features.Evaluate.Queries.GetOtherEvaluations
                 var foundTeam = await _unitOfWork.TeamRepo.GetById(request.TeamId);
                 if (foundTeam != null)
                 {
-                    var otherEvaluations = await _unitOfWork.MemberEvaluationRepo.GetEvaluationsForReceiver(request.TeamId, request.UserId);
+                    var foundClassMember = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByTeamIdAndStudentId(foundTeam.TeamId, request.UserId);
+                    var otherEvaluations = await _unitOfWork.MemberEvaluationRepo.GetEvaluationsForReceiver(request.TeamId, foundClassMember.ClassMemberId);
                     if (otherEvaluations != null)
                     {
                         var dtoList = new List<OtherEvaluationsForOwnInTeamDto>();
 
                         foreach (var x in otherEvaluations)
                         {
-                            var raterUser = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(x.Key);
+                            var foundMember = await _unitOfWork.ClassMemberRepo.GetById(x.Key);
+                            var raterUser = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(foundMember.StudentId);
                             var raterName = raterUser?.Student?.Fullname ?? "";
                             var raterAvatar = (await _cloudinaryService.GetImageUrl(raterUser?.Student.AvatarImg));
-                            var foundClasMem = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByTeamIdAndStudentId(foundTeam.TeamId, x.Key);
+                            var foundClasMem = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByTeamIdAndStudentId(foundTeam.TeamId, foundClassMember.StudentId);
 
                             var dto = new OtherEvaluationsForOwnInTeamDto
                             {
