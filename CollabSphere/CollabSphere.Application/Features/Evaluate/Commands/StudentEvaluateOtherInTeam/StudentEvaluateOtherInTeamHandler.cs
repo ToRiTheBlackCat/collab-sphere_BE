@@ -29,7 +29,6 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.StudentEvaluateOth
                 var foundTeam = await _unitOfWork.TeamRepo.GetById(request.TeamId);
                 if (foundTeam != null && foundTeam.Progress >= 50.0)
                 {
-                    var foundRaterInClas = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByTeamIdAndStudentId(foundTeam.TeamId, request.RaterId);
                     foreach (var receiver in request.EvaluatorDetails)
                     {
                         //Find existed receiver in team
@@ -39,7 +38,7 @@ namespace CollabSphere.Application.Features.Evaluate.Commands.StudentEvaluateOth
                             foreach (var detail in receiver.ScoreDetails)
                             {
                                 //Check if already evaluated
-                                var foundEvaluated = await _unitOfWork.MemberEvaluationRepo.SearchEvaluation(request.TeamId, foundRaterInClas.ClassMemberId, foundClassMem.ClassMemberId, detail.ScoreDetailName);
+                                var foundEvaluated = await _unitOfWork.MemberEvaluationRepo.SearchEvaluation(request.TeamId, _foundClassMember.ClassMemberId, foundClassMem.ClassMemberId, detail.ScoreDetailName);
 
                                 //If already existed
                                 if (foundEvaluated != null)
