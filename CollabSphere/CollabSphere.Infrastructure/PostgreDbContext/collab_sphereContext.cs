@@ -935,6 +935,8 @@ public partial class collab_sphereContext : DbContext
             entity.Property(e => e.BusinessRules)
                 .IsRequired()
                 .HasColumnName("business_rules");
+            entity.Property(e => e.RejectReason)
+                .HasColumnName("reject_reason");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("now()")
                 .HasColumnName("created_at");

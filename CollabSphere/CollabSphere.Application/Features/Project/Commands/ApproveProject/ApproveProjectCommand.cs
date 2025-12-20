@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,5 +15,8 @@ namespace CollabSphere.Application.Features.Project.Commands.ApproveProject
         public int ProjectId { get; set; }
 
         public bool Approve { get; set; } = true;
+
+        [FromBody]
+        public string? RejectReason { get; set; }
     }
 }
