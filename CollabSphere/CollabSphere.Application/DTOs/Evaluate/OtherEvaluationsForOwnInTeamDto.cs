@@ -15,6 +15,10 @@ namespace CollabSphere.Application.DTOs.Evaluate
         public string? RaterCode { get; set; }
         public int? RaterTeamRole { get; set; }
 
+        public int? ReceiverId { get; set; }
+        public string? ReceiverName { get; set; }
+        public string? ReceiverCode { get; set; }
+
         public List<ScoreDetail> ScoreDetails { get; set; } = new List<ScoreDetail>();
     }
 }
