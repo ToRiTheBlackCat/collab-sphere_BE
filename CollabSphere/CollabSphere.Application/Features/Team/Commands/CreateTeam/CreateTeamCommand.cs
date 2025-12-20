@@ -35,7 +35,7 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
         [Required]
         public int LecturerId { get; set; }
 
-        public DateOnly CreatedDate { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
+        public DateOnly CreatedDate { get; set; }
 
         public DateOnly? EndDate { get; set; }
 
