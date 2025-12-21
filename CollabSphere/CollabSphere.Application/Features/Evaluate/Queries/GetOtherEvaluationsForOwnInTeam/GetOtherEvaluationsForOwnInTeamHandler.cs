@@ -49,7 +49,7 @@ namespace CollabSphere.Application.Features.Evaluate.Queries.GetOtherEvaluations
                             var raterUser = await _unitOfWork.UserRepo.GetOneByUIdWithInclude(foundMember.StudentId);
                             var raterName = raterUser?.Student?.Fullname ?? "";
                             var raterAvatar = (await _cloudinaryService.GetImageUrl(raterUser?.Student.AvatarImg));
-                            var foundClasMem = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByTeamIdAndStudentId(foundTeam.TeamId, foundClassMember.StudentId);
+                            var foundClasMem = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByTeamIdAndStudentId(foundTeam.TeamId, foundMember.StudentId);
 
                             var dto = new OtherEvaluationsForOwnInTeamDto
                             {
