@@ -94,8 +94,22 @@ namespace CollabSphere.Application.Features.Evaluate.Queries.LecturerGetAllEvalu
                     }
                     else
                     {
-                        result.Message = "No evaluations found in the team.";
+                        var resultList = new List<MemberEvaluations>();
+                        var allTeamMembers = await _unitOfWork.ClassMemberRepo.GetClassMemberAsyncByTeamId(request.TeamId);
+
+                        foreach (var member in allTeamMembers)
+                        {
+                            resultList.Add(new MemberEvaluations
+                            {
+                                ReceiverId = member.ClassMemberId,
+                                Evaluations = null 
+                            });
+                        }
+
+                        result.MemberEvaluations = resultList;
+                        result.IsSuccess = true;
                     }
+
                 }
             }
             catch (Exception ex)
