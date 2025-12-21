@@ -92,7 +92,7 @@ namespace CollabSphere.Application.Features.Meeting.Commands.CreateMeeting
                         }
 
                         result.IsSuccess = true;
-                        result.Message = $"Create meeting with ID: {newMeeting.MeetingId} successfully. MeetingID: {newMeeting.MeetingId}";
+                        result.Message = $"Create meeting with ID: {newMeeting.MeetingId} successfully. MeetingID: {newMeeting.MeetingId}. TeamID: {foundTeam.TeamId}";
                     }
                 }
             }
