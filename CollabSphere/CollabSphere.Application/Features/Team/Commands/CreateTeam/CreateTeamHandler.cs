@@ -35,7 +35,7 @@ namespace CollabSphere.Application.Features.Team.Commands.CreateTeam
                 IsValidInput = true,
                 Message = string.Empty
             };
-            int maxAdded = 5;
+            int maxAdded = 6;
             int addedCount = 0;
             StringBuilder rawMessage = new StringBuilder();
 
