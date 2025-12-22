@@ -189,6 +189,16 @@ namespace CollabSphere.Application.Features.Team.Commands.UpdateTeam
                 return;
             }
 
+            if (request.StudentList != null && request.StudentList.Count > 5)
+            {
+                errors.Add(new OperationError
+                {
+                    Field = nameof(request.StudentList),
+                    Message = $"The max member of team is 6. Cannot add more!"
+                });
+                return;
+            }
+
             //Check if role is valid to delete team
             if (bypassRoles.Contains(request.UserRole))
             {
