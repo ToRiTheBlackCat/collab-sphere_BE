@@ -265,7 +265,7 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                             });
                         }
                         //Check if lecturer is the owner of the team
-                        if (request.UserId != foundTeam.LecturerId)
+                        if (request.UserId != team.LecturerId)
                             errors.Add(new OperationError()
                             {
                                 Field = "UserRole",
