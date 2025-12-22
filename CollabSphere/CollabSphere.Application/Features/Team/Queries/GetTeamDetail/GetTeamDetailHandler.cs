@@ -96,7 +96,7 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                             ClassMemberId = cm.ClassMemberId,
                             StudentId = cm.Student.StudentId,
                             StudentName = cm.Student.Fullname,
-                            Avatar = "",
+                            Avatar = await _cloudinaryService.GetImageUrl(cm.Student.AvatarImg),
                             TeamRole = cm.TeamRole,
                             CheckpointContributionPercentage = CalculateCheckpointContribution(cm.ClassMemberId, foundTeam),
                             MilestoneAnsContributionPercentage = CalculateMielAnsContribution(cm.ClassMemberId, foundTeam)
@@ -104,13 +104,6 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
 
                         members.Add(member);
                     }
-                }
-
-
-                // Resolve avatar URLs in parallel safely
-                foreach (var member in members)
-                {
-                    member.Avatar = await _cloudinaryService.GetImageUrl(member.Avatar);
                 }
 
                 dto.MemberInfo = new MemberInfo
