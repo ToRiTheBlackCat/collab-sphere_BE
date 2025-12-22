@@ -20,7 +20,7 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<GetTeamDetailHandler> _logger;
         private readonly CloudinaryService _cloudinaryService;
-
+        private Domain.Entities.Team foundTeam;
         public GetTeamDetailHandler(IUnitOfWork unitOfWork,
                                  ILogger<GetTeamDetailHandler> logger,
                                  CloudinaryService cloudinaryService)
@@ -42,7 +42,7 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
             {
                 await _unitOfWork.BeginTransactionAsync();
 
-                var foundTeam = await _unitOfWork.TeamRepo.GetTeamDetail(request.TeamId);
+                //var foundTeam = await _unitOfWork.TeamRepo.GetTeamDetail(request.TeamId);
                 var foundSemester = await _unitOfWork.SemesterRepo.GetById(foundTeam.Class.SemesterId);
                 #region Map to DTO
                 var dto = new TeamDetailDto
@@ -96,7 +96,7 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                             ClassMemberId = cm.ClassMemberId,
                             StudentId = cm.Student.StudentId,
                             StudentName = cm.Student.Fullname,
-                            Avatar = await _cloudinaryService.GetImageUrl(cm.Student.AvatarImg),
+                            Avatar = "",
                             TeamRole = cm.TeamRole,
                             CheckpointContributionPercentage = CalculateCheckpointContribution(cm.ClassMemberId, foundTeam),
                             MilestoneAnsContributionPercentage = CalculateMielAnsContribution(cm.ClassMemberId, foundTeam)
@@ -123,11 +123,11 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                 // Calculate Progress Info 
                 var milestones = foundTeam.TeamMilestones?.ToList() ?? new List<Domain.Entities.TeamMilestone>();
                 var totalMilestones = milestones.Count;
-                var completedMilestones = milestones.Count(m => m.Status == 1);
+                var completedMilestones = milestones.Count(m => m.Status == (int)TeamMilestoneStatuses.DONE);
 
                 var checkpoints = milestones.SelectMany(m => m.Checkpoints ?? new List<Domain.Entities.Checkpoint>()).ToList();
                 var totalCheckpoints = checkpoints.Count;
-                var completedCheckpoints = checkpoints.Count(c => c.Status == 1);
+                var completedCheckpoints = checkpoints.Count(c => c.Status == (int)CheckpointStatuses.DONE);
 
                 dto.TeamProgress = new TeamProgress
                 {
@@ -151,21 +151,15 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                     CheckpointsComplete = completedCheckpoints,
                 };
 
-                //Update Total progress of team
-                foundTeam.Progress = dto.TeamProgress.OverallProgress;
-                _unitOfWork.TeamRepo.Update(foundTeam);
-                await _unitOfWork.SaveChangesAsync();
                 #endregion
 
                 result.TeamDetail = dto;
                 result.IsSuccess = true;
                 result.Message = "Successfully retrieved team details.";
 
-                await _unitOfWork.CommitTransactionAsync();
             }
             catch (Exception ex)
             {
-                await _unitOfWork.RollbackTransactionAsync();
                 result.Message = ex.Message;
                 _logger.LogError(ex, "Error occurred while getting detail of team with ID {TeamId}", request.TeamId);
             }
@@ -245,8 +239,8 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
             else
             {
                 //Check if team exists
-                var foundTeam = await _unitOfWork.TeamRepo.GetById(request.TeamId);
-                if (foundTeam == null || foundTeam.Status == 0)
+                var team = await _unitOfWork.TeamRepo.GetTeamDetail(request.TeamId);
+                if (team == null || team.Status == 0)
                 {
                     errors.Add(new OperationError()
                     {
@@ -306,6 +300,7 @@ namespace CollabSphere.Application.Features.Team.Queries.GetTeamDetail
                         }
                     }
                     #endregion
+                    foundTeam = team;
                 }
             }
         }

@@ -1,5 +1,6 @@
 ﻿using CollabSphere.Application.Base;
 using CollabSphere.Application.Constants;
+using CollabSphere.Application.DTOs.Teams;
 using CollabSphere.Application.DTOs.Validation;
 using CollabSphere.Domain.Entities;
 using System;
@@ -41,16 +42,32 @@ namespace CollabSphere.Application.Features.Checkpoints.Commands.CheckDoneCheckp
                 _unitOfWork.CheckpointRepo.Update(checkpoint);
                 await _unitOfWork.SaveChangesAsync();
 
-                // Also update the progress for the milestone of this checkpoint
                 var milestone = (await _unitOfWork.TeamMilestoneRepo.GetById(checkpoint.TeamMilestoneId))!;
-                var checkpointsOfMilestone = await _unitOfWork.CheckpointRepo.GetCheckpointsByMilestone(checkpoint.TeamMilestoneId);
-                if (checkpointsOfMilestone.Any())
-                {
-                    var doneCount = checkpointsOfMilestone.Count(x => x.Status == (int)CheckpointStatuses.DONE);
-                    milestone.Progress = (doneCount * 1.0f / checkpointsOfMilestone.Count) * 100.0f;
-                    _unitOfWork.TeamMilestoneRepo.Update(milestone);
-                    await _unitOfWork.SaveChangesAsync();
-                }
+               
+                #endregion
+
+                #region Calculate Progress Info Of Team 
+                var foundTeam = await _unitOfWork.TeamRepo.GetTeamDetail(milestone.TeamId);
+                var milestones = foundTeam.TeamMilestones?.ToList() ?? new List<Domain.Entities.TeamMilestone>();
+                var totalMilestones = milestones.Count;
+                var completedMilestones = milestones.Count(m => m.Status == (int)TeamMilestoneStatuses.DONE);
+
+                var checkpoints = milestones.SelectMany(m => m.Checkpoints ?? new List<Domain.Entities.Checkpoint>()).ToList();
+                var totalCheckpoints = checkpoints.Count;
+                var completedCheckpoints = checkpoints.Count(c => c.Status == (int)CheckpointStatuses.DONE);
+
+                var overallProgress = (totalMilestones + totalCheckpoints) > 0
+                        ? (float)Math.Round(
+                            ((completedMilestones + completedCheckpoints) * 100f) /
+                            (totalMilestones + totalCheckpoints), 2)
+                        : 0;
+
+                //Update Total progress of team
+                var teamEntity = await _unitOfWork.TeamRepo.GetById(milestone.TeamId);
+
+                teamEntity.Progress = overallProgress;
+                _unitOfWork.TeamRepo.Update(teamEntity);
+                await _unitOfWork.SaveChangesAsync();
                 #endregion
 
                 await _unitOfWork.CommitTransactionAsync();

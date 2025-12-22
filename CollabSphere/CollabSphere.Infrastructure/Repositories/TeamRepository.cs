@@ -105,7 +105,9 @@ namespace CollabSphere.Infrastructure.Repositories
         public async Task<Team?> GetTeamDetail(int teamId)
         {
             var result = await _context.Teams
-                .Where(x => x.TeamId == teamId && x.Status == 1)
+                .AsNoTracking()
+                .AsSplitQuery()
+                .Where(x => x.TeamId == teamId && x.Status == (int)TeamStatus.ACTIVE)
                 .Include(x => x.Class)
                     .ThenInclude(x => x.Lecturer)
                 .Include(x => x.TeamMilestones)
@@ -119,7 +121,6 @@ namespace CollabSphere.Infrastructure.Repositories
                 .Include(x => x.ProjectAssignment)
                     .ThenInclude(x => x.Project)
                 .Include(x => x.TeamFiles)
-                .AsNoTracking()
                 .FirstOrDefaultAsync();
 
             if (result != null)
