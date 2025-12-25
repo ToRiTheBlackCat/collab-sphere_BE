@@ -90,6 +90,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
   <img src="https://contrib.rocks/image?repo=TriNguyen5204/collab-sphere_FE" />
 </a>
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Usage
 Actors
@@ -98,6 +99,8 @@ Actors
 - **Staff**
 - **Lecturer**
 - **Student**
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Images
 - **🏠HomePage**
@@ -136,6 +139,8 @@ Actors
   -   Class Detail  
     ![image alt](Images/ClassDetail.jpg)
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 - **👩‍🏫Lecturer Page**
   - Lecturer Info  
     ![image alt](Images/LecturerInfo.jpg)
@@ -153,6 +158,8 @@ Actors
     ![image alt](Images/TeamEvaluation.jpg)
   - Member Evaluation  
     ![image alt](Images/MemberEvaluation.jpg)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 - **🧑‍🎓Student Page**
   - Team Dashboard  
@@ -181,7 +188,9 @@ Actors
     ![image alt](Images/OtherEvaluation.jpg)
   - Lecturer Evaluation
     ![image alt](Images/LecturerEvaluationForTeam.jpg)
-    
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- LICENSE -->
 ## License
 
